@@ -47,20 +47,20 @@
         android:layout_gravity="center"
         android:padding="@dimen/half_default_margin"
         android:layout_marginBottom="@dimen/double_default_margin"
-        android:textColor="@color/colorPrimaryText"
+        android:textColor="@color/colorTextDark"
         android:text="@string/sign_in_forgot_password_text"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/double_default_margin"
+        android:layout_marginLeft="@dimen/double_default_margin">
 
         <Button
             android:id="@+id/signInLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/double_default_margin"
-            android:layout_marginLeft="@dimen/double_default_margin"
-            android:textColor="@color/white"
+            android:textColor="@color/colorWhite"
             android:text="@string/sign_in_enter_text"/>
 
         <ProgressBar
@@ -70,7 +70,7 @@
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="@dimen/default_margin"
             android:indeterminate="true"
-            android:indeterminateTint="@color/colorAccent"
+            android:indeterminateTint="@color/colorWhite"
             android:indeterminateTintMode="src_in"
             android:visibility="invisible"/>
 

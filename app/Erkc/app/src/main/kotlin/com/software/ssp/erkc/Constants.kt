@@ -8,5 +8,8 @@ object Constants {
     const val API_OAUTH_CLIENT_ID = "VtqDyaekN"
     const val API_OAUTH_RESPONSE_TYPE = "token"
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
+
+
+    const val MAP_DEFAULT_ZOOM = 1F
 }
 
