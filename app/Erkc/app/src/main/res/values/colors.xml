@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#118AC3</color>
     <color name="colorPrimaryDark">#0F719F</color>
-
+    <color name="colorPrimary50">#5C118AC3</color>
     <color name="colorBlueButton">#1184ED</color>
+
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
 
     <color name="colorTextDark">#515151</color>
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-
 import javax.inject.Inject
 
 class SignInActivity : MvpActivity(), ISignInView {
