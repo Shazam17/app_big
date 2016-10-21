@@ -3,10 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/default_margin"
-    android:paddingLeft="@dimen/default_margin"
-    android:paddingRight="@dimen/default_margin"
-    android:paddingTop="@dimen/default_margin"
     tools:context="com.software.ssp.erkc.modules.signin.SignInActivity">
-
 </LinearLayout>
