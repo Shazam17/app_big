@@ -69,7 +69,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
     compile 'com.google.android.gms:play-services-maps:9.6.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
-    compile 'com.google.android.gms:play-services:9.6.1'
+
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
