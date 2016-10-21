@@ -4,11 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.software.ssp.erkc.modules.signin.SignInActivity">
-
-    <fragment
-        android:name="com.software.ssp.erkc.modules.contacts.ContactsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment" />
-
 </LinearLayout>

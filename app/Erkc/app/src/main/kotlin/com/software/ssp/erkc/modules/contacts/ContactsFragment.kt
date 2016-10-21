@@ -67,16 +67,16 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         presenter.dropView()
     }
 
-    override fun sendEmailMessage() {
+    override fun sendEmailMessage(userInfo: String, message: String) {
 
-        val message = contactsMessageEditText.text
         val subject = getString(R.string.contacts_email_prefix) + message.subSequence(0, Math.min(message.length, 60))
+        val text = userInfo + "\n" + message
 
         val mailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contacts_email_address), null))
         mailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        mailIntent.putExtra(Intent.EXTRA_TEXT, contactsMessageEditText.text)
+        mailIntent.putExtra(Intent.EXTRA_TEXT, text)
 
-        startActivity(Intent.createChooser(mailIntent, "Отправить сообщение с..."))
+        startActivity(Intent.createChooser(mailIntent, getString(R.string.contacts_email_client_select)))
     }
 
     override fun setControlsEnabled(isEnabled: Boolean) {
@@ -86,7 +86,7 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
 
     private fun initViews() {
         contactsPhoneTextView.movementMethod = LinkMovementMethod.getInstance()
-        contactsSendButton.onClick { presenter.onSendButtonClick() }
+        contactsSendButton.onClick { presenter.onSendButtonClick(contactsMessageEditText.text.toString()) }
 
         initMap()
     }

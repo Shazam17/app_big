@@ -9,6 +9,7 @@
     <string name="contacts_send_button_text">Отправить</string>
     <string name="contacts_map_marker_title">улица Герцена, 52</string>
     <string name="contacts_email_address">openvc@vc.tom.ru</string>
+    <string name="contacts_email_client_select">Отправить сообщение с…</string>
     <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
 
 </resources>

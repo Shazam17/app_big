@@ -5,11 +5,11 @@ import com.software.ssp.erkc.common.mvp.IView
 
 
 interface IContactsView : IView {
-    fun sendEmailMessage()
-    fun setControlsEnabled(isEnabled : Boolean)
+    fun sendEmailMessage(userInfo: String, message: String)
+    fun setControlsEnabled(isEnabled: Boolean)
 }
 
 interface IContactsPresenter : IPresenter<IContactsView> {
-    fun onSendButtonClick()
+    fun onSendButtonClick(message: String)
 }
 

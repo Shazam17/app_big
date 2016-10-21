@@ -10,7 +10,9 @@ class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<I
         view?.setControlsEnabled(true)
     }
 
-    override fun onSendButtonClick() {
-        view?.sendEmailMessage()
+    override fun onSendButtonClick(message: String) {
+        //TODO collect user info (login, name, email)
+        val userInfo = "login\nname\nemail"
+        view?.sendEmailMessage(userInfo, message)
     }
 }
