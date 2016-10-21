@@ -27,6 +27,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 ext.support_version = '24.2.1'
 
 dependencies {
@@ -44,6 +48,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    compile 'org.jsoup:jsoup:1.8.3'
 
     compile 'io.reactivex:rxkotlin:0.60.0'
     compile 'io.reactivex:rxandroid:1.2.1'
