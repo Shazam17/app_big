@@ -14,10 +14,19 @@
         <item name="android:buttonStyle">@style/AppButtonStyle</item>
     </style>
 
+    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
     <!-- Control's styles -->
     <style name="AppTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
+    <style name="MainColorTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorBlueButton</item>
     </style>
 
     <style name="AppButtonStyle" parent="Widget.AppCompat.Button.Colored">
