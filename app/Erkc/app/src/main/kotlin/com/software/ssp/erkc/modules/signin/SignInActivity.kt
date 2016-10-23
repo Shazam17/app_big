@@ -6,6 +6,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
+import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity

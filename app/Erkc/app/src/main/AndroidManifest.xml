@@ -33,6 +33,10 @@
         <activity
             android:name=".modules.drawer.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".modules.signup.SignUpActivity"
+            android:theme="@style/RegistrationTheme"
+            android:label="@string/sign_up_registration"/>
     </application>
 
 </manifest>

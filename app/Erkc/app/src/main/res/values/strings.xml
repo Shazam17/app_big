@@ -25,6 +25,18 @@
     <string name="sign_in_error_fill_password_text">Введите пароль</string>
     <string name="sign_in_error_incorrect_login_or_password_text">Неверный логин или пароль</string>
 
+    <!-- Sign up -->
+    <string name="sign_up_login_hint">Логин</string>
+    <string name="sign_up_password_hint">Пароль</string>
+    <string name="sign_up_password2_hint">Повторите пароль</string>
+    <string name="sign_up_first_name_hint">Имя</string>
+    <string name="sign_up_build_hint">Дом</string>
+    <string name="sign_up_street_hint">Улица</string>
+    <string name="sign_up_flat_hint">Квартинра</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_captcha_hint">Captcha</string>
+    <string name="sign_up_registration">Регистрация</string>
+
     <!-- Contacts Screen -->
     <string name="contacts_name">"Единый расчетно-кассовый центр\nг. Томска"\n(УМП "ЕРКЦ г. Томска")</string>
     <string name="contacts_address_text">Адрес</string>
