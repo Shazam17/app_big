@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.di
 
 import com.google.gson.Gson
+import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.di.modules.AppModule
@@ -16,4 +17,5 @@ interface AppComponent {
     fun provideHttpClient(): OkHttpClient
     fun provideAuthProvider(): AuthProvider
     fun provideAuthDataSource(): AuthDataSource
+    fun provideActiveSession(): ActiveSession
 }

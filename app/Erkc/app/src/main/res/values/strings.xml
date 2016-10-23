@@ -16,6 +16,15 @@
     <string name="drawer_open_text">Открыть меню</string>
     <string name="drawer_close_text">Закрыть меню</string>
 
+    <!-- Sign in -->
+    <string name="sign_in_login_hint">Логин</string>
+    <string name="sign_in_password_hint">Пароль</string>
+    <string name="sign_in_forgot_password_text">Забыли пароль?</string>
+    <string name="sign_in_enter_text">Войти</string>
+    <string name="sign_in_error_fill_login_text">Введите логин</string>
+    <string name="sign_in_error_fill_password_text">Введите пароль</string>
+    <string name="sign_in_error_incorrect_login_or_password_text">Неверный логин или пароль</string>
+
     <!-- Contacts Screen -->
     <string name="contacts_name_and_address">"Единый расчетно-кассовый центр г. Томска"\n(УМП "ЕРКЦ г. Томска")\nАдрес: Россия, г. Томск, ул. Герцена, 52а</string>
     <string name="contacts_phone_fax">Телефон/Факс</string>

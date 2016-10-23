@@ -1,13 +1,23 @@
 package com.software.ssp.erkc.data.rest.datasource
 
 import com.software.ssp.erkc.data.rest.models.AuthResponse
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.http.*
 import rx.Observable
 
 
 interface AuthDataSource {
 
-    @GET("authenticate")
-    fun authenticate(@QueryMap params: Map<String, String>): Observable<AuthResponse>
+    @FormUrlEncoded
+    @POST("?method=users.authorization")
+    fun authenticate(@Field("token") token: String, @Field("login") login: String, @Field("password") password: String): Observable<AuthResponse>
+
+    @GET
+    fun authenticateApp(@Url url: String, @Query("response_type") responseType: String, @Query("client_id") clientId: String): Observable<ResponseBody>
+
+    @FormUrlEncoded
+    @POST
+    fun fetchAppToken(@Url url: String, @FieldMap params: Map<String, String>): Observable<Response<ResponseBody>>
+
 }

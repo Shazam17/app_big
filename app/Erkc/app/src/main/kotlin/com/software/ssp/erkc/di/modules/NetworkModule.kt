@@ -24,8 +24,9 @@ class NetworkModule {
         val client = OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(erkcInterceptor)
+                .followRedirects(true)
                 .build()
 
         return client
@@ -33,8 +34,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesErkcInterceptor(authProvider: AuthProvider): ErkcInterceptor {
-        return ErkcInterceptor(authProvider)
+    fun providesErkcInterceptor(): ErkcInterceptor {
+        return ErkcInterceptor()
     }
 
     @Provides
