@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.drawer
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.StringRes
@@ -8,12 +9,16 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
+import com.software.ssp.erkc.modules.signin.SignInActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class DrawerActivity : MvpActivity(), IDrawerView {
@@ -93,7 +98,19 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun navigateToModule(drawerItem: DrawerItem){
+    override fun showUserInfo(user: User) {
+        val header = drawerNavigationView.getHeaderView(0)
+
+        (header.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
+        (header.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+    }
+
+    override fun navigateToLoginScreen() {
+        finish()
+        startActivity<SignInActivity>()
+    }
+
+    private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment = when (drawerItem) {
             DrawerItem.MAIN -> Fragment()
             DrawerItem.PAYMENT -> Fragment()
@@ -105,7 +122,10 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.SETTINGS -> Fragment()
             DrawerItem.TUTORIAL -> Fragment()
             DrawerItem.CONTACTS -> ContactsFragment()
-            DrawerItem.EXIT -> Fragment()
+            DrawerItem.EXIT -> {
+                presenter.onLogoutClick()
+                return
+            }
         }
 
         isSelectedDrawerItemChanged = false

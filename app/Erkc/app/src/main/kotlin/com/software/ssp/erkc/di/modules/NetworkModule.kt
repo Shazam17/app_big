@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
+import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import dagger.Module
 import dagger.Provides
@@ -61,5 +62,11 @@ class NetworkModule {
     @Singleton
     fun providesAuthDataSource(retrofit: Retrofit): AuthDataSource {
         return retrofit.create(AuthDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAccountDataSource(retrofit: Retrofit): AccountDataSource {
+        return retrofit.create(AccountDataSource::class.java)
     }
 }

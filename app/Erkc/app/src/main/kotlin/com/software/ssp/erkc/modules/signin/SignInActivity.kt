@@ -5,8 +5,10 @@ import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textChangedListener
 import org.jetbrains.anko.toast
 import javax.inject.Inject
@@ -43,7 +45,8 @@ class SignInActivity : MvpActivity(), ISignInView {
     }
 
     override fun navigateToDrawerScreen() {
-        toast("TODO: navigate to Drawer screen")
+        finish()
+        startActivity<DrawerActivity>()
     }
 
     override fun showLoginFieldError(errorResId: Int) {

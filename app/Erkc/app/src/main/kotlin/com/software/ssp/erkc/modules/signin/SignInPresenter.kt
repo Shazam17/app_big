@@ -7,6 +7,8 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.models.AuthResponse
+import com.software.ssp.erkc.data.rest.models.User
+import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import okhttp3.ResponseBody
 import org.jsoup.Connection
@@ -22,6 +24,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     @Inject lateinit var authProvider: AuthProvider
     @Inject lateinit var authRepository: AuthRepository
+    @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onViewAttached() {
@@ -64,7 +67,12 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
         subscriptions += authRepository
                 .authenticate(activeSession.accessToken!!, email, password)
-                .subscribe(object : Subscriber<AuthResponse>() {
+                .concatMap {
+                    authResponse ->
+                    activeSession.accessToken = authResponse.data.access_token
+                    accountRepository.fetchUserInfo(activeSession.accessToken!!)
+                }
+                .subscribe(object : Subscriber<User>() {
                     override fun onCompleted() {
 
                     }
@@ -75,10 +83,9 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                         view?.showMessage(e.message.toString())
                     }
 
-                    override fun onNext(authResponse: AuthResponse) {
+                    override fun onNext(user: User) {
+                        activeSession.user = user
                         view?.setProgressVisibility(false)
-                        activeSession.accessToken = authResponse.data.access_token
-
                         view?.navigateToDrawerScreen()
                     }
         })
