@@ -135,5 +135,4 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
         return params
     }
-
 }

@@ -1,12 +1,13 @@
 package com.software.ssp.erkc.modules.contacts
 
-import android.content.Intent
-import android.net.Uri
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
@@ -67,21 +68,23 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         presenter.dropView()
     }
 
-    override fun sendEmailMessage(userInfo: String, message: String) {
-
-        val subject = getString(R.string.contacts_email_prefix) + message.subSequence(0, Math.min(message.length, 60))
-        val text = userInfo + "\n" + message
-
-        val mailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contacts_email_address), null))
-        mailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        mailIntent.putExtra(Intent.EXTRA_TEXT, text)
-
-        startActivity(Intent.createChooser(mailIntent, getString(R.string.contacts_email_client_select)))
+    override fun setPending(isPending: Boolean) {
+        contactsSendButton.enabled = !isPending
+        contactsMessageEditText.enabled = !isPending
     }
 
-    override fun setControlsEnabled(isEnabled: Boolean) {
-        contactsSendButton.enabled = isEnabled
-        contactsMessageEditText.enabled = isEnabled
+    override fun showDidSentMessage() {
+        val snack = Snackbar.make(view, R.string.contacts_email_send_dialog_message, Snackbar.LENGTH_LONG)
+        val textView = snack.view.findViewById(android.support.design.R.id.snackbar_text) as TextView
+        textView.setTextColor(Color.WHITE)
+        snack.setAction(R.string.contacts_snack_bar_action_text, {})
+        snack.setActionTextColor(Color.WHITE)
+        snack.show()
+    }
+
+    override fun setControlsVisible(isVisible: Boolean) {
+        contactsSendButton.visibility = if(isVisible) View.VISIBLE else View.GONE
+        contactsMessageEditText.visibility = if(isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {

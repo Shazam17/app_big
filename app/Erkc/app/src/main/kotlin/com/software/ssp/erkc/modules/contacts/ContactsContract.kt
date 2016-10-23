@@ -5,8 +5,9 @@ import com.software.ssp.erkc.common.mvp.IView
 
 
 interface IContactsView : IView {
-    fun sendEmailMessage(userInfo: String, message: String)
-    fun setControlsEnabled(isEnabled: Boolean)
+    fun setPending(isPending: Boolean)
+    fun setControlsVisible(isVisible: Boolean)
+    fun showDidSentMessage()
 }
 
 interface IContactsPresenter : IPresenter<IContactsView> {

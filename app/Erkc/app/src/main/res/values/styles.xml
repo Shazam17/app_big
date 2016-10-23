@@ -25,7 +25,7 @@
 
     <style name="AppTheme.DrawerTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorBlack</item>
-        <item name="colorControlHighlight">@color/colorPrimary50</item>
+        <item name="colorControlHighlight">@color/colorPrimary35</item>
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
     </style>
 
