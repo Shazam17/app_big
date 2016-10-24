@@ -1,11 +1,9 @@
 package com.software.ssp.erkc.modules.splash
 
 import android.os.Bundle
-
-import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.signin.SignInActivity
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -37,6 +35,6 @@ class SplashActivity : MvpActivity(), ISplashView {
 
     override fun navigateToSignIn() {
         finish()
-        startActivity<SignInActivity>()
+        startActivity<DrawerActivity>()
     }
 }

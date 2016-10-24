@@ -11,7 +11,8 @@
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
 
         <item name="android:textViewStyle">@style/AppTextViewStyle</item>
-        <item name="android:buttonStyle">@style/AppButtonStyle</item>
+
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -44,19 +45,40 @@
         <item name="android:textColor">@color/colorBlueButton</item>
     </style>
 
-    <style name="AppButtonStyle" parent="Widget.AppCompat.Button.Colored">
+    <style name="AppBlueButtonStyle" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorBlueButtonDisabled</item>
         <item name="colorButtonNormal">@color/colorBlueButton</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppButtonStyleRegistration" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="colorButtonNormal">@color/colorPrimary35</item>
-        <item name="colorAccent">@color/colorPrimary35</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    <style name="AppWhiteButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/colorBlueButton</item>
+        <item name="colorAccent">@color/colorWhiteButtonDisabled</item>
+        <item name="colorButtonNormal">@color/colorWhiteButton</item>
     </style>
+
+    <style name="AppCheckBoxStyle" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorBlueButton</item>
+        <item name="android:textColorSecondary">@color/colorBlueButton</item>
+    </style>
+
+    <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+    </style>
+    
+    <style name="AppDarkStyleInput.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppDarkStyleInput.ErrorTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorError</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <!-- Control's styles -->
 
     <style name="RegistrationTheme" parent="Theme.AppCompat.Light">
@@ -70,7 +92,7 @@
         <item name="colorControlHighlight">@color/colorWhite</item>
 
         <item name="android:textViewStyle">@style/AppTextViewStyle</item>
-        <item name="android:buttonStyle">@style/AppButtonStyle</item>
+        <item name="android:buttonStyle">@style/AppBlueButtonStyle</item>
         <item name="android:textColorPrimary">@color/colorWhite</item>
         <item name="android:textColorSecondary">@color/colorWhite</item>
         <item name="android:textColorPrimaryInverse">@color/colorWhite</item>

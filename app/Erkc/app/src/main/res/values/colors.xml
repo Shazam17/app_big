@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#118AC3</color>
-    <color name="colorPrimaryDark">#0F719F</color>
-    <color name="colorPrimary35">#5C118AC3</color>
-    <color name="colorBlueButton">#1184ED</color>
+    <color name="colorPrimary">#356DF2</color>
+    <color name="colorPrimaryDark">#356DF2</color>
+
+    <color name="colorPrimary35">#5C356DF2</color>
+
+    <color name="colorBlueButton">#153481</color>
+    <color name="colorBlueButtonDisabled">#5C153481</color>
+
+    <color name="colorWhiteButton">#F2F2F2</color>
+    <color name="colorWhiteButtonDisabled">#5CF2F2F2</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
@@ -11,5 +17,7 @@
     <color name="colorWhite60">#99FFFFFF</color>
 
     <color name="colorTextDark">#515151</color>
+
+    <color name="colorError">#FFC5C5</color>
 
 </resources>

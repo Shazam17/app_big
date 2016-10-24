@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
 import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
+import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -68,5 +69,11 @@ class NetworkModule {
     @Singleton
     fun providesAccountDataSource(retrofit: Retrofit): AccountDataSource {
         return retrofit.create(AccountDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesReceiptsDataSource(retrofit: Retrofit): ReceiptsDataSource {
+        return retrofit.create(ReceiptsDataSource::class.java)
     }
 }

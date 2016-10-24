@@ -11,6 +11,6 @@ inline fun Activity.materialDialog(setupBlock: (MaterialDialog.Builder.() -> (Ma
 
 fun Activity.hideKeyboard() {
     val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    val view = this.getCurrentFocus() ?: View(this)
-    imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    val view = this.currentFocus ?: View(this)
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
