@@ -50,4 +50,12 @@
     <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
     <string name="contacts_snack_bar_action_text">Ок</string>
 
+    <!-- password recovery -->
+    <string name="pass_recovery_title">Восстановление пароля</string>
+    <string name="pass_recovery_description">Если вы забыли Пароль, введите Логин и Email, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
+    <string name="pass_recovery_login_hint">Логин</string>
+    <string name="pass_recovery_email_hint">Email</string>
+    <string name="pass_recovery_send_button_text">Отправить пароль</string>
+    <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
+
 </resources>

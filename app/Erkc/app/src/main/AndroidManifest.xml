@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".modules.drawer.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -37,6 +38,11 @@
             android:name=".modules.signup.SignUpActivity"
             android:theme="@style/RegistrationTheme"
             android:label="@string/sign_up_registration"/>
+
+
+        <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

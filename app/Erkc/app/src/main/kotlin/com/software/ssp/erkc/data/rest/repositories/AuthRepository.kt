@@ -29,4 +29,10 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 .compose(this.applySchedulers<Response<ResponseBody>>())
     }
 
+    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<AuthResponse> {
+        return authDataSource
+                .recoverPassword(token, login, email, number)
+                .compose(this.applySchedulers<AuthResponse>())
+    }
+
 }

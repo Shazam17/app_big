@@ -20,4 +20,12 @@ interface AuthDataSource {
     @POST
     fun fetchAppToken(@Url url: String, @FieldMap params: Map<String, String>): Observable<Response<ResponseBody>>
 
+    @FormUrlEncoded
+    @POST("?method=users.recover")
+    fun recoverPassword(@Field("token") token: String,
+                         @Field("login") login: String,
+                         @Field("email") email: String,
+                         @Field("number") number: String
+                         ): Observable<AuthResponse>
+
 }

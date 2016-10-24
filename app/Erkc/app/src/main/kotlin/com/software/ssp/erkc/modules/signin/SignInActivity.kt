@@ -2,10 +2,12 @@ package com.software.ssp.erkc.modules.signin
 
 import android.os.Bundle
 import android.view.View
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
+import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
@@ -42,7 +44,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     }
 
     override fun navigateToForgotPasswordScreen(email: String) {
-        toast("TODO: navigate to Forgot Password screen")
+        startActivity<PasswordRecoveryActivity>(Constants.KEY_PASSWORD_RECOVERY_EMAIL to email)
     }
 
     override fun navigateToDrawerScreen() {
