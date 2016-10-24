@@ -5,6 +5,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
+import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
 import com.software.ssp.erkc.di.modules.AppModule
 import com.software.ssp.erkc.di.modules.NetworkModule
 import dagger.Component
@@ -19,5 +20,6 @@ interface AppComponent {
     fun provideAuthProvider(): AuthProvider
     fun provideAuthDataSource(): AuthDataSource
     fun provideAccountDataSource(): AccountDataSource
+    fun provideReceiptsDataSource(): ReceiptsDataSource
     fun provideActiveSession(): ActiveSession
 }

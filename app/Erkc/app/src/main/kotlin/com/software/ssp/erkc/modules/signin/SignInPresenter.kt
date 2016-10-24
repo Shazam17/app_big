@@ -6,7 +6,6 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.models.AuthResponse
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository

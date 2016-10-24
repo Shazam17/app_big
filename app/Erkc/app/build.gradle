@@ -74,16 +74,14 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
-    compile 'com.google.android.gms:play-services-maps:9.6.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 
     compile 'android.lib.recaptcha:reCAPTCHA:+'
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile "com.android.support:support-annotations:$support_version"
+    androidTestCompile "com.android.support:support-annotations:25.0.0"
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;

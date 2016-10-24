@@ -215,7 +215,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_up_registration"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:theme="@style/AppBlueButtonStyle"/>
 
             <ProgressBar
                 android:id="@+id/signUpProgressBar"

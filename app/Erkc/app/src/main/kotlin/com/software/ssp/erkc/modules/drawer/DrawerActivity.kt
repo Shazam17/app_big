@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.modules.drawer
 
 import android.app.Fragment
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.StringRes
@@ -16,6 +15,7 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
+import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
 import org.jetbrains.anko.startActivity
@@ -112,7 +112,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment = when (drawerItem) {
-            DrawerItem.MAIN -> Fragment()
+            DrawerItem.MAIN -> NonAuthedMainScreenFragment()
             DrawerItem.PAYMENT -> Fragment()
             DrawerItem.VALUES -> Fragment()
             DrawerItem.CARDS -> Fragment()
