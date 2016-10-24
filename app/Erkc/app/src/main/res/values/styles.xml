@@ -81,7 +81,7 @@
 
     <!-- Control's styles -->
 
-    <style name="RegistrationTheme" parent="Theme.AppCompat.Light">
+    <style name="WhiteTitleTheme" parent="Theme.AppCompat.Light">
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>

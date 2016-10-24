@@ -1,21 +1,22 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.onEditorAction
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
@@ -67,11 +68,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenApartmentLayout.isEnabled = false
     }
 
-    override fun navigateToSignInScreen(){
+    override fun navigateToSignInScreen() {
         startActivity<SignInActivity>()
     }
 
-    override fun navigateToSignUpScreen(){
+    override fun navigateToSignUpScreen() {
         startActivity<SignUpActivity>()
     }
 
@@ -103,7 +104,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         }
 
         mainScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
-            if(actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hiddenViewForFocus.requestFocus()
                 activity.hideKeyboard()
                 true
@@ -121,12 +122,21 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         }
 
         mainScreenCameraButton.onClick {
-            //TODO Scan BarCode presenter.onBarCodeScanned(code)
+            startActivityForResult<BarcodeScannerActivity>(Constants.REQUEST_CODE_BARCODE_SCAN)
         }
 
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constants.REQUEST_CODE_BARCODE_SCAN ->
+                if (resultCode == Activity.RESULT_OK) {
+                    mainScreenBarcodeEditText.setText(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
+                }
+        }
+    }
 }
 

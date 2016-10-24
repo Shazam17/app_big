@@ -3,6 +3,7 @@
     package="com.software.ssp.erkc">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -35,8 +36,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".modules.signup.SignUpActivity"
-            android:theme="@style/RegistrationTheme"
+            android:theme="@style/WhiteTitleTheme"
             android:label="@string/sign_up_registration"/>
+        <activity
+            android:name=".modules.barcodescanner.BarcodeScannerActivity"
+            android:theme="@style/WhiteTitleTheme"
+            android:label="@string/barcode_scanner_title"/>
     </application>
 
 </manifest>
