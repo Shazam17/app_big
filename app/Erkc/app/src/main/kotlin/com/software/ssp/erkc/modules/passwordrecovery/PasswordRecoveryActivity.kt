@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.passwordrecovery
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.R
@@ -43,6 +44,16 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
         presenter.dropView()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                this.finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun setSendButtonEnabled(enabled: Boolean) {
         passwordRecoverySendButton.enabled = enabled
     }
@@ -62,6 +73,10 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
     }
 
     private fun initViews() {
+        setSupportActionBar(passwordRecoveryToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.pass_recovery_title)
+
         passwordRecoveryEmail?.let {
             passwordRecoveryEmailEditText.setText(it)
         }
