@@ -14,10 +14,11 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToSignUpScreen()
     fun navigateToSendValuesScreen()
     fun navigateToPaymentScreen()
+    fun showProgressVisible(isVisible: Boolean)
 }
 
 interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
-    fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean)
+    fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean)
     fun onSignInClick()
     fun onSignUpClick()
     fun onBarCodeScanned(code: String)
