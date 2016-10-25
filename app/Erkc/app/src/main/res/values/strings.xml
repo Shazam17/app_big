@@ -33,6 +33,7 @@
     <string name="main_screen_not_filled_error">Поле не заполнено</string>
 
     <!-- Sign in -->
+    <string name="sing_in_title">Вход</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
     <string name="sign_in_forgot_password_text">Забыли пароль?</string>

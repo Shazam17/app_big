@@ -180,7 +180,6 @@
         android:id="@+id/mainScreenProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_gravity="end|center_vertical"
         android:paddingBottom="@dimen/half_default_margin"
         android:paddingTop="@dimen/half_default_margin"
         android:visibility="gone"
