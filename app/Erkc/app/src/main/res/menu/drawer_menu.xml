@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/menu_group_one" android:checkableBehavior="single">
+    <group android:id="@+id/menuFirstGroup" android:checkableBehavior="single">
         <item
             android:id="@+id/menuMainScreen"
             android:icon="@drawable/ic_communication_phone"
@@ -16,7 +16,7 @@
             android:title="@string/drawer_send_values_text" />
     </group>
 
-    <group android:id="@+id/menu_group_two" android:checkableBehavior="single">
+    <group android:id="@+id/menuSecondGroup" android:checkableBehavior="single">
         <item
             android:id="@+id/menuMyCards"
             android:icon="@drawable/ic_communication_phone"
@@ -35,7 +35,7 @@
             android:title="@string/drawer_notifications_text" />
     </group>
 
-    <group android:id="@+id/menu_group_three" android:checkableBehavior="single">
+    <group android:id="@+id/menuThirdGroup" android:checkableBehavior="single">
         <item
             android:id="@+id/menuSettings"
             android:icon="@drawable/ic_communication_phone"

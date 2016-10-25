@@ -4,13 +4,15 @@
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorBlueButton</item>
 
-        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorBlueButtonDisabled</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
 
         <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+
+        <item name="isLightTheme">false</item>
 
         <item name="elevation">0dp</item>
     </style>
@@ -46,15 +48,13 @@
     </style>
 
     <style name="AppBlueButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorBlueButtonDisabled</item>
-        <item name="colorButtonNormal">@color/colorBlueButton</item>
+        <item name="android:textColor">@color/light_text_color_selector</item>
+        <item name="colorButtonNormal">@color/blue_button_color_selector</item>
     </style>
 
     <style name="AppWhiteButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorBlueButton</item>
-        <item name="colorAccent">@color/colorWhiteButtonDisabled</item>
-        <item name="colorButtonNormal">@color/colorWhiteButton</item>
+        <item name="android:textColor">@color/blue_text_color_selector</item>
+        <item name="colorButtonNormal">@color/white_button_color_selector</item>
     </style>
 
     <style name="AppCheckBoxStyle" parent="Theme.AppCompat">

@@ -8,11 +8,11 @@ import com.software.ssp.erkc.data.rest.models.User
 interface IDrawerView : IView {
 
     fun showUserInfo(user: User)
-    fun navigateToLoginScreen()
+    fun clearUserInfo()
+    fun setAuthedMenuVisible(isVisible: Boolean)
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {
 
     fun onLogoutClick()
 }
-
