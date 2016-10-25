@@ -4,10 +4,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import rx.Subscriber
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -57,28 +55,26 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.accessToken!!, email, password)
+                .authenticate(activeSession.appToken!!, email, password)
                 .concatMap {
                     authResponse ->
                     activeSession.accessToken = authResponse.data.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
-                .subscribe(object : Subscriber<User>() {
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onError(e: Throwable) {
-                        view?.setProgressVisibility(false)
-                        e.printStackTrace()
-                        view?.showMessage(e.message.toString())
-                    }
-
-                    override fun onNext(user: User) {
-                        activeSession.user = user
-                        view?.setProgressVisibility(false)
-                        view?.navigateToDrawerScreen()
-                    }
-                })
+                .subscribe(
+                        {
+                            userResponse ->
+                            activeSession.user = userResponse.data
+                            view?.setProgressVisibility(false)
+                            view?.navigateToDrawerScreen()
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            error.printStackTrace()
+                            view?.showMessage(error.message.toString())
+                        }
+                )
     }
 }
+

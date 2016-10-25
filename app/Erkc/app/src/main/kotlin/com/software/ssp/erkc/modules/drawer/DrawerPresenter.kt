@@ -12,14 +12,17 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     override fun onViewAttached() {
         super.onViewAttached()
 
-        activeSession.user?.let{
+        if (activeSession.user == null) {
+            view?.setAuthedMenuVisible(false)
+        } else {
+            view?.setAuthedMenuVisible(true)
             view?.showUserInfo(activeSession.user!!)
         }
     }
 
     override fun onLogoutClick() {
-
         activeSession.clear()
-        view?.navigateToLoginScreen()
+        view?.clearUserInfo()
+        view?.setAuthedMenuVisible(false)
     }
 }

@@ -1,21 +1,30 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
 
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-
-        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+        <item name="colorControlNormal">@color/colorWhite60</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
 
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
+    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorWhite</item>
+
+        <item name="colorControlNormal">@color/colorWhite60</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -24,37 +33,29 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.DrawerTheme" parent="AppTheme">
+    <style name="AppTheme.DrawerTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorPrimary">@color/colorBlack</item>
-        <item name="colorControlHighlight">@color/colorPrimary35</item>
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
     </style>
 
-    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="SplashScreen" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <!-- Control's styles -->
-    <style name="AppTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorTextDark</item>
-    </style>
-
     <style name="MainColorTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/colorBlueButton</item>
     </style>
 
     <style name="AppBlueButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorBlueButtonDisabled</item>
-        <item name="colorButtonNormal">@color/colorBlueButton</item>
+        <item name="android:textColor">@color/light_text_color_selector</item>
+        <item name="colorButtonNormal">@color/blue_button_color_selector</item>
     </style>
 
     <style name="AppWhiteButtonStyle" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorBlueButton</item>
-        <item name="colorAccent">@color/colorWhiteButtonDisabled</item>
-        <item name="colorButtonNormal">@color/colorWhiteButton</item>
+        <item name="android:textColor">@color/blue_text_color_selector</item>
+        <item name="colorButtonNormal">@color/white_button_color_selector</item>
     </style>
 
     <style name="AppCheckBoxStyle" parent="Theme.AppCompat">
@@ -62,15 +63,18 @@
         <item name="android:textColorSecondary">@color/colorBlueButton</item>
     </style>
 
+    <!-- Input for Dark Theme -->
     <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColorHint">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorWhite</item>
-        <item name="colorControlNormal">@color/colorWhite</item>
-        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorLightText</item>
+        <item name="android:textColorHint">@color/colorDarkHint</item>
+
+        <item name="colorAccent">@color/colorDarkInput</item>
+        <item name="colorControlNormal">@color/colorDarkInputDisabled</item>
+        <item name="colorControlActivated">@color/colorDarkInput</item>
     </style>
     
-    <style name="AppDarkStyleInput.TextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorWhite</item>
+    <style name="AppDarkStyleInput.HintTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorDarkHint</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -79,22 +83,4 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <!-- Control's styles -->
-
-    <style name="RegistrationTheme" parent="Theme.AppCompat.Light">
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-
-        <item name="colorControlNormal">@color/colorWhite</item>
-        <item name="colorControlActivated">@color/colorWhite</item>
-        <item name="colorControlHighlight">@color/colorWhite</item>
-
-        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
-        <item name="android:buttonStyle">@style/AppBlueButtonStyle</item>
-        <item name="android:textColorPrimary">@color/colorWhite</item>
-        <item name="android:textColorSecondary">@color/colorWhite</item>
-        <item name="android:textColorPrimaryInverse">@color/colorWhite</item>
-    </style>
 </resources>

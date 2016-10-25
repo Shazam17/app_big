@@ -28,10 +28,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     }
 
 
+
     private fun authenticateApp() {
-        subscriptions += authRepository
-                .authenticateApp()
-                .concatMap { response ->
+        subscriptions += authRepository.authenticateApp()
+                .concatMap {
+                    response ->
                     val authPage = response.string()
                     authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
                 }
@@ -54,11 +55,15 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         realm.copyToRealm(dictionaryAddressesResponse.addresses)
                     }
 
-                    view?.navigateToSignIn()
+                    view?.navigateToDrawer()
                 }, {
                     error ->
                     view?.showMessage(error.message!!)
                 })
+    }
+
+    override fun onTryAgainClicked() {
+        authenticateApp()
     }
 
     private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
@@ -73,5 +78,4 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
         return params
     }
-
 }
