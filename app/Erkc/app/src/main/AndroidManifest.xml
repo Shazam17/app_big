@@ -21,7 +21,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".modules.signin.SignInActivity" />
+        <activity
+            android:name=".modules.signin.SignInActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".modules.splash.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
