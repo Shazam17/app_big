@@ -11,6 +11,9 @@
     <color name="colorWhiteButton">#F2F2F2</color>
     <color name="colorWhiteButtonDisabled">#5CF2F2F2</color>
 
+    <color name="colorLightText">#FFFFFF</color>
+    <color name="colorLightTextDisabled">#99FFFFFF</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
@@ -19,5 +22,4 @@
     <color name="colorTextDark">#515151</color>
 
     <color name="colorError">#FFC5C5</color>
-
 </resources>

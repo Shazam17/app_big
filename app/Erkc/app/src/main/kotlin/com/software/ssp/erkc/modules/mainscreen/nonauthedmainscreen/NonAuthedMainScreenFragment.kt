@@ -12,10 +12,7 @@ import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.onEditorAction
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
@@ -44,6 +41,10 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         presenter.dropView()
     }
 
+    override fun showMessage(message: String) {
+        mainScreenBarcodeLayout.error = message
+    }
+
     override fun showErrorBarcodeMessage(resId: Int) {
         mainScreenBarcodeLayout.error = getString(resId)
     }
@@ -65,28 +66,51 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenStreetLayout.isEnabled = false
         mainScreenHouseLayout.isEnabled = false
         mainScreenApartmentLayout.isEnabled = false
+        mainScreenStreetEditText.setText("")
+        mainScreenHouseEditText.setText("")
+        mainScreenApartmentEditText.setText("")
     }
 
-    override fun navigateToSignInScreen(){
+    override fun navigateToSignInScreen() {
         startActivity<SignInActivity>()
     }
 
-    override fun navigateToSignUpScreen(){
+    override fun navigateToSignUpScreen() {
         startActivity<SignUpActivity>()
     }
 
     override fun navigateToPaymentScreen() {
+        //TODO: NavigateToPayment
         showMessage("TODO: NavigateToPayment")
     }
 
     override fun navigateToSendValuesScreen() {
+        //TODO: NavigateToSendValues
         showMessage("TODO: NavigateToSendValues")
+    }
+
+    override fun showProgressVisible(isVisible: Boolean) {
+        mainScreenContinueButton.enabled = !isVisible
+        mainScreenSingInButton.enabled = !isVisible
+        mainScreenRegistrationButton.enabled = !isVisible
+        mainScreenProgressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {
         mainScreenBarcodeEditText.textChangedListener {
+
             onTextChanged { charSequence, start, before, count ->
                 mainScreenBarcodeLayout.error = null
+            }
+
+            afterTextChanged { text ->
+                text?.let {
+                    if (text.length == 0) {
+                        mainScreenStreetLayout.isEnabled = true
+                        mainScreenHouseLayout.isEnabled = true
+                        mainScreenApartmentLayout.isEnabled = true
+                    }
+                }
             }
         }
 
@@ -103,7 +127,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         }
 
         mainScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
-            if(actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hiddenViewForFocus.requestFocus()
                 activity.hideKeyboard()
                 true
@@ -117,7 +141,8 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
                     mainScreenStreetEditText.text.toString(),
                     mainScreenHouseEditText.text.toString(),
                     mainScreenApartmentEditText.text.toString(),
-                    sendValueCheckBox.isChecked)
+                    sendValueCheckBox.isChecked,
+                    mainScreenStreetLayout.isEnabled)
         }
 
         mainScreenCameraButton.onClick {
@@ -127,6 +152,5 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
     }
-
 }
 
