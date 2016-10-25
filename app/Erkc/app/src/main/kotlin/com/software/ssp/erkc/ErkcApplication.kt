@@ -6,6 +6,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.DaggerAppComponent
 import com.software.ssp.erkc.di.modules.AppModule
 import io.fabric.sdk.android.Fabric
+import io.realm.Realm
 
 class ErkcApplication : Application() {
 
@@ -20,6 +21,7 @@ class ErkcApplication : Application() {
                 .build()
 
         initFabric()
+        Realm.init(this)
     }
 
     private fun initFabric() {

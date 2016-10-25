@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
 import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
+import com.software.ssp.erkc.data.rest.datasource.DictionaryDataSource
 import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
 import dagger.Module
 import dagger.Provides
@@ -63,6 +64,12 @@ class NetworkModule {
     @Singleton
     fun providesAuthDataSource(retrofit: Retrofit): AuthDataSource {
         return retrofit.create(AuthDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDictionarySource(retrofit: Retrofit): DictionaryDataSource {
+        return retrofit.create(DictionaryDataSource::class.java)
     }
 
     @Provides
