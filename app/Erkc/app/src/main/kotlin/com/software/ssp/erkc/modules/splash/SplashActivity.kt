@@ -35,7 +35,7 @@ class SplashActivity : MvpActivity(), ISplashView {
         presenter.dropView()
     }
 
-    override fun navigateToSignIn() {
+    override fun navigateToDrawer() {
         finish()
         startActivity<DrawerActivity>()
     }
@@ -45,7 +45,7 @@ class SplashActivity : MvpActivity(), ISplashView {
     }
 
     override fun showTryAgainSnack(message: String) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.splash_try_again_text) {presenter.onTryAgainClicked()}
                 .show()
     }

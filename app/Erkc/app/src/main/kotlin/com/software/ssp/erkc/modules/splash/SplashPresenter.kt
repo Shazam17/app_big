@@ -6,13 +6,12 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import okhttp3.ResponseBody
 import org.jsoup.Connection
 import org.jsoup.Jsoup
-import retrofit2.Response
-import rx.Subscriber
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -28,51 +27,52 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         authenticateApp()
     }
 
-
     private fun authenticateApp() {
-        subscriptions += authRepository
-                .authenticateApp()
-                .concatMap { response ->
+        subscriptions += authRepository.authenticateApp()
+                .concatMap {
+                    response ->
                     val authPage = response.string()
-                    return@concatMap authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
+                    authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
                 }
-                .subscribe(object : Subscriber<Response<ResponseBody>>() {
-                    override fun onCompleted() {}
+                .concatMap {
+                    response ->
+                    val uri = Uri.parse(response.raw().request().url().toString())
 
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                        view?.showTryAgainSnack(e.message.toString())
+                    if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
+                        val token = uri.getQueryParameter("access_token")
+                        activeSession.appToken = token
+                        Observable.timer(5, TimeUnit.SECONDS)
+                    } else {
+                        view?.showTryAgainSnack(R.string.splash_error_fetching_token_text)
+                        Observable.empty()
                     }
-
-                    override fun onNext(response: Response<ResponseBody>) {
-                        val uri = Uri.parse(response.raw().request().url().toString())
-
-                        if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
-                            val token = uri.getQueryParameter("access_token")
-                            activeSession.accessToken = token
-                            view?.navigateToSignIn()
-                        } else {
-                            view?.showTryAgainSnack(R.string.splash_error_fetching_token_text)
+                }
+                .subscribe(
+                        {
+                            view?.navigateToDrawer()
+                        },
+                        {
+                            error ->
+                            error.printStackTrace()
+                            view?.showTryAgainSnack(error.message.toString())
                         }
-                    }
-                })
+                )
     }
 
     override fun onTryAgainClicked() {
         authenticateApp()
     }
 
-    private fun fetchParamsFromHtmlPage(page: String) : Map<String, String> {
+    private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
         val doc = Jsoup.parse(page)
         val formData = doc.select("form").forms().first().formData()
 
         val params = HashMap<String, String>()
 
-        for(item: Connection.KeyVal in formData) {
+        for (item: Connection.KeyVal in formData) {
             params.put(item.key(), item.value())
         }
 
         return params
     }
-
 }

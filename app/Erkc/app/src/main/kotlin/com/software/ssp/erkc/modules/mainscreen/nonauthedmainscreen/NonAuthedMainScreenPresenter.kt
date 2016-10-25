@@ -5,7 +5,6 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeWith
 import javax.inject.Inject
 
 class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScreenView) : RxPresenter<INonAuthedMainScreenView>(view), INonAuthedMainScreenPresenter {
@@ -19,9 +18,9 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.apiToken!!, barcode, street, house, apartment)
-        .subscribeWith {
-            onNext { receipt ->
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+        .subscribe(
+            { receiptResponse ->
                 //TODO do something with receipt
 
                 view?.showProgressVisible(false)
@@ -31,12 +30,12 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
                 } else {
                     view?.navigateToPaymentScreen()
                 }
-            }
-            onError { throwable ->
+            },
+            { throwable ->
                 view?.showProgressVisible(false)
                 view?.showMessage(throwable.message.toString())
             }
-        }
+        )
     }
 
     override fun onSignInClick() {

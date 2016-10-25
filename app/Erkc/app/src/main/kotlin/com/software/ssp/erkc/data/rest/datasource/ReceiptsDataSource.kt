@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.data.rest.datasource
 
+import com.software.ssp.erkc.data.rest.models.DataResponse
 import com.software.ssp.erkc.data.rest.models.Receipt
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,6 +13,6 @@ interface ReceiptsDataSource {
                          @Query("code") code: String,
                          @Query("street") street: String,
                          @Query("house") house: String,
-                         @Query("apart") apart: String): Observable<Receipt>
+                         @Query("apart") apart: String): Observable<DataResponse<Receipt>>
 
 }

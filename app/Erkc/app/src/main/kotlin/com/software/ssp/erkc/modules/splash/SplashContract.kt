@@ -8,7 +8,7 @@ import com.software.ssp.erkc.common.mvp.IView
  * @author Alexander Popov on 23.10.2016.
  */
 interface ISplashView : IView {
-    fun navigateToSignIn()
+    fun navigateToDrawer()
     fun showTryAgainSnack(@StringRes message: Int)
     fun showTryAgainSnack(message: String)
 }

@@ -5,7 +5,7 @@ import com.software.ssp.erkc.data.rest.models.User
 
 class ActiveSession {
 
-    var apiToken: String? = null
+    var appToken: String? = null
     var accessToken: String? = null
     var user: User? = null
 
