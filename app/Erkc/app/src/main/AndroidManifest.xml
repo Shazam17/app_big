@@ -3,7 +3,6 @@
     package="com.software.ssp.erkc">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".ErkcApplication"
@@ -21,8 +20,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".modules.splash.SplashActivity"
-            android:theme="@style/SplashScreen">
+        <activity
+            android:name=".modules.splash.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,14 +36,19 @@
 
         <activity
             android:name=".modules.signin.SignInActivity"
+            android:label="@string/sing_in_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/sing_in_title"/>
+            android:theme="@style/AppTheme.Dark" />
 
         <activity
             android:name=".modules.signup.SignUpActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/sign_up_registration"/>
+            android:label="@string/sign_up_registration"
+            android:theme="@style/AppTheme.Dark" />
+
+        <activity
+            android:name=".modules.userprofile.UserProfileActivity"
+            android:label="@string/user_profile_title" />
+
     </application>
 
 </manifest>

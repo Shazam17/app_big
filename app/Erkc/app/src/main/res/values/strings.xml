@@ -67,4 +67,19 @@
     <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
     <string name="contacts_snack_bar_action_text">Ок</string>
 
+    <!-- UserProfile Screen -->
+    <string name="user_profile_title">Профиль</string>
+    <string name="user_profile_first_name_hint">Имя</string>
+    <string name="user_profile_street_hint">Улица</string>
+    <string name="user_profile_house_hint">Дом</string>
+    <string name="user_profile_apartment_hint">Квартира</string>
+    <string name="user_profile_phone_hint">Мобильный телефон</string>
+    <string name="user_profile_company_hint">Управляющая компания</string>
+    <string name="user_profile_email_hint">Email</string>
+    <string name="user_profile_second_email_hint">Альтернативный Email</string>
+    <string name="user_profile_password_hint">Пароль</string>
+    <string name="user_profile_password_confirm_hint">Подтверждение пароля</string>
+    <string name="user_profile_subscribe_check">Подписаться</string>
+    <string name="user_profile_save_button">Сохранить</string>
+
 </resources>
