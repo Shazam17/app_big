@@ -22,7 +22,24 @@ import javax.inject.Inject
 /**
  * @author Alexander Popov on 23.10.2016.
  */
-class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeListener {
+class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeListener, ReCaptcha.OnVerifyAnswerListener {
+    override fun onAnswerVerified(success: Boolean) {
+        recaptcha.showChallengeAsync(Constants.RECAPTCHA_PUBLIC_KEY, this)
+        if (success) {
+            if (validateFields()) {
+                presenter.onRegistrationButtonClick(
+                        loginEditText.text.toString(),
+                        passwordEditText.text.toString(),
+                        password2EditText.text.toString(),
+                        firstNameEditText.text.toString(),
+                        emailEditText.text.toString()
+                )
+            }
+        } else {
+            captchaEditText.error = "Наверно введены символы с картинки"
+            captchaEditText.requestFocus()
+        }
+    }
 
     override fun onChallengeShown(shown: Boolean) {
 
@@ -66,52 +83,19 @@ class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeList
         signUpProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    override fun navigateToMain() {
+    override fun navigateToDrawerScreen() {
         finish()
         startActivity<DrawerActivity>()
     }
 
-    override fun fillAddress(name: String) {
-        streetEditText.setText(name)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            Constants.REQUEST_CODE_ADDRESS_FIND ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        presenter.onAddressSelected(data!!.getLongExtra(Constants.KEY_ADDRESS_FIND_RESULT, -1))
-                    }
-        }
-    }
-
     private fun initViews() {
-        recaptcha.showChallengeAsync(Constants.RECAPTCHA_KEY, this)
-        streetEditText.onClick {
-            startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
+        recaptcha.showChallengeAsync(Constants.RECAPTCHA_PUBLIC_KEY, this)
+        recaptcha.onClick {
+            recaptcha.showChallengeAsync(Constants.RECAPTCHA_PUBLIC_KEY, this)
         }
         signUpButton.onClick {
             if (!captchaEditText.text.toString().isEmpty()) {
-                recaptcha.verifyAnswerAsync(Constants.RECAPTCHA_KEY, captchaEditText.text.toString(), {
-                    isValid ->
-                    recaptcha.showChallengeAsync(Constants.RECAPTCHA_KEY, this)
-                    if (isValid) {
-                        if (validateFields()) {
-                            presenter.onRegistrationButtonClick(
-                                    loginEditText.text.toString(),
-                                    passwordEditText.text.toString(),
-                                    firstNameEditText.text.toString(),
-                                    streetEditText.text.toString(),
-                                    buildEditText.text.toString(),
-                                    flatEditText.text.toString(),
-                                    emailEditText.text.toString()
-                            )
-                        }
-                    } else {
-                        captchaEditText.error = "Наверно введены символы с картинки"
-                        captchaEditText.requestFocus()
-                    }
-                })
+                recaptcha.verifyAnswerAsync(Constants.RECAPTCHA_PRIVATE_KEY, captchaEditText.text.toString(), this)
             } else {
                 captchaEditText.error ="Поле обязательно для ввода"
                 captchaEditText.requestFocus()
@@ -130,9 +114,6 @@ class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeList
         if (loginEditText.text.toString().isEmpty() ||
                 passwordEditText.text.toString().isEmpty() ||
                 firstNameEditText.text.toString().isEmpty() ||
-                streetEditText.text.toString().isEmpty() ||
-                buildEditText.text.toString().isEmpty() ||
-                flatEditText.text.toString().isEmpty() ||
                 emailEditText.text.toString().isEmpty()) {
             showMessage("Все поля обязательны для заполнения")
             return false

@@ -30,4 +30,7 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 .compose(this.applySchedulers<Response<ResponseBody>>())
     }
 
+    fun registration(token: String, name: String, login: String, email: String, password: String, repassword: String): Observable<Response<ResponseBody>> {
+        return authDataSource.registration(token, name, login, email, password, repassword).compose(this.applySchedulers<Response<ResponseBody>>())
+    }
 }

@@ -8,7 +8,8 @@ object Constants {
     const val API_OAUTH_CLIENT_ID = "VtqDyaekN"
     const val API_OAUTH_RESPONSE_TYPE = "token"
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
-    const val RECAPTCHA_KEY = "6Ld5BQoUAAAAAB9zu1q7ieYiZZ964jUdUvTLuYv1"
+    const val RECAPTCHA_PUBLIC_KEY = "6Ld_WAoUAAAAAK12UQVrPilSq03w7D9FuvzvlruT"
+    const val RECAPTCHA_PRIVATE_KEY = "6Ld_WAoUAAAAAFWd3MLwjhDaMPnSs_Yufi0GT8mN"
 
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
 

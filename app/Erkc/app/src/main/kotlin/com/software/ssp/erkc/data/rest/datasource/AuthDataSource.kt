@@ -21,4 +21,15 @@ interface AuthDataSource {
     @POST
     fun fetchAppToken(@Url url: String, @FieldMap params: Map<String, String>): Observable<Response<ResponseBody>>
 
+    @FormUrlEncoded
+    @POST("?method=users.registration")
+    fun registration(
+            @Field("token") token: String,
+            @Field("name") name: String,
+            @Field("login") login: String,
+            @Field("email") email: String,
+            @Field("password") password: String,
+            @Field("repassword") repassword: String
+    ): Observable<Response<ResponseBody>>
+
 }
