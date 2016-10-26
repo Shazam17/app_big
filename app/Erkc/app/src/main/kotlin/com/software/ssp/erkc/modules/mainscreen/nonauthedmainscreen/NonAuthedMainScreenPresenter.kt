@@ -13,12 +13,12 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
-        if(!validFields(barcode, street, house, apartment, isWithAddress)){
+        if(!validFields(barcode)){
             return
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, barcode, street, house, apartment)
         .subscribe(
             { receiptResponse ->
                 //TODO do something with receipt
@@ -50,24 +50,13 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         view?.showScannedBarcode(code)
     }
 
-    private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean{
+    private fun validFields(barcode: String): Boolean{
         var isValid = true
         if(barcode.isNullOrEmpty()){
             isValid = false
             view?.showErrorBarcodeMessage(R.string.main_screen_not_filled_error)
         }
-        if(isWithAddress && street.isNullOrEmpty()){
-            isValid = false
-            view?.showErrorStreetMessage(R.string.main_screen_not_filled_error)
-        }
-        if(isWithAddress && house.isNullOrEmpty()){
-            isValid = false
-            view?.showErrorHouseMessage(R.string.main_screen_not_filled_error)
-        }
-        if(isWithAddress && apartment.isNullOrEmpty()){
-            isValid = false
-            view?.showErrorApartmentMessage(R.string.main_screen_not_filled_error)
-        }
+
         return isValid
     }
 }

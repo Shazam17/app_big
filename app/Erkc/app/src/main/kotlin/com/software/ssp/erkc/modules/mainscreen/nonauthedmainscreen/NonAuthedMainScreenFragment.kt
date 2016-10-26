@@ -114,28 +114,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
             }
         }
 
-        mainScreenStreetEditText.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> mainScreenStreetLayout.error = null }
-        }
-
-        mainScreenHouseEditText.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> mainScreenHouseLayout.error = null }
-        }
-
-        mainScreenApartmentEditText.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> mainScreenApartmentLayout.error = null }
-        }
-
-        mainScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hiddenViewForFocus.requestFocus()
-                activity.hideKeyboard()
-                true
-            } else {
-                false
-            }
-        }
-
         mainScreenContinueButton.onClick {
             presenter.onContinueClick(mainScreenBarcodeEditText.text.toString(),
                     mainScreenStreetEditText.text.toString(),

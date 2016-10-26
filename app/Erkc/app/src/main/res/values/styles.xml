@@ -58,11 +58,24 @@
         <item name="colorButtonNormal">@color/white_button_color_selector</item>
     </style>
 
+    <style name="AppWhiteBlueButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/blue_text_color_selector</item>
+        <item name="colorButtonNormal">@color/white_button_color_selector</item>
+    </style>
+
     <style name="AppCheckBoxStyle" parent="Theme.AppCompat">
         <item name="colorAccent">@color/colorBlueButton</item>
         <item name="android:textColorSecondary">@color/colorBlueButton</item>
     </style>
 
+    <style name="BodyTextView" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_margin">@dimen/half_default_margin</item>
+    </style>
+
+    <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/colorDarkHint</item>
+        <item name="android:layout_margin">@dimen/half_default_margin</item>
+    </style>
     <!-- Input for Dark Theme -->
     <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">
         <item name="android:textColor">@color/colorLightText</item>

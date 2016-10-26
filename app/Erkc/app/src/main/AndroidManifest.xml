@@ -49,6 +49,10 @@
             android:name=".modules.address.SearchAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/search_addresses_title"/>
+        <activity
+            android:name=".modules.sendvalues.SendValuesActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:label="@string/search_addresses_title"/>
     </application>
 
 </manifest>
