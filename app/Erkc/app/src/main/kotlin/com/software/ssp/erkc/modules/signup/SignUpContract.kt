@@ -9,6 +9,7 @@ import com.software.ssp.erkc.common.mvp.IView
 interface ISignUpView : IView {
     fun navigateToMain()
     fun setProgressVisibility(isVisible: Boolean)
+    fun fillAddress(name: String)
 }
 
 interface ISignUpPresenter : IPresenter<ISignUpView> {
@@ -21,4 +22,6 @@ interface ISignUpPresenter : IPresenter<ISignUpView> {
             flat: String,
             email: String
     )
+
+    fun onAddressSelected(addressId: Long)
 }

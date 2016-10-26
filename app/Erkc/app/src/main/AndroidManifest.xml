@@ -44,6 +44,11 @@
             android:name=".modules.signup.SignUpActivity"
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
+
+        <activity
+            android:name=".modules.address.SearchAddressActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/search_addresses_title"/>
     </application>
 
 </manifest>

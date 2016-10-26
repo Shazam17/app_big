@@ -10,8 +10,9 @@ open class Address(
         @PrimaryKey
         open var id: Long = 0,
 
-        open var name: String = ""
-) : RealmObject() {
+        open var name: String = "",
 
+        open var query: String = ""
+) : RealmObject() {
 }
 

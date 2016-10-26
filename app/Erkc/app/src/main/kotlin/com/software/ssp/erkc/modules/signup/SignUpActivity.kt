@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.signup
 
+import android.app.Activity
+import android.content.Intent
 import android.lib.recaptcha.ReCaptcha
 import android.os.Bundle
 import android.view.Menu
@@ -9,11 +11,12 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 /**
@@ -68,8 +71,25 @@ class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeList
         startActivity<DrawerActivity>()
     }
 
+    override fun fillAddress(name: String) {
+        streetEditText.setText(name)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constants.REQUEST_CODE_ADDRESS_FIND ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        presenter.onAddressSelected(data!!.getLongExtra(Constants.KEY_ADDRESS_FIND_RESULT, -1))
+                    }
+        }
+    }
+
     private fun initViews() {
         recaptcha.showChallengeAsync(Constants.RECAPTCHA_KEY, this)
+        streetEditText.onClick {
+            startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
+        }
         signUpButton.onClick {
             if (!captchaEditText.text.toString().isEmpty()) {
                 recaptcha.verifyAnswerAsync(Constants.RECAPTCHA_KEY, captchaEditText.text.toString(), {

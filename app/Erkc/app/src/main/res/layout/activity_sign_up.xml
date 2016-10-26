@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:focusable="false"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite" />
 

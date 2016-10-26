@@ -52,7 +52,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     val realm = Realm.getDefaultInstance()
                     realm.executeTransaction {
                         realm.deleteAll()
-                        realm.copyToRealm(dictionaryAddressesResponse.addresses)
+                        for (address in dictionaryAddressesResponse.addresses) {
+                            address.query = address.name.toLowerCase()
+                            realm.copyToRealm(address)
+                        }
+
                     }
 
                     view?.navigateToDrawer()
