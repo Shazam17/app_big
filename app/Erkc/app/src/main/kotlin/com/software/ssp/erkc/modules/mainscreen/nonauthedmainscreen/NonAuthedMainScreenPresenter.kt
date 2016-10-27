@@ -54,19 +54,19 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         var isValid = true
         if(barcode.isNullOrEmpty()){
             isValid = false
-            view?.showErrorBarcodeMessage(R.string.main_screen_not_filled_error)
+            view?.showErrorBarcodeMessage(R.string.error_empty_field)
         }
         if(isWithAddress && street.isNullOrEmpty()){
             isValid = false
-            view?.showErrorStreetMessage(R.string.main_screen_not_filled_error)
+            view?.showErrorStreetMessage(R.string.error_empty_field)
         }
         if(isWithAddress && house.isNullOrEmpty()){
             isValid = false
-            view?.showErrorHouseMessage(R.string.main_screen_not_filled_error)
+            view?.showErrorHouseMessage(R.string.error_empty_field)
         }
         if(isWithAddress && apartment.isNullOrEmpty()){
             isValid = false
-            view?.showErrorApartmentMessage(R.string.main_screen_not_filled_error)
+            view?.showErrorApartmentMessage(R.string.error_empty_field)
         }
         return isValid
     }

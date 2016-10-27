@@ -5,6 +5,11 @@
     <string name="splash_try_again_text">Попробовать еще раз</string>
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
 
+    <!-- InputErrors -->
+    <string name="error_empty_field">Поле не может быть пустым</string>
+    <string name="error_invalid_email">Неверно введен email</string>
+    <string name="error_passwords_not_match">Пароли не совпадают</string>
+
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>
     <string name="drawer_payment_text">Оплата</string>
@@ -30,7 +35,6 @@
     <string name="main_screen_app_functions_hint">Все функции приложения будут\nдоступны после входа</string>
     <string name="main_screen_sign_in_button">Войти</string>
     <string name="main_screen_registration_button">Регистрация</string>
-    <string name="main_screen_not_filled_error">Поле не заполнено</string>
 
     <!-- Sign in -->
     <string name="sing_in_title">Вход</string>
@@ -70,16 +74,10 @@
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
     <string name="user_profile_first_name_hint">Имя</string>
-    <string name="user_profile_street_hint">Улица</string>
-    <string name="user_profile_house_hint">Дом</string>
-    <string name="user_profile_apartment_hint">Квартира</string>
-    <string name="user_profile_phone_hint">Мобильный телефон</string>
-    <string name="user_profile_company_hint">Управляющая компания</string>
     <string name="user_profile_email_hint">Email</string>
-    <string name="user_profile_second_email_hint">Альтернативный Email</string>
     <string name="user_profile_password_hint">Пароль</string>
-    <string name="user_profile_password_confirm_hint">Подтверждение пароля</string>
-    <string name="user_profile_subscribe_check">Подписаться</string>
+    <string name="user_profile_re_password_hint">Повторить пароль</string>
     <string name="user_profile_save_button">Сохранить</string>
+    <string name="user_profile_data_saved">Данные успешно сохранены</string>
 
 </resources>
