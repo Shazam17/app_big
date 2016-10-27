@@ -35,8 +35,8 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                             password)
                 }
                 .concatMap {
-                    authResponse ->
-                    activeSession.accessToken = authResponse.data.access_token
+                    authData ->
+                    activeSession.accessToken = authData.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
                 .subscribe(

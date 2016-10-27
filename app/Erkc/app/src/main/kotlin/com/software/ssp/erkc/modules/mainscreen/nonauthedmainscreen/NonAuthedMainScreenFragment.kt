@@ -101,15 +101,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
             onTextChanged { charSequence, start, before, count ->
                 mainScreenBarcodeLayout.error = null
-            }
 
-            afterTextChanged { text ->
-                text?.let {
-                    if (text.length == 0) {
-                        mainScreenStreetLayout.isEnabled = true
-                        mainScreenHouseLayout.isEnabled = true
-                        mainScreenApartmentLayout.isEnabled = true
-                    }
+                if (charSequence?.length == 0) {
+                    mainScreenStreetLayout.isEnabled = true
+                    mainScreenHouseLayout.isEnabled = true
+                    mainScreenApartmentLayout.isEnabled = true
                 }
             }
         }
@@ -128,7 +124,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
         mainScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hiddenViewForFocus.requestFocus()
+                mainScreenRootLayout.requestFocus()
                 activity.hideKeyboard()
                 true
             } else {

@@ -2,13 +2,10 @@ package com.software.ssp.erkc.modules.drawer
 
 import android.app.Fragment
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -18,7 +15,7 @@ import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
-import org.jetbrains.anko.appcompat.v7.toolbar
+import kotlinx.android.synthetic.main.drawer_header_layout.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -41,20 +38,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 .inject(this)
     }
 
-    enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
-        MAIN(R.string.drawer_main_screen_text, R.id.menuMainScreen),
-        PAYMENT(R.string.drawer_payment_text, R.id.menuPayment),
-        VALUES(R.string.drawer_send_values_text, R.id.menuSendValues),
-        CARDS(R.string.drawer_my_cards_text, R.id.menuMyCards),
-        HISTORY(R.string.drawer_history_text, R.id.menuHistory),
-        AUTOPAY(R.string.drawer_auto_payment_text, R.id.menuAutoPayments),
-        NOTIFY(R.string.drawer_notifications_text, R.id.menuNotifications),
-        SETTINGS(R.string.drawer_settings_text, R.id.menuSettings),
-        TUTORIAL(R.string.drawer_instruction_text, R.id.menuInstructions),
-        CONTACTS(R.string.drawer_contacts_text, R.id.menuContacts),
-        EXIT(R.string.drawer_exit_text, R.id.menuExit)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
@@ -65,20 +48,11 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
         }
 
-        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
-        supportActionBar?.title = getString(selectedDrawerItem.titleId)
-        navigateToModule(selectedDrawerItem)
-
         presenter.onViewAttached()
     }
 
     override fun beforeDestroy() {
         presenter.dropView()
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        drawerToggle?.syncState()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -103,13 +77,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        (drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
-        (drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+        drawerUserNameTextView.text = user.name
+        drawerEmailTextView.text = user.email
     }
 
     override fun clearUserInfo() {
-        (drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = ""
-        (drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = ""
+        drawerUserNameTextView.text = ""
+        drawerEmailTextView.text = ""
     }
 
     override fun setAuthedMenuVisible(isVisible: Boolean) {
@@ -205,5 +179,9 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         drawerLayout.addDrawerListener(drawerToggle as ActionBarDrawerToggle)
         drawerToggle?.syncState()
+
+        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
+        supportActionBar?.title = getString(selectedDrawerItem.titleId)
+        navigateToModule(selectedDrawerItem)
     }
 }

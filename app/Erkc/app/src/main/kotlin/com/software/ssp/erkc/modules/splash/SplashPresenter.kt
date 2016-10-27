@@ -1,7 +1,5 @@
 package com.software.ssp.erkc.modules.splash
 
-import android.net.Uri
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
@@ -27,8 +25,6 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         authenticateApp()
     }
 
-
-
     private fun authenticateApp() {
         subscriptions += authRepository.authenticateApp()
                 .concatMap {
@@ -37,15 +33,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
                 }
                 .concatMap {
-                    response ->
-                    val uri = Uri.parse(response.raw().request().url().toString())
-
-                    if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
-                        val token = uri.getQueryParameter("access_token")
-                        activeSession.appToken = token
-                    } else {
-                        view?.showMessage("cannot fetch token :с")
+                    appToken ->
+                    if(appToken.isNullOrEmpty()){
+                        error("Didn't get application token")
                     }
+                    activeSession.appToken = appToken
                     dictionaryRepo.fetchAddresses(activeSession.appToken!!)
                 }.subscribe({
                     dictionaryAddressesResponse ->
@@ -56,13 +48,12 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                             address.query = address.name.toLowerCase()
                             realm.copyToRealm(address)
                         }
-
                     }
 
                     view?.navigateToDrawer()
                 }, {
                     error ->
-                    view?.showMessage(error.message!!)
+                    view?.showTryAgainSnack(error.message!!)
                 })
     }
 

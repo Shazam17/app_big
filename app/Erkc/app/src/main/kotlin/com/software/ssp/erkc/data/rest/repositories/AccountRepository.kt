@@ -17,8 +17,13 @@ class AccountRepository @Inject constructor(private val accountDataSource: Accou
     }
 
     fun updateUserInfo(token: String, name: String, email: String): Observable<ApiResponse> {
+        val params = hashMapOf(
+                "token" to token,
+                "name" to name,
+                "email" to email)
+
         return accountDataSource
-                .updateUserInfo(token, name, email)
+                .updateUserInfo(params)
                 .compose(this.applySchedulers<ApiResponse>())
     }
 }

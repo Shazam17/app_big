@@ -49,5 +49,4 @@ class SplashActivity : MvpActivity(), ISplashView {
                 .setAction(R.string.splash_try_again_text) {presenter.onTryAgainClicked()}
                 .show()
     }
-
 }
