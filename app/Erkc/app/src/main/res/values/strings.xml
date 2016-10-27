@@ -78,8 +78,6 @@
     <string name="pass_recovery_email_hint">Email</string>
     <string name="pass_recovery_send_button_text">Отправить пароль</string>
     <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
-    <string name="pass_recovery_captcha_wrong_symbols_error">Наверно введены символы с картинки</string>
-    <string name="pass_recovery_captcha_void_field_error">Поле обязательно для ввода</string>
 
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Поиск адреса…</string>

@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 
 class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPresenter<IPasswordRecoveryView>(view), IPasswordRecoveryPresenter {
-    @Inject lateinit var authRepository: AuthRepository
 
+    @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
 
     private var isLoading = false
@@ -41,7 +41,7 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
     override fun onSendButtonClick() {
         if (isLoading) return
         isLoading = true
-        subscriptions += authRepository.recoverPassword(activeSession.accessToken!!, login, email)
+        subscriptions += authRepository.recoverPassword(activeSession.appToken!!, login, email)
                 .flatMap { response ->
                     isLoading = false
                     view?.showMessage(R.string.pass_recovery_sent_message)

@@ -7,11 +7,11 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
-import com.software.ssp.erkc.extensions.onTextChange
 import kotlinx.android.synthetic.main.activity_password_recovery.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onEditorAction
+import org.jetbrains.anko.textChangedListener
 import javax.inject.Inject
 
 
@@ -61,8 +61,14 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
 
-        passwordRecoveryLoginEditText.onTextChange { charSequence -> presenter.onLoginChanged(charSequence.toString()) }
-        passwordRecoveryEmailEditText.onTextChange { charSequence -> presenter.onEmailChanged(charSequence.toString()) }
+        passwordRecoveryLoginEditText.textChangedListener {
+            onTextChanged { text, start, before, count -> presenter.onLoginChanged(text.toString()) }
+        }
+
+        passwordRecoveryEmailEditText.textChangedListener {
+            onTextChanged { text, start, before, count -> presenter.onEmailChanged(text.toString()) }
+        }
+
         passwordRecoveryEmailEditText.onEditorAction { editText, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
                 passwordRecoveryLayout.requestFocus()
