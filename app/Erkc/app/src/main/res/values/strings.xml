@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Erkc</string>
+    <string name="default_empty_list_message_text">Empty list</string>
 
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>

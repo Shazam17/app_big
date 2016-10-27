@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ReceiptsRepository @Inject constructor(private val receiptsDataSource: ReceiptsDataSource) : Repository() {
 
-    fun fetchReceiptInfo(token: String, code: String, street: String, house: String, apart: String): Observable<DataResponse<Receipt>> {
+    fun fetchReceiptInfo(token: String, code: String, street: String, house: String, apart: String): Observable<Receipt> {
         val params = hashMapOf(
                 "token" to token,
                 "code" to code,
@@ -19,5 +19,6 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
         return receiptsDataSource
                 .fetchReceiptInfo(params)
                 .compose(this.applySchedulers<DataResponse<Receipt>>())
+                .map { it.data }
     }
 }

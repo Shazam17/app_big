@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.signin.SignInActivity
@@ -79,13 +80,13 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         startActivity<SignUpActivity>()
     }
 
-    override fun navigateToPaymentScreen() {
+    override fun navigateToPaymentScreen(receipt: Receipt) {
         //TODO: NavigateToPayment
         showMessage("TODO: NavigateToPayment")
     }
 
-    override fun navigateToSendValuesScreen() {
-        //TODO: NavigateToSendValues
+    override fun navigateToEnterValues(receipt: Receipt){
+        //TODO: NavigateToEnterValues
         showMessage("TODO: NavigateToSendValues")
     }
 

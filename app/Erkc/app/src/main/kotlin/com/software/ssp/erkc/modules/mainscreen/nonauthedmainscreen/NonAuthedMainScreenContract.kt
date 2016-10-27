@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
+import com.software.ssp.erkc.data.rest.models.Receipt
 
 
 interface INonAuthedMainScreenView : IView {
@@ -12,8 +13,8 @@ interface INonAuthedMainScreenView : IView {
     fun showScannedBarcode(code: String)
     fun navigateToSignInScreen()
     fun navigateToSignUpScreen()
-    fun navigateToSendValuesScreen()
-    fun navigateToPaymentScreen()
+    fun navigateToEnterValues(receipt: Receipt)
+    fun navigateToPaymentScreen(receipt: Receipt)
     fun showProgressVisible(isVisible: Boolean)
 }
 

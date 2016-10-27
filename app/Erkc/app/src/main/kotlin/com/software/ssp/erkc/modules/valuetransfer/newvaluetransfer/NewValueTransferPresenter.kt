@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
+package com.software.ssp.erkc.modules.valuetransfer.newvaluetransfer
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
@@ -7,12 +7,12 @@ import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
-class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScreenView) : RxPresenter<INonAuthedMainScreenView>(view), INonAuthedMainScreenPresenter {
+class NewValueTransferPresenter @Inject constructor(view: INewValueTransferView) : RxPresenter<INewValueTransferView>(view), INewValueTransferPresenter {
 
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
+    override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean) {
         if(!validFields(barcode, street, house, apartment, isWithAddress)){
             return
         }
@@ -21,29 +21,14 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
         .subscribe(
             { receipt ->
-                //TODO do something with receipt
-
+                view?.navigateToEnterValues(receipt)
                 view?.showProgressVisible(false)
-
-                if(isSendValue) {
-                    view?.navigateToEnterValues(receipt)
-                } else {
-                    view?.navigateToPaymentScreen(receipt)
-                }
             },
             { throwable ->
                 view?.showProgressVisible(false)
                 view?.showMessage(throwable.message.toString())
             }
         )
-    }
-
-    override fun onSignInClick() {
-        view?.navigateToSignInScreen()
-    }
-
-    override fun onSignUpClick() {
-        view?.navigateToSignUpScreen()
     }
 
     override fun onBarCodeScanned(code: String) {
