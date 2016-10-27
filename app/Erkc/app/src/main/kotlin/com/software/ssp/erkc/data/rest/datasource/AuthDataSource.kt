@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.data.rest.datasource
 
-import com.software.ssp.erkc.data.rest.models.CaptchaResponse
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
@@ -21,9 +20,6 @@ interface AuthDataSource {
     @FormUrlEncoded
     @POST
     fun fetchAppToken(@Url url: String, @FieldMap params: Map<String, String>): Observable<Response<ResponseBody>>
-
-    @GET("?method=sys.captcha")
-    fun getCaptcha(@Query("token") token: String): Observable<CaptchaResponse>
 
     @FormUrlEncoded
     @POST("?method=users.recover")

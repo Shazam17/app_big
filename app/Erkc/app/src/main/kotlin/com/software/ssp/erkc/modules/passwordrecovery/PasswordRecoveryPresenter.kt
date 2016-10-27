@@ -8,7 +8,6 @@ import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeWith
 import rx.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -27,18 +26,16 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
     private val READING_DELAY_SECONDS = 3L
 
     override fun onViewAttached() {
-        //  todo uncomment when API will be ready OR delete IF captcha will be removed from project
-        //  fetchCaptchaImage()
     }
 
     override fun onLoginChanged(login: String) {
         this.login = login
-        validateFields()
+        validateCredentials()
     }
 
     override fun onEmailChanged(email: String) {
         this.email = email
-        validateFields()
+        validateCredentials()
     }
 
     override fun onSendButtonClick() {
@@ -52,16 +49,16 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith {
-                    onNext { response -> view?.navigateToSignInScreen() }
-                    onError { throwable ->
-                        isLoading = false
-                        view?.showMessage(throwable.parsedMessage())
-                    }
-                }
+                .subscribe(
+                        { response -> view?.navigateToSignInScreen() },
+                        { throwable ->
+                            isLoading = false
+                            view?.showMessage(throwable.parsedMessage())
+                        }
+                )
     }
 
-    private fun validateFields() {
+    private fun validateCredentials() {
         val isValid = !email.isBlank() && !login.isBlank() && !captcha.isBlank()
         view?.setSendButtonEnabled(isValid)
 

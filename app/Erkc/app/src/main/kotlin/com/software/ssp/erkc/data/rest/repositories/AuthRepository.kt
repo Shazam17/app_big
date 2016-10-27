@@ -2,7 +2,6 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
-import com.software.ssp.erkc.data.rest.models.CaptchaResponse
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
@@ -29,11 +28,6 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
         return authDataSource
                 .fetchAppToken(Constants.API_OAUTH_URL, params)
                 .compose(this.applySchedulers<Response<ResponseBody>>())
-    }
-
-    fun fetchCaptcha(token: String): Observable<CaptchaResponse> {
-        return authDataSource
-                .getCaptcha(token).compose(this.applySchedulers<CaptchaResponse>())
     }
 
     fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<DataResponse<AuthData>> {
