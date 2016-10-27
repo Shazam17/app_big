@@ -42,11 +42,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
                     if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
                         val token = uri.getQueryParameter("access_token")
-                        activeSession.accessToken = token
+                        activeSession.appToken = token
                     } else {
                         view?.showMessage("cannot fetch token :с")
                     }
-                    dictionaryRepo.fetchAddresses(activeSession.accessToken!!)
+                    dictionaryRepo.fetchAddresses(activeSession.appToken!!)
                 }.subscribe({
                     dictionaryAddressesResponse ->
                     val realm = Realm.getDefaultInstance()

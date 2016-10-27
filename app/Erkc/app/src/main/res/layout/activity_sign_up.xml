@@ -11,7 +11,7 @@
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:padding="@dimen/default_margin"
-        tools:context="com.software.ssp.erkc.modules.signup.SignUpActivity">
+        tools:context="com.software.ssp.erkc.modules.userprofile.SignUpActivity">
 
         <android.support.design.widget.TextInputLayout
 

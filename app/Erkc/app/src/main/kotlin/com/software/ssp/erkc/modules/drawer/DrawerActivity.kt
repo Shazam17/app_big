@@ -16,8 +16,11 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
+import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
+import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -156,7 +159,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         drawerHeaderView.onClick {
             drawerLayout.closeDrawers()
-            //TODO Navigate To UserProfile
+            startActivity<UserProfileActivity>()
         }
 
         drawerNavigationView.setNavigationItemSelectedListener { item ->

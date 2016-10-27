@@ -18,6 +18,10 @@
     <color name="colorDarkInput">#FFFFFF</color>
     <color name="colorDarkInputDisabled">#50FFFFFF</color>
 
+    <color name="colorLightHint">#9C8F8F8F</color>
+    <color name="colorLightInput">#8F8F8F</color>
+    <color name="colorLightInputDisabled">#508F8F8F</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
