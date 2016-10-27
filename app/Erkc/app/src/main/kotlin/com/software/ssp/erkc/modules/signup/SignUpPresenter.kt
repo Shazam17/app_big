@@ -23,14 +23,14 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
         subscriptions += authRepository
                 .registration(
-                        activeSession.accessToken!!,
+                        activeSession.appToken!!,
                         name,
                         login,
                         email,
                         password,
                         password2)
                 .concatMap {
-                    authRepository.authenticate(activeSession.accessToken!!,
+                    authRepository.authenticate(activeSession.appToken!!,
                             login,
                             password)
                 }
