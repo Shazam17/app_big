@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -77,8 +78,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        drawerUserNameTextView.text = user.name
-        drawerEmailTextView.text = user.email
+        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
+        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
     }
 
     override fun clearUserInfo() {
