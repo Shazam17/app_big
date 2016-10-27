@@ -76,7 +76,6 @@ class SignInActivity : MvpActivity(), ISignInView {
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.elevation = 0f
 
         signInLoginEditText.textChangedListener {
             onTextChanged { charSequence, i, j, k ->  signInLoginTextInputLayout.error = null}
