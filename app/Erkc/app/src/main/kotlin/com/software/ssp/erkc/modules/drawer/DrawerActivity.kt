@@ -16,10 +16,10 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
-import com.software.ssp.erkc.modules.signin.SignInActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.onClick
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class DrawerActivity : MvpActivity(), IDrawerView {
 
@@ -28,6 +28,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var selectedDrawerItem: DrawerItem = DrawerItem.MAIN
     private var isSelectedDrawerItemChanged = false
+    private var drawerHeaderView: View by Delegates.notNull<View>()
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerDrawerComponent.builder()
@@ -99,15 +100,26 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        val header = drawerNavigationView.getHeaderView(0)
-
-        (header.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
-        (header.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+        (drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
+        (drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
     }
 
-    override fun navigateToLoginScreen() {
-        finish()
-        startActivity<SignInActivity>()
+    override fun clearUserInfo() {
+        (drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = ""
+        (drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = ""
+    }
+
+    override fun setAuthedMenuVisible(isVisible: Boolean) {
+        val menu = drawerNavigationView.menu
+
+        menu.findItem(DrawerItem.CARDS.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.AUTOPAY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.NOTIFY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.SETTINGS.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.EXIT.itemId).isVisible = isVisible
+
+        drawerHeaderView.isEnabled = isVisible
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
@@ -139,6 +151,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        drawerHeaderView = drawerNavigationView.getHeaderView(0)
+
+        drawerHeaderView.onClick {
+            drawerLayout.closeDrawers()
+            //TODO Navigate To UserProfile
+        }
 
         drawerNavigationView.setNavigationItemSelectedListener { item ->
             val id = item.itemId

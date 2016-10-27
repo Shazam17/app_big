@@ -1,7 +1,8 @@
 package com.software.ssp.erkc.data.rest.datasource
 
-import com.software.ssp.erkc.data.rest.models.AuthResponse
 import com.software.ssp.erkc.data.rest.models.CaptchaResponse
+import com.software.ssp.erkc.data.rest.models.AuthData
+import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -12,7 +13,7 @@ interface AuthDataSource {
 
     @FormUrlEncoded
     @POST("?method=users.authorization")
-    fun authenticate(@Field("token") token: String, @Field("login") login: String, @Field("password") password: String): Observable<AuthResponse>
+    fun authenticate(@Field("token") token: String, @Field("login") login: String, @Field("password") password: String): Observable<DataResponse<AuthData>>
 
     @GET
     fun authenticateApp(@Url url: String, @Query("response_type") responseType: String, @Query("client_id") clientId: String): Observable<ResponseBody>
@@ -20,7 +21,6 @@ interface AuthDataSource {
     @FormUrlEncoded
     @POST
     fun fetchAppToken(@Url url: String, @FieldMap params: Map<String, String>): Observable<Response<ResponseBody>>
-
 
     @GET("?method=sys.captcha")
     fun getCaptcha(@Query("token") token: String): Observable<CaptchaResponse>
@@ -31,6 +31,17 @@ interface AuthDataSource {
                          @Field("login") login: String,
                          @Field("email") email: String,
                          @Field("number") number: String
-                         ): Observable<AuthResponse>
+                         ): Observable<DataResponse<AuthData>>
+
+    @FormUrlEncoded
+    @POST("?method=users.registration")
+    fun registration(
+            @Field("token") token: String,
+            @Field("name") name: String,
+            @Field("login") login: String,
+            @Field("email") email: String,
+            @Field("password") password: String,
+            @Field("repassword") repassword: String
+    ): Observable<Response<ResponseBody>>
 
 }

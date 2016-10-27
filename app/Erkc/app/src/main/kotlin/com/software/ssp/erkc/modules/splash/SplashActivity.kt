@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.splash
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
@@ -33,8 +35,19 @@ class SplashActivity : MvpActivity(), ISplashView {
         presenter.dropView()
     }
 
-    override fun navigateToSignIn() {
+    override fun navigateToDrawer() {
         finish()
         startActivity<DrawerActivity>()
     }
+
+    override fun showTryAgainSnack(message: Int) {
+        showTryAgainSnack(getString(message))
+    }
+
+    override fun showTryAgainSnack(message: String) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.splash_try_again_text) {presenter.onTryAgainClicked()}
+                .show()
+    }
+
 }

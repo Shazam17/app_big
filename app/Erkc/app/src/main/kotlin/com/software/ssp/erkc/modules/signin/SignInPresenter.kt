@@ -1,21 +1,12 @@
 package com.software.ssp.erkc.modules.signin
 
-import android.net.Uri
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import okhttp3.ResponseBody
-import org.jsoup.Connection
-import org.jsoup.Jsoup
-import retrofit2.Response
-import rx.Subscriber
 import rx.lang.kotlin.plusAssign
-import java.util.*
 import javax.inject.Inject
 
 
@@ -28,7 +19,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     override fun onViewAttached() {
         super.onViewAttached()
-        authenticateApp()
     }
 
     override fun onLoginButtonClick(email: String, password: String) {
@@ -65,73 +55,26 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.accessToken!!, email, password)
+                .authenticate(activeSession.appToken!!, email, password)
                 .concatMap {
                     authResponse ->
                     activeSession.accessToken = authResponse.data.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
-                .subscribe(object : Subscriber<User>() {
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onError(e: Throwable) {
-                        view?.setProgressVisibility(false)
-                        e.printStackTrace()
-                        view?.showMessage(e.message.toString())
-                    }
-
-                    override fun onNext(user: User) {
-                        activeSession.user = user
-                        view?.setProgressVisibility(false)
-                        view?.navigateToDrawerScreen()
-                    }
-        })
-    }
-
-    private fun authenticateApp() {
-        view?.setProgressVisibility(true)
-
-        subscriptions += authRepository
-                .authenticateApp()
-                .concatMap { response ->
-                    val authPage = response.string()
-                    return@concatMap authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
-                }
-                .subscribe(object : Subscriber<Response<ResponseBody>>() {
-                    override fun onCompleted() {}
-
-                    override fun onError(e: Throwable) {
-                        view?.setProgressVisibility(false)
-                        e.printStackTrace()
-                        view?.showMessage(e.message.toString())
-                    }
-
-                    override fun onNext(response: Response<ResponseBody>) {
-                        view?.setProgressVisibility(false)
-                        val uri = Uri.parse(response.raw().request().url().toString())
-
-                        if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
-                            val token = uri.getQueryParameter("access_token")
-                            activeSession.accessToken = token
-                        } else {
-                            view?.showMessage("cannot fetch token :с")
+                .subscribe(
+                        {
+                            userResponse ->
+                            activeSession.user = userResponse.data
+                            view?.setProgressVisibility(false)
+                            view?.navigateToDrawerScreen()
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            error.printStackTrace()
+                            view?.showMessage(error.message.toString())
                         }
-                    }
-                })
-    }
-
-    private fun fetchParamsFromHtmlPage(page: String) : Map<String, String> {
-        val doc = Jsoup.parse(page)
-        val formData = doc.select("form").forms().first().formData()
-
-        val params = HashMap<String, String>()
-
-        for(item: Connection.KeyVal in formData) {
-            params.put(item.key(), item.value())
-        }
-
-        return params
+                )
     }
 }
+

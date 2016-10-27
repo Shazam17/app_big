@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Erkc</string>
 
+    <!-- Splash -->
+    <string name="splash_try_again_text">Попробовать еще раз</string>
+    <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
+
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>
     <string name="drawer_payment_text">Оплата</string>
@@ -29,6 +33,7 @@
     <string name="main_screen_not_filled_error">Поле не заполнено</string>
 
     <!-- Sign in -->
+    <string name="sing_in_title">Вход</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
     <string name="sign_in_forgot_password_text">Забыли пароль?</string>
@@ -71,5 +76,9 @@
     <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
     <string name="pass_recovery_captcha_wrong_symbols_error">Наверно введены символы с картинки</string>
     <string name="pass_recovery_captcha_void_field_error">Поле обязательно для ввода</string>
+
+    <!-- Address search Screen -->
+    <string name="search_addresses_hint">Поиск адреса…</string>
+    <string name="search_addresses_title"/>
 
 </resources>

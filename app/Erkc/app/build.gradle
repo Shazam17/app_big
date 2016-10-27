@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
-
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -52,6 +52,7 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta1'
 
+
     compile 'com.google.android.gms:play-services-maps:9.6.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -76,7 +77,8 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 
-    compile 'android.lib.recaptcha:reCAPTCHA:+'
+    compile 'android.lib.recaptcha:reCAPTCHA:2.0.0'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

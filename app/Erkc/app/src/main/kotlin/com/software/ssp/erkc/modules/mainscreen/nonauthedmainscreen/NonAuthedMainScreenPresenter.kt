@@ -5,7 +5,6 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeWith
 import javax.inject.Inject
 
 class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScreenView) : RxPresenter<INonAuthedMainScreenView>(view), INonAuthedMainScreenPresenter {
@@ -13,25 +12,30 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean) {
-        if(!validFields(barcode, street, house, apartment)){
+    override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
+        if(!validFields(barcode, street, house, apartment, isWithAddress)){
             return
         }
+        view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.apiToken!!, barcode, street, house, apartment)
-        .subscribeWith {
-            onNext { receipt ->
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+        .subscribe(
+            { receiptResponse ->
                 //TODO do something with receipt
+
+                view?.showProgressVisible(false)
+
                 if(isSendValue) {
                     view?.navigateToSendValuesScreen()
                 } else {
                     view?.navigateToPaymentScreen()
                 }
-            }
-            onError { throwable ->
+            },
+            { throwable ->
+                view?.showProgressVisible(false)
                 view?.showMessage(throwable.message.toString())
             }
-        }
+        )
     }
 
     override fun onSignInClick() {
@@ -46,21 +50,21 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         view?.showScannedBarcode(code)
     }
 
-    private fun validFields(barcode: String, street: String, house: String, apartment: String): Boolean{
+    private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean{
         var isValid = true
         if(barcode.isNullOrEmpty()){
             isValid = false
             view?.showErrorBarcodeMessage(R.string.main_screen_not_filled_error)
         }
-        if(street.isNullOrEmpty()){
+        if(isWithAddress && street.isNullOrEmpty()){
             isValid = false
             view?.showErrorStreetMessage(R.string.main_screen_not_filled_error)
         }
-        if(house.isNullOrEmpty()){
+        if(isWithAddress && house.isNullOrEmpty()){
             isValid = false
             view?.showErrorHouseMessage(R.string.main_screen_not_filled_error)
         }
-        if(apartment.isNullOrEmpty()){
+        if(isWithAddress && apartment.isNullOrEmpty()){
             isValid = false
             view?.showErrorApartmentMessage(R.string.main_screen_not_filled_error)
         }

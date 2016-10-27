@@ -2,8 +2,9 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
-import com.software.ssp.erkc.data.rest.models.AuthResponse
 import com.software.ssp.erkc.data.rest.models.CaptchaResponse
+import com.software.ssp.erkc.data.rest.models.AuthData
+import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import rx.Observable
@@ -12,10 +13,10 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource) : Repository() {
 
-    fun authenticate(token: String, login: String, password: String): Observable<AuthResponse> {
+    fun authenticate(token: String, login: String, password: String): Observable<DataResponse<AuthData>> {
         return authDataSource
                 .authenticate(token, login, password)
-                .compose(this.applySchedulers<AuthResponse>())
+                .compose(this.applySchedulers<DataResponse<AuthData>>())
     }
 
     fun authenticateApp(): Observable<ResponseBody> {
@@ -35,10 +36,13 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 .getCaptcha(token).compose(this.applySchedulers<CaptchaResponse>())
     }
 
-    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<AuthResponse> {
+    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<DataResponse<AuthData>> {
         return authDataSource
                 .recoverPassword(token, login, email, number)
-                .compose(this.applySchedulers<AuthResponse>())
+                .compose(this.applySchedulers<DataResponse<AuthData>>())
     }
 
+    fun registration(token: String, name: String, login: String, email: String, password: String, repassword: String): Observable<Response<ResponseBody>> {
+        return authDataSource.registration(token, name, login, email, password, repassword).compose(this.applySchedulers<Response<ResponseBody>>())
+    }
 }
