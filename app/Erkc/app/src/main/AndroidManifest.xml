@@ -45,6 +45,11 @@
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
 
+        <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:label="@string/pass_recovery_title"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.address.SearchAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"

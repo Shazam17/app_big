@@ -17,4 +17,3 @@ interface ISignInPresenter : IPresenter<ISignInView> {
     fun onLoginButtonClick(email: String, password: String)
     fun onForgotPasswordButtonClick(email: String)
 }
-
