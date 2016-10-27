@@ -57,7 +57,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     }
 
     override fun navigateToForgotPasswordScreen(email: String) {
-        startActivity<PasswordRecoveryActivity>(Constants.KEY_PASSWORD_RECOVERY_EMAIL to email)
+        startActivity<PasswordRecoveryActivity>()
     }
 
     override fun navigateToDrawerScreen() {

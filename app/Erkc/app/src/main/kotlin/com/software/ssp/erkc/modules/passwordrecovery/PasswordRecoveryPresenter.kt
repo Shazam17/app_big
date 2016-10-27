@@ -5,8 +5,12 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.subscribeWith
+import rx.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -19,6 +23,8 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
     private var email: String = ""
     private var login: String = ""
     private var captcha: String = "12345"  //  todo change to "" when API will be ready OR delete IF captcha will be removed from project
+
+    private val READING_DELAY_SECONDS = 3L
 
     override fun onViewAttached() {
         //  todo uncomment when API will be ready OR delete IF captcha will be removed from project
@@ -35,20 +41,19 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
         validateFields()
     }
 
-    override fun onCaptchaChanged(captcha: String) {
-        this.captcha = captcha
-        validateFields()
-    }
-
     override fun onSendButtonClick() {
         if (isLoading) return
         isLoading = true
         subscriptions += authRepository.recoverPassword(activeSession.accessToken!!, login, email)
+                .flatMap { response ->
+                    isLoading = false
+                    view?.showMessage(R.string.pass_recovery_sent_message)
+                    Observable.interval(READING_DELAY_SECONDS, TimeUnit.SECONDS).take(1)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith {
-                    onNext { response ->
-                        isLoading = false
-                        view?.showMessage(R.string.pass_recovery_sent_message)
-                    }
+                    onNext { response -> view?.navigateToSignInScreen() }
                     onError { throwable ->
                         isLoading = false
                         view?.showMessage(throwable.parsedMessage())
@@ -61,19 +66,4 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
         view?.setSendButtonEnabled(isValid)
 
     }
-
-    //  todo delete IF captcha will be removed from project
-    private fun fetchCaptchaImage() {
-        subscriptions += authRepository.fetchCaptcha(activeSession.accessToken!!)
-                .subscribeWith {
-                    onNext { captchaResponse ->
-                        view?.setCaptchaImage(captchaResponse.imageDataBase64)
-                    }
-                    onError {
-                        throwable ->
-                        view?.showMessage(throwable.parsedMessage())
-                    }
-                }
-    }
-
 }

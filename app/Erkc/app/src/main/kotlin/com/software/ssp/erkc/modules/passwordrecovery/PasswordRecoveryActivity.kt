@@ -2,15 +2,12 @@ package com.software.ssp.erkc.modules.passwordrecovery
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.extensions.onTextChange
-import com.software.ssp.erkc.extensions.setBase64Bitmap
 import kotlinx.android.synthetic.main.activity_password_recovery.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
@@ -21,8 +18,6 @@ import javax.inject.Inject
 class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
 
     @Inject lateinit var presenter: IPasswordRecoveryPresenter
-
-    private var passwordRecoveryEmail: String? by extras()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,36 +57,15 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
         onBackPressed()
     }
 
-    override fun setCaptchaImage(imageBase64: String) {
-        passwordRecoveryRecaptchaImageView.setBase64Bitmap(imageBase64)
-    }
-
-
-    override fun showCaptchaError(errorStringResId: Int) {
-        passwordRecoveryCaptchaEditText.requestFocus()
-        passwordRecoveryCaptchaEditText.error = getString(errorStringResId)
-    }
-
     private fun initViews() {
-        setSupportActionBar(passwordRecoveryToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.pass_recovery_title)
-
-        passwordRecoveryEmail?.let {
-            passwordRecoveryEmailEditText.setText(it)
-        }
-
-        //  todo delete when API will be ready OR captcha will be removed from project
-        passwordRecoveryRecaptchaImageView.visibility = View.GONE
-        passwordRecoveryCaptchaEditText.visibility = View.GONE
+        supportActionBar?.elevation = 0f
 
         passwordRecoveryLoginEditText.onTextChange { charSequence -> presenter.onLoginChanged(charSequence.toString()) }
         passwordRecoveryEmailEditText.onTextChange { charSequence -> presenter.onEmailChanged(charSequence.toString()) }
-        passwordRecoveryCaptchaEditText.onTextChange { charSequence -> presenter.onCaptchaChanged(charSequence.toString()) }
-
-        passwordRecoveryCaptchaEditText.onEditorAction { editText, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                onSendButtonClick()
+        passwordRecoveryEmailEditText.onEditorAction { editText, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                passwordRecoveryLayout.requestFocus()
                 true
             } else {
                 false
