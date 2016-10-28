@@ -1,7 +1,5 @@
 package com.software.ssp.erkc.modules.signup
 
-import android.app.Activity
-import android.content.Intent
 import android.lib.recaptcha.ReCaptcha
 import android.os.Bundle
 import android.view.Menu
@@ -11,12 +9,10 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 /**
@@ -97,7 +93,7 @@ class SignUpActivity : MvpActivity(), ISignUpView, ReCaptcha.OnShowChallengeList
             if (!captchaEditText.text.toString().isEmpty()) {
                 recaptcha.verifyAnswerAsync(Constants.RECAPTCHA_PRIVATE_KEY, captchaEditText.text.toString(), this)
             } else {
-                captchaEditText.error ="Поле обязательно для ввода"
+                captchaEditText.error = "Поле обязательно для ввода"
                 captchaEditText.requestFocus()
             }
         }

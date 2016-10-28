@@ -83,6 +83,7 @@
     <string name="search_addresses_hint">Поиск адреса…</string>
     <string name="search_addresses_title"/>
 
+    <string name="none"/>
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
     <string name="user_profile_first_name_hint">Имя</string>
@@ -91,5 +92,10 @@
     <string name="user_profile_re_password_hint">Повторить пароль</string>
     <string name="user_profile_save_button">Сохранить</string>
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
+    <string name="card_status_not_registered">ЗАРЕГИСТРИРОВАТЬ</string>
+    <string name="card_status_registered">АКТИВИРОВАТЬ</string>
+    <string name="card_status_activate"/>
+    <string name="card_status_deleted"/>
+    <string name="cards_empty_text">Здесь вы пожете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
 
 </resources>

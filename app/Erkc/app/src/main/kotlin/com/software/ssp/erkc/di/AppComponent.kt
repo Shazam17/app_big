@@ -3,10 +3,7 @@ package com.software.ssp.erkc.di
 import com.google.gson.Gson
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
-import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
-import com.software.ssp.erkc.data.rest.datasource.DictionaryDataSource
-import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
+import com.software.ssp.erkc.data.rest.datasource.*
 import com.software.ssp.erkc.di.modules.AppModule
 import com.software.ssp.erkc.di.modules.NetworkModule
 import dagger.Component
@@ -23,5 +20,6 @@ interface AppComponent {
     fun provideDictionaryDataSource(): DictionaryDataSource
     fun provideAccountDataSource(): AccountDataSource
     fun provideReceiptsDataSource(): ReceiptsDataSource
+    fun provideCardsDataSource(): CardsDataSource
     fun provideActiveSession(): ActiveSession
 }

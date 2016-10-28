@@ -28,6 +28,9 @@
     <color name="colorWhite60">#99FFFFFF</color>
 
     <color name="colorDarkText">#515151</color>
+    <color name="colorHelp">#acabab</color>
 
     <color name="colorError">#FFC5C5</color>
+
+    <color name="colorCardView">#dddedd</color>
 </resources>

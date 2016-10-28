@@ -4,4 +4,4 @@ import com.google.gson.annotations.SerializedName
 
 class DataResponse<T>(
         @SerializedName("data")
-        val data: T)
+        val data: T?)
