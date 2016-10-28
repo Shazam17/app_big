@@ -13,6 +13,8 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
+import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
+import com.software.ssp.erkc.modules.mainscreen.authedreceiptlist.AuthedReceiptListFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -83,8 +85,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun clearUserInfo() {
-        drawerUserNameTextView.text = ""
-        drawerEmailTextView.text = ""
+        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = ""
+        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = ""
     }
 
     override fun setAuthedMenuVisible(isVisible: Boolean) {
@@ -100,9 +102,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         drawerHeaderView.isEnabled = isVisible
     }
 
+    override fun navigateToMainScreen() {
+        navigateToModule(DrawerItem.MAIN)
+    }
+
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment = when (drawerItem) {
-            DrawerItem.MAIN -> NonAuthedMainScreenFragment()
+            DrawerItem.MAIN -> MainScreenFragment() // todo test
             DrawerItem.PAYMENT -> Fragment()
             DrawerItem.VALUES -> Fragment()
             DrawerItem.CARDS -> Fragment()
