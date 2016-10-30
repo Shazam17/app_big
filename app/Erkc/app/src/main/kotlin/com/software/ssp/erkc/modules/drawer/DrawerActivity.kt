@@ -14,7 +14,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
-import com.software.ssp.erkc.modules.valuetransfer.newvaluetransfer.NewValueTransferFragment
+import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.*
 import org.jetbrains.anko.onClick
@@ -104,7 +104,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         val fragment = when (drawerItem) {
             DrawerItem.MAIN -> NonAuthedMainScreenFragment()
             DrawerItem.PAYMENT -> Fragment()
-            DrawerItem.VALUES -> NewValueTransferFragment()
+            DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> Fragment()
             DrawerItem.HISTORY -> Fragment()
             DrawerItem.AUTOPAY -> Fragment()

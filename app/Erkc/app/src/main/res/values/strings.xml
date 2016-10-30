@@ -93,4 +93,10 @@
     <string name="user_profile_save_button">Сохранить</string>
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
 
+    <!-- Receipts List -->
+    <string name="receipts_transfer_value_button">Передать показания</string>
+    <string name="receipts_pay_button">Оплатить</string>
+    <string name="receipts_last_transfer_text">Последние показания</string>
+    <string name="receipts_last_pay_text">Последняя оплата</string>
+
 </resources>
