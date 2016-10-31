@@ -6,7 +6,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -14,12 +13,10 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
-import com.software.ssp.erkc.modules.mainscreen.authedreceiptlist.AuthedReceiptListFragment
-import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
-import kotlinx.android.synthetic.main.drawer_header_layout.*
+import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -81,13 +78,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
-        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+        drawerHeaderView.drawerUserNameTextView.text = user.name
+        drawerHeaderView.drawerEmailTextView.text = user.email
     }
 
     override fun clearUserInfo() {
-        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = ""
-        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = ""
+        drawerHeaderView.drawerUserNameTextView.text = ""
+        drawerHeaderView.drawerEmailTextView.text = ""
     }
 
     override fun setAuthedMenuVisible(isVisible: Boolean) {

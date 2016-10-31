@@ -1,16 +1,24 @@
 package com.software.ssp.erkc.modules.valuetransfer
 
+import android.app.Fragment
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
-import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import android.view.ViewGroup
+import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.valuetransfer.newvaluetransfer.NewValueTransferFragment
+import com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist.ValueTransferListFragment
 import javax.inject.Inject
 
-class ValueTransferFragment : BaseListFragment<ReceiptsViewModel, IValueTransferView, IValueTransferPresenter>(), IValueTransferView {
+class ValueTransferFragment : MvpFragment(), IValueTransferView {
 
     @Inject lateinit var presenter: IValueTransferPresenter
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater!!.inflate(R.layout.fragment_main_screen, container, false)  // todo change
+    }
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerValueTransferComponent.builder()
@@ -22,9 +30,6 @@ class ValueTransferFragment : BaseListFragment<ReceiptsViewModel, IValueTransfer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initViews()
-
         presenter.onViewAttached()
     }
 
@@ -32,22 +37,17 @@ class ValueTransferFragment : BaseListFragment<ReceiptsViewModel, IValueTransfer
         presenter.dropView()
     }
 
-    override fun onSwipeToRefresh() {
-        presenter.onSwipeToRefresh()
+    override fun navigateToNewValueTransferScreen() {
+        navigateTo(NewValueTransferFragment())
     }
 
-    override fun navigateToSendValues(receipt: Receipt) {
-        //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
+    override fun navigateToValueTransferListScreen() {
+        navigateTo(ValueTransferListFragment())
     }
 
-    override fun createAdapter(): RecyclerView.Adapter<*> {
-        return ValueTransferAdapter(dataset,
-                { receipt -> presenter.onTransferValueClick(receipt) })
-    }
-
-    override fun initViews() {
-        super.initViews()
+    private fun navigateTo(fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+                .replace(R.id.mainScreenLayout, fragment)
+                .commit()
     }
 }
-

@@ -79,6 +79,7 @@ dependencies {
 
     compile 'android.lib.recaptcha:reCAPTCHA:2.0.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'ru.rambler.android:swipe-layout:1.0.14'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

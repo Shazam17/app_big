@@ -7,6 +7,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 
+
 @ActivityScope
 @Component(modules = arrayOf(ValueTransferModule::class), dependencies = arrayOf(AppComponent::class))
 interface ValueTransferComponent {

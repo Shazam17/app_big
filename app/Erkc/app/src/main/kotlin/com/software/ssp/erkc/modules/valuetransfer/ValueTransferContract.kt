@@ -1,15 +1,14 @@
 package com.software.ssp.erkc.modules.valuetransfer
 
-import com.software.ssp.erkc.common.mvp.IListPresenter
-import com.software.ssp.erkc.common.mvp.IListView
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.common.mvp.IPresenter
+import com.software.ssp.erkc.common.mvp.IView
 
 
-interface IValueTransferView : IListView<ReceiptsViewModel> {
-    fun navigateToSendValues(receipt: Receipt)
+interface IValueTransferView : IView {
+    fun navigateToNewValueTransferScreen()
+    fun navigateToValueTransferListScreen()
 }
 
-interface IValueTransferPresenter : IListPresenter<ReceiptsViewModel, IValueTransferView> {
-    fun onTransferValueClick(receipt: Receipt)
+interface IValueTransferPresenter : IPresenter<IValueTransferView> {
 }
 
