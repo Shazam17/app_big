@@ -9,14 +9,16 @@ import com.software.ssp.erkc.common.mvp.IView
 interface ISignUpView : IView {
     fun navigateToDrawerScreen()
     fun setProgressVisibility(isVisible: Boolean)
+    fun showCaptcha(image: ByteArray)
 }
 
 interface ISignUpPresenter : IPresenter<ISignUpView> {
-    fun onRegistrationButtonClick(
+    fun onSignUpButtonClick(
             login: String,
             password: String,
             password2: String,
             name: String,
-            email: String
+            email: String,
+            turing: String
     )
 }

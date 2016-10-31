@@ -4,6 +4,7 @@ import android.net.Uri
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
+import com.software.ssp.erkc.data.rest.models.Captcha
 import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -48,7 +49,25 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 .compose(this.applySchedulers<DataResponse<AuthData>>())
     }
 
-    fun registration(token: String, name: String, login: String, email: String, password: String, repassword: String): Observable<Response<ResponseBody>> {
-        return authDataSource.registration(token, name, login, email, password, repassword).compose(this.applySchedulers<Response<ResponseBody>>())
+    fun registration(token: String,
+                     name: String,
+                     login: String,
+                     email: String,
+                     password: String,
+                     repassword: String,
+                     turing: String): Observable<Response<ResponseBody>> {
+        return authDataSource.registration(mapOf(
+                "token" to token,
+                "name" to name,
+                "login" to login,
+                "email" to email,
+                "password" to password,
+                "repassword" to repassword,
+                "turing" to turing)
+        ).compose(this.applySchedulers<Response<ResponseBody>>())
+    }
+
+    fun getCapcha(token: String): Observable<DataResponse<Captcha>> {
+        return authDataSource.captcha(token).compose(this.applySchedulers<DataResponse<Captcha>>())
     }
 }

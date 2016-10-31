@@ -9,6 +9,7 @@
     <string name="error_empty_field">Поле не может быть пустым</string>
     <string name="error_invalid_email">Неверно введен email</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
+    <string name="error_all_field_required">Все поля обязательны для заполнения</string>
 
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>
@@ -59,6 +60,8 @@
     <string name="sign_up_email_hint">Email</string>
     <string name="sign_up_captcha_hint">Captcha</string>
     <string name="sign_up_registration">Регистрация</string>
+    <string name="captcha_error">Наверно введены символы с картинки</string>
+    <string name="password_not_equals">Пароли не совпадают</string>
 
     <!-- Contacts Screen -->
     <string name="contacts_name">"Единый расчетно-кассовый центр\nг. Томска"\n(УМП "ЕРКЦ г. Томска")</string>

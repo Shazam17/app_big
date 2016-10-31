@@ -4,7 +4,7 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
-import io.realm.Realm
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import rx.lang.kotlin.plusAssign
@@ -19,6 +19,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var dictionaryRepo: DictionaryRepository
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepo: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -34,27 +35,19 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 }
                 .concatMap {
                     appToken ->
-                    if(appToken.isNullOrEmpty()){
+                    if (appToken.isNullOrEmpty()) {
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
                     dictionaryRepo.fetchAddresses(activeSession.appToken!!)
                 }.subscribe({
                     dictionaryAddressesResponse ->
-                    val realm = Realm.getDefaultInstance()
-                    realm.executeTransaction {
-                        realm.deleteAll()
-                        for (address in dictionaryAddressesResponse.addresses) {
-                            address.query = address.name.toLowerCase()
-                            realm.copyToRealm(address)
-                        }
-                    }
-
+                    realmRepo.initByAddresses(dictionaryAddressesResponse.addresses)
                     view?.navigateToDrawer()
                 }, {
                     error ->
                     view?.showTryAgainSnack(error.message!!)
-                })
+        })
     }
 
     override fun onTryAgainClicked() {
