@@ -3,9 +3,12 @@ package com.software.ssp.erkc.modules.sendvalues
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
+import kotlinx.android.synthetic.main.activity_send_values.*
 import javax.inject.Inject
 
 /**
@@ -14,10 +17,12 @@ import javax.inject.Inject
 class SendValuesActivity : MvpActivity(), ISendValuesView {
 
     @Inject lateinit var presenter: ISendValuesPresenter
+    private var receipt: Receipt? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_values)
+        receipt = intent.getParcelableExtra<Receipt>(Constants.KEY_RECEIPT)
         initViews()
         presenter.onViewAttached()
     }
@@ -54,6 +59,11 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
+    }
 
+    private fun fillViews() {
+        barcode.text = receipt?.barcode
+        address.text = receipt?.address
+        debts.text = receipt?.amount
     }
 }

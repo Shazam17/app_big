@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.inDebugMode
 import com.software.ssp.erkc.common.mvp.MvpFragment
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.enabled
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textChangedListener
 import javax.inject.Inject
 
 class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
@@ -84,19 +89,21 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         showMessage("TODO: NavigateToPayment")
     }
 
-    override fun navigateToSendValuesScreen() {
-        //TODO: NavigateToSendValues
-        showMessage("TODO: NavigateToSendValues")
+    override fun navigateToSendValuesScreen(data: Receipt) {
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to data)
     }
 
     override fun showProgressVisible(isVisible: Boolean) {
         mainScreenContinueButton.enabled = !isVisible
         mainScreenSingInButton.enabled = !isVisible
         mainScreenRegistrationButton.enabled = !isVisible
-        mainScreenProgressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        mainScreenProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {
+        inDebugMode {
+            mainScreenBarcodeEditText.setText("0000000000000")
+        }
         mainScreenBarcodeEditText.textChangedListener {
 
             onTextChanged { charSequence, start, before, count ->

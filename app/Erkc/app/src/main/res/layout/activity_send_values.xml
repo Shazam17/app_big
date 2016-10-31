@@ -21,8 +21,9 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/barcode_des"
+                android:id="@+id/barcodeDes"
                 style="@style/BodyTextViewSub"
+                android:text="@string/send_values_barcode_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -39,8 +40,22 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/debts_des"
+                android:id="@+id/debtsDes"
+                android:text="@string/send_values_debts_des"
                 style="@style/BodyTextViewSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/date"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/dateDes"
+                style="@style/BodyTextViewSub"
+                android:text="@string/send_values_date_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

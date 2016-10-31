@@ -72,4 +72,8 @@
     <string name="search_addresses_title"/>
     <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
 
+    <!-- Send values screen -->
+    <string name="send_values_debts_des">Текущая задолженность</string>
+    <string name="send_values_date_des">Расчетный период</string>
+    <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
 </resources>

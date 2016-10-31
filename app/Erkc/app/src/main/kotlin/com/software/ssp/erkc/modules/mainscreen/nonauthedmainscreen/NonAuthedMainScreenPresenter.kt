@@ -26,7 +26,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
                 view?.showProgressVisible(false)
 
                 if(isSendValue) {
-                    view?.navigateToSendValuesScreen()
+                    view?.navigateToSendValuesScreen(receiptResponse.data)
                 } else {
                     view?.navigateToPaymentScreen()
                 }
@@ -52,7 +52,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     private fun validFields(barcode: String): Boolean{
         var isValid = true
-        if(barcode.isNullOrEmpty()){
+        if(barcode.isBlank()){
             isValid = false
             view?.showErrorBarcodeMessage(R.string.main_screen_not_filled_error)
         }
