@@ -22,12 +22,3 @@ data class Card(
         var statusStr: String
 
 )
-
-enum class CardStatus(@StringRes val stringResId: Int) {
-    NONE(R.string.none),
-    NOT_REGISTERED(R.string.card_status_not_registered),
-    REGISTERED(R.string.card_status_registered),
-    ACTIVATED(R.string.card_status_activate),
-    DELETED(R.string.card_status_deleted);
-
-}

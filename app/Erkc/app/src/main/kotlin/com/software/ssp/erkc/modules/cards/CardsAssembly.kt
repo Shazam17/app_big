@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.cards
 
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.scopes.ActivityScope
+import com.software.ssp.erkc.di.scopes.FragmentScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
@@ -10,7 +11,7 @@ import dagger.Provides
 /**
  * @author Alexander Popov on 28/10/2016.
  */
-@ActivityScope
+@FragmentScope
 @Component(modules = arrayOf(CardsModule::class), dependencies = arrayOf(AppComponent::class))
 interface CardsComponent {
     fun inject(cardsFragment: CardsFragment)
@@ -27,7 +28,7 @@ class CardsModule(val cardsView: ICardsView) {
     @Module
     interface Declarations {
         @Binds
-        @ActivityScope
+        @FragmentScope
         fun bindCardsPresener(cardsPresenter: CardsPresenter): ICardsPresenter
     }
 }

@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import com.daimajia.swipe.SwipeLayout
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.models.Card
-import com.software.ssp.erkc.data.rest.models.CardStatus
-import com.software.ssp.erkc.extensions.setBackgroundColorByContextCompat
-import com.software.ssp.erkc.extensions.setCardBackgroundColorByContextCompat
-import com.software.ssp.erkc.extensions.setTextColorByContextCompat
+import com.software.ssp.erkc.extensions.*
 import kotlinx.android.synthetic.main.card_listitem.view.*
 import org.jetbrains.anko.onClick
 
@@ -34,7 +31,7 @@ class CardsAdapter(var cards: List<Card>, val itemEditClick: (Card) -> Unit, val
 
     class ViewHolder(itemView: View, val itemEditClick: (Card) -> Unit, val itemByStatusClick: (Card) -> Unit, val itemDeleteClick: (Card) -> Unit) : RecyclerView.ViewHolder(itemView) {
         fun bindCard(card: Card) {
-            with(itemView) {
+            itemView.apply {
                 name.text = card.name
                 no.text = card.maskCardNo
                 edit.onClick {
@@ -43,16 +40,22 @@ class CardsAdapter(var cards: List<Card>, val itemEditClick: (Card) -> Unit, val
                 status.onClick {
                     itemByStatusClick(card)
                 }
-                updateColors(card)
                 when (card.statusId) {
-                    CardStatus.NOT_REGISTERED.ordinal ->
+                    CardStatus.NOT_REGISTERED.ordinal -> {
+                        updateColors(CardStatus.NOT_REGISTERED)
                         status.text = context.getString(CardStatus.NOT_REGISTERED.stringResId)
-                    CardStatus.REGISTERED.ordinal ->
+                    }
+                    CardStatus.REGISTERED.ordinal -> {
+                        updateColors(CardStatus.NOT_REGISTERED)
                         status.text = context.getString(CardStatus.REGISTERED.stringResId)
-                    CardStatus.ACTIVATED.ordinal ->
+                    }
+                    CardStatus.ACTIVATED.ordinal -> {
+                        updateColors(CardStatus.NOT_REGISTERED)
                         status.text = context.getString(CardStatus.ACTIVATED.stringResId)
-                    CardStatus.DELETED.ordinal ->
+                    }
+                    CardStatus.DELETED.ordinal -> {
                         status.text = context.getString(CardStatus.DELETED.stringResId)
+                    }
                 }
                 swipe.showMode = SwipeLayout.ShowMode.LayDown
                 delete.onClick {
@@ -62,23 +65,13 @@ class CardsAdapter(var cards: List<Card>, val itemEditClick: (Card) -> Unit, val
             }
         }
 
-        fun updateColors(card: Card) {
-            with(itemView) {
-                if (card.statusId == CardStatus.ACTIVATED.ordinal) {
-                    cardView.setCardBackgroundColorByContextCompat(R.color.colorPrimary)
-                    cardContent.setBackgroundColorByContextCompat(R.color.colorPrimary)
-                    name.setTextColorByContextCompat(R.color.colorWhite)
-                    no.setTextColorByContextCompat(R.color.colorWhite)
-//                    status.setTextColorByContextCompat(R.color.colorWhite)
-                    status.visibility = View.INVISIBLE
-                } else {
-                    cardView.setCardBackgroundColorByContextCompat(R.color.colorCardView)
-                    cardContent.setBackgroundColorByContextCompat(R.color.colorCardView)
-                    name.setTextColorByContextCompat(R.color.colorBlack)
-                    no.setTextColorByContextCompat(R.color.colorBlack)
-                    status.setTextColorByContextCompat(R.color.colorBlack)
-                    status.visibility = View.VISIBLE
-                }
+        fun updateColors(cardStatus: CardStatus) {
+            itemView.apply {
+                cardView.setCardBackgroundColorByContextCompat(cardStatus.backgroundColor())
+                cardContent.setBackgroundColorByContextCompat(cardStatus.backgroundColor())
+                name.setTextColorByContextCompat(cardStatus.textColor())
+                no.setTextColorByContextCompat(cardStatus.textColor())
+                status.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
             }
         }
     }
