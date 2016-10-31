@@ -10,9 +10,10 @@ interface IDrawerView : IView {
     fun showUserInfo(user: User)
     fun clearUserInfo()
     fun setAuthedMenuVisible(isVisible: Boolean)
+
+    fun navigateToMainScreen()
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {
-
     fun onLogoutClick()
 }

@@ -36,6 +36,8 @@
     <string name="main_screen_app_functions_hint">Все функции приложения будут\nдоступны после входа</string>
     <string name="main_screen_sign_in_button">Войти</string>
     <string name="main_screen_registration_button">Регистрация</string>
+    <string name="main_screen_non_authed_title"></string>
+    <string name="main_screen_authed_title">Основной экран</string>
 
     <!-- Sign in -->
     <string name="sing_in_title">Вход</string>

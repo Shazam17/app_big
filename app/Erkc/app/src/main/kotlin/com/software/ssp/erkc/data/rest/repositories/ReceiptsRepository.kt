@@ -21,4 +21,11 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<DataResponse<Receipt>>())
                 .map { it.data }
     }
+
+    fun fetchReceipts(token: String): Observable<List<Receipt>>{
+        return receiptsDataSource
+                .fetchReceipts(token)
+                .map { dataresponse -> dataresponse.data }
+                .compose(this.applySchedulers<List<Receipt>>())
+    }
 }

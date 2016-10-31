@@ -1,11 +1,13 @@
 package com.software.ssp.erkc.modules.signin
 
+import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -15,6 +17,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var authProvider: AuthProvider
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var accountRepository: AccountRepository
+    @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onViewAttached() {
@@ -61,10 +64,15 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     activeSession.accessToken = authData.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
+                .concatMap {
+                    userResponse ->
+                    activeSession.user = userResponse.data
+                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
                 .subscribe(
                         {
-                            userResponse ->
-                            activeSession.user = userResponse.data
+                            receipts ->
+                            activeSession.cachedReceipts = receipts
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()
                         },
