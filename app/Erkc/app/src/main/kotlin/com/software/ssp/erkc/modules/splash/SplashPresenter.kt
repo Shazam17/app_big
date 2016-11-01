@@ -5,10 +5,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import org.jsoup.Connection
-import org.jsoup.Jsoup
 import rx.lang.kotlin.plusAssign
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -31,7 +28,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 .concatMap {
                     response ->
                     val authPage = response.string()
-                    authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
+                    authRepository.fetchAppToken(authPage)
                 }
                 .concatMap {
                     appToken ->
@@ -41,29 +38,17 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     activeSession.appToken = appToken
                     dictionaryRepo.fetchAddresses(activeSession.appToken!!)
                 }.subscribe({
-                    dictionaryAddressesResponse ->
-                    realmRepo.initByAddresses(dictionaryAddressesResponse.addresses)
+                    addresses ->
+                    realmRepo.initByAddresses(addresses)
                     view?.navigateToDrawer()
                 }, {
                     error ->
                     view?.showTryAgainSnack(error.message!!)
+                    error.printStackTrace()
         })
     }
 
     override fun onTryAgainClicked() {
         authenticateApp()
-    }
-
-    private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
-        val doc = Jsoup.parse(page)
-        val formData = doc.select("form").forms().first().formData()
-
-        val params = HashMap<String, String>()
-
-        for (item: Connection.KeyVal in formData) {
-            params.put(item.key(), item.value())
-        }
-
-        return params
     }
 }

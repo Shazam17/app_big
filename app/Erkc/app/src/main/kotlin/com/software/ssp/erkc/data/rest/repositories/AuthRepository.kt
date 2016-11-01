@@ -5,10 +5,12 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.Captcha
-import com.software.ssp.erkc.data.rest.models.DataResponse
 import okhttp3.ResponseBody
+import org.jsoup.Connection
+import org.jsoup.Jsoup
 import retrofit2.Response
 import rx.Observable
+import java.util.*
 import javax.inject.Inject
 
 
@@ -17,8 +19,7 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
     fun authenticate(token: String, login: String, password: String): Observable<AuthData> {
         return authDataSource
                 .authenticate(token, login, password)
-                .compose(this.applySchedulers<DataResponse<AuthData>>())
-                .map { it.data }
+                .compose(this.applySchedulers<AuthData>())
     }
 
     fun authenticateApp(): Observable<ResponseBody> {
@@ -27,7 +28,9 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 .compose(this.applySchedulers<ResponseBody>())
     }
 
-    fun fetchAppToken(params: Map<String, String>): Observable<String> {
+    fun fetchAppToken(authHtmlPage: String): Observable<String> {
+        val params: Map<String, String> = fetchParamsFromHtmlPage(authHtmlPage)
+
         return authDataSource
                 .fetchAppToken(Constants.API_OAUTH_URL, params)
                 .compose(this.applySchedulers<Response<ResponseBody>>())
@@ -43,10 +46,10 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 }
     }
 
-    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<DataResponse<AuthData>> {
+    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<AuthData> {
         return authDataSource
                 .recoverPassword(token, login, email, number)
-                .compose(this.applySchedulers<DataResponse<AuthData>>())
+                .compose(this.applySchedulers<AuthData>())
     }
 
     fun registration(token: String,
@@ -67,7 +70,20 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
 
-    fun getCapcha(token: String): Observable<DataResponse<Captcha>> {
-        return authDataSource.captcha(token).compose(this.applySchedulers<DataResponse<Captcha>>())
+    fun getCapcha(token: String): Observable<Captcha> {
+        return authDataSource.captcha(token).compose(this.applySchedulers<Captcha>())
+    }
+
+    private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
+        val doc = Jsoup.parse(page)
+        val formData = doc.select("form").forms().first().formData()
+
+        val params = HashMap<String, String>()
+
+        for (item: Connection.KeyVal in formData) {
+            params.put(item.key(), item.value())
+        }
+
+        return params
     }
 }
