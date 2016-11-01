@@ -37,8 +37,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesErkcInterceptor(): ErkcInterceptor {
-        return ErkcInterceptor()
+    fun providesErkcInterceptor(gson: Gson): ErkcInterceptor {
+        return ErkcInterceptor(gson)
     }
 
     @Provides

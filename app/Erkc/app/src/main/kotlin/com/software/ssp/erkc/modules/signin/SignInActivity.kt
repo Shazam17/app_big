@@ -3,18 +3,15 @@ package com.software.ssp.erkc.modules.signin
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
-import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textChangedListener
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class SignInActivity : MvpActivity(), ISignInView {
@@ -56,7 +53,7 @@ class SignInActivity : MvpActivity(), ISignInView {
         signInProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    override fun navigateToForgotPasswordScreen(email: String) {
+    override fun navigateToForgotPasswordScreen() {
         startActivity<PasswordRecoveryActivity>()
     }
 
@@ -89,7 +86,7 @@ class SignInActivity : MvpActivity(), ISignInView {
         }
 
         signInLoginButton.onClick { presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString())}
-        signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick(signInLoginEditText.text.toString())}
+        signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick()}
     }
 }
 

@@ -25,7 +25,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 getCapcha(activeSession.appToken!!)
                 .subscribe({
                     captcha ->
-                    view?.showCaptcha(captcha.data.image)
+                    view?.showCaptcha(captcha.image)
                 }, {
                     error ->
                     view?.showMessage(error.message!!)
@@ -65,7 +65,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 .subscribe(
                         {
                             userResponse ->
-                            activeSession.user = userResponse.data
+                            activeSession.user = userResponse
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()
                         },
