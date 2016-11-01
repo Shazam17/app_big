@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.splash
 
+import android.text.format.DateUtils
+import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
@@ -7,6 +9,7 @@ import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import org.jsoup.Connection
 import org.jsoup.Jsoup
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import java.util.*
 import javax.inject.Inject
@@ -39,19 +42,30 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
+                        dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                    } else {
+                        Observable.just(null)
+                    }
                 }.subscribe({
-                    dictionaryAddressesResponse ->
-                    realmRepo.initByAddresses(dictionaryAddressesResponse.addresses)
-                    view?.navigateToDrawer()
-                }, {
-                    error ->
-                    view?.showTryAgainSnack(error.message!!)
+            dictionaryAddressesResponse ->
+            if (dictionaryAddressesResponse != null) {
+                realmRepo.saveAddressesList(dictionaryAddressesResponse.addresses)
+            }
+            view?.navigateToDrawer()
+        }, {
+            error ->
+            view?.showTryAgainSnack(error.message!!)
         })
     }
 
     override fun onTryAgainClicked() {
         authenticateApp()
+    }
+
+    override fun onViewDetached() {
+        realmRepo.close()
+        super.onViewDetached()
     }
 
     private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {

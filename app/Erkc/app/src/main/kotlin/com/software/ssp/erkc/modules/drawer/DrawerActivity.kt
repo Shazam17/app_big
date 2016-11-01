@@ -19,6 +19,7 @@ import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMai
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.*
+import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -80,13 +81,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
-        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+        drawerHeaderView.drawerUserNameTextView.text = user.name
+        drawerHeaderView.drawerEmailTextView.text = user.email
     }
 
     override fun clearUserInfo() {
-        (this.drawerHeaderView.findViewById(R.id.drawerUserNameTextView) as TextView).text = ""
-        (this.drawerHeaderView.findViewById(R.id.drawerEmailTextView) as TextView).text = ""
+        drawerHeaderView.drawerUserNameTextView.text = ""
+        drawerHeaderView.drawerEmailTextView.text = ""
     }
 
     override fun setAuthedMenuVisible(isVisible: Boolean) {

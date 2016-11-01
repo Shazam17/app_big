@@ -10,6 +10,7 @@ object Constants {
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
 
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
+    const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val REQUEST_CODE_ADDRESS_FIND = 12402
 

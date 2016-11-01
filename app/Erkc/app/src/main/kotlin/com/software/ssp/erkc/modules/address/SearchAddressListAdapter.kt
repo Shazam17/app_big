@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.models.AddressCache
+import com.software.ssp.erkc.data.db.AddressCache
+import kotlinx.android.synthetic.main.address_item.view.*
 
 /**
  * @author Alexander Popov on 26/10/2016.
@@ -14,14 +15,6 @@ import com.software.ssp.erkc.data.rest.models.AddressCache
 class SearchAddressListAdapter(private val onClick: (AddressCache) -> Unit) : RecyclerView.Adapter<SearchAddressListAdapter.ViewHolder>() {
 
     private var dataSet = emptyList<AddressCache>()
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView
-
-        init {
-            name = view.findViewById(R.id.address) as TextView
-        }
-    }
 
     fun swapData(mNewDataSet: List<AddressCache>) {
         dataSet = mNewDataSet
@@ -45,5 +38,13 @@ class SearchAddressListAdapter(private val onClick: (AddressCache) -> Unit) : Re
 
     override fun getItemCount(): Int {
         return dataSet.count()
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val name: TextView
+
+        init {
+            name = view.addressTextView
+        }
     }
 }

@@ -24,7 +24,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/loginEditText"
+                android:id="@+id/signUpLoginEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -43,7 +43,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/passwordEditText"
+                android:id="@+id/signUpPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -63,7 +63,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/password2EditText"
+                android:id="@+id/signUpPassword2EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -83,7 +83,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/firstNameEditText"
+                android:id="@+id/signUpFirstNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -105,7 +105,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/signUpEmailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -115,7 +115,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <ImageView
-            android:id="@+id/captcha"
+            android:id="@+id/signUpCaptchaImageView"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:scaleType="fitCenter" />
@@ -131,7 +131,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/captchaEditText"
+                android:id="@+id/signUpCaptchaEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"

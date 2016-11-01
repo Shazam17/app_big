@@ -10,7 +10,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.rest.models.AddressCache
+import com.software.ssp.erkc.data.db.AddressCache
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_search_address.*
 import javax.inject.Inject

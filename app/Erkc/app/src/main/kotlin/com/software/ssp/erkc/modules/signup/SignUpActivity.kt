@@ -64,18 +64,18 @@ class SignUpActivity : MvpActivity(), ISignUpView {
     }
 
     override fun showCaptcha(image: ByteArray) {
-        captcha.load(image)
+        signUpCaptchaImageView.load(image)
     }
 
     private fun initViews() {
         signUpButton.onClick {
             presenter.onSignUpButtonClick(
-                    loginEditText.text.toString(),
-                    passwordEditText.text.toString(),
-                    password2EditText.text.toString(),
-                    firstNameEditText.text.toString(),
-                    emailEditText.text.toString(),
-                    captchaEditText.text.toString()
+                    signUpLoginEditText.text.toString(),
+                    signUpPasswordEditText.text.toString(),
+                    signUpPassword2EditText.text.toString(),
+                    signUpFirstNameEditText.text.toString(),
+                    signUpEmailEditText.text.toString(),
+                    signUpCaptchaEditText.text.toString()
             )
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
