@@ -1,33 +1,43 @@
-package com.software.ssp.erkc.modules.mainscreen.authedaddreceipt
+package com.software.ssp.erkc.modules.newreceipt
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
+import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onEditorAction
 import org.jetbrains.anko.toast
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import javax.inject.Inject
 
 
-class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
+class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
-    @Inject lateinit var presenter: IAuthedAddReceiptPresenter
+    @Inject lateinit var presenter: INewReceiptPresenter
+
+    private var isBackVisible = false
+    private var isMainScreen = true
+    private var isPaymentScreen = false
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)  // todo change
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
-        DaggerAuthedAddReceiptScreenComponent.builder()
+        DaggerNewReceiptComponent.builder()
                 .appComponent(appComponent)
-                .authedAddReceiptScreenModule(AuthedAddReceiptScreenModule(this))
+                .newReceiptModule(NewReceiptModule(this))
                 .build()
                 .inject(this)
     }
@@ -52,12 +62,12 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
         toast("navigateToStreetSelectScreen")
     }
 
-    override fun navigateToIPUinputScreen() {
+    override fun navigateToIPUInputScreen(receipt: Receipt) {
         // todo
         toast("navigateToIPUInputScreen")
     }
 
-    override fun navigateToPayScreen() {
+    override fun navigateToPayScreen(receipt: Receipt) {
         // todo
         toast("navigateToPayScreen")
     }
@@ -80,6 +90,17 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
 
     override fun setBarcodeField(barcode: String) {
         barcodeEditText.setText(barcode)
+        streetInputLayout.isEnabled = false
+        houseInputLayout.isEnabled = false
+        apartmentInputLayout.isEnabled = false
+        streetEditText.setText("")
+        houseEditText.setText("")
+        apartmentEditText.setText("")
+    }
+
+    override fun showProgressVisible(isVisible: Boolean) {
+        progressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        continueButton.enabled = !isVisible
     }
 
     private fun initViews() {
@@ -91,7 +112,8 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
                     streetEditText.text.toString(),
                     houseEditText.text.toString(),
                     apartmentEditText.text.toString(),
-                    sendValueCheckBox.isChecked)
+                    sendValueCheckBox.isChecked,
+                    streetInputLayout.isEnabled)
         }
 
         apartmentEditText.onEditorAction { textView, actionId, keyEvent ->
@@ -103,5 +125,9 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
                 false
             }
         }
+
+        val slots = UnderscoreDigitSlotsParser().parseSlots(Constants.BARCODE_FORMAT)
+        val barcodeWatcher = MaskFormatWatcher(MaskImpl.createTerminated(slots))
+        barcodeWatcher.installOn(barcodeEditText)
     }
 }

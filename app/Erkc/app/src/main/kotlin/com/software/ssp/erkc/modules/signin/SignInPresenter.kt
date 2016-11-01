@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.signin
 
-import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -8,6 +7,7 @@ import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.common.receipt.getMockReceiptList
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -73,6 +73,10 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                         {
                             receipts ->
                             activeSession.cachedReceipts = receipts
+
+                            //TODO REMOVE next
+                            activeSession.cachedReceipts = getMockReceiptList().sortedBy { it.address }
+
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()
                         },

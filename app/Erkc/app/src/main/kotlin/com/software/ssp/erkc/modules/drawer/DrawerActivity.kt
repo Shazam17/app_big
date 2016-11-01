@@ -13,6 +13,7 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
+import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -107,7 +108,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment = when (drawerItem) {
             DrawerItem.MAIN -> MainScreenFragment() // todo test
-            DrawerItem.PAYMENT -> Fragment()
+            DrawerItem.PAYMENT -> PaymentScreenFragment()
             DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> Fragment()
             DrawerItem.HISTORY -> Fragment()

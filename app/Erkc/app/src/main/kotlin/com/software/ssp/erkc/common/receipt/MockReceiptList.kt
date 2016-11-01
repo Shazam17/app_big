@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.mainscreen.authedreceiptlist
+package com.software.ssp.erkc.common.receipt
 
 import com.software.ssp.erkc.data.rest.models.Receipt
 

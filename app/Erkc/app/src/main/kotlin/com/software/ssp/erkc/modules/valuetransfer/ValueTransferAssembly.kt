@@ -1,14 +1,14 @@
 package com.software.ssp.erkc.modules.valuetransfer
 
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.di.scopes.ActivityScope
+import com.software.ssp.erkc.di.scopes.FragmentScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
 
-@ActivityScope
+@FragmentScope
 @Component(modules = arrayOf(ValueTransferModule::class), dependencies = arrayOf(AppComponent::class))
 interface ValueTransferComponent {
     fun inject(valueTransferFragment: ValueTransferFragment)
@@ -26,7 +26,7 @@ class ValueTransferModule(val valueTransferView: IValueTransferView) {
     interface Declarations {
 
         @Binds
-        @ActivityScope
+        @FragmentScope
         fun bindValueTransferPresenter(valueTransferPresenter: ValueTransferPresenter): IValueTransferPresenter
     }
 }

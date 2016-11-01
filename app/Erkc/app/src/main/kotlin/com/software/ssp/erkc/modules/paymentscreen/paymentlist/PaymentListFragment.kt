@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
+package com.software.ssp.erkc.modules.paymentscreen.paymentlist
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
@@ -8,18 +8,16 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
+class PaymentListFragment : BaseListFragment<ReceiptSectionViewModel, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
 
-class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
-
-    @Inject lateinit var presenter: IValueTransferListPresenter
+    @Inject lateinit var presenter: IPaymentListPresenter
 
     override fun injectDependencies(appComponent: AppComponent) {
-        DaggerValueTransferListComponent.builder()
+        DaggerPaymentListScreenComponent.builder()
                 .appComponent(appComponent)
-                .valueTransferListModule(ValueTransferListModule(this))
+                .paymentListScreenModule(PaymentListScreenModule(this))
                 .build()
                 .inject(this)
     }
@@ -37,6 +35,10 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
         presenter.onViewAttached()
     }
 
+    override fun beforeDestroy() {
+        presenter.dropView()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.value_transfer_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -45,37 +47,20 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_receipt_add -> {
-                presenter.onAddNewValueTransferClick()
+                presenter.onAddReceiptButtonClick()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun beforeDestroy() {
-        presenter.dropView()
-    }
-
     override fun onSwipeToRefresh() {
         presenter.onSwipeToRefresh()
     }
 
-    override fun navigateToSendValues(receipt: Receipt) {
-        //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
-    }
-
-    override fun navigateToNewValueTransfer() {
-        activity.fragmentManager.beginTransaction()
-                .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
-                .addToBackStack(null)
-                .commit()
-    }
-
     override fun createAdapter(): RecyclerView.Adapter<*> {
-
-        val adapter = ValueTransferAdapter(dataset,
-                { receipt -> presenter.onTransferValueClick(receipt) },
+        val adapter = PaymentListAdapter(dataset,
+                { receipt -> presenter.onPayButtonClick(receipt) },
                 { receipt, position ->
                     dataset.find { it.address == receipt.address }?.receipts?.remove(receipt)
                     adapter?.notifyDataSetChanged()
@@ -86,5 +71,14 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
 
         return adapter
     }
-}
 
+    override fun navigateToAddReceiptScreen() {
+        //TODO: NavigateToAdd
+        showMessage("TODO: NavigateToAdd")
+    }
+
+    override fun navigateToPayScreen(receipt: Receipt) {
+        //TODO: NavigateToPayment
+        showMessage("TODO: NavigateToPayment - " + receipt.barcode)
+    }
+}

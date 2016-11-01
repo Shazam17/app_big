@@ -1,7 +1,8 @@
-package com.software.ssp.erkc.modules.valuetransfer
+package com.software.ssp.erkc.modules.paymentscreen
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,21 +10,22 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
-import com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist.ValueTransferListFragment
+import com.software.ssp.erkc.modules.paymentscreen.paymentlist.PaymentListFragment
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
-class ValueTransferFragment : MvpFragment(), IValueTransferView {
+class PaymentScreenFragment : MvpFragment(), IPaymentScreenView {
 
-    @Inject lateinit var presenter: IValueTransferPresenter
+    @Inject lateinit var presenter: IPaymentScreenPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_with_container, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_with_container, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
-        DaggerValueTransferComponent.builder()
+        DaggerPaymentScreenComponent.builder()
                 .appComponent(appComponent)
-                .valueTransferModule(ValueTransferModule(this))
+                .paymentScreenModule(PaymentScreenModule(this))
                 .build()
                 .inject(this)
     }
@@ -37,15 +39,16 @@ class ValueTransferFragment : MvpFragment(), IValueTransferView {
         presenter.dropView()
     }
 
-    override fun navigateToNewValueTransferScreen() {
-        navigateTo(NewReceiptFragment())
+    override fun navigateToAddReceiptScreen() {
+        showFragment(NewReceiptFragment().withArguments(), R.string.drawer_payment_text)
     }
 
-    override fun navigateToValueTransferListScreen() {
-        navigateTo(ValueTransferListFragment())
+    override fun navigateToPaymentsList() {
+        showFragment(PaymentListFragment(), R.string.drawer_payment_text)
     }
 
-    private fun navigateTo(fragment: Fragment) {
+    private fun showFragment(fragment: Fragment, titleResId: Int) {
+        (activity as AppCompatActivity).supportActionBar?.title = getString(titleResId)
         childFragmentManager.beginTransaction()
                 .replace(R.id.containerLayout, fragment)
                 .commit()

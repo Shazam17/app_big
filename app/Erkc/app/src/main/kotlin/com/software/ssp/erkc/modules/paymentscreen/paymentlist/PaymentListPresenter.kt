@@ -1,23 +1,28 @@
-package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
+package com.software.ssp.erkc.modules.paymentscreen.paymentlist
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.common.receipt.ReceiptType
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import java.util.*
 import javax.inject.Inject
 
-class ValueTransferListPresenter @Inject constructor(view: IValueTransferListView) : RxPresenter<IValueTransferListView>(view), IValueTransferListPresenter {
 
+class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPresenter<IPaymentListView>(view), IPaymentListPresenter {
+
+    @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
     private val dataSet: MutableList<ReceiptSectionViewModel> = ArrayList()
 
     override fun onViewAttached() {
         super.onViewAttached()
-
         onSwipeToRefresh()
+    }
+
+    override fun onItemClick(item: ReceiptSectionViewModel) {
     }
 
     override fun onSwipeToRefresh() {
@@ -45,16 +50,13 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
         view?.showData(dataSet)
     }
 
-    override fun onItemClick(item: ReceiptSectionViewModel) {
-    }
-
-    override fun onTransferValueClick(receiptViewModel: ReceiptViewModel) {
+    override fun onPayButtonClick(receiptViewModel: ReceiptViewModel) {
         val receipt = activeSession.cachedReceipts?.find { it.barcode == receiptViewModel.barcode }
-        view?.navigateToSendValues(receipt!!)
+        view?.navigateToPayScreen(receipt!!)
     }
 
-    override fun onAddNewValueTransferClick() {
-        view?.navigateToNewValueTransfer()
+    override fun onAddReceiptButtonClick() {
+        view?.navigateToAddReceiptScreen()
     }
 
     override fun onReceiptDeleted(receiptViewModel: ReceiptViewModel) {

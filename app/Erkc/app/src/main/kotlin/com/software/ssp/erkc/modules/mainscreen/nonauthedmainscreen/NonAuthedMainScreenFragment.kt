@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -14,6 +15,9 @@ import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
 import org.jetbrains.anko.*
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import javax.inject.Inject
 
 class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
@@ -98,6 +102,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     private fun initViews() {
+
+        val slots = UnderscoreDigitSlotsParser().parseSlots(Constants.BARCODE_FORMAT)
+        val barcodeWatcher = MaskFormatWatcher(MaskImpl.createTerminated(slots))
+        barcodeWatcher.installOn(mainScreenBarcodeEditText)
+
         mainScreenBarcodeEditText.textChangedListener {
 
             onTextChanged { charSequence, start, before, count ->

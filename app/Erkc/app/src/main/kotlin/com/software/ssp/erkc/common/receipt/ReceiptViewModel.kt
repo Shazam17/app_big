@@ -1,7 +1,7 @@
-package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
+package com.software.ssp.erkc.common.receipt
 
 class ReceiptViewModel (
-        var id: String,
+        var id: String?,
         var name: String,
         var address: String,
         var barcode: String,
@@ -10,17 +10,10 @@ class ReceiptViewModel (
         var isAutoPayment: Boolean,
         var isCardLinked: Boolean,
         var lastPayDate: String?,
-        var lastValueTransferDate: String?,
-        var screen: ReceiptScreen
+        var lastValueTransferDate: String?
 )
 
 enum class ReceiptType{
     WATER,
     POWER
-}
-
-enum class ReceiptScreen{
-    MAIN,
-    PAYMENT,
-    VALUE_TRANSFER
 }

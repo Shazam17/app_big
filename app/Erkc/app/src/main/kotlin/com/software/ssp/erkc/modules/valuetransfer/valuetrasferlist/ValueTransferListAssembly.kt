@@ -1,14 +1,14 @@
 package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.di.scopes.ActivityScope
+import com.software.ssp.erkc.di.scopes.FragmentScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
 
-@ActivityScope
+@FragmentScope
 @Component(modules = arrayOf(ValueTransferListModule::class), dependencies = arrayOf(AppComponent::class))
 interface ValueTransferListComponent {
     fun inject(valueTransferListFragment: ValueTransferListFragment)
@@ -26,7 +26,7 @@ class ValueTransferListModule(val valueTransferListView: IValueTransferListView)
     interface Declarations {
 
         @Binds
-        @ActivityScope
+        @FragmentScope
         fun bindValueTransferListPresenter(valueTransferListPresenter: ValueTransferListPresenter): IValueTransferListPresenter
     }
 }

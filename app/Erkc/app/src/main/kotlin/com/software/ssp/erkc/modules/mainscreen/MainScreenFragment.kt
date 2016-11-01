@@ -10,8 +10,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.mainscreen.authedaddreceipt.AuthedAddReceiptFragment
-import com.software.ssp.erkc.modules.mainscreen.authedreceiptlist.AuthedReceiptListFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
+import com.software.ssp.erkc.modules.mainscreen.receiptlist.ReceiptListFragment
 import javax.inject.Inject
 
 class MainScreenFragment : MvpFragment(), IMainScreenView {
@@ -19,7 +19,7 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
     @Inject lateinit var presenter: IMainScreenPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_main_screen, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_with_container, container, false)  // todo change
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -47,14 +47,14 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
         showFragment(AuthedAddReceiptFragment(), R.string.main_screen_authed_title)
     }
 
-    override fun showAuthedReceiptListScreen() {
-        showFragment(AuthedReceiptListFragment(), R.string.main_screen_authed_title)
+    override fun showReceiptListScreen() {
+        showFragment(ReceiptListFragment(), R.string.main_screen_authed_title)
     }
 
     private fun showFragment(fragment: Fragment, titleResId: Int) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(titleResId)
         childFragmentManager.beginTransaction()
-                .replace(R.id.mainScreenLayout, fragment)
+                .replace(R.id.containerLayout, fragment)
                 .commit()
     }
 
