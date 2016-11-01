@@ -54,7 +54,7 @@ class SignInActivity : MvpActivity(), ISignInView {
         signInProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    override fun navigateToForgotPasswordScreen(email: String) {
+    override fun navigateToForgotPasswordScreen() {
         startActivity<PasswordRecoveryActivity>()
     }
 
@@ -79,17 +79,17 @@ class SignInActivity : MvpActivity(), ISignInView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         signInLoginEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k ->  signInLoginTextInputLayout.error = null}
+            onTextChanged { charSequence, i, j, k -> signInLoginTextInputLayout.error = null }
         }
 
         signInPasswordEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k ->  signInPasswordTextInputLayout.error = null}
+            onTextChanged { charSequence, i, j, k -> signInPasswordTextInputLayout.error = null }
         }
 
-        signInLoginButton.onClick { presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString())}
-        signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick(signInLoginEditText.text.toString())}
+        signInLoginButton.onClick { presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString()) }
+        signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }
 
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             signInLoginEditText.setText("kuku")
             signInPasswordEditText.setText("123456")
         }

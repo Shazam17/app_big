@@ -1,10 +1,9 @@
 package com.software.ssp.erkc.modules.address
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.rest.models.Address
-import io.realm.Case
-import io.realm.Realm
-import java.util.*
+import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 /**
@@ -12,22 +11,33 @@ import javax.inject.Inject
  */
 class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxPresenter<ISearchAddressView>(view), ISearchAddressPresenter {
 
+    @Inject lateinit var realmRepo: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
-        val realm = Realm.getDefaultInstance()
-        val results = realm.where(Address::class.java).findAll()
-        view?.showData(ArrayList(results))
+        subscriptions += realmRepo.getAllAddresses()
+                .subscribe({
+                    addresses ->
+                    view?.showData(addresses)
+                })
+
     }
 
-    override fun onItemSelected(address: Address) {
+    override fun onItemSelected(address: AddressCache) {
         view?.navigateToDrawer(address)
     }
 
     override fun onQuery(query: String) {
-        val realm = Realm.getDefaultInstance()
-        val results = realm.where(Address::class.java).contains("query", query.toLowerCase()).findAll()
-        view?.showData(ArrayList(results))
+        subscriptions += realmRepo.getAllAddressesByQuery(query)
+                .subscribe({
+                    addresses ->
+                    view?.showData(addresses)
+                })
+
     }
 
+    override fun onViewDetached() {
+        realmRepo.close()
+        super.onViewDetached()
+    }
 }

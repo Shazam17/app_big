@@ -1,14 +1,14 @@
 package com.software.ssp.erkc.modules.splash
 
+import android.text.format.DateUtils
+import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
-import io.realm.Realm
-import org.jsoup.Connection
-import org.jsoup.Jsoup
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import rx.Observable
 import rx.lang.kotlin.plusAssign
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -19,6 +19,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var dictionaryRepo: DictionaryRepository
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepo: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -30,47 +31,38 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 .concatMap {
                     response ->
                     val authPage = response.string()
-                    authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
+                    authRepository.fetchAppToken(authPage)
                 }
                 .concatMap {
                     appToken ->
-                    if(appToken.isNullOrEmpty()){
+                    if (appToken.isNullOrEmpty()) {
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    dictionaryRepo.fetchAddresses(activeSession.appToken!!)
-                }.subscribe({
-                    dictionaryAddressesResponse ->
-                    val realm = Realm.getDefaultInstance()
-                    realm.executeTransaction {
-                        realm.deleteAll()
-                        for (address in dictionaryAddressesResponse.addresses) {
-                            address.query = address.name.toLowerCase()
-                            realm.copyToRealm(address)
-                        }
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
+                        dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                    } else {
+                        Observable.just(null)
                     }
-
-                    view?.navigateToDrawer()
-                }, {
-                    error ->
-                    view?.showTryAgainSnack(error.message!!)
-                })
+                }.subscribe({
+            addresses ->
+            if (addresses != null) {
+                realmRepo.saveAddressesList(addresses)
+            }
+            view?.navigateToDrawer()
+        }, {
+            error ->
+            view?.showTryAgainSnack(error.message!!)
+            error.printStackTrace()
+        })
     }
 
     override fun onTryAgainClicked() {
         authenticateApp()
     }
 
-    private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
-        val doc = Jsoup.parse(page)
-        val formData = doc.select("form").forms().first().formData()
-
-        val params = HashMap<String, String>()
-
-        for (item: Connection.KeyVal in formData) {
-            params.put(item.key(), item.value())
-        }
-
-        return params
+    override fun onViewDetached() {
+        realmRepo.close()
+        super.onViewDetached()
     }
 }

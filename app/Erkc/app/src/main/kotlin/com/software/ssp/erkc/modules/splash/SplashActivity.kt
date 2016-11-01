@@ -40,10 +40,6 @@ class SplashActivity : MvpActivity(), ISplashView {
         startActivity<DrawerActivity>()
     }
 
-    override fun showTryAgainSnack(message: Int) {
-        showTryAgainSnack(getString(message))
-    }
-
     override fun showTryAgainSnack(message: String) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.splash_try_again_text) {presenter.onTryAgainClicked()}

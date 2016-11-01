@@ -6,32 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.models.Address
-import java.util.*
+import com.software.ssp.erkc.data.db.AddressCache
+import kotlinx.android.synthetic.main.address_item.view.*
 
 /**
  * @author Alexander Popov on 26/10/2016.
  */
-class SearchAddressListAdapter(private val onClick: (Address) -> Unit) : RecyclerView.Adapter<SearchAddressListAdapter.ViewHolder>() {
+class SearchAddressListAdapter(private val onClick: (AddressCache) -> Unit) : RecyclerView.Adapter<SearchAddressListAdapter.ViewHolder>() {
 
-    private var mDataSet = ArrayList<Address>()
+    private var dataSet = emptyList<AddressCache>()
 
-    private var mLastAnimatedItemPosition = -1
-
-    interface OnItemClickListener {
-        fun onClick(address: Address)
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView
-
-        init {
-            name = view.findViewById(R.id.address) as TextView
-        }
-    }
-
-    fun swapData(mNewDataSet: List<Address>) {
-        mDataSet = mNewDataSet as ArrayList<Address>
+    fun swapData(mNewDataSet: List<AddressCache>) {
+        dataSet = mNewDataSet
         notifyDataSetChanged()
     }
 
@@ -42,19 +28,23 @@ class SearchAddressListAdapter(private val onClick: (Address) -> Unit) : Recycle
 
     override fun onBindViewHolder(holder: SearchAddressListAdapter.ViewHolder, position: Int) {
 
-        val address = mDataSet[position]
+        val address = dataSet[position]
         holder.name.text = address.name
 
-        if (mLastAnimatedItemPosition < position) {
-            mLastAnimatedItemPosition = position
+        holder.itemView.setOnClickListener {
+            onClick(dataSet[position])
         }
-
-            holder.itemView.setOnClickListener {
-                onClick(mDataSet[position])
-            }
     }
 
     override fun getItemCount(): Int {
-        return mDataSet.count()
+        return dataSet.count()
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val name: TextView
+
+        init {
+            name = view.addressTextView
+        }
     }
 }

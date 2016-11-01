@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.signup
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
@@ -18,8 +19,29 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var accountRepository: AccountRepository
 
+    override fun onViewAttached() {
+        super.onViewAttached()
+        subscriptions += authRepository.
+                getCapcha(activeSession.appToken!!)
+                .subscribe({
+                    captcha ->
+                    view?.showCaptcha(captcha.image)
+                }, {
+                    error ->
+                    view?.showMessage(error.message!!)
+                })
+    }
 
-    override fun onRegistrationButtonClick(login: String, password: String, password2: String, name: String, email: String) {
+    override fun onSignUpButtonClick(login: String, password: String, password2: String, name: String, email: String, turing: String) {
+        if (login.isBlank()
+                || password.isBlank()
+                || password2.isBlank()
+                || name.isBlank()
+                || email.isBlank()
+                || turing.isBlank()) {
+            view?.showMessage(R.string.error_all_field_required)
+            return
+        }
         view?.setProgressVisibility(true)
         subscriptions += authRepository
                 .registration(
@@ -28,7 +50,8 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                         login,
                         email,
                         password,
-                        password2)
+                        password2,
+                        turing)
                 .concatMap {
                     authRepository.authenticate(activeSession.appToken!!,
                             login,
@@ -42,7 +65,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 .subscribe(
                         {
                             userResponse ->
-                            activeSession.user = userResponse.data
+                            activeSession.user = userResponse
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()
                         },

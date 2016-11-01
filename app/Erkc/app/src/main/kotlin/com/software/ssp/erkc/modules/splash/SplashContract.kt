@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.splash
 
-import android.support.annotation.StringRes
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 
@@ -9,7 +8,6 @@ import com.software.ssp.erkc.common.mvp.IView
  */
 interface ISplashView : IView {
     fun navigateToDrawer()
-    fun showTryAgainSnack(@StringRes message: Int)
     fun showTryAgainSnack(message: String)
 }
 

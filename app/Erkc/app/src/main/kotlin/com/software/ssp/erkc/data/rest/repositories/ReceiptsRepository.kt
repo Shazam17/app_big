@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
-import com.software.ssp.erkc.data.rest.models.DataResponse
 import com.software.ssp.erkc.data.rest.models.Receipt
 import rx.Observable
 import javax.inject.Inject
@@ -18,14 +17,12 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
 
         return receiptsDataSource
                 .fetchReceiptInfo(params)
-                .compose(this.applySchedulers<DataResponse<Receipt>>())
-                .map { it.data }
+                .compose(this.applySchedulers<Receipt>())
     }
 
     fun fetchReceipts(token: String): Observable<List<Receipt>>{
         return receiptsDataSource
                 .fetchReceipts(token)
-                .map { dataresponse -> dataresponse.data }
                 .compose(this.applySchedulers<List<Receipt>>())
     }
 }
