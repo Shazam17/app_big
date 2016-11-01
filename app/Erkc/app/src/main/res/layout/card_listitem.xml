@@ -19,11 +19,11 @@
 
         <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:id="@+id/swipe"
+            android:id="@+id/cardListItemSwipe"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/deleteWrapper"
+                android:id="@+id/cardListItemDeleteWrapper"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/holo_red_light"
@@ -32,7 +32,7 @@
 
                 <ImageButton
                     android:layout_gravity="center"
-                    android:id="@+id/delete"
+                    android:id="@+id/cardListItemDeleteImageButton"
                     android:background="@android:color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -42,11 +42,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cardContent"
+                android:id="@+id/cardListItemCardContent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/cardListItemNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_margin"
@@ -54,7 +54,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1" />
 
                 <TextView
-                    android:id="@+id/no"
+                    android:id="@+id/cardListItemNoTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/default_margin"
@@ -74,14 +74,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/status"
+                        android:id="@+id/cardListItemStatusTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                     <ImageView
-                        android:id="@+id/edit"
+                        android:id="@+id/cardListItemEditImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@android:drawable/ic_dialog_info" />

@@ -18,10 +18,6 @@ class SearchAddressListAdapter(private val onClick: (Address) -> Unit) : Recycle
 
     private var mLastAnimatedItemPosition = -1
 
-    interface OnItemClickListener {
-        fun onClick(address: Address)
-    }
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView
 

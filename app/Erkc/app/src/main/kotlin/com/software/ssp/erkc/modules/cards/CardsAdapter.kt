@@ -32,46 +32,46 @@ class CardsAdapter(var cards: List<Card>, val itemEditClick: (Card) -> Unit, val
     class ViewHolder(itemView: View, val itemEditClick: (Card) -> Unit, val itemByStatusClick: (Card) -> Unit, val itemDeleteClick: (Card) -> Unit) : RecyclerView.ViewHolder(itemView) {
         fun bindCard(card: Card) {
             itemView.apply {
-                name.text = card.name
-                no.text = card.maskCardNo
-                edit.onClick {
+                cardListItemNameTextView.text = card.name
+                cardListItemNoTextView.text = card.maskCardNo
+                cardListItemEditImageView.onClick {
                     itemEditClick(card)
                 }
-                status.onClick {
+                cardListItemStatusTextView.onClick {
                     itemByStatusClick(card)
                 }
                 when (card.statusId) {
                     CardStatus.NOT_REGISTERED.ordinal -> {
                         updateColors(CardStatus.NOT_REGISTERED)
-                        status.text = context.getString(CardStatus.NOT_REGISTERED.stringResId)
+                        cardListItemStatusTextView.text = context.getString(CardStatus.NOT_REGISTERED.stringResId)
                     }
                     CardStatus.REGISTERED.ordinal -> {
                         updateColors(CardStatus.NOT_REGISTERED)
-                        status.text = context.getString(CardStatus.REGISTERED.stringResId)
+                        cardListItemStatusTextView.text = context.getString(CardStatus.REGISTERED.stringResId)
                     }
                     CardStatus.ACTIVATED.ordinal -> {
                         updateColors(CardStatus.NOT_REGISTERED)
-                        status.text = context.getString(CardStatus.ACTIVATED.stringResId)
+                        cardListItemStatusTextView.text = context.getString(CardStatus.ACTIVATED.stringResId)
                     }
                     CardStatus.DELETED.ordinal -> {
-                        status.text = context.getString(CardStatus.DELETED.stringResId)
+                        cardListItemStatusTextView.text = context.getString(CardStatus.DELETED.stringResId)
                     }
                 }
-                swipe.showMode = SwipeLayout.ShowMode.LayDown
-                delete.onClick {
+                cardListItemSwipe.showMode = SwipeLayout.ShowMode.LayDown
+                cardListItemDeleteImageButton.onClick {
                     itemDeleteClick(card)
                 }
-                swipe.addDrag(SwipeLayout.DragEdge.Left, deleteWrapper)
+                cardListItemSwipe.addDrag(SwipeLayout.DragEdge.Left, cardListItemDeleteWrapper)
             }
         }
 
         fun updateColors(cardStatus: CardStatus) {
             itemView.apply {
                 cardView.setCardBackgroundColorByContextCompat(cardStatus.backgroundColor())
-                cardContent.setBackgroundColorByContextCompat(cardStatus.backgroundColor())
-                name.setTextColorByContextCompat(cardStatus.textColor())
-                no.setTextColorByContextCompat(cardStatus.textColor())
-                status.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
+                cardListItemCardContent.setBackgroundColorByContextCompat(cardStatus.backgroundColor())
+                cardListItemNameTextView.setTextColorByContextCompat(cardStatus.textColor())
+                cardListItemNoTextView.setTextColorByContextCompat(cardStatus.textColor())
+                cardListItemStatusTextView.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
             }
         }
     }
