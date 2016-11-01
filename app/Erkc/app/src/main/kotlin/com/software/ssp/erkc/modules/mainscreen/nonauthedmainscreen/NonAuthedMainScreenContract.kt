@@ -15,6 +15,8 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToSendValuesScreen()
     fun navigateToPaymentScreen()
     fun showProgressVisible(isVisible: Boolean)
+    fun fillAddress(houseNo: String, street: String)
+    fun navigateToAddressSelectScreen()
 }
 
 interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
@@ -22,5 +24,7 @@ interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
     fun onSignInClick()
     fun onSignUpClick()
     fun onBarCodeScanned(code: String)
+    fun onAddressSelected(address: String)
+    fun onAddressClick()
 }
 

@@ -1,19 +1,21 @@
 package com.software.ssp.erkc.modules.mainscreen.authedaddreceipt
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import kotlinx.android.synthetic.main.fragment_main_authed_add_receipt.*
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.onEditorAction
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 
@@ -48,9 +50,8 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
         toast("navigateToBarCodeScanScreen")
     }
 
-    override fun navigateToStreetSelectScreen() {
-        // todo
-        toast("navigateToStreetSelectScreen")
+    override fun navigateToAddressSelectScreen() {
+        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
     }
 
     override fun navigateToIPUinputScreen() {
@@ -83,9 +84,25 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
         authedMainAddReceiptScreenBarcodeEditText.setText(barcode)
     }
 
+    override fun fillAddress(street: String, house: String) {
+        authedMainAddReceiptScreenStreetEditText.setText(street)
+        authedMainAddReceiptScreenHouseEditText.setText(house)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            Constants.REQUEST_CODE_ADDRESS_FIND -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+
+        }
+    }
+
     private fun initViews() {
         authedMainAddReceiptBarCodeScanButton.onClick { presenter.onBarCodeScanButtonClick() }
-        authedMainAddReceiptStreetLayout.onClick { presenter.onAddressClick() }
         authedMainAddReceiptScreenContinueButton.onClick {
             presenter.onContinueClick(
                     authedMainAddReceiptScreenBarcodeEditText.text.toString(),
@@ -94,7 +111,12 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
                     authedMainAddReceiptScreenApartmentEditText.text.toString(),
                     authedAddReceiptCounterCheckBox.isChecked)
         }
-
+        authedMainAddReceiptScreenStreetEditText.onClick {
+            presenter.onAddressClick()
+        }
+        authedMainAddReceiptScreenHouseEditText.onClick {
+            presenter.onAddressClick()
+        }
         authedMainAddReceiptScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 mainScreenRootLayout.requestFocus()

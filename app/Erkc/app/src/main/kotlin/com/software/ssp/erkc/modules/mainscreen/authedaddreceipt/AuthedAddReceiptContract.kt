@@ -6,7 +6,7 @@ import com.software.ssp.erkc.common.mvp.IView
 
 interface IAuthedAddReceiptView : IView {
     fun navigateToBarCodeScanScreen()
-    fun navigateToStreetSelectScreen()
+    fun navigateToAddressSelectScreen()
     fun navigateToIPUinputScreen()
     fun navigateToPayScreen()
 
@@ -16,6 +16,7 @@ interface IAuthedAddReceiptView : IView {
     fun showApartmentError(errorStringResId: Int)
 
     fun setBarcodeField(barcode: String)
+    fun fillAddress(street: String, house: String)
 }
 
 interface IAuthedAddReceiptPresenter : IPresenter<IAuthedAddReceiptView> {
@@ -23,4 +24,5 @@ interface IAuthedAddReceiptPresenter : IPresenter<IAuthedAddReceiptView> {
     fun onAddressClick()
     fun onBarCodeScanned(code: String)
     fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isCounterChecked: Boolean)
+    fun onAddressSelected(address: String)
 }

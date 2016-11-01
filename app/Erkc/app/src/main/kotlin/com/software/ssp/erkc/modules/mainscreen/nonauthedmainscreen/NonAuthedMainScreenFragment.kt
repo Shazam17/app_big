@@ -1,14 +1,18 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
@@ -93,7 +97,28 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenContinueButton.enabled = !isVisible
         mainScreenSingInButton.enabled = !isVisible
         mainScreenRegistrationButton.enabled = !isVisible
-        mainScreenProgressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        mainScreenProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            Constants.REQUEST_CODE_ADDRESS_FIND -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+
+        }
+    }
+
+    override fun navigateToAddressSelectScreen() {
+        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
+    }
+
+    override fun fillAddress(houseNo: String, street: String) {
+        mainScreenStreetEditText.setText(street)
+        mainScreenHouseEditText.setText(houseNo)
     }
 
     private fun initViews() {
@@ -110,12 +135,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
             }
         }
 
-        mainScreenStreetEditText.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> mainScreenStreetLayout.error = null }
+        mainScreenStreetEditText.onClick {
+            presenter.onAddressClick()
         }
-
-        mainScreenHouseEditText.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> mainScreenHouseLayout.error = null }
+        mainScreenHouseEditText.onClick {
+            presenter.onAddressClick()
         }
 
         mainScreenApartmentEditText.textChangedListener {
