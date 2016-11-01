@@ -1,8 +1,6 @@
 package com.software.ssp.erkc.data.rest.models
 
-import android.support.annotation.StringRes
 import com.google.gson.annotations.SerializedName
-import com.software.ssp.erkc.R
 
 /**
  * @author Alexander Popov on 28/10/2016.
@@ -21,4 +19,11 @@ data class Card(
         @SerializedName("statusstr")
         var statusStr: String
 
+)
+
+data class CardRegistration(
+        @SerializedName("id")
+        var id: String,
+        @SerializedName("url")
+        var url: String
 )

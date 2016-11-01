@@ -98,4 +98,8 @@
     <string name="card_status_deleted"/>
     <string name="cards_empty_text">Здесь вы пожете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
 
+    <!-- Add card screen -->
+    <string name="add_card_title">Регистрация карты</string>
+    <string name="add_card_name_hint">Название карты</string>
+    <string name="add_card_done">Готово</string>
 </resources>

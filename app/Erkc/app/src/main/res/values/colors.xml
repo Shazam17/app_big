@@ -33,4 +33,7 @@
     <color name="colorError">#FFC5C5</color>
 
     <color name="colorCardView">#dddedd</color>
+
+    <color name="colorGreen">#76b33a</color>
+    <color name="colorRed">#d63818</color>
 </resources>

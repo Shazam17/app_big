@@ -7,7 +7,9 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.addcard.AddCardActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -82,7 +84,7 @@ class CardsFragment : MvpFragment(), ICardsView {
     }
 
     override fun navigateToAddCard() {
-        showMessage("not implemented")
+        startActivity<AddCardActivity>()
     }
 
     override fun navigateToHelp() {

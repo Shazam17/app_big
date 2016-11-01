@@ -44,6 +44,10 @@
             android:name=".modules.signup.SignUpActivity"
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
+        <activity
+            android:name=".modules.addcard.AddCardActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/add_card_title"/>
 
         <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
             android:theme="@style/AppTheme.Dark"
