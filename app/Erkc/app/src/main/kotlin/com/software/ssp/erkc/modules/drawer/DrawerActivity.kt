@@ -16,6 +16,7 @@ import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.mainscreen.authedreceiptlist.AuthedReceiptListFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
+import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.*
@@ -115,7 +116,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.HISTORY -> Fragment()
             DrawerItem.AUTOPAY -> Fragment()
             DrawerItem.NOTIFY -> Fragment()
-            DrawerItem.SETTINGS -> Fragment()
+            DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> Fragment()
             DrawerItem.CONTACTS -> ContactsFragment()
             DrawerItem.EXIT -> {

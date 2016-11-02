@@ -59,6 +59,10 @@
             android:name=".modules.userprofile.UserProfileActivity"
             android:label="@string/user_profile_title" />
 
+        <activity android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
+            android:label="@string/offline_password_title" />
+
+
     </application>
 
 </manifest>

@@ -21,4 +21,9 @@
 
     <dimen name="bottom_sheen_height">?attr/actionBarSize</dimen>
 
+    <!-- Settings -->
+    <dimen name="settings_offline_description_margin_right">52dp</dimen>
+    <dimen name="settings_switch_margin_top">24dp</dimen>
+
+
 </resources>

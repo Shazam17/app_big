@@ -97,4 +97,25 @@
     <string name="user_profile_save_button">Сохранить</string>
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
 
+    <!-- Settings Screen -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_offline_header">Off-line режим</string>
+    <string name="settings_offline_description">Доступ к истории операций, настройки автоплатежа и чтение уведомлений без подключения к интернету</string>
+    <string name="settings_offline_password_header">Off-line пароль</string>
+    <string name="settings_offline_password_button_text">Установить</string>
+    <string name="settings_notification_header">Уведомления</string>
+    <string name="settings_push_label">PUSH сообщения</string>
+    <string name="settings_operation_status_label">Статус операций</string>
+    <string name="settings_news_label">Новости</string>
+    <string name="settings_pay_notes_label">Напоминания об оплате</string>
+    <string name="settings_ipu_notes_label">Напоминания о передаче\nпоказаний ИПУ</string>
+
+    <!-- Offline password Screen -->
+    <string name="offline_password_title">Off-line пароль</string>
+    <string name="offline_password_first_hint">Off-line пароль</string>
+    <string name="offline_password_second_hint">Повторите Off-line пароль</string>
+    <string name="offline_password_second_error">Пароли не совпадают</string>
+    <string name="offline_password_save_button_text">Сохранить</string>
+
+
 </resources>
