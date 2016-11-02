@@ -12,9 +12,9 @@ interface IUserProfileView : IView {
     fun showErrorNameMessage(resId: Int)
     fun showErrorEmailMessage(resId: Int)
     fun showErrorPasswordMessage(resId: Int)
-    fun showCaptcha(image: ByteArray)
+    fun didUserProfileUpdated()
 }
 
 interface IUserProfilePresenter : IPresenter<IUserProfileView> {
-    fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String, captcha: String)
+    fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String)
 }

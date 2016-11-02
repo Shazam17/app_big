@@ -15,12 +15,11 @@ class AccountRepository @Inject constructor(private val accountDataSource: Accou
                 .compose(this.applySchedulers<User>())
     }
 
-    fun updateUserInfo(token: String, name: String, email: String, password: String, rePassword: String, turing: String): Observable<ApiResponse> {
+    fun updateUserInfo(token: String, name: String, email: String, password: String, rePassword: String): Observable<ApiResponse> {
         val params = hashMapOf(
                 "token" to token,
                 "name" to name,
-                "email" to email,
-                "turing" to turing)
+                "email" to email)
 
         if(!password.isNullOrBlank()){
             params.put("password", password)

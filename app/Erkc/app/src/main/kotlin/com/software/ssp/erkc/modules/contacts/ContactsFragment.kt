@@ -4,9 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.text.method.LinkMovementMethod
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,7 +26,14 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
 
     @Inject lateinit var presenter: IContactsPresenter
 
+    private val companyLatitude = 56.473696
+    private val companyLongitude = 84.973129
+    private val mapCameraZoom = 16f
+    private val mapCameraAngle = 0f
+    private val mapCameraBearing = 0f
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        setHasOptionsMenu(true)
         return inflater!!.inflate(R.layout.fragment_contacts, container, false)
     }
 
@@ -46,16 +51,21 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         initViews()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onMapReady(map: GoogleMap) {
         map.uiSettings?.isCompassEnabled = false
 
-        val location = LatLng(56.473696, 84.973129)
+        val location = LatLng(companyLatitude, companyLongitude)
 
         val marker = MarkerOptions()
         marker.position(location)
         marker.title(getString(com.software.ssp.erkc.R.string.contacts_map_marker_title))
 
-        val cameraPosition = CameraPosition(location, 16f, 0f, 0f)
+        val cameraPosition = CameraPosition(location, mapCameraZoom, mapCameraAngle, mapCameraBearing)
 
         val cameraUpdatePosition = CameraUpdateFactory.newCameraPosition(cameraPosition)
 

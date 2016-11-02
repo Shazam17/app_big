@@ -76,7 +76,7 @@
         android:id="@+id/phoneLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/quarter_default_margin"
+        android:paddingTop="@dimen/quarter_default_margin"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:background="@color/colorWhite60"
@@ -135,7 +135,7 @@
     <FrameLayout
         android:id="@+id/bottomSheetLayout"
         android:layout_width="0dp"
-        android:layout_height="@dimen/bottom_sheet_height"
+        android:layout_height="56dp"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

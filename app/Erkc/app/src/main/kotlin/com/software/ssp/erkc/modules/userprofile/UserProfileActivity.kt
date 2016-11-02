@@ -9,7 +9,6 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
-import com.software.ssp.erkc.extensions.load
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onEditorAction
@@ -20,6 +19,12 @@ import javax.inject.Inject
 class UserProfileActivity : MvpActivity(), IUserProfileView {
 
     @Inject lateinit var presenter: IUserProfilePresenter
+
+    companion object {
+        val USER_PROFILE_TAG = 23512
+
+        val USER_PROFILE_UPDATED = 23513
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,10 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
         progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
+    override fun didUserProfileUpdated() {
+        setResult(USER_PROFILE_UPDATED)
+    }
+
     override fun close() {
         finish()
     }
@@ -74,10 +83,6 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     override fun showErrorPasswordMessage(resId: Int) {
         passwordInputLayout.error = getString(resId)
         rePasswordInputLayout.error = getString(resId)
-    }
-
-    override fun showCaptcha(image: ByteArray) {
-        captchaImageView.load(image)
     }
 
     private fun initViews() {
@@ -107,13 +112,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
             }
         }
 
-        captchaEditText.textChangedListener {
-            onTextChanged { charSequence, begin, end, count ->
-                captchaInputLayout.error = null
-            }
-        }
-
-        captchaEditText.onEditorAction { textView, id, keyEvent ->
+        rePasswordEditText.onEditorAction { textView, id, keyEvent ->
             if (id == EditorInfo.IME_ACTION_DONE) {
                 rootLayout.requestFocus()
                 hideKeyboard()
@@ -128,8 +127,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
                     nameEditText.text.toString(),
                     emailEditText.text.toString(),
                     passwordEditText.text.toString(),
-                    rePasswordEditText.text.toString(),
-                    captchaEditText.text.toString()
+                    rePasswordEditText.text.toString()
             )
         }
     }
