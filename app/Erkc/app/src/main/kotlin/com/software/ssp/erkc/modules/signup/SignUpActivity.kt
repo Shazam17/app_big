@@ -75,6 +75,10 @@ class SignUpActivity : MvpActivity(), ISignUpView {
                     signUpCaptchaEditText.text.toString()
             )
         }
+        signUpCaptchaImageView.onClick {
+            signUpCaptchaImageView.setImageResource(android.R.color.transparent)
+            presenter.onCaptchaClick()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
     }

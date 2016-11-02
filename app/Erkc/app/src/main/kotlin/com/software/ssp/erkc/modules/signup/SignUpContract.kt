@@ -21,4 +21,6 @@ interface ISignUpPresenter : IPresenter<ISignUpView> {
             email: String,
             turing: String
     )
+
+    fun onCaptchaClick()
 }

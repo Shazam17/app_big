@@ -33,6 +33,18 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 })
     }
 
+    override fun onCaptchaClick() {
+        subscriptions += authRepository.
+                getCapcha(activeSession.appToken!!)
+                .subscribe({
+                    captcha ->
+                    view?.showCaptcha(captcha.image)
+                }, {
+                    error ->
+                    view?.showMessage(error.message!!)
+                })
+    }
+
     override fun onSignUpButtonClick(login: String, password: String, password2: String, name: String, email: String, turing: String) {
         if (login.isBlank()
                 || password.isBlank()
