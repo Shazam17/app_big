@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.newreceipt
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -10,11 +12,9 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
 import org.jetbrains.anko.*
-import ru.tinkoff.decoro.MaskImpl
-import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
-import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import javax.inject.Inject
 
 
@@ -51,13 +51,22 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constants.REQUEST_CODE_BARCODE_SCAN ->
+                if (resultCode == Activity.RESULT_OK) {
+                    presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
+                }
+        }
+    }
+
     override fun beforeDestroy() {
         presenter.dropView()
     }
 
     override fun navigateToBarCodeScanScreen() {
-        // todo
-        toast("navigateToBarCodeScanScreen")
+        startActivityForResult<BarcodeScannerActivity>(Constants.REQUEST_CODE_BARCODE_SCAN)
     }
 
     override fun navigateToStreetSelectScreen() {
@@ -107,10 +116,6 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     private fun initViews() {
-        val slots = UnderscoreDigitSlotsParser().parseSlots(Constants.BARCODE_FORMAT)
-        val barcodeWatcher = MaskFormatWatcher(MaskImpl.createTerminated(slots))
-        barcodeWatcher.installOn(barcodeEditText)
-
         barcodeEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
                 barcodeInputLayout.error = null

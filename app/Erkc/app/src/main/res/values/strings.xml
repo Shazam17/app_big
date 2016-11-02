@@ -11,6 +11,7 @@
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
     <string name="error_all_field_required">Все поля обязательны для заполнения</string>
+    <string name="error_invalid_email">Неверно введен email</string>
 
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>
@@ -60,7 +61,7 @@
     <string name="sign_up_street_hint">Улица</string>
     <string name="sign_up_flat_hint">Квартинра</string>
     <string name="sign_up_email_hint">Email</string>
-    <string name="sign_up_captcha_hint">Captcha</string>
+    <string name="sign_up_captcha_hint">Код с изображения</string>
     <string name="sign_up_registration">Регистрация</string>
     <string name="captcha_error">Наверно введены символы с картинки</string>
     <string name="password_not_equals">Пароли не совпадают</string>

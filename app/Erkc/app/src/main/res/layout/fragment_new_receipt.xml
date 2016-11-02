@@ -24,7 +24,6 @@
             android:id="@+id/barcodeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits=" 0123456789"
             android:inputType="number"
             android:maxLines="1"
             android:paddingEnd="30dp" />
@@ -127,7 +126,7 @@
     <FrameLayout
         android:id="@+id/bottomSheetLayout"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/bottom_sheet_height"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

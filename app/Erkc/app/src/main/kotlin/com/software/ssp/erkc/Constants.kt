@@ -19,8 +19,5 @@ object Constants {
     const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val REQUEST_CODE_ADDRESS_FIND = 12402
-
-    const val BARCODE_FORMAT = "___ ___ _____ __"
-
 }
 

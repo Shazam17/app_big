@@ -19,11 +19,11 @@
     <dimen name="google_caption_text_size">12dp</dimen>
     <dimen name="small_text_size">10dp</dimen>
 
-    <dimen name="bottom_sheet_height">?attr/actionBarSize</dimen>
 
     <!-- Settings -->
     <dimen name="settings_offline_description_margin_right">52dp</dimen>
     <dimen name="settings_switch_margin_top">24dp</dimen>
 
+    <dimen name="bottom_sheet_height">56dp</dimen>
 
 </resources>

@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.mainscreen.authedaddreceipt.AuthedAddReceiptFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.mainscreen.receiptlist.ReceiptListFragment
+import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
 class MainScreenFragment : MvpFragment(), IMainScreenView {
@@ -43,8 +43,8 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
         showFragment(NonAuthedMainScreenFragment(), R.string.main_screen_non_authed_title)
     }
 
-    override fun showAuthedAddReceiptScreen() {
-        showFragment(AuthedAddReceiptFragment(), R.string.main_screen_authed_title)
+    override fun showAddReceiptScreen() {
+        showFragment(NewReceiptFragment(), R.string.main_screen_authed_title)
     }
 
     override fun showReceiptListScreen() {
