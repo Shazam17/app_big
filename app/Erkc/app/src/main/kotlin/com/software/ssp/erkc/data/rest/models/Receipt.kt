@@ -16,4 +16,7 @@ class Receipt (
         val address: String,
         @SerializedName("barcode")
         val barcode: String) : PaperParcelable {
+        companion object {
+                @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
+        }
 }

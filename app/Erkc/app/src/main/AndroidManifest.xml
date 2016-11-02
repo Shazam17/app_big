@@ -51,8 +51,8 @@
             android:label="@string/search_addresses_title"/>
         <activity
             android:name=".modules.sendvalues.SendValuesActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/search_addresses_title"/>
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/send_values_title"/>
     </application>
 
 </manifest>

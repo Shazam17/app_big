@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
-
+        <item name="titleTextColor">@color/colorWhite</item>
         <item name="colorControlNormal">@color/colorWhite60</item>
         <item name="colorControlActivated">@color/colorWhite</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
