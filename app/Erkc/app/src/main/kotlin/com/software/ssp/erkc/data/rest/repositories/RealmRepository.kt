@@ -36,26 +36,21 @@ class RealmRepository @Inject constructor(val realm: Realm) : Repository() {
     }
 
     fun fetchOfflineSettings(login: String): Observable<OfflineUserSettings> {
-        return Observable.create<OfflineUserSettings> { sub ->
-            try {
-                val settings: OfflineUserSettings
-                val result = realm.where(OfflineUserSettings::class.java)
-                        .equalTo("login", login)
-                        .findAll().firstOrNull()
 
-                if (result == null) {
-                    settings = OfflineUserSettings(login)
+        return realm
+                .where(OfflineUserSettings::class.java)
+                .equalTo("login", login)
+                .findAllAsync()
+                .asObservable()
+                .flatMap { results ->
+                    val firstResult = results.firstOrNull()
+                    if(firstResult == null){
+                        Observable.just(OfflineUserSettings(login))
+                    }
+                    else{
+                        Observable.just(realm.copyFromRealm(firstResult))
+                    }
                 }
-                else{
-                    settings = realm.copyFromRealm(result)
-                }
-
-                sub.onNext(settings)
-                sub.onCompleted()
-            } catch (throwable: Throwable) {
-                sub.onError(throwable)
-            }
-        }
     }
 
     fun updateOfflineSettings(userSettings: OfflineUserSettings): Observable<Boolean> {
