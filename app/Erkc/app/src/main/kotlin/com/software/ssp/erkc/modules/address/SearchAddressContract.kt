@@ -2,7 +2,7 @@ package com.software.ssp.erkc.modules.address
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.rest.models.AddressCache
+import com.software.ssp.erkc.data.db.AddressCache
 
 /**
  * @author Alexander Popov on 25/10/2016.

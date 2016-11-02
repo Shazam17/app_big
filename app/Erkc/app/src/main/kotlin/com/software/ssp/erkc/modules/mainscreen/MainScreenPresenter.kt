@@ -12,7 +12,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
         when {
             activeSession.user == null -> view?.showNonAuthedScreen()
             activeSession.cachedReceipts == null || activeSession.cachedReceipts!!.isEmpty() -> view?.showAuthedAddReceiptScreen()
-            else -> view?.showAuthedAddReceiptScreen()
+            else -> view?.showReceiptListScreen()
         }
     }
 }

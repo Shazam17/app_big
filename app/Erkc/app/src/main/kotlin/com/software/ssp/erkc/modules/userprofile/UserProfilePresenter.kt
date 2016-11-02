@@ -61,7 +61,7 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         } else {
             if(!email.isEmail()){
                 isValid = false
-                view?.showErrorEmailMessage(R.string.error_invalid_email)
+                view?.showErrorEmailMessage(R.string.error_invalid_login)
             }
         }
 

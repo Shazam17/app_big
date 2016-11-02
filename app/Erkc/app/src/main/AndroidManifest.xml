@@ -3,6 +3,8 @@
     package="com.software.ssp.erkc">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".ErkcApplication"
@@ -45,6 +47,11 @@
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
 
+        <activity
+            android:name=".modules.barcodescanner.BarcodeScannerActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:label="@string/barcode_scanner_title"/>
+
         <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
             android:theme="@style/AppTheme.Dark"
             android:label="@string/pass_recovery_title"
@@ -59,10 +66,14 @@
             android:name=".modules.userprofile.UserProfileActivity"
             android:label="@string/user_profile_title" />
 
+<<<<<<< HEAD
         <activity android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
             android:label="@string/offline_password_title" />
 
 
+=======
+>>>>>>> develop
+>>>>>>> develop
     </application>
 
 </manifest>

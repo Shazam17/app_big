@@ -1,14 +1,14 @@
 package com.software.ssp.erkc.modules.splash
 
+import android.text.format.DateUtils
+import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import org.jsoup.Connection
-import org.jsoup.Jsoup
+import rx.Observable
 import rx.lang.kotlin.plusAssign
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -31,7 +31,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 .concatMap {
                     response ->
                     val authPage = response.string()
-                    authRepository.fetchAppToken(fetchParamsFromHtmlPage(authPage))
+                    authRepository.fetchAppToken(authPage)
                 }
                 .concatMap {
                     appToken ->
@@ -39,14 +39,21 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
+                        dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                    } else {
+                        Observable.just(null)
+                    }
                 }.subscribe({
-                    dictionaryAddressesResponse ->
-                    realmRepo.initByAddresses(dictionaryAddressesResponse.addresses)
-                    view?.navigateToDrawer()
-                }, {
-                    error ->
-                    view?.showTryAgainSnack(error.message!!)
+            addresses ->
+            if (addresses != null) {
+                realmRepo.saveAddressesList(addresses)
+            }
+            view?.navigateToDrawer()
+        }, {
+            error ->
+            view?.showTryAgainSnack(error.message!!)
+            error.printStackTrace()
         })
     }
 
@@ -54,16 +61,8 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         authenticateApp()
     }
 
-    private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {
-        val doc = Jsoup.parse(page)
-        val formData = doc.select("form").forms().first().formData()
-
-        val params = HashMap<String, String>()
-
-        for (item: Connection.KeyVal in formData) {
-            params.put(item.key(), item.value())
-        }
-
-        return params
+    override fun onViewDetached() {
+        realmRepo.close()
+        super.onViewDetached()
     }
 }

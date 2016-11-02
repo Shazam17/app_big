@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.signin
 
-import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -8,6 +7,7 @@ import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.common.receipt.getMockReceiptList
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -24,24 +24,24 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         super.onViewAttached()
     }
 
-    override fun onLoginButtonClick(email: String, password: String) {
-        if (validateFields(email, password)) {
-            login(email, password)
+    override fun onLoginButtonClick(login: String, password: String) {
+        if (validateFields(login, password)) {
+            login(login, password)
         }
     }
 
-    override fun onForgotPasswordButtonClick(email: String) {
-        view?.navigateToForgotPasswordScreen(email)
+    override fun onForgotPasswordButtonClick() {
+        view?.navigateToForgotPasswordScreen()
     }
 
     // ===========================================================
     // Methods
     // ===========================================================
 
-    private fun validateFields(email: String?, password: String?): Boolean {
+    private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
 
-        if (email == null || email.isEmpty()) {
+        if (login == null || login.isEmpty()) {
             isValid = false
             view?.showLoginFieldError(R.string.sign_in_error_fill_login_text)
         }
@@ -66,13 +66,17 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 }
                 .concatMap {
                     userResponse ->
-                    activeSession.user = userResponse.data
+                    activeSession.user = userResponse
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)
                 }
                 .subscribe(
                         {
                             receipts ->
                             activeSession.cachedReceipts = receipts
+
+                            //TODO REMOVE next
+                            activeSession.cachedReceipts = getMockReceiptList().sortedBy { it.address }
+
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()
                         },

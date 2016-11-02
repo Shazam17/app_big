@@ -9,8 +9,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_main_authed_add_receipt.*
-import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
+import kotlinx.android.synthetic.main.fragment_new_receipt.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onEditorAction
 import org.jetbrains.anko.toast
@@ -22,7 +21,7 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
     @Inject lateinit var presenter: IAuthedAddReceiptPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_main_authed_add_receipt, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)  // todo change
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -55,7 +54,7 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
 
     override fun navigateToIPUinputScreen() {
         // todo
-        toast("navigateToIPUinputScreen")
+        toast("navigateToIPUInputScreen")
     }
 
     override fun navigateToPayScreen() {
@@ -64,40 +63,40 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
     }
 
     override fun showBarcodeError(errorStringResId: Int) {
-        authedMainAddReceiptScreenBarcodeLayout.error = getString(errorStringResId)
+        barcodeInputLayout.error = getString(errorStringResId)
     }
 
     override fun showStreetError(errorStringResId: Int) {
-        authedMainAddReceiptScreenStreetEditText.error = getString(errorStringResId)
+        streetInputLayout.error = getString(errorStringResId)
     }
 
     override fun showHouseError(errorStringResId: Int) {
-        authedMainAddReceiptScreenHouseEditText.error = getString(errorStringResId)
+        houseInputLayout.error = getString(errorStringResId)
     }
 
     override fun showApartmentError(errorStringResId: Int) {
-        authedMainAddReceiptScreenApartmentEditText.error = getString(errorStringResId)
+        apartmentInputLayout.error = getString(errorStringResId)
     }
 
     override fun setBarcodeField(barcode: String) {
-        authedMainAddReceiptScreenBarcodeEditText.setText(barcode)
+        barcodeEditText.setText(barcode)
     }
 
     private fun initViews() {
-        authedMainAddReceiptBarCodeScanButton.onClick { presenter.onBarCodeScanButtonClick() }
-        authedMainAddReceiptStreetLayout.onClick { presenter.onAddressClick() }
-        authedMainAddReceiptScreenContinueButton.onClick {
+        barCodeScanButton.onClick { presenter.onBarCodeScanButtonClick() }
+        streetInputLayout.onClick { presenter.onAddressClick() }
+        continueButton.onClick {
             presenter.onContinueClick(
-                    authedMainAddReceiptScreenBarcodeEditText.text.toString(),
-                    authedMainAddReceiptScreenStreetEditText.text.toString(),
-                    authedMainAddReceiptScreenHouseEditText.text.toString(),
-                    authedMainAddReceiptScreenApartmentEditText.text.toString(),
-                    authedAddReceiptCounterCheckBox.isChecked)
+                    barcodeEditText.text.toString(),
+                    streetEditText.text.toString(),
+                    houseEditText.text.toString(),
+                    apartmentEditText.text.toString(),
+                    sendValueCheckBox.isChecked)
         }
 
-        authedMainAddReceiptScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->
+        apartmentEditText.onEditorAction { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                mainScreenRootLayout.requestFocus()
+                rootLayout.requestFocus()
                 activity.hideKeyboard()
                 true
             } else {
@@ -105,5 +104,4 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
             }
         }
     }
-
 }

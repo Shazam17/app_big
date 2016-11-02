@@ -7,7 +7,7 @@ import com.software.ssp.erkc.common.mvp.IView
 interface IMainScreenView: IView {
     fun showNonAuthedScreen()
     fun showAuthedAddReceiptScreen()
-    fun showAuthedReceiptListScreen()
+    fun showReceiptListScreen()
 }
 
 interface IMainScreenPresenter: IPresenter<IMainScreenView>{

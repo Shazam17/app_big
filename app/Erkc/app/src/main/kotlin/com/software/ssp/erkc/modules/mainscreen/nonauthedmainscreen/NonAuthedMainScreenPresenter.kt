@@ -20,15 +20,15 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
         subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
         .subscribe(
-            { receiptResponse ->
+            { receipt ->
                 //TODO do something with receipt
 
                 view?.showProgressVisible(false)
 
                 if(isSendValue) {
-                    view?.navigateToSendValuesScreen()
+                    view?.navigateToEnterValues(receipt)
                 } else {
-                    view?.navigateToPaymentScreen()
+                    view?.navigateToPaymentScreen(receipt)
                 }
             },
             { throwable ->

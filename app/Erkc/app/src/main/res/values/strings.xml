@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Erkc</string>
+    <string name="default_empty_list_message_text">Empty list</string>
 
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
@@ -7,7 +8,7 @@
 
     <!-- InputErrors -->
     <string name="error_empty_field">Поле не может быть пустым</string>
-    <string name="error_invalid_email">Неверно введен email</string>
+    <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
     <string name="error_all_field_required">Все поля обязательны для заполнения</string>
 
@@ -38,6 +39,7 @@
     <string name="main_screen_registration_button">Регистрация</string>
     <string name="main_screen_non_authed_title"></string>
     <string name="main_screen_authed_title">Основной экран</string>
+    <string name="main_screen_add_receipt">Добавить квитанцию</string>
 
     <!-- Sign in -->
     <string name="sing_in_title">Вход</string>
@@ -73,8 +75,13 @@
     <string name="contacts_send_button_text">Отправить</string>
     <string name="contacts_map_marker_title">улица Герцена, 52</string>
     <string name="contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
-    <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
+    <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
     <string name="contacts_snack_bar_action_text">Ок</string>
+
+
+    <!-- Barcode Scan Screen -->
+    <string name="barcode_scanner_camera_permission_denied">Для корректной работы приложения необходим доступ к камере</string>
+    <string name="barcode_scanner_title">Сканирование штрих-кода</string>
 
     <!-- password recovery -->
     <string name="pass_recovery_title">Восстановление пароля</string>
@@ -117,5 +124,11 @@
     <string name="offline_password_second_error">Пароли не совпадают</string>
     <string name="offline_password_save_button_text">Сохранить</string>
 
+
+    <!-- Receipts List -->
+    <string name="receipts_transfer_value_button">Передать показания</string>
+    <string name="receipts_pay_button">Оплатить</string>
+    <string name="receipts_last_transfer_text">Последние показания</string>
+    <string name="receipts_last_pay_text">Последняя оплата</string>
 
 </resources>

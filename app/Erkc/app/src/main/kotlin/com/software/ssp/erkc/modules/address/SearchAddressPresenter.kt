@@ -1,9 +1,9 @@
 package com.software.ssp.erkc.modules.address
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.rest.models.AddressCache
+import com.software.ssp.erkc.data.db.AddressCache
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import java.util.*
+import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 /**
@@ -15,7 +15,12 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
 
     override fun onViewAttached() {
         super.onViewAttached()
-        view?.showData(realmRepo.getAllAdresses())
+        subscriptions += realmRepo.getAllAddresses()
+                .subscribe({
+                    addresses ->
+                    view?.showData(addresses)
+                })
+
     }
 
     override fun onItemSelected(address: AddressCache) {
@@ -23,7 +28,16 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     }
 
     override fun onQuery(query: String) {
-        view?.showData(ArrayList(realmRepo.getAllAddressesByQuesry(query)))
+        subscriptions += realmRepo.getAllAddressesByQuery(query)
+                .subscribe({
+                    addresses ->
+                    view?.showData(addresses)
+                })
+
     }
 
+    override fun onViewDetached() {
+        realmRepo.close()
+        super.onViewDetached()
+    }
 }

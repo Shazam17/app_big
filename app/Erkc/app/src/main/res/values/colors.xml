@@ -30,4 +30,8 @@
     <color name="colorDarkText">#515151</color>
 
     <color name="colorError">#FFC5C5</color>
+
+    <color name="colorRed">#D42A2B</color>
+
+    <color name="colorInactive">#444444</color>
 </resources>
