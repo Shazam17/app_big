@@ -30,6 +30,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptLastPayDateText.text = receipt.lastPayDate
             receiptLastTransferDateText.text = receipt.lastValueTransferDate
 
+            receiptAutoPayImageView.visibility = if(receipt.isCardLinked) View.VISIBLE else View.GONE
             receiptAutoPayImageView.setColorFilter(context.getCompatColor(if(receipt.isAutoPayment) R.color.colorPrimary else R.color.colorInactive))
 
             swipeLayout.reset()

@@ -8,6 +8,7 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
 class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
@@ -39,7 +40,8 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
         presenter.dropView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.clear()
         inflater?.inflate(R.menu.value_transfer_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -75,8 +77,10 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
     }
 
     override fun navigateToAddReceiptScreen() {
-        //TODO: NavigateToAdd
-        showMessage("TODO: NavigateToAdd")
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {

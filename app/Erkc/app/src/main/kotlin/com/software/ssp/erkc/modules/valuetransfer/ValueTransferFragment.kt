@@ -10,6 +10,7 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist.ValueTransferListFragment
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 class ValueTransferFragment : MvpFragment(), IValueTransferView {
@@ -38,7 +39,7 @@ class ValueTransferFragment : MvpFragment(), IValueTransferView {
     }
 
     override fun navigateToNewValueTransferScreen() {
-        navigateTo(NewReceiptFragment())
+        navigateTo(NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
     }
 
     override fun navigateToValueTransferListScreen() {

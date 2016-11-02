@@ -2,7 +2,6 @@ package com.software.ssp.erkc.modules.paymentscreen
 
 import android.app.Fragment
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,15 +39,14 @@ class PaymentScreenFragment : MvpFragment(), IPaymentScreenView {
     }
 
     override fun navigateToAddReceiptScreen() {
-        showFragment(NewReceiptFragment().withArguments(), R.string.drawer_payment_text)
+        navigateTo(NewReceiptFragment().withArguments("isTransferValueVisible" to false))
     }
 
     override fun navigateToPaymentsList() {
-        showFragment(PaymentListFragment(), R.string.drawer_payment_text)
+        navigateTo(PaymentListFragment())
     }
 
-    private fun showFragment(fragment: Fragment, titleResId: Int) {
-        (activity as AppCompatActivity).supportActionBar?.title = getString(titleResId)
+    private fun navigateTo(fragment: Fragment) {
         childFragmentManager.beginTransaction()
                 .replace(R.id.containerLayout, fragment)
                 .commit()

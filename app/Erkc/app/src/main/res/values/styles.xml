@@ -12,6 +12,7 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
 
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
@@ -24,6 +25,7 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
 
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme.Light">
@@ -53,6 +55,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorWhite</item>
+    </style>
 
         <!-- Drawer style -->
 

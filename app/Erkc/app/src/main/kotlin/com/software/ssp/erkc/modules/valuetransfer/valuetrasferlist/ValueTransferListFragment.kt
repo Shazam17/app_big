@@ -9,6 +9,7 @@ import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
@@ -37,7 +38,8 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
         presenter.onViewAttached()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.clear()
         inflater?.inflate(R.menu.value_transfer_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -67,7 +69,7 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
 
     override fun navigateToNewValueTransfer() {
         activity.fragmentManager.beginTransaction()
-                .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
                 .addToBackStack(null)
                 .commit()
     }

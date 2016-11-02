@@ -1,9 +1,7 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
@@ -25,6 +23,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     @Inject lateinit var presenter: INonAuthedMainScreenPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        setHasOptionsMenu(true)
         return inflater!!.inflate(R.layout.fragment_non_authed_main_screen, container, false)
     }
 
@@ -40,6 +39,13 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+
+        presenter.onViewAttached()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun beforeDestroy() {
