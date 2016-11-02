@@ -16,7 +16,7 @@ interface IAuthedAddReceiptView : IView {
     fun showApartmentError(errorStringResId: Int)
 
     fun setBarcodeField(barcode: String)
-    fun fillAddress(street: String, house: String)
+    fun fillStreet(street: String)
 }
 
 interface IAuthedAddReceiptPresenter : IPresenter<IAuthedAddReceiptView> {
@@ -24,5 +24,5 @@ interface IAuthedAddReceiptPresenter : IPresenter<IAuthedAddReceiptView> {
     fun onAddressClick()
     fun onBarCodeScanned(code: String)
     fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isCounterChecked: Boolean)
-    fun onAddressSelected(address: String)
+    fun onStreetSelected(address: String)
 }

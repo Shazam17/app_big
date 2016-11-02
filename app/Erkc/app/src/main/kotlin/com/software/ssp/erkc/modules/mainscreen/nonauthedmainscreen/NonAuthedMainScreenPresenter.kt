@@ -4,8 +4,6 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
-import com.software.ssp.erkc.extensions.getHouse
-import com.software.ssp.erkc.extensions.getStreet
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -52,8 +50,8 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         view?.showScannedBarcode(code)
     }
 
-    override fun onAddressSelected(address: String) {
-        view?.fillAddress(address.getHouse(), address.getStreet())
+    override fun onStreetSelected(address: String) {
+        view?.fillStreet(address)
     }
 
     override fun onAddressClick() {

@@ -40,21 +40,21 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     }
                     activeSession.appToken = appToken
                     if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
-                        dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                        dictionaryRepo.fetchStreets(activeSession.appToken!!)
                     } else {
                         Observable.just(null)
                     }
                 }.subscribe({
-            addresses ->
-            if (addresses != null) {
-                realmRepo.saveAddressesList(addresses)
-            }
-            view?.navigateToDrawer()
-        }, {
-            error ->
-            view?.showTryAgainSnack(error.message!!)
-            error.printStackTrace()
-        })
+                    streets ->
+                    if (streets != null) {
+                        realmRepo.saveStreetList(streets)
+                    }
+                    view?.navigateToDrawer()
+                }, {
+                    error ->
+                    view?.showTryAgainSnack(error.message!!)
+                    error.printStackTrace()
+                })
     }
 
     override fun onTryAgainClicked() {

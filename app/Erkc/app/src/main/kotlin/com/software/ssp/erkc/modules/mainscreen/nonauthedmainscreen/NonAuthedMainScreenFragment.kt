@@ -104,7 +104,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         when (requestCode) {
             Constants.REQUEST_CODE_ADDRESS_FIND -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
+                    presenter.onStreetSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
@@ -116,9 +116,8 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
     }
 
-    override fun fillAddress(houseNo: String, street: String) {
+    override fun fillStreet(street: String) {
         mainScreenStreetEditText.setText(street)
-        mainScreenHouseEditText.setText(houseNo)
     }
 
     private fun initViews() {
@@ -136,9 +135,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         }
 
         mainScreenStreetEditText.onClick {
-            presenter.onAddressClick()
-        }
-        mainScreenHouseEditText.onClick {
             presenter.onAddressClick()
         }
 

@@ -84,16 +84,15 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
         authedMainAddReceiptScreenBarcodeEditText.setText(barcode)
     }
 
-    override fun fillAddress(street: String, house: String) {
+    override fun fillStreet(street: String) {
         authedMainAddReceiptScreenStreetEditText.setText(street)
-        authedMainAddReceiptScreenHouseEditText.setText(house)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             Constants.REQUEST_CODE_ADDRESS_FIND -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
+                    presenter.onStreetSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
@@ -112,9 +111,6 @@ class AuthedAddReceiptFragment : MvpFragment(), IAuthedAddReceiptView {
                     authedAddReceiptCounterCheckBox.isChecked)
         }
         authedMainAddReceiptScreenStreetEditText.onClick {
-            presenter.onAddressClick()
-        }
-        authedMainAddReceiptScreenHouseEditText.onClick {
             presenter.onAddressClick()
         }
         authedMainAddReceiptScreenApartmentEditText.onEditorAction { textView, actionId, keyEvent ->

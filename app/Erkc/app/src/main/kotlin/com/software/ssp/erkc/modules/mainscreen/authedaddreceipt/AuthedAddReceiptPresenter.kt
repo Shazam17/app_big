@@ -4,8 +4,6 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
-import com.software.ssp.erkc.extensions.getHouse
-import com.software.ssp.erkc.extensions.getStreet
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -53,8 +51,8 @@ class AuthedAddReceiptPresenter @Inject constructor(view: IAuthedAddReceiptView)
                 )
     }
 
-    override fun onAddressSelected(address: String) {
-        view?.fillAddress(address.getStreet(), address.getHouse())
+    override fun onStreetSelected(address: String) {
+        view?.fillStreet(address)
     }
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String): Boolean {

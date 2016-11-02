@@ -10,7 +10,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.db.StreetCache
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_search_address.*
 import javax.inject.Inject
@@ -29,15 +29,15 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         presenter.onViewAttached()
     }
 
-    override fun navigateToDrawer(address: AddressCache) {
+    override fun navigateToDrawer(street: StreetCache) {
         val intent = Intent()
-        intent.putExtra(Constants.KEY_ADDRESS_FIND_RESULT, address.name)
+        intent.putExtra(Constants.KEY_ADDRESS_FIND_RESULT, street.name)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
-    override fun showData(addresses: List<AddressCache>) {
-        mSearchAdapter?.swapData(addresses)
+    override fun showData(streets: List<StreetCache>) {
+        mSearchAdapter?.swapData(streets)
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {

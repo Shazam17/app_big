@@ -2,7 +2,9 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.db.StreetCache
 import com.software.ssp.erkc.data.rest.models.Address
+import com.software.ssp.erkc.data.rest.models.Streets
 import io.realm.Realm
 import io.realm.RealmResults
 import rx.Observable
@@ -22,9 +24,27 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return results
     }
 
+
+    fun getAllStreets(): Observable<RealmResults<StreetCache>> {
+        val results = realm
+                .where(StreetCache::class.java)
+                .findAllAsync()
+                .asObservable()
+        return results
+    }
+
     fun getAllAddressesByQuery(query: String): Observable<RealmResults<AddressCache>> {
         val results = realm
                 .where(AddressCache::class.java)
+                .contains("query", query.toLowerCase())
+                .findAllAsync()
+                .asObservable()
+        return results
+    }
+
+    fun getAllStreetsByQuery(query: String): Observable<RealmResults<StreetCache>> {
+        val results = realm
+                .where(StreetCache::class.java)
                 .contains("query", query.toLowerCase())
                 .findAllAsync()
                 .asObservable()
@@ -39,6 +59,18 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         realm.executeTransaction {
             realm.deleteAll()
             realm.copyToRealm(cacheAddresses)
+        }
+        AppPrefs.lastCashingDate = Date().time
+    }
+
+    fun saveStreetList(streets: Streets) {
+        val cacheStreets = arrayListOf<StreetCache>()
+        for (street in streets.street) {
+            cacheStreets.add(StreetCache(street, street.toLowerCase()))
+        }
+        realm.executeTransaction {
+            realm.deleteAll()
+            realm.copyToRealm(cacheStreets)
         }
         AppPrefs.lastCashingDate = Date().time
     }

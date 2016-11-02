@@ -15,3 +15,9 @@ open class AddressCache(
         open var query: String = ""
 ) : RealmObject() {
 }
+open class StreetCache(
+        open var name: String = "",
+
+        open var query: String = ""
+) : RealmObject() {
+}
