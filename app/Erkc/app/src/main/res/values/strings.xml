@@ -60,7 +60,7 @@
     <string name="sign_up_street_hint">Улица</string>
     <string name="sign_up_flat_hint">Квартинра</string>
     <string name="sign_up_email_hint">Email</string>
-    <string name="sign_up_captcha_hint">Captcha</string>
+    <string name="sign_up_captcha_hint">Код с изображения</string>
     <string name="sign_up_registration">Регистрация</string>
     <string name="captcha_error">Наверно введены символы с картинки</string>
     <string name="password_not_equals">Пароли не совпадают</string>
