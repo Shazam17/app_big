@@ -75,7 +75,7 @@
     <string name="contacts_send_button_text">Отправить</string>
     <string name="contacts_map_marker_title">улица Герцена, 52</string>
     <string name="contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
-    <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
+    <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
     <string name="contacts_snack_bar_action_text">Ок</string>
 
     <!-- password recovery -->

@@ -54,7 +54,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta1'
 
-    compile 'com.google.android.gms:play-services-maps:9.6.1'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jetbrains.anko:anko-sdk19:0.9'
