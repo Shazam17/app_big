@@ -1,7 +1,7 @@
 package com.software.ssp.erkc.modules.settings
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.OfflineSettings
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -15,17 +15,12 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     @Inject lateinit var activeSession: ActiveSession
 
     private lateinit var login: String
-    private lateinit var offlineSettings: OfflineSettings
+    private lateinit var offlineUserSettings: OfflineUserSettings
 
-    private var isViewUpdating = false
 
     override fun onViewAttached() {
         login = activeSession.user!!.login
         fetchData()
-    }
-
-    override fun onPause(paused: Boolean) {
-        isViewUpdating = paused
     }
 
     override fun onPasswordButtonClick() {
@@ -33,60 +28,51 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     override fun onOfflineModeSwitch(checked: Boolean) {
-        tryToUpdateSettings {
-            offlineSettings.offlineModeEnabled = checked
-            view?.setOfflinePasswordVisibility(checked)
-        }
+        offlineUserSettings.offlineModeEnabled = checked
+        view?.setOfflinePasswordVisibility(checked)
+        updateData()
     }
 
     override fun onPushSwitch(checked: Boolean) {
-        tryToUpdateSettings {
-            offlineSettings.pushEnabled = checked
-        }
+        offlineUserSettings.pushEnabled = checked
+        updateData()
     }
 
     override fun onOperationStatusSwitch(checked: Boolean) {
-        tryToUpdateSettings {
-            offlineSettings.operationStatusNotificationEnabled = checked
-        }
+        offlineUserSettings.operationStatusNotificationEnabled = checked
+        updateData()
     }
 
     override fun onNewsSwitch(checked: Boolean) {
-        tryToUpdateSettings {
-            offlineSettings.newsNotificationEnabled = checked
-        }
+        offlineUserSettings.newsNotificationEnabled = checked
+        updateData()
     }
 
     override fun onPaymentSwitch(checked: Boolean) {
-        tryToUpdateSettings {
-            offlineSettings.paymentNotificationEnabled = checked
-        }
+        offlineUserSettings.paymentNotificationEnabled = checked
+        updateData()
     }
 
     override fun onIpuSwitch(checked: Boolean) {
-        tryToUpdateSettings{
-            offlineSettings.ipuNotificationEnabled = checked
-        }
-    }
-
-
-
-    private fun tryToUpdateSettings(updateFunc:()->Unit){
-        if(isViewUpdating) return
-        updateFunc()
+        offlineUserSettings.ipuNotificationEnabled = checked
         updateData()
     }
 
     private fun fetchData() {
-        offlineSettings = realmRepository.fetchOfflineSettings(login)
-        isViewUpdating = true
-        view?.showData(offlineSettings)
-        isViewUpdating = false
+        subscriptions += realmRepository.fetchOfflineSettings(login)
+                .subscribe(
+                        { settings ->
+                            offlineUserSettings = settings
+                            view?.showData(offlineUserSettings)
+                            view?.setupInitialState()
+                        },
+                        { throwable -> view?.showMessage(throwable.parsedMessage()) }
+                )
     }
 
-    private fun updateData(){
-        subscriptions += realmRepository.updateOfflineSettings(offlineSettings).subscribe(
-                { response ->  },
+    private fun updateData() {
+        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings).subscribe(
+                { response -> },
                 { throwable -> view?.showMessage(throwable.parsedMessage()) }
         )
     }

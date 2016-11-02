@@ -15,11 +15,11 @@ interface SettingsComponent {
 }
 
 @Module(includes = arrayOf(SettingsModule.Declarations::class))
-class SettingsModule(val signInView: ISettingsView) {
+class SettingsModule(val settingsView: ISettingsView) {
 
     @Provides
-    fun provideSignInView(): ISettingsView {
-        return signInView
+    fun provideSettingsView(): ISettingsView {
+        return settingsView
     }
 
     @Module
@@ -27,6 +27,6 @@ class SettingsModule(val signInView: ISettingsView) {
 
         @Binds
         @FragmentScope
-        fun bindSignInPresenter(settingsPresenter: SettingsPresenter): ISettingsPresenter
+        fun bindSettingsPresenter(settingsPresenter: SettingsPresenter): ISettingsPresenter
     }
 }

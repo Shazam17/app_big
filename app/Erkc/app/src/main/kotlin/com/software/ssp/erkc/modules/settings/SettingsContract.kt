@@ -2,10 +2,12 @@ package com.software.ssp.erkc.modules.settings
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.realm.models.OfflineSettings
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 
 
 interface ISettingsView : IView {
+    fun setupInitialState()
+
     fun setOfflineModeSwitch(checked: Boolean)
     fun setPushSwitch(checked: Boolean)
     fun setOperationStatusSwitch(checked: Boolean)
@@ -15,7 +17,7 @@ interface ISettingsView : IView {
 
     fun setOfflinePasswordVisibility(visible: Boolean)
     fun navigateToOfflinePasswordScreen()
-    fun showData(settings: OfflineSettings)
+    fun showData(userSettings: OfflineUserSettings)
 }
 
 interface ISettingsPresenter : IPresenter<ISettingsView> {
@@ -26,6 +28,5 @@ interface ISettingsPresenter : IPresenter<ISettingsView> {
     fun onNewsSwitch(checked: Boolean)
     fun onPaymentSwitch(checked: Boolean)
     fun onIpuSwitch(checked: Boolean)
-    fun onPause(paused: Boolean)
 
 }

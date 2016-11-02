@@ -3,7 +3,7 @@ package com.software.ssp.erkc.modules.settings.offlinepassword
 import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.OfflineSettings
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -18,21 +18,21 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
 
     private lateinit var login: String
     private lateinit var password: String
-    private lateinit var offlineSettings: OfflineSettings
+    private lateinit var offlineUserSettings: OfflineUserSettings
 
     override fun onViewAttached() {
         login = activeSession.user!!.login
-        offlineSettings = realmRepository.fetchOfflineSettings(login)
+        fetchData()
     }
 
-    override fun onFirstInputChange(text: String) {
+    override fun onPasswordChange(text: String) {
         password = text
     }
 
-    override fun onSecondInputChange(text: String) {
+    override fun onConfirmPasswordChange(text: String) {
         if (validate(text)) {
             view?.enableSendButton(true)
-            view?.showSecondPasswordError(null)
+            view?.showSecondPasswordNormalState()
         } else {
             view?.enableSendButton(false)
             view?.showSecondPasswordError(R.string.offline_password_second_error)
@@ -40,8 +40,8 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     }
 
     override fun onSaveButtonClick() {
-        offlineSettings.password = password
-        subscriptions += realmRepository.updateOfflineSettings(offlineSettings).subscribe(
+        offlineUserSettings.password = password
+        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings).subscribe(
                 { isSuccess ->
                     view?.dismiss()
                 },
@@ -53,5 +53,19 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
 
     private fun validate(secondPassword: String): Boolean {
         return password == secondPassword
+    }
+
+    private fun fetchData() {
+        subscriptions += realmRepository.fetchOfflineSettings(login)
+                .subscribe(
+                        { settings ->
+                            offlineUserSettings = settings
+
+                            // todo delete after testing
+                            Log.d("---", "offlineUserSettings password: ${offlineUserSettings.password} ");
+                            Log.d("---", "offlineUserSettings passwordHash: ${offlineUserSettings.passwordHash} ");
+                        },
+                        { throwable -> view?.showMessage(throwable.parsedMessage()) }
+                )
     }
 }

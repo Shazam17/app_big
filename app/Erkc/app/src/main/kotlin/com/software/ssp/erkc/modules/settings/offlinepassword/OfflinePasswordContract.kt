@@ -4,13 +4,14 @@ import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 
 interface IOfflinePasswordView : IView {
-    fun showSecondPasswordError(errorResId: Int?)
+    fun showSecondPasswordError(errorResId: Int)
+    fun showSecondPasswordNormalState()
     fun enableSendButton(enabled: Boolean)
     fun dismiss()
 }
 
 interface IOfflinePasswordPresenter : IPresenter<IOfflinePasswordView> {
-    fun onFirstInputChange(text: String)
-    fun onSecondInputChange(text: String)
+    fun onPasswordChange(text: String)
+    fun onConfirmPasswordChange(text: String)
     fun onSaveButtonClick()
 }

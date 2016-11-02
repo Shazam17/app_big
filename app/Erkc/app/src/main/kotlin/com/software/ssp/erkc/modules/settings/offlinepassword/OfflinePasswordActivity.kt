@@ -49,12 +49,12 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
         finish()
     }
 
-    override fun showSecondPasswordError(errorResId: Int?) {
-        if (errorResId == null) {
-            offlinePassSecondInputLayout.error = null
-        } else {
-            offlinePassSecondInputLayout.error = getString(errorResId)
-        }
+    override fun showSecondPasswordError(errorResId: Int) {
+        offlinePassSecondInputLayout.error = getString(errorResId)
+    }
+
+    override fun showSecondPasswordNormalState() {
+        offlinePassSecondInputLayout.error = null
     }
 
     override fun enableSendButton(enabled: Boolean) {
@@ -65,12 +65,12 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
 
-        offlinePassFirstInputEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k -> presenter.onFirstInputChange(charSequence.toString()) }
+        firstEditText.textChangedListener {
+            onTextChanged { charSequence, i, j, k -> presenter.onPasswordChange(charSequence.toString()) }
         }
 
-        offlinePassSecondInputEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k -> presenter.onSecondInputChange(charSequence.toString()) }
+        secondEditText.textChangedListener {
+            onTextChanged { charSequence, i, j, k -> presenter.onConfirmPasswordChange(charSequence.toString()) }
         }
 
         offlinePassSaveButton.onClick { presenter.onSaveButtonClick() }

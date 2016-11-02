@@ -10,6 +10,7 @@ import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
 import com.software.ssp.erkc.di.modules.AppModule
 import com.software.ssp.erkc.di.modules.NetworkModule
 import dagger.Component
+import io.realm.Realm
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -24,4 +25,5 @@ interface AppComponent {
     fun provideAccountDataSource(): AccountDataSource
     fun provideReceiptsDataSource(): ReceiptsDataSource
     fun provideActiveSession(): ActiveSession
+    fun provideRealmInstance(): Realm
 }

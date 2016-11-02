@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
-import com.software.ssp.erkc.data.realm.models.OfflineSettings
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.settings.offlinepassword.OfflinePasswordActivity
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -33,8 +33,6 @@ class SettingsFragment : MvpFragment(), ISettingsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initViews()
         presenter.onViewAttached()
     }
 
@@ -43,15 +41,7 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         presenter.dropView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onPause(false)
-    }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.onPause(true)
-    }
 
     override fun setOfflinePasswordVisibility(visible: Boolean) {
         passwordButtonTextView.visibility = if(visible) View.VISIBLE else View.INVISIBLE
@@ -86,18 +76,18 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         startActivity<OfflinePasswordActivity>()
     }
 
-    override fun showData(settings: OfflineSettings) {
-        offlineModeSwitch.isChecked = settings.offlineModeEnabled
-        setOfflinePasswordVisibility(settings.offlineModeEnabled)
+    override fun showData(userSettings: OfflineUserSettings) {
+        offlineModeSwitch.isChecked = userSettings.offlineModeEnabled
+        setOfflinePasswordVisibility(userSettings.offlineModeEnabled)
 
-        pushSwitch.isChecked = settings.pushEnabled
-        operationStatusSwitch.isChecked = settings.operationStatusNotificationEnabled
-        newsSwitch.isChecked = settings.newsNotificationEnabled
-        payNotesSwitch.isChecked = settings.paymentNotificationEnabled
-        ipuNotesSwitch.isChecked = settings.ipuNotificationEnabled
+        pushSwitch.isChecked = userSettings.pushEnabled
+        operationStatusSwitch.isChecked = userSettings.operationStatusNotificationEnabled
+        newsSwitch.isChecked = userSettings.newsNotificationEnabled
+        payNotesSwitch.isChecked = userSettings.paymentNotificationEnabled
+        ipuNotesSwitch.isChecked = userSettings.ipuNotificationEnabled
     }
 
-    private fun initViews() {
+    override fun setupInitialState() {
         offlineModeSwitch.onCheckedChange { compoundButton, checked -> presenter.onOfflineModeSwitch(checked)  }
         passwordButtonTextView.onClick { presenter.onPasswordButtonClick() }
         pushSwitch.onCheckedChange { compoundButton, checked -> presenter.onPushSwitch(checked)  }
@@ -106,5 +96,4 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         payNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onPaymentSwitch(checked)  }
         ipuNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onIpuSwitch(checked)  }
     }
-
 }
