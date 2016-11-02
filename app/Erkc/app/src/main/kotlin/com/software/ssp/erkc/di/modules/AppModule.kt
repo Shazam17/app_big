@@ -29,7 +29,6 @@ class AppModule(val application: Application) {
     }
 
     @Provides
-    @Singleton
     fun provideRealm(): Realm {
         val realmConfiguration = RealmConfiguration
                 .Builder()
