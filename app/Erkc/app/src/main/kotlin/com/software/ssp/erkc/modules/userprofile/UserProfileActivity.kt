@@ -9,6 +9,7 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.extensions.load
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onEditorAction
@@ -49,7 +50,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
-        userProfileSaveButton.isEnabled = !isVisible
+        saveButton.isEnabled = !isVisible
         progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
@@ -58,53 +59,63 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     override fun showUserInfo(user: User) {
-        userProfileNameEditText.setText(user.name)
-        userProfileEmailEditText.setText(user.email)
+        nameEditText.setText(user.name)
+        emailEditText.setText(user.email)
     }
 
     override fun showErrorNameMessage(resId: Int) {
-        userProfileNameLayout.error = getString(resId)
+        nameInputLayout.error = getString(resId)
     }
 
     override fun showErrorEmailMessage(resId: Int) {
-        userProfileEmailLayout.error = getString(resId)
+        emailInputLayout.error = getString(resId)
     }
 
     override fun showErrorPasswordMessage(resId: Int) {
-        userProfilePasswordLayout.error = getString(resId)
-        userProfileRePasswordLayout.error = getString(resId)
+        passwordInputLayout.error = getString(resId)
+        rePasswordInputLayout.error = getString(resId)
+    }
+
+    override fun showCaptcha(image: ByteArray) {
+        captchaImageView.load(image)
     }
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        userProfileNameEditText.textChangedListener {
+        nameEditText.textChangedListener {
             onTextChanged { charSequence, begin, end, count ->
-                userProfileNameLayout.error = null
+                nameInputLayout.error = null
             }
         }
 
-        userProfileEmailEditText.textChangedListener {
+        emailEditText.textChangedListener {
             onTextChanged { charSequence, begin, end, count ->
-                userProfileEmailLayout.error = null
+                emailInputLayout.error = null
             }
         }
 
-        userProfilePasswordEditText.textChangedListener {
+        passwordEditText.textChangedListener {
             onTextChanged { charSequence, begin, end, count ->
-                userProfilePasswordLayout.error = null
+                passwordInputLayout.error = null
             }
         }
 
-        userProfileRePasswordEditText.textChangedListener {
+        rePasswordEditText.textChangedListener {
             onTextChanged { charSequence, begin, end, count ->
-                userProfileRePasswordLayout.error = null
+                rePasswordInputLayout.error = null
             }
         }
 
-        userProfileRePasswordEditText.onEditorAction { textView, id, keyEvent ->
+        captchaEditText.textChangedListener {
+            onTextChanged { charSequence, begin, end, count ->
+                captchaInputLayout.error = null
+            }
+        }
+
+        captchaEditText.onEditorAction { textView, id, keyEvent ->
             if (id == EditorInfo.IME_ACTION_DONE) {
-                hiddenViewForFocus.requestFocus()
+                rootLayout.requestFocus()
                 hideKeyboard()
                 true
             } else {
@@ -112,12 +123,13 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
             }
         }
 
-        userProfileSaveButton.onClick {
+        saveButton.onClick {
             presenter.onSaveButtonClick(
-                    userProfileNameEditText.text.toString(),
-                    userProfileEmailEditText.text.toString(),
-                    userProfilePasswordEditText.text.toString(),
-                    userProfileRePasswordEditText.text.toString()
+                    nameEditText.text.toString(),
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString(),
+                    rePasswordEditText.text.toString(),
+                    captchaEditText.text.toString()
             )
         }
     }

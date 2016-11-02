@@ -127,7 +127,7 @@
     <FrameLayout
         android:id="@+id/bottomSheetLayout"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/bottom_sheet_height"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
