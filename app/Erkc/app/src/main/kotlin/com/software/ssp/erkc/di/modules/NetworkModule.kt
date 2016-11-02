@@ -4,9 +4,7 @@ import com.google.gson.Gson
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
-import com.software.ssp.erkc.data.rest.datasource.AccountDataSource
-import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
-import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
+import com.software.ssp.erkc.data.rest.datasource.*
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -36,8 +34,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesErkcInterceptor(): ErkcInterceptor {
-        return ErkcInterceptor()
+    fun providesErkcInterceptor(gson: Gson): ErkcInterceptor {
+        return ErkcInterceptor(gson)
     }
 
     @Provides
@@ -67,6 +65,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun providesDictionarySource(retrofit: Retrofit): DictionaryDataSource {
+        return retrofit.create(DictionaryDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providesAccountDataSource(retrofit: Retrofit): AccountDataSource {
         return retrofit.create(AccountDataSource::class.java)
     }
@@ -75,5 +79,11 @@ class NetworkModule {
     @Singleton
     fun providesReceiptsDataSource(retrofit: Retrofit): ReceiptsDataSource {
         return retrofit.create(ReceiptsDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFaqDataSource(retrofit: Retrofit): FaqDataSource {
+        return retrofit.create(FaqDataSource::class.java)
     }
 }

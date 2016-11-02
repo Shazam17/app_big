@@ -5,6 +5,7 @@
     <dimen name="quarter_default_margin">4dp</dimen>
     <dimen name="default_elevation">4dp</dimen>
     <dimen name="double_default_margin">32dp</dimen>
+    <dimen name="triple_default_margin">48dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
 
     <!--Typography -->
@@ -17,4 +18,7 @@
     <dimen name="google_body_text_size">14dp</dimen>
     <dimen name="google_caption_text_size">12dp</dimen>
     <dimen name="small_text_size">10dp</dimen>
+
+    <dimen name="bottom_sheen_height">?attr/actionBarSize</dimen>
+
 </resources>

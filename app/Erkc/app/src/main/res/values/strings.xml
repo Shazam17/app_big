@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Erkc</string>
+    <string name="default_empty_list_message_text">Empty list</string>
+
+    <!-- Splash -->
+    <string name="splash_try_again_text">Попробовать еще раз</string>
+    <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
+
+    <!-- InputErrors -->
+    <string name="error_empty_field">Поле не может быть пустым</string>
+    <string name="error_invalid_login">Неверно введен логин</string>
+    <string name="error_passwords_not_match">Пароли не совпадают</string>
+    <string name="error_all_field_required">Все поля обязательны для заполнения</string>
 
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>
@@ -26,9 +37,12 @@
     <string name="main_screen_app_functions_hint">Все функции приложения будут\nдоступны после входа</string>
     <string name="main_screen_sign_in_button">Войти</string>
     <string name="main_screen_registration_button">Регистрация</string>
-    <string name="main_screen_not_filled_error">Поле не заполнено</string>
+    <string name="main_screen_non_authed_title"></string>
+    <string name="main_screen_authed_title">Основной экран</string>
+    <string name="main_screen_add_receipt">Добавить квитанцию</string>
 
     <!-- Sign in -->
+    <string name="sing_in_title">Вход</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
     <string name="sign_in_forgot_password_text">Забыли пароль?</string>
@@ -48,6 +62,8 @@
     <string name="sign_up_email_hint">Email</string>
     <string name="sign_up_captcha_hint">Captcha</string>
     <string name="sign_up_registration">Регистрация</string>
+    <string name="captcha_error">Наверно введены символы с картинки</string>
+    <string name="password_not_equals">Пароли не совпадают</string>
 
     <!-- Contacts Screen -->
     <string name="contacts_name">"Единый расчетно-кассовый центр\nг. Томска"\n(УМП "ЕРКЦ г. Томска")</string>
@@ -59,10 +75,39 @@
     <string name="contacts_send_button_text">Отправить</string>
     <string name="contacts_map_marker_title">улица Герцена, 52</string>
     <string name="contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
-    <string name="contacts_email_prefix">Отправлено через мобильное приложение:</string>
+    <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
     <string name="contacts_snack_bar_action_text">Ок</string>
+
 
     <!-- Barcode Scan Screen -->
     <string name="barcode_scanner_camera_permission_denied">Для корректной работы приложения необходим доступ к камере</string>
     <string name="barcode_scanner_title">Сканирование штрих-кода</string>
+
+    <!-- password recovery -->
+    <string name="pass_recovery_title">Восстановление пароля</string>
+    <string name="pass_recovery_description">Если вы забыли Пароль, введите Логин и Email, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
+    <string name="pass_recovery_login_hint">Логин</string>
+    <string name="pass_recovery_email_hint">Email</string>
+    <string name="pass_recovery_send_button_text">Отправить пароль</string>
+    <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
+
+    <!-- Address search Screen -->
+    <string name="search_addresses_hint">Поиск адреса…</string>
+    <string name="search_addresses_title"/>
+
+    <!-- UserProfile Screen -->
+    <string name="user_profile_title">Профиль</string>
+    <string name="user_profile_first_name_hint">Имя</string>
+    <string name="user_profile_email_hint">Email</string>
+    <string name="user_profile_password_hint">Пароль</string>
+    <string name="user_profile_re_password_hint">Повторить пароль</string>
+    <string name="user_profile_save_button">Сохранить</string>
+    <string name="user_profile_data_saved">Данные успешно сохранены</string>
+
+    <!-- Receipts List -->
+    <string name="receipts_transfer_value_button">Передать показания</string>
+    <string name="receipts_pay_button">Оплатить</string>
+    <string name="receipts_last_transfer_text">Последние показания</string>
+    <string name="receipts_last_pay_text">Последняя оплата</string>
+
 </resources>

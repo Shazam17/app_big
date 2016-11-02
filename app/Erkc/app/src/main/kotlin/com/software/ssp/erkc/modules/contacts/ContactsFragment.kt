@@ -21,6 +21,7 @@ import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.textChangedListener
 import javax.inject.Inject
 
 class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
@@ -69,8 +70,8 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
     }
 
     override fun setPending(isPending: Boolean) {
-        contactsSendButton.enabled = !isPending
-        contactsMessageEditText.enabled = !isPending
+        sendButton.enabled = !isPending
+        messageEditText.enabled = !isPending
     }
 
     override fun showDidSentMessage() {
@@ -80,16 +81,26 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         snack.setAction(R.string.contacts_snack_bar_action_text, {})
         snack.setActionTextColor(Color.WHITE)
         snack.show()
+
+        messageEditText.text.clear()
+    }
+
+    override fun showMessageEmptyError(resId: Int) {
+        messageInputLayout.error = getString(resId)
     }
 
     override fun setControlsVisible(isVisible: Boolean) {
-        contactsSendButton.visibility = if(isVisible) View.VISIBLE else View.GONE
-        contactsMessageEditText.visibility = if(isVisible) View.VISIBLE else View.GONE
+        sendButton.visibility = if(isVisible) View.VISIBLE else View.GONE
+        messageEditText.visibility = if(isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {
         contactsPhoneTextView.movementMethod = LinkMovementMethod.getInstance()
-        contactsSendButton.onClick { presenter.onSendButtonClick(contactsMessageEditText.text.toString()) }
+        sendButton.onClick { presenter.onSendButtonClick(messageEditText.text.toString(), getString(R.string.contacts_email_prefix)) }
+
+        messageEditText.textChangedListener {
+            onTextChanged { charSequence, start, end, count -> messageInputLayout.error = null }
+        }
 
         initMap()
     }
@@ -101,7 +112,7 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
             mapFragment = MapFragment()
             this.childFragmentManager
                     .beginTransaction()
-                    .add(R.id.contactsMapContainer, mapFragment, MapFragment::class.java.simpleName)
+                    .add(R.id.mapContainer, mapFragment, MapFragment::class.java.simpleName)
                     .commit()
             this.childFragmentManager.executePendingTransactions()
         }

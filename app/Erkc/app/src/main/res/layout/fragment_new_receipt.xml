@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/barcodeInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/main_screen_barcode_hint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/barcodeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits=" 0123456789"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingEnd="30dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/barCodeScanButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:background="@null"
+        android:src="@drawable/ic_image_camera"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/barcodeInputLayout"
+        app:layout_constraintRight_toRightOf="@+id/barcodeInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/barcodeInputLayout" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/streetInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:hint="@string/main_screen_street_hint"
+        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barcodeInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/streetEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/houseApartmentLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/streetInputLayout">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/houseInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/main_screen_house_hint">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/houseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/apartmentInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/main_screen_apartment_hint">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/apartmentEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/sendValueCheckBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/main_screen_send_value_check_box"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/houseApartmentLayout" />
+
+    <FrameLayout
+        android:id="@+id/bottomSheetLayout"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/triple_default_margin"
+        android:paddingStart="@dimen/triple_default_margin"
+        android:text="@string/main_screen_continue_button"
+        android:theme="@style/AppWhiteButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomSheetLayout"
+        app:layout_constraintLeft_toLeftOf="@+id/bottomSheetLayout"
+        app:layout_constraintRight_toRightOf="@+id/bottomSheetLayout"
+        app:layout_constraintTop_toTopOf="@+id/bottomSheetLayout"
+        tools:enabled="false" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingBottom="@dimen/half_default_margin"
+        android:paddingTop="@dimen/half_default_margin"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/continueButton"
+        app:layout_constraintRight_toRightOf="@+id/continueButton"
+        app:layout_constraintTop_toTopOf="@+id/continueButton"
+        tools:visibility="visible" />
+
+</android.support.constraint.ConstraintLayout>

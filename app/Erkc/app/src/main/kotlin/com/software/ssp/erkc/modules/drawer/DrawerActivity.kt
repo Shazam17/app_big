@@ -2,24 +2,26 @@ package com.software.ssp.erkc.modules.drawer
 
 import android.app.Fragment
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
-import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
-import com.software.ssp.erkc.modules.signin.SignInActivity
+import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
+import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
+import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
+import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
+import kotlinx.android.synthetic.main.drawer_header_layout.view.*
+import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class DrawerActivity : MvpActivity(), IDrawerView {
 
@@ -28,6 +30,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var selectedDrawerItem: DrawerItem = DrawerItem.MAIN
     private var isSelectedDrawerItemChanged = false
+    private var drawerHeaderView: View by Delegates.notNull<View>()
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerDrawerComponent.builder()
@@ -35,20 +38,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 .drawerModule(DrawerModule(this))
                 .build()
                 .inject(this)
-    }
-
-    enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
-        MAIN(R.string.drawer_main_screen_text, R.id.menuMainScreen),
-        PAYMENT(R.string.drawer_payment_text, R.id.menuPayment),
-        VALUES(R.string.drawer_send_values_text, R.id.menuSendValues),
-        CARDS(R.string.drawer_my_cards_text, R.id.menuMyCards),
-        HISTORY(R.string.drawer_history_text, R.id.menuHistory),
-        AUTOPAY(R.string.drawer_auto_payment_text, R.id.menuAutoPayments),
-        NOTIFY(R.string.drawer_notifications_text, R.id.menuNotifications),
-        SETTINGS(R.string.drawer_settings_text, R.id.menuSettings),
-        TUTORIAL(R.string.drawer_instruction_text, R.id.menuInstructions),
-        CONTACTS(R.string.drawer_contacts_text, R.id.menuContacts),
-        EXIT(R.string.drawer_exit_text, R.id.menuExit)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,20 +50,11 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
         }
 
-        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
-        supportActionBar?.title = getString(selectedDrawerItem.titleId)
-        navigateToModule(selectedDrawerItem)
-
         presenter.onViewAttached()
     }
 
     override fun beforeDestroy() {
         presenter.dropView()
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        drawerToggle?.syncState()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -99,22 +79,37 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun showUserInfo(user: User) {
-        val header = drawerNavigationView.getHeaderView(0)
-
-        (header.findViewById(R.id.drawerUserNameTextView) as TextView).text = user.name
-        (header.findViewById(R.id.drawerEmailTextView) as TextView).text = user.email
+        drawerHeaderView.drawerUserNameTextView.text = user.name
+        drawerHeaderView.drawerEmailTextView.text = user.email
     }
 
-    override fun navigateToLoginScreen() {
-        finish()
-        startActivity<SignInActivity>()
+    override fun clearUserInfo() {
+        drawerHeaderView.drawerUserNameTextView.text = ""
+        drawerHeaderView.drawerEmailTextView.text = ""
+    }
+
+    override fun setAuthedMenuVisible(isVisible: Boolean) {
+        val menu = drawerNavigationView.menu
+
+        menu.findItem(DrawerItem.CARDS.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.AUTOPAY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.NOTIFY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.SETTINGS.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.EXIT.itemId).isVisible = isVisible
+
+        drawerHeaderView.isEnabled = isVisible
+    }
+
+    override fun navigateToMainScreen() {
+        navigateToModule(DrawerItem.MAIN)
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment = when (drawerItem) {
-            DrawerItem.MAIN -> NonAuthedMainScreenFragment()
-            DrawerItem.PAYMENT -> Fragment()
-            DrawerItem.VALUES -> Fragment()
+            DrawerItem.MAIN -> MainScreenFragment() // todo test
+            DrawerItem.PAYMENT -> PaymentScreenFragment()
+            DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> Fragment()
             DrawerItem.HISTORY -> Fragment()
             DrawerItem.AUTOPAY -> Fragment()
@@ -139,6 +134,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        drawerHeaderView = drawerNavigationView.getHeaderView(0)
+
+        drawerHeaderView.onClick {
+            drawerLayout.closeDrawers()
+            startActivity<UserProfileActivity>()
+        }
 
         drawerNavigationView.setNavigationItemSelectedListener { item ->
             val id = item.itemId
@@ -183,5 +185,9 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         drawerLayout.addDrawerListener(drawerToggle as ActionBarDrawerToggle)
         drawerToggle?.syncState()
+
+        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
+        supportActionBar?.title = getString(selectedDrawerItem.titleId)
+        navigateToModule(selectedDrawerItem)
     }
 }
