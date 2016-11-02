@@ -23,6 +23,11 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
         fetchData()
     }
 
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
+
     override fun onPasswordButtonClick() {
         view?.navigateToOfflinePasswordScreen()
     }

@@ -25,6 +25,11 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
         fetchData()
     }
 
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
+
     override fun onPasswordChange(text: String) {
         password = text
     }
