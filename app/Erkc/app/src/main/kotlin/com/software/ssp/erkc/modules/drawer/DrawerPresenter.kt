@@ -12,12 +12,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     override fun onViewAttached() {
         super.onViewAttached()
 
-        if (activeSession.user == null) {
-            view?.setAuthedMenuVisible(false)
-        } else {
-            view?.setAuthedMenuVisible(true)
-            view?.showUserInfo(activeSession.user!!)
-        }
+        showCurrentUser()
+
         view?.navigateToMainScreen()
     }
 
@@ -26,5 +22,22 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         view?.clearUserInfo()
         view?.setAuthedMenuVisible(false)
         view?.navigateToMainScreen()
+    }
+
+    override fun onUserProfileClick() {
+        view?.navigateToUserProfile()
+    }
+
+    override fun onUserProfileUpdated() {
+        showCurrentUser()
+    }
+
+    private fun showCurrentUser(){
+        if (activeSession.user == null) {
+            view?.setAuthedMenuVisible(false)
+        } else {
+            view?.setAuthedMenuVisible(true)
+            view?.showUserInfo(activeSession.user!!)
+        }
     }
 }

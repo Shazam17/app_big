@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.drawer
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -20,7 +21,7 @@ import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -79,6 +80,18 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        when (resultCode) {
+            UserProfileActivity.USER_PROFILE_UPDATED -> {
+                presenter.onUserProfileUpdated()
+                return
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun showUserInfo(user: User) {
         drawerHeaderView.drawerUserNameTextView.text = user.name
         drawerHeaderView.drawerEmailTextView.text = user.email
@@ -104,6 +117,10 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
     override fun navigateToMainScreen() {
         navigateToModule(DrawerItem.MAIN)
+    }
+
+    override fun navigateToUserProfile() {
+        startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_TAG)
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
@@ -140,7 +157,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         drawerHeaderView.onClick {
             drawerLayout.closeDrawers()
-            startActivity<UserProfileActivity>()
+            presenter.onUserProfileClick()
         }
 
         drawerNavigationView.setNavigationItemSelectedListener { item ->

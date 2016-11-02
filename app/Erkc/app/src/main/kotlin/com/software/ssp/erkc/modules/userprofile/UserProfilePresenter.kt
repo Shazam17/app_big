@@ -20,18 +20,17 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         super.onViewAttached()
 
         activeSession.user?.let {
-            fetchCaptcha()
             view?.showUserInfo(it)
         }
     }
 
-    override fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String, captcha: String) {
+    override fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String) {
         if (!validData(name, email, password, rePassword)) {
             return
         }
         view?.setProgressVisibility(true)
 
-        subscriptions += accountRepository.updateUserInfo(activeSession.accessToken!!, name, email, password, rePassword, captcha)
+        subscriptions += accountRepository.updateUserInfo(activeSession.accessToken!!, name, email, password, rePassword)
                 .concatMap { accountRepository.fetchUserInfo(activeSession.accessToken!!) }
                 .subscribe(
                         {
@@ -39,6 +38,7 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
                             activeSession.user = user
                             view?.setProgressVisibility(false)
                             view?.showMessage(R.string.user_profile_data_saved)
+                            view?.didUserProfileUpdated()
                             view?.close()
 
                         },
@@ -48,18 +48,6 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
                             view?.showMessage(error.message.toString())
                         }
                 )
-    }
-
-    private fun fetchCaptcha() {
-        subscriptions += authRepository.
-                getCapcha(activeSession.appToken!!)
-                .subscribe({
-                    captcha ->
-                    view?.showCaptcha(captcha.image)
-                }, {
-                    error ->
-                    view?.showMessage(error.message!!)
-                })
     }
 
     private fun validData(name: String, email: String, password: String, rePassword: String): Boolean {

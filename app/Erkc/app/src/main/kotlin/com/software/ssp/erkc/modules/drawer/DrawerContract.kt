@@ -12,8 +12,11 @@ interface IDrawerView : IView {
     fun setAuthedMenuVisible(isVisible: Boolean)
 
     fun navigateToMainScreen()
+    fun navigateToUserProfile()
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {
     fun onLogoutClick()
+    fun onUserProfileClick()
+    fun onUserProfileUpdated()
 }
