@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.extensions.isEmail
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -40,6 +41,10 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 || email.isBlank()
                 || turing.isBlank()) {
             view?.showMessage(R.string.error_all_field_required)
+            return
+        }
+        if (!email.isEmail()) {
+            view?.showMessage(R.string.error_invalid_email)
             return
         }
         view?.setProgressVisibility(true)
