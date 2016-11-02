@@ -6,7 +6,6 @@ import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.getResId
-import com.software.ssp.erkc.extensions.toBarcodeFormat
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import kotlinx.android.synthetic.main.item_receipt_header.view.*
 import org.jetbrains.anko.image
@@ -19,7 +18,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
         with(itemView) {
 
             receiptName.text = receipt.name
-            receiptBarcodeText.text = receipt.barcode.toBarcodeFormat()
+            receiptBarcodeText.text = receipt.barcode
 
             //TODO Replace with icon
             receiptTypeImage.image = ColorDrawable(context.getCompatColor(receipt.type.getResId()))
