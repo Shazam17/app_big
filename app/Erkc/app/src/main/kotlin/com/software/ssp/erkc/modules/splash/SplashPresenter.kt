@@ -39,7 +39,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepo.streetsLoaded()) {
                         dictionaryRepo.fetchStreets(activeSession.appToken!!)
                     } else {
                         Observable.just(null)

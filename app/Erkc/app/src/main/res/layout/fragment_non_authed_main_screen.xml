@@ -101,7 +101,6 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
-                android:focusable="false"
                 android:textColor="@color/colorLightText" />
 
         </android.support.design.widget.TextInputLayout>

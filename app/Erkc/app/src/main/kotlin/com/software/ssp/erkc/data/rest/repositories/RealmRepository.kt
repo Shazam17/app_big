@@ -48,6 +48,9 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .contains("query", query.toLowerCase())
                 .findAllAsync()
                 .asObservable()
+                .filter { results ->
+                    results.isLoaded
+                }
         return results
     }
 
@@ -77,5 +80,9 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
 
     fun close() {
         realm.close()
+    }
+
+    fun streetsLoaded(): Boolean {
+       return realm.where(StreetCache::class.java).count() > 0
     }
 }

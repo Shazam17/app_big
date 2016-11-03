@@ -98,8 +98,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="number"
-            android:maxLines="1"
-            android:focusable="false"/>
+            android:maxLines="1"/>
 
     </android.support.design.widget.TextInputLayout>
 
