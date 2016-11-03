@@ -8,7 +8,6 @@ import com.software.ssp.erkc.common.mvp.IView
  */
 interface ISignUpView : IView {
     fun navigateToMain()
-    fun setProgressVisibility(isVisible: Boolean)
     fun fillAddress(name: String)
 }
 

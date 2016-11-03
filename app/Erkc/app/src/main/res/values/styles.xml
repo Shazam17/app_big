@@ -69,12 +69,11 @@
     </style>
 
     <style name="BodyTextView" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:layout_margin">@dimen/half_default_margin</item>
+        <item name="android:layout_marginTop">@dimen/half_default_margin</item>
     </style>
 
     <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/colorDarkHint</item>
-        <item name="android:layout_margin">@dimen/half_default_margin</item>
+        <item name="android:textColor">@color/colorDarkText</item>
     </style>
     <!-- Input for Dark Theme -->
     <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">

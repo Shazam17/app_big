@@ -9,8 +9,10 @@ import java.util.*
  */
 interface ISendValuesView : IView {
     fun navigateToDrawer()
+    fun fillData()
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     fun onSendValuesClick(values: HashMap<String, String>)
+    fun onViewAttached(code: String)
 }

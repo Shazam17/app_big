@@ -9,6 +9,8 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_send_values.*
+import org.jetbrains.anko.enabled
+import org.jetbrains.anko.onClick
 import javax.inject.Inject
 
 /**
@@ -24,7 +26,11 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         setContentView(R.layout.activity_send_values)
         receipt = intent.getParcelableExtra<Receipt>(Constants.KEY_RECEIPT)
         initViews()
-        presenter.onViewAttached()
+        presenter.onViewAttached(receipt?.barcode!!)
+    }
+
+    override fun fillData() {
+        sendValuesButton.enabled = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -59,11 +65,12 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
-    }
-
-    private fun fillViews() {
-        barcode.text = receipt?.barcode
-        address.text = receipt?.address
-        debts.text = receipt?.amount
+        sendValuesButton.onClick {
+            presenter.onSendValuesClick(hashMapOf())
+        }
+        sendValuesBarcode.text = receipt?.barcode
+        sendValuesAddress.text = receipt?.address
+        sendValuesDebts.text = receipt?.amount
+        sendValuesButton.enabled = false
     }
 }
