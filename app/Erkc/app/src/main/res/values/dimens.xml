@@ -26,4 +26,6 @@
 
     <dimen name="bottom_sheet_height">56dp</dimen>
 
+    <dimen name="captcha_imageview_height">64dp</dimen>
+
 </resources>

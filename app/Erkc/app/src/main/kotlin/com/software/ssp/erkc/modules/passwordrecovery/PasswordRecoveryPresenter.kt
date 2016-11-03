@@ -21,11 +21,12 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
     private var isLoading = false
     private var email: String = ""
     private var login: String = ""
-    private var captcha: String = "12345"  //  todo change to "" when API will be ready OR delete IF captcha will be removed from project
+    private var captcha: String = "" 
 
     private val READING_DELAY_SECONDS = 3L
 
     override fun onViewAttached() {
+        fetchCaptcha()
     }
 
     override fun onLoginChanged(login: String) {
@@ -38,10 +39,15 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
         validateCredentials()
     }
 
+    override fun onCaptchaChanged(captcha: String) {
+        this.captcha = captcha
+        validateCredentials()
+    }
+
     override fun onSendButtonClick() {
         if (isLoading) return
         isLoading = true
-        subscriptions += authRepository.recoverPassword(activeSession.appToken!!, login, email)
+        subscriptions += authRepository.recoverPassword(activeSession.appToken!!, login, email, captcha)
                 .flatMap { response ->
                     isLoading = false
                     view?.showMessage(R.string.pass_recovery_sent_message)
@@ -58,9 +64,26 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
                 )
     }
 
+    override fun onCaptchaClick() {
+        fetchCaptcha()
+    }
+
     private fun validateCredentials() {
         val isValid = !email.isBlank() && !login.isBlank() && !captcha.isBlank()
         view?.setSendButtonEnabled(isValid)
 
+    }
+
+
+    private fun fetchCaptcha() {
+        subscriptions += authRepository.
+                getCapcha(activeSession.appToken!!)
+                .subscribe({
+                    captcha ->
+                    view?.showCaptcha(captcha.image)
+                }, {
+                    error ->
+                    view?.showMessage(error.message!!)
+                })
     }
 }
