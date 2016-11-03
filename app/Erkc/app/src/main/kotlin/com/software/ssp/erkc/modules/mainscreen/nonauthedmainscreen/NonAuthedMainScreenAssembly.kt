@@ -2,12 +2,13 @@ package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.scopes.ActivityScope
+import com.software.ssp.erkc.di.scopes.FragmentScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-@ActivityScope
+@FragmentScope
 @Component(modules = arrayOf(NonAuthedMainScreenModule::class), dependencies = arrayOf(AppComponent::class))
 interface NonAuthedMainScreenComponent {
     fun inject(nonAuthedMainScreenFragment: NonAuthedMainScreenFragment)
@@ -25,7 +26,7 @@ class NonAuthedMainScreenModule(val nonAuthedMainScreenView: INonAuthedMainScree
     interface Declarations {
 
         @Binds
-        @ActivityScope
+        @FragmentScope
         fun bindNonAuthedMainScreenPresenter(nonAuthedMainScreenPresenter: NonAuthedMainScreenPresenter): INonAuthedMainScreenPresenter
     }
 }

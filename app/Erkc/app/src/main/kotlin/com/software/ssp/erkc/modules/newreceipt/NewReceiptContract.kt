@@ -17,14 +17,16 @@ interface INewReceiptView : IView {
     fun showHouseError(errorStringResId: Int)
     fun showApartmentError(errorStringResId: Int)
 
-    fun setBarcodeField(barcode: String)
+    fun setStreetField(street: String)
 
     fun showProgressVisible(isVisible: Boolean)
+    fun showReceiptData(receipt: Receipt)
 }
 
 interface INewReceiptPresenter : IPresenter<INewReceiptView> {
     fun onBarCodeScanButtonClick()
     fun onAddressClick()
-    fun onBarCodeScanned(code: String)
+    fun onBarCodeScanned(barcode: String)
+    fun onAddressSelected(address: String)
     fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean)
 }

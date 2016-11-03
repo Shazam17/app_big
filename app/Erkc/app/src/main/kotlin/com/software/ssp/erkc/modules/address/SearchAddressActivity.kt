@@ -32,6 +32,7 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
     override fun navigateToDrawer(address: AddressCache) {
         val intent = Intent()
         intent.putExtra(Constants.KEY_ADDRESS_FIND_RESULT, address.id)
+        intent.putExtra(Constants.KEY_ADDRESS_NAME_RESULT, address.name)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

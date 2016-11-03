@@ -18,6 +18,6 @@ object Constants {
 
     const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
+    const val KEY_ADDRESS_NAME_RESULT = "KEY_ADDRESS_NAME_RESULT"
     const val REQUEST_CODE_ADDRESS_FIND = 12402
 }
-

@@ -1,9 +1,15 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
+import android.util.Log
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.utils.getStreetFromShortAddress
+import retrofit2.adapter.rxjava.HttpException
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -33,7 +39,17 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
             },
             { throwable ->
                 view?.showProgressVisible(false)
-                view?.showMessage(throwable.message.toString())
+
+                if(throwable is ApiException){
+                    when(throwable.errorCode){
+                        ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
+                        ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
+                        else -> view?.showMessage(throwable.parsedMessage())
+                    }
+                }
+                else{
+                    view?.showMessage(throwable.parsedMessage())
+                }
             }
         )
     }
@@ -47,7 +63,31 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     }
 
     override fun onBarCodeScanned(code: String) {
-        view?.showScannedBarcode(code)
+        view?.showProgressVisible(true)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, code)
+                .subscribe(
+                        { receipt ->
+                            view?.showProgressVisible(false)
+                            view?.showReceiptData(receipt)
+                        },
+                        { throwable ->
+                            view?.showProgressVisible(false)
+                            if (throwable is ApiException && throwable.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
+                                view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
+                            } else {
+                                view?.showMessage(throwable.parsedMessage())
+                            }
+                        }
+                )
+    }
+
+    override fun onAddressSelected(address: String) {
+        val street = getStreetFromShortAddress(address)
+        view?.setStreetField(street)
+    }
+
+    override fun onAddressClick() {
+        view?.navigateToStreetSelectScreen()
     }
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean{

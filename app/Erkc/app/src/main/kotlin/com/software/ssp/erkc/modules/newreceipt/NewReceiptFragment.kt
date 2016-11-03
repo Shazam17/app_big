@@ -12,7 +12,9 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.utils.splitFullAddress
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -40,9 +42,7 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
-
         presenter.onViewAttached()
     }
 
@@ -53,11 +53,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) return
+
         when (requestCode) {
-            Constants.REQUEST_CODE_BARCODE_SCAN ->
-                if (resultCode == Activity.RESULT_OK) {
-                    presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-                }
+            Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
+            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
         }
     }
 
@@ -70,8 +70,7 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToStreetSelectScreen() {
-        // todo
-        toast("navigateToStreetSelectScreen")
+        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {
@@ -100,19 +99,31 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         apartmentInputLayout.error = getString(errorStringResId)
     }
 
-    override fun setBarcodeField(barcode: String) {
-        barcodeEditText.setText(barcode)
-        streetInputLayout.isEnabled = false
-        houseInputLayout.isEnabled = false
-        apartmentInputLayout.isEnabled = false
-        streetEditText.setText("")
-        houseEditText.setText("")
-        apartmentEditText.setText("")
-    }
 
     override fun showProgressVisible(isVisible: Boolean) {
         progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
         continueButton.enabled = !isVisible
+    }
+
+    override fun showReceiptData(receipt: Receipt) {
+        barcodeEditText.setText(receipt.barcode)
+
+        streetInputLayout.isEnabled = false
+        houseInputLayout.isEnabled = false
+        apartmentInputLayout.isEnabled = false
+
+        val addressParts = splitFullAddress(receipt.address)
+        val street = addressParts[0]
+        val house = if (addressParts.size > 1) addressParts[1] else ""
+        val apartment = if (addressParts.size > 2) addressParts[2] else ""
+
+        streetEditText.setText(street)
+        houseEditText.setText(house)
+        apartmentEditText.setText(apartment)
+    }
+
+    override fun setStreetField(street: String) {
+        streetEditText.setText(street)
     }
 
     private fun initViews() {
@@ -130,6 +141,18 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
         streetEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> streetInputLayout.error = null }
+        }
+
+        streetInputLayout.isHintAnimationEnabled = false
+        streetEditText.onTouch { view, motionEvent ->
+            when {
+                motionEvent.actionMasked == MotionEvent.ACTION_UP -> {
+                    rootLayout.requestFocus()
+                    presenter.onAddressClick()
+                    true
+                }
+                else -> true
+            }
         }
 
         houseEditText.textChangedListener {
@@ -165,4 +188,5 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         sendValueCheckBox.visibility = if (isTransferValueVisible) View.VISIBLE else View.GONE
         sendValueCheckBox.setOnCheckedChangeListener { compoundButton, isChecked -> isTransferValue = isChecked }
     }
+
 }
