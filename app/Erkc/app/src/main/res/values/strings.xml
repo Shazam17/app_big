@@ -85,7 +85,7 @@
     <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
 
     <!-- Address search Screen -->
-    <string name="search_addresses_hint">Поиск адреса…</string>
+    <string name="search_addresses_hint">Введите адрес…</string>
     <string name="search_addresses_title"/>
 
     <!-- UserProfile Screen -->

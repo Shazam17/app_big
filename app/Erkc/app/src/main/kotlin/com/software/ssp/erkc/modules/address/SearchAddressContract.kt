@@ -9,10 +9,12 @@ import com.software.ssp.erkc.data.db.StreetCache
  */
 interface ISearchAddressView : IView {
     fun navigateToDrawer(street: StreetCache)
+    fun navigateToDrawer()
     fun showData(streets: List<StreetCache>)
 }
 
 interface ISearchAddressPresenter : IPresenter<ISearchAddressView> {
     fun onItemSelected(street: StreetCache)
     fun onQuery(query: String)
+    fun onBackClick()
 }

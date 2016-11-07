@@ -1,31 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/searchAddressBack"
+            android:paddingLeft="@dimen/half_default_margin"
+            android:paddingRight="@dimen/half_default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_back_black" />
+
+        <EditText
+            android:id="@+id/searchAddressQuery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_addresses_hint" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_weight="1"
+        android:layout_height="0dp" />
 
-    <FrameLayout
-        android:id="@+id/toolbar_container"
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary" />
-
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/searchView"
-            android:hint="@string/search_addresses_hint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-</FrameLayout>
+</LinearLayout>

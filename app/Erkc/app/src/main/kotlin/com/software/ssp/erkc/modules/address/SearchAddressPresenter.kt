@@ -13,16 +13,6 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
 
     @Inject lateinit var realmRepo: RealmRepository
 
-    override fun onViewAttached() {
-        super.onViewAttached()
-        subscriptions += realmRepo.getAllStreets()
-                .subscribe({
-                    streets ->
-                    view?.showData(streets)
-                })
-
-    }
-
     override fun onItemSelected(street: StreetCache) {
         view?.navigateToDrawer(street)
     }
@@ -33,11 +23,14 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
                     streets ->
                     view?.showData(streets)
                 })
-
     }
 
     override fun onViewDetached() {
         realmRepo.close()
         super.onViewDetached()
+    }
+
+    override fun onBackClick() {
+        view?.navigateToDrawer()
     }
 }
