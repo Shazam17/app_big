@@ -36,19 +36,20 @@
                         android:id="@+id/receiptName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/half_default_margin"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:paddingBottom="@dimen/half_default_margin"
                         android:textColor="@color/colorBlack"
                         android:textSize="20sp"
                         android:textStyle="normal|bold"
-                        tools:text="Отопление и ГВС" />
+                        tools:text="Отопление и очень горячая вода" />
 
                     <TextView
                         android:id="@+id/receiptBarcodeText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="000 000 00000 00" />
+                        tools:text="0000000000000" />
 
                     <TextView
                         android:id="@+id/receiptAmountText"
