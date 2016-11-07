@@ -90,7 +90,7 @@ class SignInActivity : MvpActivity(), ISignInView {
         signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }
 
         if (BuildConfig.DEBUG) {
-            signInLoginEditText.setText("kuku")
+            signInLoginEditText.setText("kiki")
             signInPasswordEditText.setText("123456")
         }
     }
