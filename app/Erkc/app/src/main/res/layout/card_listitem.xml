@@ -17,7 +17,7 @@
         card_view:cardElevation="@dimen/card_view_elevation"
         card_view:cardUseCompatPadding="true">
 
-        <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.daimajia.swipe.SwipeLayout
             android:layout_width="match_parent"
             android:id="@+id/cardListItemSwipe"
             android:layout_height="wrap_content">

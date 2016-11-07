@@ -58,6 +58,7 @@ class CardsAdapter(var cards: List<Card>, val itemEditClick: (Card) -> Unit, val
                     }
                 }
                 cardListItemSwipe.showMode = SwipeLayout.ShowMode.LayDown
+                cardListItemSwipe.isLeftSwipeEnabled = false
                 cardListItemDeleteImageButton.onClick {
                     itemDeleteClick(card)
                 }
