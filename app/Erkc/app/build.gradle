@@ -51,7 +51,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 
     compile 'com.google.android.gms:play-services-maps:9.6.1'
 
@@ -79,7 +78,6 @@ dependencies {
     kapt 'com.github.grandstaish.paperparcel:compiler:1.0.0'
 
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 
     compile 'android.lib.recaptcha:reCAPTCHA:2.0.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
@@ -92,6 +90,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
 }
 
 repositories {

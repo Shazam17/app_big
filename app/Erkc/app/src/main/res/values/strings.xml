@@ -2,6 +2,9 @@
     <string name="app_name">Erkc</string>
 
     <string name="load_data_title">Получение данных…</string>
+    <!-- Errors -->
+    <string name="error_all_fields_required">Все поля обязательный для заполнения</string>
+
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
@@ -74,8 +77,7 @@
     <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
 
     <!-- Send values screen -->
-    <string name="send_values_debts_des">Текущая задолженность</string>
-    <string name="send_values_date_des">Расчетный период</string>
+    <string name="send_values_debts_des">Текущая задолженность (расчетный период)</string>
     <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="send_values_title">Ввод показаний ИПУ</string>
 </resources>

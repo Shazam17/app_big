@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.sendvalues
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
+import com.software.ssp.erkc.data.rest.models.Ipu
 import java.util.*
 
 /**
@@ -9,10 +10,10 @@ import java.util.*
  */
 interface ISendValuesView : IView {
     fun navigateToDrawer()
-    fun fillData()
+    fun fillData(data: List<Ipu>)
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
-    fun onSendValuesClick(values: HashMap<String, String>)
+    fun onSendValuesClick(code: String, values: HashMap<String, String>)
     fun onViewAttached(code: String)
 }

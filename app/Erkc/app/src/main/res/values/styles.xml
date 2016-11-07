@@ -68,11 +68,12 @@
         <item name="android:textColorSecondary">@color/colorBlueButton</item>
     </style>
 
-    <style name="BodyTextView" parent="TextAppearance.AppCompat.Body1">
+    <style name="BodyTextView" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_marginTop">@dimen/half_default_margin</item>
+        <item name="android:textColor">@color/colorBlack</item>
     </style>
 
-    <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Body1">
+    <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/colorDarkText</item>
     </style>
     <!-- Input for Dark Theme -->
@@ -95,4 +96,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- Input with primary color bottom line -->
+    <style name="AppStyleInput" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorDarkText</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 </resources>

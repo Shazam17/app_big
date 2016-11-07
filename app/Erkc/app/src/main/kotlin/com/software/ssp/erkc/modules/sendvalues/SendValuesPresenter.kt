@@ -20,16 +20,28 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         subscriptions += ipuProvider.getByReceipt(activeSession.accessToken!!, code)
                 .subscribe({
                     data ->
-                    view?.fillData()
+                    view?.fillData(data.data)
                     view?.setProgressVisibility(false)
                 }, {
                     error ->
+                    error.printStackTrace()
                     view?.setProgressVisibility(false)
                     view?.showMessage(error.message!!)
                 })
     }
 
-    override fun onSendValuesClick(values: HashMap<String, String>) {
+    override fun onSendValuesClick(code: String, values: HashMap<String, String>) {
+        view?.setProgressVisibility(true)
+        subscriptions += ipuProvider.sendParameters(activeSession.accessToken!!, code, values)
+                .subscribe({
+                    response ->
+                    view?.setProgressVisibility(false)
+                    view?.navigateToDrawer()
+                }, {
+                    error ->
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(error.message!!)
+                })
     }
 
 }
