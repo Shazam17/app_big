@@ -22,27 +22,11 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
 
     override fun onViewAttached() {
         super.onViewAttached()
-        subscriptions += authRepository.
-                getCapcha(activeSession.appToken!!)
-                .subscribe({
-                    captcha ->
-                    view?.showCaptcha(captcha.image)
-                }, {
-                    error ->
-                    view?.showMessage(error.message!!)
-                })
+        fetchCaptcha()
     }
 
     override fun onCaptchaClick() {
-        subscriptions += authRepository.
-                getCapcha(activeSession.appToken!!)
-                .subscribe({
-                    captcha ->
-                    view?.showCaptcha(captcha.image)
-                }, {
-                    error ->
-                    view?.showMessage(error.message!!)
-                })
+        fetchCaptcha()
     }
 
     override fun onSignUpButtonClick(login: String, password: String, password2: String, name: String, email: String, turing: String) {
@@ -95,4 +79,15 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 )
     }
 
+    private fun fetchCaptcha() {
+        subscriptions += authRepository.
+                getCapcha(activeSession.appToken!!)
+                .subscribe({
+                    captcha ->
+                    view?.showCaptcha(captcha.image)
+                }, {
+                    error ->
+                    view?.showMessage(error.message!!)
+                })
+    }
 }

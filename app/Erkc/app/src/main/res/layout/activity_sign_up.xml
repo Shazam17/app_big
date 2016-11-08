@@ -117,7 +117,7 @@
         <ImageView
             android:id="@+id/signUpCaptchaImageView"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/captcha_imageview_height"
             android:scaleType="fitCenter" />
 
         <android.support.design.widget.TextInputLayout

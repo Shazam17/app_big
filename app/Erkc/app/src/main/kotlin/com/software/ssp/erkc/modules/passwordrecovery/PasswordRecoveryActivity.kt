@@ -7,6 +7,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.extensions.load
 import kotlinx.android.synthetic.main.activity_password_recovery.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
@@ -57,6 +58,10 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
         onBackPressed()
     }
 
+    override fun showCaptcha(imageByteArray: ByteArray) {
+        captchaImageView.load(imageByteArray)
+    }
+
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
@@ -69,6 +74,10 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
             onTextChanged { text, start, before, count -> presenter.onEmailChanged(text.toString()) }
         }
 
+        captchaEditText.textChangedListener {
+            onTextChanged { text, start, before, count -> presenter.onCaptchaChanged(text.toString()) }
+        }
+
         passwordRecoveryEmailEditText.onEditorAction { editText, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
                 passwordRecoveryLayout.requestFocus()
@@ -79,6 +88,11 @@ class PasswordRecoveryActivity : MvpActivity(), IPasswordRecoveryView {
         }
 
         passwordRecoverySendButton.onClick { onSendButtonClick() }
+
+        captchaImageView.onClick {
+            captchaImageView.setImageResource(android.R.color.transparent)
+            presenter.onCaptchaClick()
+        }
     }
 
     private fun onSendButtonClick() {
