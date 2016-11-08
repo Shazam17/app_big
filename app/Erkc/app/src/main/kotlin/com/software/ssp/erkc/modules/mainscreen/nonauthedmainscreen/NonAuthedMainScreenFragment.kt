@@ -11,9 +11,11 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
+import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
+import com.software.ssp.erkc.utils.splitFullAddress
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -50,12 +52,15 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
-            Constants.REQUEST_CODE_BARCODE_SCAN ->
-                if (resultCode == Activity.RESULT_OK) {
-                    presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-                }
+            Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
+            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
         }
+    }
+
+    override fun navigateToStreetSelectScreen() {
+        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
     }
 
     override fun beforeDestroy() {
@@ -117,6 +122,27 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenProgressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
     }
 
+    override fun setStreetField(street: String) {
+        mainScreenStreetEditText.setText(street)
+    }
+
+    override fun showReceiptData(receipt: Receipt) {
+        mainScreenBarcodeEditText.setText(receipt.barcode)
+
+        mainScreenStreetLayout.isEnabled = false
+        mainScreenHouseLayout.isEnabled = false
+        mainScreenApartmentLayout.isEnabled = false
+
+        val addressParts = splitFullAddress(receipt.address)
+        val street = addressParts[0]
+        val house = if (addressParts.size > 1) addressParts[1] else ""
+        val apartment = if (addressParts.size > 2) addressParts[2] else ""
+
+        mainScreenStreetEditText.setText(street)
+        mainScreenHouseEditText.setText(house)
+        mainScreenApartmentEditText.setText(apartment)
+    }
+
     private fun initViews() {
         mainScreenBarcodeEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
@@ -133,6 +159,19 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenStreetEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> mainScreenStreetLayout.error = null }
         }
+
+
+        mainScreenStreetLayout.isHintAnimationEnabled = false
+        mainScreenStreetEditText.onTouch { view, motionEvent ->
+                    when {
+                        motionEvent.actionMasked == MotionEvent.ACTION_UP -> {
+                            mainScreenRootLayout.requestFocus()
+                            presenter.onAddressClick()
+                            true
+                        }
+                        else -> true
+                    }
+                }
 
         mainScreenHouseEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> mainScreenHouseLayout.error = null }

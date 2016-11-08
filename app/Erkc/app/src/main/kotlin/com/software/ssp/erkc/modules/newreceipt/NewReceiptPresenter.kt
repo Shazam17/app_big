@@ -1,9 +1,13 @@
 package com.software.ssp.erkc.modules.newreceipt
 
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.utils.getStreetFromShortAddress
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -21,12 +25,33 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         view?.navigateToStreetSelectScreen()
     }
 
-    override fun onBarCodeScanned(code: String) {
-        view?.setBarcodeField(code)
+    override fun onBarCodeScanned(barcode: String) {
+        view?.showProgressVisible(true)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode)
+                .subscribe(
+                        { receipt ->
+                            view?.showProgressVisible(false)
+                            view?.showReceiptData(receipt)
+                        },
+                        { throwable ->
+                            view?.showProgressVisible(false)
+                            if (throwable is ApiException && throwable.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
+                                view?.showBarcodeError(R.string.api_error_unknown_barcode)
+                            } else {
+                                view?.showMessage(throwable.parsedMessage())
+                            }
+                        }
+                )
+
+    }
+
+    override fun onAddressSelected(address: String) {
+        val street = getStreetFromShortAddress(address)
+        view?.setStreetField(street)
     }
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
-        if(!validFields(barcode, street, house, apartment, isWithAddress)){
+        if (!validFields(barcode, street, house, apartment, isWithAddress)) {
             return
         }
         view?.showProgressVisible(true)
@@ -39,7 +64,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
                             view?.showProgressVisible(false)
 
-                            if(isSendValue) {
+                            if (isSendValue) {
                                 view?.navigateToIPUInputScreen(receipt)
                             } else {
                                 view?.navigateToPayScreen(receipt)
@@ -47,27 +72,35 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                         },
                         { throwable ->
                             view?.showProgressVisible(false)
-                            view?.showMessage(throwable.message.toString())
+                            if (throwable is ApiException) {
+                                when (throwable.errorCode) {
+                                    ApiErrorType.UNKNOWN_BARCODE -> view?.showBarcodeError(R.string.api_error_unknown_barcode)
+                                    ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
+                                    else -> view?.showMessage(throwable.parsedMessage())
+                                }
+                            } else {
+                                view?.showMessage(throwable.parsedMessage())
+                            }
                         }
                 )
     }
 
 
-    private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean{
+    private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
         var isValid = true
-        if(barcode.isNullOrEmpty()){
+        if (barcode.isNullOrBlank()) {
             isValid = false
             view?.showBarcodeError(R.string.error_empty_field)
         }
-        if(isWithAddress && street.isNullOrEmpty()){
+        if (isWithAddress && street.isNullOrBlank()) {
             isValid = false
             view?.showStreetError(R.string.error_empty_field)
         }
-        if(isWithAddress && house.isNullOrEmpty()){
+        if (isWithAddress && house.isNullOrBlank()) {
             isValid = false
             view?.showHouseError(R.string.error_empty_field)
         }
-        if(isWithAddress && apartment.isNullOrEmpty()){
+        if (isWithAddress && apartment.isNullOrBlank()) {
             isValid = false
             view?.showApartmentError(R.string.error_empty_field)
         }

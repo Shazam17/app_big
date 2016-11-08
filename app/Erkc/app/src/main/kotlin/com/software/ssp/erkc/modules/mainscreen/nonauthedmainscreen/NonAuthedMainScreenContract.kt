@@ -16,6 +16,10 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToEnterValues(receipt: Receipt)
     fun navigateToPaymentScreen(receipt: Receipt)
     fun showProgressVisible(isVisible: Boolean)
+
+    fun setStreetField(street: String)
+    fun navigateToStreetSelectScreen()
+    fun showReceiptData(receipt: Receipt)
 }
 
 interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
@@ -23,5 +27,7 @@ interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
     fun onSignInClick()
     fun onSignUpClick()
     fun onBarCodeScanned(code: String)
+    fun onAddressSelected(address: String)
+    fun onAddressClick()
 }
 
