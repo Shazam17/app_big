@@ -17,13 +17,16 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
 
     override fun onViewAttached() {
         super.onViewAttached()
+        view?.setLoadingVisible(true)
         subscriptions += cardsRepository
                 .fetchCards(activeSession.accessToken!!)
                 .subscribe({
                     cards ->
+                    view?.setLoadingVisible(false)
                     view?.showData(cards.data ?: emptyList())
                 }, {
                     error ->
+                    view?.setLoadingVisible(false)
                     view?.showMessage(error.message!!)
                 })
     }
@@ -45,7 +48,21 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
     }
 
     override fun onDeleteClick(card: Card) {
-        view?.showMessage("not implemented")
+        view?.setLoadingVisible(true)
+        subscriptions += cardsRepository
+                .deleteCard(activeSession.accessToken!!, card.id)
+                .flatMap {
+                    cardsRepository.fetchCards(activeSession.accessToken!!)
+                }
+                .subscribe({
+                    cards ->
+                    view?.setLoadingVisible(false)
+                    view?.showData(cards.data ?: emptyList())
+                }, {
+                    error ->
+                    view?.setLoadingVisible(false)
+                    view?.showMessage(error.message!!)
+                })
     }
 
 }

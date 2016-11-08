@@ -4,6 +4,7 @@ import com.software.ssp.erkc.data.rest.datasource.CardsDataSource
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.CardRegistration
 import com.software.ssp.erkc.data.rest.models.DataResponse
+import okhttp3.ResponseBody
 import rx.Observable
 import javax.inject.Inject
 
@@ -19,5 +20,9 @@ class CardsRepository @Inject constructor(private val cardsDataSource: CardsData
 
     fun registrateCard(token: String, id: String): Observable<DataResponse<CardRegistration>> {
         return cardsDataSource.registration(token, id).compose(this.applySchedulers<DataResponse<CardRegistration>>())
+    }
+
+    fun deleteCard(token: String, id: String): Observable<ResponseBody> {
+        return cardsDataSource.deleteCard(token, id).compose(this.applySchedulers<ResponseBody>())
     }
 }

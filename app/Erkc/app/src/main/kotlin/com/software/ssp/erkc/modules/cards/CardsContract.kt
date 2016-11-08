@@ -14,6 +14,7 @@ interface ICardsView : IView {
     fun navigateToEditCard(card: Card)
     fun navigateToAddCard()
     fun navigateToHelp()
+    fun setLoadingVisible(visible: Boolean)
 }
 
 interface ICardsPresenter : IPresenter<ICardsView> {

@@ -14,7 +14,7 @@ interface CardsDataSource {
 
     @POST("?method=cards.delete")
     @FormUrlEncoded
-    fun deleteCard(): Observable<ResponseBody>
+    fun deleteCard(@Field("token") token: String, @Field("id") id: String): Observable<ResponseBody>
 
     @POST("?method=cards.activation")
     @FormUrlEncoded

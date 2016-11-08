@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.cards
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
@@ -9,6 +10,8 @@ import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.addcard.AddCardActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
+import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.progressDialog
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -19,6 +22,7 @@ class CardsFragment : MvpFragment(), ICardsView {
 
     @Inject lateinit var presenter: ICardsPresenter
     var mAdapter: CardsAdapter? = null
+    var progressDialog: ProgressDialog? = null
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerCardsComponent.builder()
@@ -65,6 +69,13 @@ class CardsFragment : MvpFragment(), ICardsView {
 
     override fun beforeDestroy() {
         presenter.dropView()
+    }
+
+    override fun setLoadingVisible(visible: Boolean) {
+        if (progressDialog == null) {
+            progressDialog = indeterminateProgressDialog(R.string.load_data)
+        }
+        if (visible) progressDialog?.show() else progressDialog?.dismiss()
     }
 
     override fun showData(cards: List<Card>) {
