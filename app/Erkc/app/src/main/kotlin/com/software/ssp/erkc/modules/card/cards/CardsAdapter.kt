@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.cards
+package com.software.ssp.erkc.modules.card.cards
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

@@ -28,4 +28,8 @@ interface CardsDataSource {
     @FormUrlEncoded
     fun add(@Field("token") token: String, @Field("name") name: String): Observable<DataResponse<Card>>
 
+    @POST("?method=cards.update")
+    @FormUrlEncoded
+    fun updateCard(@FieldMap map: Map<String, String>): Observable<ResponseBody>
+
 }

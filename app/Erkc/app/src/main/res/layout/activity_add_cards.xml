@@ -5,25 +5,9 @@
     android:id="@+id/addCardViewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modules.addcard.AddCardActivity">
+    tools:context=".modules.card.addcard.AddCardActivity">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/add_card_name_hint"
-        android:padding="@dimen/default_margin"
-        android:theme="@style/AppLightStyleInput"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/AppLightStyleInput.ErrorTextAppearance"
-        app:hintTextAppearance="@style/AppLightStyleInput.HintTextAppearance">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/addCardNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    <include layout="@layout/cardname_layout"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

@@ -25,4 +25,8 @@ class CardsRepository @Inject constructor(private val cardsDataSource: CardsData
     fun deleteCard(token: String, id: String): Observable<ResponseBody> {
         return cardsDataSource.deleteCard(token, id).compose(this.applySchedulers<ResponseBody>())
     }
+
+    fun updateCard(token: String, id: String, name: String) : Observable<ResponseBody> {
+        return cardsDataSource.updateCard(mapOf("token" to token, "id" to id, "name" to name)).compose(this.applySchedulers<ResponseBody>())
+    }
 }

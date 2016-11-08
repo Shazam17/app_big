@@ -45,9 +45,13 @@
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
         <activity
-            android:name=".modules.addcard.AddCardActivity"
+            android:name="com.software.ssp.erkc.modules.card.addcard.AddCardActivity"
             android:theme="@style/AppTheme.Light"
             android:label="@string/add_card_title"/>
+        <activity
+            android:name="com.software.ssp.erkc.modules.card.editcard.EditCardActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/edit_card_title"/>
 
         <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
             android:theme="@style/AppTheme.Dark"

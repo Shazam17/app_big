@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.cards
+package com.software.ssp.erkc.modules.card.cards
 
 import android.support.annotation.StringRes
 import com.software.ssp.erkc.R

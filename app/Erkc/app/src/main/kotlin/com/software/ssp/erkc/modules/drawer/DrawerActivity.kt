@@ -12,7 +12,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.cards.CardsFragment
+import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMainScreenFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity

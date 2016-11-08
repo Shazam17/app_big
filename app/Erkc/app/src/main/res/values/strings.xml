@@ -105,4 +105,7 @@
     <string name="add_card_title">Регистрация карты</string>
     <string name="add_card_name_hint">Название карты</string>
     <string name="add_card_done">Готово</string>
+
+    <!-- Edit card screen -->
+    <string name="edit_card_title">Переименование карты</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.addcard
+package com.software.ssp.erkc.modules.card.addcard
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -12,6 +12,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_add_cards.*
+import kotlinx.android.synthetic.main.cardname_layout.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onKey
 import javax.inject.Inject

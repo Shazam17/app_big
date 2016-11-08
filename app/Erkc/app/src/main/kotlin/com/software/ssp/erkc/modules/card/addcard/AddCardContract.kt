@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.addcard
+package com.software.ssp.erkc.modules.card.addcard
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView

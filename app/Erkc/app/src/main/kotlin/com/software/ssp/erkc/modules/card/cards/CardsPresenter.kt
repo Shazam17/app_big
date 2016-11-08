@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.cards
+package com.software.ssp.erkc.modules.card.cards
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession

@@ -1,14 +1,16 @@
-package com.software.ssp.erkc.modules.cards
+package com.software.ssp.erkc.modules.card.cards
 
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.addcard.AddCardActivity
+import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
+import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.progressDialog
@@ -91,7 +93,7 @@ class CardsFragment : MvpFragment(), ICardsView {
     }
 
     override fun navigateToEditCard(card: Card) {
-        showMessage("not implemented")
+        startActivity<EditCardActivity>(Constants.KEY_SELECTED_CARD_ITEM to card)
     }
 
     override fun navigateToAddCard() {

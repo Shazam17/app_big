@@ -12,6 +12,7 @@ object Constants {
     const val RECAPTCHA_PRIVATE_KEY = "6Ld_WAoUAAAAAFWd3MLwjhDaMPnSs_Yufi0GT8mN"
 
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
+    const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val REQUEST_CODE_ADDRESS_FIND = 12402
 
