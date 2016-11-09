@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
-class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
+class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
 
     @Inject lateinit var presenter: IReceiptListPresenter
 
@@ -60,20 +59,20 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
         presenter.onSwipeToRefresh()
     }
 
+    override fun receiptDidNotDeleted(receipt: Receipt) {
+        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+    }
+
+    override fun receiptDeleted(receipt: Receipt){
+        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    }
+
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = ReceiptListAdapter(dataset,
+        return ReceiptListAdapter(dataset,
                 { receipt -> presenter.onPayButtonClick(receipt) },
                 { receipt -> presenter.onTransferButtonClick(receipt) },
                 { receipt -> presenter.onHistoryButtonClick(receipt) },
-                { receipt, position ->
-                    dataset.find { it.address == receipt.address }?.receipts?.remove(receipt)
-                    adapter?.notifyDataSetChanged()
-                    presenter.onReceiptDeleted(receipt)
-                })
-
-        adapter.shouldShowHeadersForEmptySections(false)
-
-        return adapter
+                { receipt, position -> presenter.onReceiptDeleted(receipt) })
     }
 
     override fun navigateToAddReceiptScreen() {

@@ -131,6 +131,7 @@
     <string name="receipts_pay_button">Оплатить</string>
     <string name="receipts_last_transfer_text">Последние показания</string>
     <string name="receipts_last_pay_text">Последняя оплата</string>
+    <string name="receipts_deleted">Квитанция успешно удалена</string>
 
     <!-- API errors -->
     <string name="api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>

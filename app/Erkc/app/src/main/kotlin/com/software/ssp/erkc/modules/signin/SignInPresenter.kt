@@ -4,10 +4,10 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
-import com.software.ssp.erkc.common.receipt.getMockReceiptList
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -72,10 +72,24 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .subscribe(
                         {
                             receipts ->
-                            activeSession.cachedReceipts = receipts
 
-                            //TODO REMOVE next
-                            activeSession.cachedReceipts = getMockReceiptList().sortedBy { it.address }
+                            activeSession.cachedReceipts = receipts?.sortedBy { it.address }
+
+                            //TODO REMOVE NEXT
+                            activeSession.cachedReceipts = listOf(
+                                    Receipt("1", null, "1", "aaa", "2", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("2", null, "1", "bbb", "2", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("3", null, "1", "ccc", "2", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("4", null, "1", "ddd", "1", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("5", null, "1", "eee", "1", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("6", null, "1", "fff", "1", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("7", null, "1", "ggg", "3", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("8", null, "1", "hhh", "1", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("9", null, "1", "iii", "4", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("10", null, "1", "jjj", "1", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("11", null, "1", "kkk", "4", "asdasd", "0000000000000", "type", null, null),
+                                    Receipt("12", null, "1", "ddd", "1", "asdasd", "0000000000000", "type", null, null)
+                            ).sortedBy { it.address }
 
                             view?.setProgressVisibility(false)
                             view?.navigateToDrawerScreen()

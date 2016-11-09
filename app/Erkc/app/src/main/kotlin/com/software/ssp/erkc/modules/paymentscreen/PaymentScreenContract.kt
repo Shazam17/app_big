@@ -4,11 +4,11 @@ import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 
 
-interface IPaymentScreenView: IView {
+interface IPaymentScreenView : IView {
     fun navigateToAddReceiptScreen()
     fun navigateToPaymentsList()
 }
 
-interface IPaymentScreenPresenter: IPresenter<IPaymentScreenView> {
+interface IPaymentScreenPresenter : IPresenter<IPaymentScreenView> {
 
 }

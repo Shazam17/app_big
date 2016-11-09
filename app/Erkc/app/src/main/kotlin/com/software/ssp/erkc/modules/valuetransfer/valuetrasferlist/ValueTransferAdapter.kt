@@ -6,25 +6,25 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.receipt.BaseReceiptAdapter
 import com.software.ssp.erkc.common.receipt.BaseReceiptViewHolder
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
-import com.software.ssp.erkc.common.receipt.ReceiptViewModel
+import com.software.ssp.erkc.data.rest.models.Receipt
 import kotlinx.android.synthetic.main.item_receipt.view.*
+import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 
-class ValueTransferAdapter(dataList: List<ReceiptSectionViewModel>,
-                           val transferClickListener: ((ReceiptViewModel) -> Unit)? = null,
-                           val onDeleteClickListener: ((ReceiptViewModel, Int) -> Unit)? = null) : BaseReceiptAdapter<ValueTransferAdapter.ViewHolder>(dataList) {
+class ValueTransferAdapter(dataList: List<Receipt>,
+                           val transferClickListener: ((Receipt) -> Unit)? = null,
+                           val onDeleteClickListener: ((Receipt, Int) -> Unit)? = null) : BaseReceiptAdapter<ValueTransferAdapter.ViewHolder>(dataList) {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(if (viewType == VIEW_TYPE_HEADER) R.layout.item_receipt_header else R.layout.item_receipt, parent, false)
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_receipt, parent, false)
         return ViewHolder(view, transferClickListener, onDeleteClickListener)
     }
 
     class ViewHolder(view: View,
-                     val onTransferClickListener: ((ReceiptViewModel) -> Unit)?,
-                     val onDeleteClickListener: ((ReceiptViewModel, Int) -> Unit)?) : BaseReceiptViewHolder(view) {
+                     val onTransferClickListener: ((Receipt) -> Unit)?,
+                     val onDeleteClickListener: ((Receipt, Int) -> Unit)?) : BaseReceiptViewHolder(view) {
 
-        override fun bindReceipt(receipt: ReceiptViewModel) {
+        override fun bindReceipt(receipt: Receipt) {
             super.bindReceipt(receipt)
 
             with(itemView) {
@@ -36,7 +36,11 @@ class ValueTransferAdapter(dataList: List<ReceiptSectionViewModel>,
 
                 receiptTransferButton.onClick { onTransferClickListener?.invoke(receipt) }
                 deleteButton.onClick {
-                    swipeLayout.animateReset()
+                    deleteProgressBar.visibility = View.VISIBLE
+                    receiptPayButton.enabled = false
+                    receiptTransferButton.enabled = false
+                    receiptPaymentHistoryImageButton.isEnabled = false
+                    deleteButton.isEnabled = false
                     onDeleteClickListener?.invoke(receipt, adapterPosition)
                 }
             }

@@ -9,6 +9,6 @@ class User(
         @SerializedName("name")
         val name: String,
         @SerializedName("address")
-        val address: String,
+        val address: String?, //Maybe removed from API model
         @SerializedName("login")
         val login: String)

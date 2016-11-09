@@ -1,12 +1,12 @@
 package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
-import com.software.ssp.erkc.common.receipt.ReceiptType
-import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
-import java.util.*
+import com.software.ssp.erkc.extensions.parsedMessage
+import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 
@@ -15,66 +15,67 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    private val dataSet: MutableList<ReceiptSectionViewModel> = ArrayList()
-
     override fun onViewAttached() {
         super.onViewAttached()
-        onSwipeToRefresh()
-    }
-
-    override fun onItemClick(item: ReceiptSectionViewModel) {
+        view?.showData(activeSession.cachedReceipts!!)
     }
 
     override fun onSwipeToRefresh() {
-        dataSet.clear()
-
-        val rnd = Random()
-
-        activeSession.cachedReceipts?.forEach {
-            //TODO API CALLs
-
-            addReceiptToDataSet(
-                    ReceiptViewModel(
-                            null,
-                            it.serviceName,
-                            it.address,
-                            it.barcode,
-                            it.amount,
-                            if (rnd.nextBoolean()) ReceiptType.POWER else ReceiptType.WATER,
-                            rnd.nextBoolean(),
-                            rnd.nextBoolean(),
-                            "1.1.1",
-                            "2.2.2"))
-        }
-
-        view?.showData(dataSet)
+        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                .subscribe(
+                        {
+                            receipts ->
+                            activeSession.cachedReceipts = receipts?.sortedBy { it.address }
+                            view?.showData(activeSession.cachedReceipts!!)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setLoadingVisible(false)
+                        })
     }
 
-    override fun onPayButtonClick(receiptViewModel: ReceiptViewModel) {
-        val receipt = activeSession.cachedReceipts?.find { it.barcode == receiptViewModel.barcode }
-        view?.navigateToPayScreen(receipt!!)
+    override fun onItemClick(item: Receipt) {
     }
 
-    override fun onTransferButtonClick(receiptViewModel: ReceiptViewModel) {
-        val receipt = activeSession.cachedReceipts?.find { it.barcode == receiptViewModel.barcode }
-        view?.navigateToIPUInputScreen(receipt!!)
+    override fun onPayButtonClick(receipt: Receipt) {
+        view?.navigateToPayScreen(receipt)
     }
 
-    override fun onHistoryButtonClick(receiptViewModel: ReceiptViewModel) {
-        val receipt = activeSession.cachedReceipts?.find { it.barcode == receiptViewModel.barcode }
-        view?.navigateToHistoryScreen(receipt!!)
+    override fun onTransferButtonClick(receipt: Receipt) {
+        view?.navigateToIPUInputScreen(receipt)
+    }
+
+    override fun onHistoryButtonClick(receipt: Receipt) {
+        view?.navigateToHistoryScreen(receipt)
     }
 
     override fun onAddReceiptButtonClick() {
         view?.navigateToAddReceiptScreen()
     }
 
-    override fun onReceiptDeleted(receiptViewModel: ReceiptViewModel) {
-        //TODO DELETE API CALL
-    }
-
-    private fun addReceiptToDataSet(receipt: ReceiptViewModel) {
-        dataSet.find { it.address == receipt.address }?.receipts?.add(receipt) ?:
-                dataSet.add(ReceiptSectionViewModel(receipt.address, arrayListOf(receipt)))
+    override fun onReceiptDeleted(receipt: Receipt) {
+        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id!!)
+                .concatMap {
+                    view?.receiptDeleted(receipt)
+                    view?.showMessage(R.string.receipts_deleted)
+                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
+                .subscribe(
+                        {
+                            receipts ->
+                            if(receipts == null || receipts.count() == 0){
+                                activeSession.cachedReceipts = null
+                                view?.navigateToAddReceiptScreen()
+                            } else {
+                                activeSession.cachedReceipts = receipts.sortedBy { it.address }
+                            }
+                        },
+                        {
+                            error ->
+                            view?.receiptDidNotDeleted(receipt)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 }

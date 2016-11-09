@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.data.rest.datasource
 
+import com.software.ssp.erkc.data.rest.models.ApiResponse
 import com.software.ssp.erkc.data.rest.models.Receipt
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,4 +14,7 @@ interface ReceiptsDataSource {
 
     @GET("?method=receipts.getbyuser")
     fun fetchReceipts(@Query("token") token: String): Observable<List<Receipt>>
+
+    @GET("?method=receipts.deletebyuser")
+    fun deleteReceipt(@QueryMap params: Map<String, String>): Observable<ApiResponse>
 }
