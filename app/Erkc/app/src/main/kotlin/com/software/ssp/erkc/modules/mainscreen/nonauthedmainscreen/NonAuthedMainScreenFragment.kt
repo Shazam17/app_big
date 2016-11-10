@@ -5,14 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.inDebugMode
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
 import com.software.ssp.erkc.utils.splitFullAddress
@@ -75,18 +80,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenBarcodeLayout.error = getString(resId)
     }
 
-    override fun showErrorStreetMessage(resId: Int) {
-        mainScreenStreetLayout.error = getString(resId)
-    }
-
-    override fun showErrorHouseMessage(resId: Int) {
-        mainScreenHouseLayout.error = getString(resId)
-    }
-
-    override fun showErrorApartmentMessage(resId: Int) {
-        mainScreenApartmentLayout.error = getString(resId)
-    }
-
     override fun showScannedBarcode(code: String) {
         mainScreenBarcodeEditText.setText(code)
         mainScreenStreetLayout.isEnabled = false
@@ -110,16 +103,15 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         showMessage("TODO: NavigateToPayment")
     }
 
-    override fun navigateToEnterValues(receipt: Receipt){
-        //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues")
+    override fun navigateToSendValuesScreen(data: Receipt) {
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to data)
     }
 
     override fun showProgressVisible(isVisible: Boolean) {
         mainScreenContinueButton.enabled = !isVisible
         mainScreenSingInButton.enabled = !isVisible
         mainScreenRegistrationButton.enabled = !isVisible
-        mainScreenProgressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        mainScreenProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun setStreetField(street: String) {
@@ -144,6 +136,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     private fun initViews() {
+        inDebugMode {
+            mainScreenBarcodeEditText.setText("3523740000873")
+        }
         mainScreenBarcodeEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
                 mainScreenBarcodeLayout.error = null

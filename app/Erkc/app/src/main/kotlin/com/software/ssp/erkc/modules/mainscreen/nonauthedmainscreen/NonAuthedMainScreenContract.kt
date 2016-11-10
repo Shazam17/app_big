@@ -7,14 +7,11 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 
 interface INonAuthedMainScreenView : IView {
     fun showErrorBarcodeMessage(resId: Int)
-    fun showErrorStreetMessage(resId: Int)
-    fun showErrorHouseMessage(resId: Int)
-    fun showErrorApartmentMessage(resId: Int)
     fun showScannedBarcode(code: String)
     fun navigateToSignInScreen()
     fun navigateToSignUpScreen()
-    fun navigateToEnterValues(receipt: Receipt)
     fun navigateToPaymentScreen(receipt: Receipt)
+    fun navigateToSendValuesScreen(data: Receipt)
     fun showProgressVisible(isVisible: Boolean)
 
     fun setStreetField(street: String)

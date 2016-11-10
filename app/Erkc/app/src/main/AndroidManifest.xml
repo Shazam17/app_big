@@ -77,6 +77,10 @@
         <activity android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
             android:label="@string/offline_password_title" />
 
+        <activity
+            android:name=".modules.sendvalues.SendValuesActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/send_values_title"/>
     </application>
 
 </manifest>

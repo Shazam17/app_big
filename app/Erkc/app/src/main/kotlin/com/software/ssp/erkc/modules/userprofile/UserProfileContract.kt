@@ -7,7 +7,6 @@ import com.software.ssp.erkc.data.rest.models.User
 
 interface IUserProfileView : IView {
     fun close()
-    fun setProgressVisibility(isVisible: Boolean)
     fun showUserInfo(user: User)
     fun showErrorNameMessage(resId: Int)
     fun showErrorEmailMessage(resId: Int)

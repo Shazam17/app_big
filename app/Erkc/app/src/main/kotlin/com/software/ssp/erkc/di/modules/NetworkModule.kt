@@ -65,6 +65,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun providesIpuDataSource(retrofit: Retrofit): IpuDataSource {
+        return retrofit.create(IpuDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providesDictionarySource(retrofit: Retrofit): DictionaryDataSource {
         return retrofit.create(DictionaryDataSource::class.java)
     }

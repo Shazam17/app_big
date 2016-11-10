@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight=".9">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_default_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sendValuesBarcode"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                style="@style/BodyTextViewSub"
+                android:text="@string/send_values_barcode_des"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sendValuesAddress"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sendValuesDebts"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/send_values_debts_des"
+                style="@style/BodyTextViewSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/parametersContainer"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:padding="@dimen/half_default_margin"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_gravity="center"
+            android:text="@string/send_parameters_button"
+            style="@style/AppWhiteBlueButtonStyle"
+            android:id="@+id/sendValuesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</LinearLayout>

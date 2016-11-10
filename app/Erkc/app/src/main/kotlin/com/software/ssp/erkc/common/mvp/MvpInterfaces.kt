@@ -6,6 +6,7 @@ interface IView {
     fun application(): ErkcApplication
     fun showMessage(message: String)
     fun showMessage(messageResId: Int)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface IListView<M> : IView {

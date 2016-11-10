@@ -18,6 +18,7 @@ interface AppComponent {
     fun provideHttpClient(): OkHttpClient
     fun provideAuthProvider(): AuthProvider
     fun provideAuthDataSource(): AuthDataSource
+    fun provideIpuDataSource(): IpuDataSource
     fun provideDictionaryDataSource(): DictionaryDataSource
     fun provideAccountDataSource(): AccountDataSource
     fun provideReceiptsDataSource(): ReceiptsDataSource
