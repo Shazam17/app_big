@@ -28,10 +28,13 @@
     <color name="colorWhite60">#99FFFFFF</color>
 
     <color name="colorDarkText">#515151</color>
+    <color name="colorHelp">#acabab</color>
 
     <color name="colorError">#FFC5C5</color>
 
     <color name="colorRed">#D42A2B</color>
 
     <color name="colorInactive">#444444</color>
+    <color name="colorCardView">#dddedd</color>
+    <color name="colorGreen">#76b33a</color>
 </resources>

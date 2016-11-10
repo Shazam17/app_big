@@ -20,9 +20,9 @@ interface AppComponent {
     fun provideAuthDataSource(): AuthDataSource
     fun provideDictionaryDataSource(): DictionaryDataSource
     fun provideAccountDataSource(): AccountDataSource
-    fun provideCardsDataSource(): CardsDataSource
     fun provideReceiptsDataSource(): ReceiptsDataSource
     fun provideFaqDataSource(): FaqDataSource
+    fun provideCardsDataSource(): CardsDataSource
     fun provideActiveSession(): ActiveSession
     fun provideRealm(): Realm
 }

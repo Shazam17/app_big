@@ -5,7 +5,7 @@ import nz.bradcampbell.paperparcel.PaperParcel
 import nz.bradcampbell.paperparcel.PaperParcelable
 
 /**
- * @author Alexander Popov on 10/11/2016.
+ * @author Alexander Popov on 28/10/2016.
  */
 @PaperParcel
 data class Card(

@@ -38,6 +38,10 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    dexOptions {
+        jumboMode = true
+    }
 }
 
 kapt {
@@ -53,7 +57,7 @@ dependencies {
 
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
 
     compile 'com.google.android.gms:play-services-maps:9.8.0'
 
@@ -89,6 +93,7 @@ dependencies {
     compile 'com.chibatching:kotpref:1.5.0'
 
     compile 'ru.rambler.android:swipe-layout:1.0.14'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

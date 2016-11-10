@@ -27,5 +27,8 @@
     <dimen name="bottom_sheet_height">56dp</dimen>
 
     <dimen name="captcha_imageview_height">64dp</dimen>
+    <dimen name="bottom_sheen_height">?attr/actionBarSize</dimen>
+    <dimen name="card_view_radius">4dp</dimen>
+    <dimen name="card_view_elevation">4dp</dimen>
 
 </resources>
