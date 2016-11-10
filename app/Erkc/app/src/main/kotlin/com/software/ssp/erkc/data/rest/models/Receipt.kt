@@ -3,29 +3,75 @@ package com.software.ssp.erkc.data.rest.models
 import com.google.gson.annotations.SerializedName
 
 class Receipt(
-        @SerializedName("amount")
-        val amount: String,
+
+        @SerializedName("street")
+        val street: String,
+
         @SerializedName("mode_id")
-        val autoPayMode: String?,
-        @SerializedName("supplier_name")
-        val supplierName: String,
+        val autoPayMode: Int,
+
         @SerializedName("service_name")
-        val serviceName: String,
-        @SerializedName("address")
-        val address: String,
+        val name: String,
+
+        @SerializedName("maxsumma")
+        val maxSumm: Double,
+
         @SerializedName("id")
-        val id: String?,
-        @SerializedName("barcode")
-        val barcode: String,
-        @SerializedName("service_code")
-        val serviceCode: Int,
+        val id: String,
+
         @SerializedName("lastpay")
         val lastPayment: String?,
+
+        @SerializedName("address")
+        val address: String,
+
+        @SerializedName("service_code")
+        val serviceCode: Int,
+
+        @SerializedName("payment")
+        val payment: Double,
+
+        @SerializedName("barcode")
+        val barcode: String,
+
         @SerializedName("lastsendmeteripu")
-        val lastValueTransfer: String?) {
+        val lastValueTransfer: String?,
+
+        @SerializedName("supplier_name")
+        val supplierName: String,
+
+        @SerializedName("percent_q")
+        val persent: Double,
+
+        @SerializedName("user_card_id")
+        val linkedCardId: String?) {
 
     var receiptType: ReceiptType = ReceiptType.TEST
-        get() = receiptType.parseCode(serviceCode)
+        get() = parseCode(serviceCode)
+
+    fun parseCode(code: Int): ReceiptType {
+        when (code) {
+            352, 357 -> return ReceiptType.GKU
+            in 451..458 -> return ReceiptType.RENT
+            323, 324 -> return ReceiptType.WATER
+            321 -> return ReceiptType.WATER_CITY
+            322 -> return ReceiptType.WATER_PRIVATE
+            393 -> return ReceiptType.ANTENNA
+            605 -> return ReceiptType.DOMOFON
+            607 -> return ReceiptType.OTHER
+            358 -> return ReceiptType.HEAT
+            353 -> return ReceiptType.UK_OTHER
+            354 -> return ReceiptType.HEAT_FINE
+            355 -> return ReceiptType.GKU_OTHER
+            350 -> return ReceiptType.TEST
+            610 -> return ReceiptType.GKU_ERKC
+            612 -> return ReceiptType.OVERHAUL
+            615 -> return ReceiptType.OVERHAUL_VILLAGE
+            611 -> return ReceiptType.OVERHAUL_FINE
+            351 -> return ReceiptType.GKU_FINE
+            else -> return ReceiptType.TEST
+        }
+    }
 }
 
 enum class ReceiptType() {
@@ -47,28 +93,4 @@ enum class ReceiptType() {
     OVERHAUL_FINE,
     GKU_FINE,
     TEST; //TODO REMOVE TEST;
-
-    fun parseCode(code: Int): ReceiptType {
-        when (code) {
-            352, 357 -> return GKU
-            in 451..458 -> return RENT
-            323, 324 -> return WATER
-            321 -> return WATER_CITY
-            322 -> return WATER_PRIVATE
-            393 -> return ANTENNA
-            605 -> return DOMOFON
-            607 -> return OTHER
-            358 -> return HEAT
-            353 -> return UK_OTHER
-            354 -> return HEAT_FINE
-            355 -> return GKU_OTHER
-            350 -> return TEST
-            610 -> return GKU_ERKC
-            612 -> return OVERHAUL
-            615 -> return OVERHAUL_VILLAGE
-            611 -> return OVERHAUL_FINE
-            351 -> return GKU_FINE
-            else -> return TEST
-        }
-    }
 }

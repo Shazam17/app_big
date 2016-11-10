@@ -152,6 +152,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
                     mainScreenStreetLayout.isEnabled = true
                     mainScreenHouseLayout.isEnabled = true
                     mainScreenApartmentLayout.isEnabled = true
+                    mainScreenStreetEditText.setText("")
+                    mainScreenHouseEditText.setText("")
+                    mainScreenApartmentEditText.setText("")
                 }
             }
         }

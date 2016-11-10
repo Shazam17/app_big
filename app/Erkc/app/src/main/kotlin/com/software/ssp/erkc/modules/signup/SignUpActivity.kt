@@ -8,8 +8,10 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.load
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -58,6 +60,7 @@ class SignUpActivity : MvpActivity(), ISignUpView {
 
     override fun navigateToDrawerScreen() {
         finish()
+        startActivity<DrawerActivity>()
     }
 
     override fun showCaptcha(image: ByteArray) {

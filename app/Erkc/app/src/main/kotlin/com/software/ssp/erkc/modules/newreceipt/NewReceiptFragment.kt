@@ -135,6 +135,9 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
                     streetInputLayout.isEnabled = true
                     houseInputLayout.isEnabled = true
                     apartmentInputLayout.isEnabled = true
+                    streetEditText.setText("")
+                    houseEditText.setText("")
+                    apartmentEditText.setText("")
                 }
             }
         }
@@ -188,5 +191,4 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         sendValueCheckBox.visibility = if (isTransferValueVisible) View.VISIBLE else View.GONE
         sendValueCheckBox.setOnCheckedChangeListener { compoundButton, isChecked -> isTransferValue = isChecked }
     }
-
 }
