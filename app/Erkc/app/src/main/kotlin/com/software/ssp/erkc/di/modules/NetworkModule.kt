@@ -77,6 +77,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun providesCardsDataSource(retrofit: Retrofit): CardsDataSource {
+        return retrofit.create(CardsDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providesReceiptsDataSource(retrofit: Retrofit): ReceiptsDataSource {
         return retrofit.create(ReceiptsDataSource::class.java)
     }
