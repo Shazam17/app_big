@@ -132,6 +132,9 @@
     <string name="receipts_last_transfer_text">Последние показания</string>
     <string name="receipts_last_pay_text">Последняя оплата</string>
     <string name="receipts_deleted">Квитанция успешно удалена</string>
+    <!-- TODO RECEIPT MENU  -->
+    <string name="receipts_first_menu">Первый</string>
+    <string name="receipts_second_menu">Второй</string>
 
     <!-- API errors -->
     <string name="api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>

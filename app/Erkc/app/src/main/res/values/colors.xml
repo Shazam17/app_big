@@ -34,4 +34,6 @@
     <color name="colorRed">#D42A2B</color>
 
     <color name="colorInactive">#444444</color>
+
+    <color name="colorReceiptAutoPay">#119D90</color>
 </resources>

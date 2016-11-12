@@ -55,7 +55,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onReceiptDeleted(receipt: Receipt) {
-        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id!!)
+        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)

@@ -63,15 +63,22 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt){
-        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    override fun receiptDeleted(receipt: Receipt) {
+        val receiptIndex = dataset.indexOf(receipt)
+        dataset.removeAt(receiptIndex)
+        adapter?.notifyItemRemoved(receiptIndex)
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ReceiptListAdapter(dataset,
                 { receipt -> presenter.onPayButtonClick(receipt) },
                 { receipt -> presenter.onTransferButtonClick(receipt) },
-                { receipt -> presenter.onHistoryButtonClick(receipt) },
+                { menuItem, receipt ->
+                    when (menuItem) {
+                        ReceiptMenuItem.FIRST -> showMessage("TODO: first - " + receipt.barcode)
+                        ReceiptMenuItem.SECOND -> showMessage("TODO: second - " + receipt.barcode)
+                    }
+                },
                 { receipt, position -> presenter.onReceiptDeleted(receipt) })
     }
 

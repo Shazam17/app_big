@@ -22,10 +22,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half_default_margin"
         android:layout_marginEnd="@dimen/half_default_margin"
         android:layout_marginStart="@dimen/half_default_margin"
         android:layout_marginTop="@dimen/quarter_default_margin"
-        android:layout_marginBottom="@dimen/quarter_default_margin"
         app:cardCornerRadius="2dp"
         app:cardElevation="3dp">
 
@@ -70,14 +70,33 @@
                             android:layout_height="wrap_content"
                             tools:text="0000000000000" />
 
-                        <TextView
-                            android:id="@+id/receiptAmountText"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:paddingTop="@dimen/half_default_margin"
-                            android:textSize="20sp"
-                            tools:text="-569 р." />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/receiptAmountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/half_default_margin"
+                                android:textSize="20sp"
+                                tools:text="-569000000 р." />
+
+                            <TextView
+                                android:id="@+id/receiptAutoPaymentText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginStart="@dimen/half_default_margin"
+                                android:drawableStart="@drawable/ic_autopay_enabled"
+                                android:gravity="bottom"
+                                android:textColor="@color/colorReceiptAutoPay"
+                                android:textSize="12sp"
+                                tools:text="Автоплатеж" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -172,35 +191,15 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/receiptIconsLayout"
+                    <ImageView
+                        android:id="@+id/receiptMenuImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:orientation="horizontal"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_navigation_more_vert"
                         tools:visibility="visible">
-
-                        <ImageButton
-                            android:id="@+id/receiptPaymentHistoryImageButton"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="end|center_vertical"
-                            android:background="@null"
-                            android:src="@drawable/ic_action_receipt"
-                            tools:visibility="visible" />
-
-                        <ImageButton
-                            android:id="@+id/receiptAutoPayImageView"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_marginStart="@dimen/half_default_margin"
-                            android:background="@null"
-                            android:src="@drawable/ic_time"
-                            android:tint="@color/colorInactive"
-                            tools:visibility="visible" />
-
-                    </LinearLayout>
+                    </ImageView>
 
                 </RelativeLayout>
 
@@ -229,7 +228,7 @@
                     android:id="@+id/deleteProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
             </FrameLayout>
 

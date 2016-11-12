@@ -32,14 +32,12 @@ class ValueTransferAdapter(dataList: List<Receipt>,
                 receiptAmountText.visibility = View.GONE
                 receiptPayButton.visibility = View.GONE
                 receiptLastPayLayout.visibility = View.GONE
-                receiptIconsLayout.visibility = View.GONE
+                receiptMenuImage.visibility = View.GONE
 
                 receiptTransferButton.onClick { onTransferClickListener?.invoke(receipt) }
                 deleteButton.onClick {
                     deleteProgressBar.visibility = View.VISIBLE
-                    receiptPayButton.enabled = false
                     receiptTransferButton.enabled = false
-                    receiptPaymentHistoryImageButton.isEnabled = false
                     deleteButton.isEnabled = false
                     onDeleteClickListener?.invoke(receipt, adapterPosition)
                 }

@@ -13,7 +13,6 @@ import org.jetbrains.anko.textColor
 abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     open fun bindReceipt(receipt: Receipt) {
-
         with(itemView) {
 
             //section header
@@ -24,23 +23,26 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             receiptTypeImage.setImageResource(receipt.receiptType.getIconResId())
 
-            receiptAmountText.text = receipt.payment.toString()
-            receiptAmountText.textColor = context.getCompatColor(if (receipt.payment > 0) R.color.colorRed else R.color.colorLightInput)
+            if (receipt.payment > 0) {
+                receiptAmountText.text = "-" + receipt.payment.toString()
+                receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
+            } else {
+                receiptAmountText.text = receipt.payment.toString()
+                receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
+            }
 
             receiptLastPayDateText.text = receipt.lastPayment
             receiptLastTransferDateText.text = receipt.lastValueTransfer
 
-            receiptAutoPayImageView.visibility = if (receipt.linkedCardId == null) View.GONE else View.VISIBLE
-
             when (receipt.autoPayMode) {
-                0 -> receiptAutoPayImageView.setColorFilter(context.getCompatColor(R.color.colorInactive))
-                2 -> receiptAutoPayImageView.setColorFilter(context.getCompatColor(R.color.colorBlueButton))
+                0 -> receiptAutoPaymentText.visibility = View.GONE
+                2 -> receiptAutoPaymentText.visibility = View.VISIBLE
             }
 
             deleteProgressBar.visibility = View.GONE
             receiptPayButton.enabled = true
             receiptTransferButton.enabled = true
-            receiptPaymentHistoryImageButton.isEnabled = true
+            receiptMenuImage.isEnabled = true
             deleteButton.isEnabled = true
 
             swipeLayout.reset()

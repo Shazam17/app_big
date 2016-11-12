@@ -165,18 +165,19 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             isSelectedDrawerItemChanged = (id != selectedDrawerItem.itemId)
             if (isSelectedDrawerItemChanged) {
                 when (id) {
-                    R.id.menuMainScreen -> selectedDrawerItem = DrawerItem.MAIN
-                    R.id.menuPayment -> selectedDrawerItem = DrawerItem.PAYMENT
-                    R.id.menuSendValues -> selectedDrawerItem = DrawerItem.VALUES
-                    R.id.menuMyCards -> selectedDrawerItem = DrawerItem.CARDS
-                    R.id.menuHistory -> selectedDrawerItem = DrawerItem.HISTORY
-                    R.id.menuAutoPayments -> selectedDrawerItem = DrawerItem.AUTOPAY
-                    R.id.menuNotifications -> selectedDrawerItem = DrawerItem.NOTIFY
-                    R.id.menuSettings -> selectedDrawerItem = DrawerItem.SETTINGS
-                    R.id.menuInstructions -> selectedDrawerItem = DrawerItem.TUTORIAL
-                    R.id.menuContacts -> selectedDrawerItem = DrawerItem.CONTACTS
-                    R.id.menuExit -> selectedDrawerItem = DrawerItem.EXIT
+                    DrawerItem.MAIN.itemId -> selectedDrawerItem = DrawerItem.MAIN
+                    DrawerItem.PAYMENT.itemId -> selectedDrawerItem = DrawerItem.PAYMENT
+                    DrawerItem.VALUES.itemId -> selectedDrawerItem = DrawerItem.VALUES
+                    DrawerItem.CARDS.itemId -> selectedDrawerItem = DrawerItem.CARDS
+                    DrawerItem.HISTORY.itemId -> selectedDrawerItem = DrawerItem.HISTORY
+                    DrawerItem.AUTOPAY.itemId -> selectedDrawerItem = DrawerItem.AUTOPAY
+                    DrawerItem.NOTIFY.itemId -> selectedDrawerItem = DrawerItem.NOTIFY
+                    DrawerItem.SETTINGS.itemId -> selectedDrawerItem = DrawerItem.SETTINGS
+                    DrawerItem.TUTORIAL.itemId -> selectedDrawerItem = DrawerItem.TUTORIAL
+                    DrawerItem.CONTACTS.itemId -> selectedDrawerItem = DrawerItem.CONTACTS
+                    DrawerItem.EXIT.itemId -> selectedDrawerItem = DrawerItem.EXIT
                 }
+
                 supportActionBar?.title = getString(selectedDrawerItem.titleId)
             }
             drawerLayout.closeDrawers()

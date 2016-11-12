@@ -32,15 +32,13 @@ class PaymentListAdapter(dataList: List<Receipt>,
 
                 receiptLastTransferLayout.visibility = View.GONE
                 receiptTransferButton.visibility = View.GONE
-                receiptIconsLayout.visibility = View.GONE
+                receiptMenuImage.visibility = View.GONE
 
                 receiptPayButton.onClick { onPaymentClickListener?.invoke(receipt) }
 
                 deleteButton.onClick {
                     deleteProgressBar.visibility = View.VISIBLE
                     receiptPayButton.enabled = false
-                    receiptTransferButton.enabled = false
-                    receiptPaymentHistoryImageButton.isEnabled = false
                     deleteButton.isEnabled = false
                     onDeleteClickListener?.invoke(receipt, adapterPosition)
                 }
