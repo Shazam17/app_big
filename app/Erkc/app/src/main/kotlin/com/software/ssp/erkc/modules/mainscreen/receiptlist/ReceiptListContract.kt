@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 
 interface IReceiptListView : IListView<Receipt> {
     fun navigateToAddReceiptScreen()
+    fun navigateToEmptyReceiptsList()
     fun navigateToIPUInputScreen(receipt: Receipt)
     fun navigateToPayScreen(receipt: Receipt)
     fun navigateToHistoryScreen(receipt: Receipt)

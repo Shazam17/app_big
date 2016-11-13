@@ -75,8 +75,8 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
                 { receipt -> presenter.onTransferButtonClick(receipt) },
                 { menuItem, receipt ->
                     when (menuItem) {
-                        ReceiptMenuItem.FIRST -> showMessage("TODO: first - " + receipt.barcode)
-                        ReceiptMenuItem.SECOND -> showMessage("TODO: second - " + receipt.barcode)
+                        ReceiptMenuItem.HISTORY -> showMessage("TODO: first - " + receipt.barcode)
+                        ReceiptMenuItem.AUTOPAY -> showMessage("TODO: second - " + receipt.barcode)
                     }
                 },
                 { receipt, position -> presenter.onReceiptDeleted(receipt) })
@@ -86,6 +86,12 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
                 .addToBackStack(null)
+                .commit()
+    }
+
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
                 .commit()
     }
 

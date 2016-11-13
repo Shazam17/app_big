@@ -44,8 +44,8 @@ class ReceiptListAdapter(dataList: List<Receipt>,
 
                     popup.setOnMenuItemClickListener {
                         when(it.itemId){
-                            ReceiptMenuItem.FIRST.itemId -> menuClickListener?.invoke(ReceiptMenuItem.FIRST, receipt)
-                            ReceiptMenuItem.SECOND.itemId -> menuClickListener?.invoke(ReceiptMenuItem.SECOND, receipt)
+                            ReceiptMenuItem.HISTORY.itemId -> menuClickListener?.invoke(ReceiptMenuItem.HISTORY, receipt)
+                            ReceiptMenuItem.AUTOPAY.itemId -> menuClickListener?.invoke(ReceiptMenuItem.AUTOPAY, receipt)
                         }
                         false
                     }

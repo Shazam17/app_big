@@ -23,16 +23,20 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             receiptTypeImage.setImageResource(receipt.receiptType.getIconResId())
 
+            val paymentText: String
+
             if (receipt.payment > 0) {
-                receiptAmountText.text = "-" + receipt.payment.toString()
+                paymentText = "-" + receipt.payment.toString()
                 receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
             } else {
-                receiptAmountText.text = receipt.payment.toString()
+                paymentText = receipt.payment.toString()
                 receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
             }
 
-            receiptLastPayDateText.text = receipt.lastPayment
-            receiptLastTransferDateText.text = receipt.lastValueTransfer
+            receiptAmountText.text = String.format("%s %s", paymentText, context.getString(R.string.receipts_currency))
+
+            receiptLastPayDateText.text = if(receipt.lastPayment.isNullOrBlank()) "-" else receipt.lastPayment
+            receiptLastTransferDateText.text = if(receipt.lastValueTransfer.isNullOrBlank()) "-" else receipt.lastValueTransfer
 
             when (receipt.autoPayMode) {
                 0 -> receiptAutoPaymentText.visibility = View.GONE

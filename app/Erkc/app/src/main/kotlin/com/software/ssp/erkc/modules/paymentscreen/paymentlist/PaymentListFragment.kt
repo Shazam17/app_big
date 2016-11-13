@@ -81,6 +81,12 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
                 .commit()
     }
 
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValueVisible" to false))
+                .commit()
+    }
+
     override fun navigateToPayScreen(receipt: Receipt) {
         //TODO: NavigateToPayment
         showMessage("TODO: NavigateToPayment - " + receipt.barcode)

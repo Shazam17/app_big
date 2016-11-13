@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 
 interface IPaymentListView : IListView<Receipt> {
     fun navigateToAddReceiptScreen()
+    fun navigateToEmptyReceiptsList()
     fun navigateToPayScreen(receipt: Receipt)
     fun receiptDidNotDeleted(receipt: Receipt)
     fun receiptDeleted(receipt: Receipt)

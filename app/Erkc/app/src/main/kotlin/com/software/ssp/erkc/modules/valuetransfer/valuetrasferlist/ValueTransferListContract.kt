@@ -8,6 +8,7 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 interface IValueTransferListView : IListView<Receipt> {
     fun navigateToSendValues(receipt: Receipt)
     fun navigateToAddReceiptScreen()
+    fun navigateToEmptyReceiptsList()
     fun receiptDidNotDeleted(receipt: Receipt)
     fun receiptDeleted(receipt: Receipt)
 }

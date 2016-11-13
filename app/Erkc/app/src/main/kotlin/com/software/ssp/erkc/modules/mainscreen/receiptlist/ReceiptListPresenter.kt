@@ -66,7 +66,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
                             receipts ->
                             if(receipts == null || receipts.count() == 0){
                                 activeSession.cachedReceipts = null
-                                view?.navigateToAddReceiptScreen()
+                                view?.navigateToEmptyReceiptsList()
                             } else {
                                 activeSession.cachedReceipts = receipts.sortedBy { it.address }
                             }

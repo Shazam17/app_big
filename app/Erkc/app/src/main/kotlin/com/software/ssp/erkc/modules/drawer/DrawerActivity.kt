@@ -73,11 +73,15 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle!!.onOptionsItemSelected(item)) {
+        if (drawerToggle!!.isDrawerIndicatorEnabled &&
+                drawerToggle!!.onOptionsItemSelected(item)) {
             return true
+        } else if (item.itemId == android.R.id.home &&
+                fragmentManager.popBackStackImmediate()) {
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
         }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -152,6 +156,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         drawerHeaderView = drawerNavigationView.getHeaderView(0)
 
@@ -208,5 +213,9 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
+
+        fragmentManager.addOnBackStackChangedListener {
+            drawerToggle?.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
+        }
     }
 }

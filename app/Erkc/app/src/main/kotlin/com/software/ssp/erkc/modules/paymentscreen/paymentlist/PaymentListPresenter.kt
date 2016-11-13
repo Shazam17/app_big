@@ -47,7 +47,7 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
     }
 
     override fun onReceiptDeleted(receipt: Receipt) {
-        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id!!)
+        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)
@@ -58,7 +58,7 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
                             receipts ->
                             if(receipts == null || receipts.count() == 0){
                                 activeSession.cachedReceipts = null
-                                view?.navigateToAddReceiptScreen()
+                                view?.navigateToEmptyReceiptsList()
                             } else {
                                 activeSession.cachedReceipts = receipts.sortedBy { it.address }
                             }

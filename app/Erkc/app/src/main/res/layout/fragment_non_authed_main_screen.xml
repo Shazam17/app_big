@@ -40,12 +40,12 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginBottom="@dimen/default_margin"
         android:background="@null"
-        android:src="@drawable/ic_image_camera"
+        android:src="@drawable/ic_scan_white"
         app:layout_constraintBottom_toBottomOf="@+id/mainScreenBarcodeLayout"
         app:layout_constraintRight_toRightOf="@+id/mainScreenBarcodeLayout"
-        app:layout_constraintTop_toTopOf="@+id/mainScreenBarcodeLayout" />
+        app:layout_constraintTop_toTopOf="@+id/mainScreenBarcodeLayout"
+        app:layout_constraintVertical_bias="0.3" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/mainScreenStreetLayout"
@@ -173,7 +173,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:drawableEnd="@drawable/ic_action_info"
+        android:drawableEnd="@drawable/ic_info"
         android:orientation="horizontal"
         android:text="@string/main_screen_app_functions_hint"
         android:textAlignment="center"

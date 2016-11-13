@@ -4,6 +4,6 @@ import android.support.annotation.IdRes
 import com.software.ssp.erkc.R
 
 enum class ReceiptMenuItem(@IdRes val itemId: Int) {
-    FIRST(R.id.menuFirst),
-    SECOND(R.id.menuSecond)
+    HISTORY(R.id.menuHistory),
+    AUTOPAY(R.id.menuAutoPay)
 }

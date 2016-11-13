@@ -82,7 +82,7 @@
                                 android:gravity="center_vertical"
                                 android:paddingTop="@dimen/half_default_margin"
                                 android:textSize="20sp"
-                                tools:text="-569000000 р." />
+                                tools:text="-56900000 р." />
 
                             <TextView
                                 android:id="@+id/receiptAutoPaymentText"
@@ -196,10 +196,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_navigation_more_vert"
-                        tools:visibility="visible">
-                    </ImageView>
+                        android:paddingStart="@dimen/half_default_margin"
+                        android:src="@drawable/ic_more"
+                        tools:visibility="visible" />
 
                 </RelativeLayout>
 
@@ -222,7 +221,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_action_delete" />
+                    android:src="@drawable/ic_delete_white" />
 
                 <ProgressBar
                     android:id="@+id/deleteProgressBar"

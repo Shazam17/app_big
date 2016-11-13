@@ -81,6 +81,12 @@ class ValueTransferListFragment : BaseListFragment<Receipt, IValueTransferListVi
                 .commit()
     }
 
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
+                .commit()
+    }
+
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ValueTransferAdapter(dataset,
                 { receipt -> presenter.onTransferValueClick(receipt) },

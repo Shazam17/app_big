@@ -37,11 +37,11 @@
         android:layout_gravity="end|center_vertical"
         android:layout_marginBottom="@dimen/default_margin"
         android:background="@null"
-        android:src="@drawable/ic_image_camera"
-        android:tint="@color/colorPrimary"
+        android:src="@drawable/ic_scan_black"
         app:layout_constraintBottom_toBottomOf="@+id/barcodeInputLayout"
         app:layout_constraintRight_toRightOf="@+id/barcodeInputLayout"
-        app:layout_constraintTop_toTopOf="@+id/barcodeInputLayout" />
+        app:layout_constraintTop_toTopOf="@+id/barcodeInputLayout"
+        app:layout_constraintVertical_bias="0.3" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/streetInputLayout"
@@ -126,7 +126,7 @@
     <FrameLayout
         android:id="@+id/bottomSheetLayout"
         android:layout_width="0dp"
-        android:layout_height="@dimen/bottom_sheet_height"
+        android:layout_height="56dp"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
