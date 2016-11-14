@@ -28,8 +28,8 @@ class Receipt(
         @SerializedName("service_code")
         val serviceCode: Int,
 
-        @SerializedName("payment")
-        val payment: Double,
+        @SerializedName("amount")
+        val amount: Double,
 
         @SerializedName("barcode")
         val barcode: String,

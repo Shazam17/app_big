@@ -25,11 +25,11 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             val paymentText: String
 
-            if (receipt.payment > 0) {
-                paymentText = "-" + receipt.payment.toString()
+            if (receipt.amount > 0) {
+                paymentText = "-" + receipt.amount.toString()
                 receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
             } else {
-                paymentText = receipt.payment.toString()
+                paymentText = receipt.amount.toString()
                 receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
             }
 
