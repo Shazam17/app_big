@@ -11,24 +11,12 @@ import javax.inject.Inject
  * @author Alexander Popov on 28/10/2016.
  */
 class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsView>(view), ICardsPresenter {
-
     @Inject lateinit var cardsRepository: CardsRepository
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onViewAttached() {
         super.onViewAttached()
-        view?.setLoadingVisible(true)
-        subscriptions += cardsRepository
-                .fetchCards(activeSession.accessToken!!)
-                .subscribe({
-                    cards ->
-                    view?.setLoadingVisible(false)
-                    view?.showData(cards ?: emptyList())
-                }, {
-                    error ->
-                    view?.setLoadingVisible(false)
-                    view?.showMessage(error.message!!)
-                })
+        onSwipeToRefresh()
     }
 
     override fun onEditClick(card: Card) {
@@ -57,6 +45,21 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                 .subscribe({
                     cards ->
                     view?.setLoadingVisible(false)
+                    view?.showData(cards)
+                }, {
+                    error ->
+                    view?.setLoadingVisible(false)
+                    view?.showMessage(error.message!!)
+                })
+    }
+
+
+    override fun onSwipeToRefresh() {
+        subscriptions += cardsRepository
+                .fetchCards(activeSession.accessToken!!)
+                .subscribe({
+                    cards ->
+                    view?.setLoadingVisible(false)
                     view?.showData(cards ?: emptyList())
                 }, {
                     error ->
@@ -64,5 +67,9 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                     view?.showMessage(error.message!!)
                 })
     }
+
+    override fun onItemClick(item: Card) {}
+
+
 
 }

@@ -1,93 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/half_default_margin"
     android:layout_marginLeft="@dimen/default_margin"
     android:layout_marginRight="@dimen/default_margin"
     android:layout_marginTop="@dimen/half_default_margin"
-    android:orientation="vertical">
+    app:cardCornerRadius="@dimen/card_view_radius"
+    app:cardElevation="@dimen/card_view_elevation"
+    app:cardUseCompatPadding="true">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+    <ru.rambler.libs.swipe_layout.SwipeLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        card_view:cardCornerRadius="@dimen/card_view_radius"
-        card_view:cardElevation="@dimen/card_view_elevation"
-        card_view:cardUseCompatPadding="true">
+        android:layout_height="wrap_content">
 
-        <com.daimajia.swipe.SwipeLayout
+        <LinearLayout
+            android:id="@+id/cardListItemCardContent"
             android:layout_width="match_parent"
-            android:id="@+id/cardListItemSwipe"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/cardListItemDeleteWrapper"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_red_light"
-                android:orientation="horizontal"
-                android:weightSum="1">
+            <TextView
+                android:id="@+id/cardListItemNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="Карта 2"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-                <ImageButton
-                    android:layout_gravity="center"
-                    android:id="@+id/cardListItemDeleteImageButton"
-                    android:background="@android:color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_action_info" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/cardListItemNoTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:text="45** **** **** **78"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/md_divider_black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cardListItemCardContent"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/default_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/cardListItemNameTextView"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardListItemStatusTextView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_margin"
-                    android:text="Карта 2"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1" />
+                    android:layout_weight="1"
+                    android:textColor="@color/colorBlack"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-                <TextView
-                    android:id="@+id/cardListItemNoTextView"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/cardListItemEditImageView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_margin"
-                    android:text="45** **** **** **78"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/md_divider_black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_margin"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cardListItemStatusTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-                    <ImageView
-                        android:id="@+id/cardListItemEditImageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@android:drawable/ic_dialog_info" />
-                </LinearLayout>
+                    android:src="@android:drawable/ic_menu_edit" />
             </LinearLayout>
-        </com.daimajia.swipe.SwipeLayout>
+        </LinearLayout>
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/deleteLayout"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorRed"
+            android:orientation="horizontal"
+            app:bring_to_clamp="no"
+            app:clamp="100dp"
+            app:gravity="right"
+            app:sticky="100dp">
+
+            <ImageButton
+                android:id="@+id/cardListItemDeleteImageButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_delete" />
+        </LinearLayout>
+
+    </ru.rambler.libs.swipe_layout.SwipeLayout>
+
+</android.support.v7.widget.CardView>

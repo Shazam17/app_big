@@ -71,7 +71,7 @@ class EditCardActivity : MvpActivity(), IEditCardView {
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_info)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         addCardNameEditText.setText(card!!.name)
         addCardNameEditText.onKey { view, i, keyEvent ->
             if ((keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)

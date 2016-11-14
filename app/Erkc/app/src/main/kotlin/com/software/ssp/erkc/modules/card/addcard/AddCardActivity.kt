@@ -71,7 +71,7 @@ class AddCardActivity : MvpActivity(), IAddCardView {
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_info)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         setupWebView()
         addCardDoneButton.onClick {
             presenter.onDoneClick()

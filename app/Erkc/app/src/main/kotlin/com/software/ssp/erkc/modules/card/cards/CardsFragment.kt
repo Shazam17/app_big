@@ -1,30 +1,25 @@
 package com.software.ssp.erkc.modules.card.cards
 
-import android.app.ProgressDialog
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.mvp.MvpFragment
+import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.progressDialog
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
  * @author Alexander Popov on 28/10/2016.
  */
-class CardsFragment : MvpFragment(), ICardsView {
+class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICardsView {
 
     @Inject lateinit var presenter: ICardsPresenter
-    var mAdapter: CardsAdapter? = null
-    var progressDialog: ProgressDialog? = null
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerCardsComponent.builder()
@@ -34,13 +29,15 @@ class CardsFragment : MvpFragment(), ICardsView {
                 .inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_cards, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater?.inflate(R.layout.fragment_cards, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        presenter.onViewAttached()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -64,6 +61,24 @@ class CardsFragment : MvpFragment(), ICardsView {
         }
     }
 
+    override fun onSwipeToRefresh() {
+        presenter.onSwipeToRefresh()
+    }
+
+    override fun createAdapter(): RecyclerView.Adapter<*> {
+        val adapter = CardsAdapter(dataset, {
+            card ->
+            presenter.onEditClick(card)
+        }, {
+            card ->
+            presenter.onByStatusClick(card)
+        }, {
+            card ->
+            presenter.onDeleteClick(card)
+        })
+        return adapter
+    }
+
     override fun onResume() {
         super.onResume()
         presenter.onViewAttached()
@@ -73,23 +88,8 @@ class CardsFragment : MvpFragment(), ICardsView {
         presenter.dropView()
     }
 
-    override fun setLoadingVisible(visible: Boolean) {
-        if (progressDialog == null) {
-            progressDialog = indeterminateProgressDialog(R.string.data_loading)
-        }
-        if (visible) progressDialog?.show() else progressDialog?.dismiss()
-    }
-
-    override fun showData(cards: List<Card>) {
-        if (cards.isEmpty()) {
-            emptyView.visibility = View.VISIBLE
-            cardRecyclerView.visibility = View.GONE
-        } else {
-            emptyView.visibility = View.GONE
-            cardRecyclerView.visibility = View.VISIBLE
-            mAdapter?.cards = cards
-            mAdapter?.notifyDataSetChanged()
-        }
+    override fun setEmptyViewVisible(visible: Boolean) {
+        emptyView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun navigateToEditCard(card: Card) {
@@ -102,22 +102,6 @@ class CardsFragment : MvpFragment(), ICardsView {
 
     override fun navigateToHelp() {
         showMessage("not implemented")
-    }
-
-    private fun initViews() {
-        setHasOptionsMenu(true)
-        cardRecyclerView.layoutManager = LinearLayoutManager(application())
-        mAdapter = CardsAdapter(emptyList(), {
-            card ->
-            presenter.onEditClick(card)
-        }, {
-            card ->
-            presenter.onByStatusClick(card)
-        }, {
-            card ->
-            presenter.onDeleteClick(card)
-        })
-        cardRecyclerView.adapter = mAdapter
     }
 
 }

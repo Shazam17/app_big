@@ -56,7 +56,7 @@ abstract class BaseListFragment<M, V : IListView<M>, P : IListPresenter<M, V>> :
 
     abstract protected fun onSwipeToRefresh()
 
-    protected fun setEmptyViewVisible(visible: Boolean) {
+    protected open fun setEmptyViewVisible(visible: Boolean) {
         emptyMessageTextView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
