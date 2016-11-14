@@ -13,12 +13,14 @@ interface IReceiptListView : IListView<Receipt> {
     fun navigateToHistoryScreen(receipt: Receipt)
     fun receiptDidNotDeleted(receipt: Receipt)
     fun receiptDeleted(receipt: Receipt)
+    fun navigateToAutoPaymentSettingScreen(receipt: Receipt)
 }
 
 interface IReceiptListPresenter : IListPresenter<Receipt, IReceiptListView> {
     fun onPayButtonClick(receipt: Receipt)
     fun onTransferButtonClick(receipt: Receipt)
     fun onHistoryButtonClick(receipt: Receipt)
+    fun onAutoPaymentButtonClick(receipt: Receipt)
     fun onReceiptDeleted(receipt: Receipt)
     fun onAddReceiptButtonClick()
 }

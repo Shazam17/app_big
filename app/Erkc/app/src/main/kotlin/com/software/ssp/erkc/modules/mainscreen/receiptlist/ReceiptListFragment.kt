@@ -75,8 +75,8 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
                 { receipt -> presenter.onTransferButtonClick(receipt) },
                 { menuItem, receipt ->
                     when (menuItem) {
-                        ReceiptMenuItem.HISTORY -> showMessage("TODO: first - " + receipt.barcode)
-                        ReceiptMenuItem.AUTOPAY -> showMessage("TODO: second - " + receipt.barcode)
+                        ReceiptMenuItem.HISTORY -> presenter.onHistoryButtonClick(receipt)
+                        ReceiptMenuItem.AUTOPAY -> presenter.onAutoPaymentButtonClick(receipt)
                     }
                 },
                 { receipt, position -> presenter.onReceiptDeleted(receipt) })
@@ -106,7 +106,12 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
     }
 
     override fun navigateToHistoryScreen(receipt: Receipt) {
-        //TODO: NavigateToPayment
+        //TODO: NavigateToHistory
         showMessage("TODO: NavigateToHistory - " + receipt.barcode)
+    }
+
+    override fun navigateToAutoPaymentSettingScreen(receipt: Receipt) {
+        //TODO: NavigateToAutoPayment
+        showMessage("TODO: NavigateToAutoPayment - " + receipt.barcode)
     }
 }

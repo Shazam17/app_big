@@ -75,7 +75,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             activeSession.cachedReceipts = receipts?.sortedBy { it.address }
 
                             view?.setProgressVisibility(false)
-                            view?.navigateToDrawerScreen()
+                            view?.navigateToMainScreen()
                         },
                         {
                             error ->

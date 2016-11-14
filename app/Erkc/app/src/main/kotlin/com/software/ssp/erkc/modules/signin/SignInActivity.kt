@@ -7,7 +7,6 @@ import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
@@ -18,6 +17,12 @@ import javax.inject.Inject
 class SignInActivity : MvpActivity(), ISignInView {
 
     @Inject lateinit var presenter: ISignInPresenter
+
+    companion object {
+        val SIGN_IN_TAG = 24512
+
+        val DID_SIGN_IN = 24513
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +63,9 @@ class SignInActivity : MvpActivity(), ISignInView {
         startActivity<PasswordRecoveryActivity>()
     }
 
-    override fun navigateToDrawerScreen() {
+    override fun navigateToMainScreen() {
+        setResult(DID_SIGN_IN)
         finish()
-        startActivity<DrawerActivity>()
     }
 
     override fun showLoginFieldError(errorResId: Int) {

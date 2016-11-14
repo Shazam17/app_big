@@ -8,7 +8,7 @@ import com.software.ssp.erkc.common.mvp.IView
 interface ISignInView : IView {
     fun setProgressVisibility(isVisible: Boolean)
     fun navigateToForgotPasswordScreen()
-    fun navigateToDrawerScreen()
+    fun navigateToMainScreen()
     fun showLoginFieldError(@StringRes errorResId: Int)
     fun showPasswordFieldError(@StringRes errorResId: Int)
 }

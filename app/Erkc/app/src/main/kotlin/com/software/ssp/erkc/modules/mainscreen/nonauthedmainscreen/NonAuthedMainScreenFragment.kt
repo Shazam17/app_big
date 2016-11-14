@@ -98,11 +98,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToSignInScreen() {
-        startActivity<SignInActivity>()
+        activity.startActivityForResult<SignInActivity>(SignInActivity.SIGN_IN_TAG)
     }
 
     override fun navigateToSignUpScreen() {
-        startActivity<SignUpActivity>()
+        activity.startActivityForResult<SignUpActivity>(SignUpActivity.SIGN_UP_TAG)
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {

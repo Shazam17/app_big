@@ -50,6 +50,10 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
         view?.navigateToHistoryScreen(receipt)
     }
 
+    override fun onAutoPaymentButtonClick(receipt: Receipt) {
+        view?.navigateToAutoPaymentSettingScreen(receipt)
+    }
+
     override fun onAddReceiptButtonClick() {
         view?.navigateToAddReceiptScreen()
     }

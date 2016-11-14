@@ -16,6 +16,8 @@ import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
+import com.software.ssp.erkc.modules.signin.SignInActivity
+import com.software.ssp.erkc.modules.signup.SignUpActivity
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -85,15 +87,23 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         when (resultCode) {
             UserProfileActivity.USER_PROFILE_UPDATED -> {
                 presenter.onUserProfileUpdated()
-                return
             }
-        }
 
-        super.onActivityResult(requestCode, resultCode, data)
+            SignInActivity.DID_SIGN_IN -> {
+                presenter.onUserProfileUpdated()
+                navigateToModule(selectedDrawerItem)
+            }
+
+            SignUpActivity.DID_SIGN_UP -> {
+                presenter.onUserProfileUpdated()
+                navigateToModule(selectedDrawerItem)
+            }
+
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun showUserInfo(user: User) {
@@ -120,6 +130,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateToMainScreen() {
+        drawerNavigationView.setCheckedItem(DrawerItem.MAIN.itemId)
         navigateToModule(DrawerItem.MAIN)
     }
 

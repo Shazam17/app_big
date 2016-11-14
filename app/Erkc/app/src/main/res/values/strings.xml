@@ -79,7 +79,6 @@
     <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
     <string name="contacts_snack_bar_action_text">Ок</string>
 
-
     <!-- Barcode Scan Screen -->
     <string name="barcode_scanner_camera_permission_denied">Для корректной работы приложения необходим доступ к камере</string>
     <string name="barcode_scanner_title">Сканирование штрих-кода</string>
@@ -125,7 +124,6 @@
     <string name="offline_password_second_error">Пароли не совпадают</string>
     <string name="offline_password_save_button_text">Сохранить</string>
 
-
     <!-- Receipts List -->
     <string name="receipts_transfer_value_button">Передать показания</string>
     <string name="receipts_pay_button">Оплатить</string>
@@ -134,8 +132,8 @@
     <string name="receipts_deleted">Квитанция успешно удалена</string>
     <string name="receipts_currency">р.</string>
     <!-- Receipts menus  -->
-    <string name="receipts_menu_history">История</string>
-    <string name="receipts_menu_autopay">Автоплатеж</string>
+    <string name="receipts_menu_history">История операций</string>
+    <string name="receipts_menu_autopay">Настройка автоплатежа</string>
 
     <!-- API errors -->
     <string name="api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>
