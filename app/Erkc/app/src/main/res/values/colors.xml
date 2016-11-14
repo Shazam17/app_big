@@ -26,6 +26,7 @@
     <color name="colorBlack">#000000</color>
 
     <color name="colorWhite60">#99FFFFFF</color>
+    <color name="colorDark">#dfe1e2</color>
 
     <color name="colorDarkText">#515151</color>
     <color name="colorHelp">#acabab</color>

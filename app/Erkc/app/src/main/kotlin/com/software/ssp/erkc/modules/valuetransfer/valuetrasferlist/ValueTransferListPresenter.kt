@@ -34,7 +34,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                             it.serviceName,
                             it.address,
                             it.barcode,
-                            it.amount,
+                            "${it.amount.toString().format(2)} р.",
                             if(rnd.nextBoolean()) ReceiptType.POWER else ReceiptType.WATER,
                             rnd.nextBoolean(),
                             rnd.nextBoolean(),

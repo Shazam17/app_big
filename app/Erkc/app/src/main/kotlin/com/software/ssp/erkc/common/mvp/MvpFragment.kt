@@ -2,7 +2,9 @@ package com.software.ssp.erkc.common.mvp
 
 import android.app.Dialog
 import android.app.Fragment
+import android.app.ProgressDialog
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.di.AppComponent

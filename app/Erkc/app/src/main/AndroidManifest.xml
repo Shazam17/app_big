@@ -81,6 +81,11 @@
             android:name=".modules.sendvalues.SendValuesActivity"
             android:theme="@style/AppTheme.Light"
             android:label="@string/send_values_title"/>
+
+        <activity
+            android:name=".modules.paymentscreen.payment.PaymentActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/payment_title"/>
     </application>
 
 </manifest>

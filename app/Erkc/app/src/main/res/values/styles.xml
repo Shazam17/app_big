@@ -89,6 +89,11 @@
         <item name="android:textColorSecondary">@color/colorBlueButton</item>
     </style>
 
+    <style name="AppCheckBoxStylePrimary" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
+    </style>
+
     <!-- Light Input for Dark background -->
     <style name="BodyTextView" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_marginTop">@dimen/half_default_margin</item>
@@ -97,6 +102,14 @@
 
     <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/colorDarkText</item>
+    </style>
+
+    <style name="LargeTextViewPrimaryColor" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BodyTextViewPrimaryColor" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
     <!-- Input for Dark Theme -->
     <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">

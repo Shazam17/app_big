@@ -99,7 +99,6 @@
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Поиск адреса…</string>
     <string name="search_addresses_title"/>
-    <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
 
     <string name="none"/>
     <!-- UserProfile Screen -->
@@ -156,8 +155,16 @@
 
     <!-- Edit card screen -->
     <string name="edit_card_title">Переименование карты</string>
+
     <!-- Send values screen -->
     <string name="send_values_debts_des">Текущая задолженность (расчетный период)</string>
     <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="send_values_title">Ввод показаний ИПУ</string>
+    <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
+
+    <!-- Payment screen -->
+    <string name="payment_debts_des">Текущая задолженность</string>
+    <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
+    <string name="payment_title">Оплата</string>
+    <string name="payment_continue_button">ПРОДОЛЖИТЬ</string>
 </resources>

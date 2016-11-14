@@ -209,4 +209,11 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
     }
+
+    public fun navigateToDrawerItem(item: DrawerItem) {
+        selectedDrawerItem = item
+        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
+        supportActionBar?.title = getString(selectedDrawerItem.titleId)
+        navigateToModule(selectedDrawerItem)
+    }
 }

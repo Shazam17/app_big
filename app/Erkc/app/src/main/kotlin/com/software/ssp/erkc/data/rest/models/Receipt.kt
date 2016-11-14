@@ -7,7 +7,7 @@ import nz.bradcampbell.paperparcel.PaperParcelable
 @PaperParcel
 class Receipt (
         @SerializedName("amount")
-        val amount: String,
+        val amount: Double,
         @SerializedName("mode_id")
         val autoPayMode: String?,
         @SerializedName("supplier_name")
