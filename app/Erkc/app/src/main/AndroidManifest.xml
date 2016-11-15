@@ -71,6 +71,9 @@
             android:label="@string/search_addresses_title"/>
 
         <activity
+            android:name=".modules.card.changestatus.ChangeStatusCardActivity"/>
+
+        <activity
             android:name=".modules.userprofile.UserProfileActivity"
             android:label="@string/user_profile_title" />
 

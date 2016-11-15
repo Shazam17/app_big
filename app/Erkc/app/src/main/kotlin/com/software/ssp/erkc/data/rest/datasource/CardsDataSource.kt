@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.data.rest.datasource
 
 import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.rest.models.CardActivation
 import com.software.ssp.erkc.data.rest.models.CardRegistration
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -20,7 +21,7 @@ interface CardsDataSource {
 
     @POST("?method=cards.activation")
     @FormUrlEncoded
-    fun activation(): Observable<ResponseBody>
+    fun activation(@Field("token") token: String, @Field("id") id: String): Observable<CardActivation>
 
     @POST("?method=cards.registration")
     @FormUrlEncoded

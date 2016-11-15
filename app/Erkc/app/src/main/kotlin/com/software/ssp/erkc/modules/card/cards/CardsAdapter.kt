@@ -48,11 +48,11 @@ class CardsAdapter(val cards: List<Card>,
                         cardListItemStatusTextView.text = context.getString(CardStatus.NOT_REGISTERED.stringResId)
                     }
                     CardStatus.REGISTERED.ordinal -> {
-                        updateColors(CardStatus.NOT_REGISTERED)
+                        updateColors(CardStatus.REGISTERED)
                         cardListItemStatusTextView.text = context.getString(CardStatus.REGISTERED.stringResId)
                     }
                     CardStatus.ACTIVATED.ordinal -> {
-                        updateColors(CardStatus.NOT_REGISTERED)
+                        updateColors(CardStatus.ACTIVATED)
                         cardListItemStatusTextView.text = context.getString(CardStatus.ACTIVATED.stringResId)
                     }
                     CardStatus.DELETED.ordinal -> {
@@ -71,8 +71,9 @@ class CardsAdapter(val cards: List<Card>,
             itemView.apply {
                 cardView.setCardBackgroundColorByContextCompat(cardStatus.backgroundColor())
                 cardListItemCardContent.setBackgroundColorByContextCompat(cardStatus.backgroundColor())
-                cardListItemNameTextView.setTextColorByContextCompat(cardStatus.textColor())
-                cardListItemNoTextView.setTextColorByContextCompat(cardStatus.textColor())
+                cardListItemNameTextView.setTextColorByContextCompat(cardStatus.nameColor())
+                cardListItemNoTextView.setTextColorByContextCompat(cardStatus.nameColor())
+                cardDivider.setBackgroundColorByContextCompat(cardStatus.dividerColor())
                 cardListItemStatusTextView.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
             }
         }

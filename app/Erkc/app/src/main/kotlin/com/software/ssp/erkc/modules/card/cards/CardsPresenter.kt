@@ -4,6 +4,7 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
+import com.software.ssp.erkc.extensions.CardStatus
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -32,7 +33,36 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
     }
 
     override fun onByStatusClick(card: Card) {
-        view?.showMessage("not implemented")
+        when (card.statusId) {
+            CardStatus.NOT_REGISTERED.ordinal -> {
+                view?.setProgressVisibility(true)
+                subscriptions += cardsRepository
+                        .registrateCard(activeSession.accessToken!!, card.id)
+                        .subscribe({
+                            response ->
+                            view?.setProgressVisibility(false)
+                            view?.navigateToBankSite(response.url)
+                        }, {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.message!!)
+                        })
+            }
+            CardStatus.REGISTERED.ordinal -> {
+                view?.setProgressVisibility(true)
+                subscriptions += cardsRepository
+                        .activateCard(activeSession.accessToken!!, card.id)
+                        .subscribe({
+                            response ->
+                            view?.setProgressVisibility(false)
+                            view?.navigateToBankSite(response.url)
+                        }, {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.message!!)
+                        })
+            }
+        }
     }
 
     override fun onDeleteClick(card: Card) {
@@ -68,8 +98,8 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                 })
     }
 
-    override fun onItemClick(item: Card) {}
-
+    override fun onItemClick(item: Card) {
+    }
 
 
 }

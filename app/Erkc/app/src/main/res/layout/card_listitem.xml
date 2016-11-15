@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/half_default_margin"
-    android:layout_marginLeft="@dimen/default_margin"
-    android:layout_marginRight="@dimen/default_margin"
-    android:layout_marginTop="@dimen/half_default_margin"
+    android:layout_height="145dp"
+    android:layout_marginBottom="@dimen/quarter_default_margin"
+    android:layout_marginLeft="@dimen/half_default_margin"
+    android:layout_marginRight="@dimen/half_default_margin"
+    android:layout_marginTop="@dimen/quarter_default_margin"
     app:cardCornerRadius="@dimen/card_view_radius"
     app:cardElevation="@dimen/card_view_elevation"
     app:cardUseCompatPadding="true">
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="Карта 2"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
             <TextView
                 android:id="@+id/cardListItemNoTextView"
@@ -42,13 +42,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/md_divider_black" />
+                android:id="@+id/cardDivider"
+                android:background="@color/colorCardDividerNotActivated" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_margin"
                 android:gravity="center"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:orientation="horizontal">
 
                 <TextView
@@ -56,12 +57,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/colorBlack"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                    android:textStyle="bold"
+                    android:textColor="@color/colorCardStatus"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
                 <ImageView
                     android:id="@+id/cardListItemEditImageView"
                     android:layout_width="wrap_content"
+                    android:padding="@dimen/half_default_margin"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_edit" />
             </LinearLayout>
@@ -69,14 +72,14 @@
 
         <LinearLayout
             android:id="@+id/deleteLayout"
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:background="@color/colorRed"
             android:orientation="horizontal"
             app:bring_to_clamp="no"
-            app:clamp="100dp"
+            app:clamp="60dp"
             app:gravity="right"
-            app:sticky="100dp">
+            app:sticky="60dp">
 
             <ImageButton
                 android:id="@+id/cardListItemDeleteImageButton"

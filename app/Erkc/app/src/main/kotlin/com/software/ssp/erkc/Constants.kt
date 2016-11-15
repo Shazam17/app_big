@@ -21,6 +21,7 @@ object Constants {
     const val KEY_SCAN_RESULT = "KEY_SCAN_RESULT"
     const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
+    const val KEY_URL = "url_key"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val KEY_ADDRESS_NAME_RESULT = "KEY_ADDRESS_NAME_RESULT"
     const val KEY_RECEIPT = "KEY_RECEIPT"

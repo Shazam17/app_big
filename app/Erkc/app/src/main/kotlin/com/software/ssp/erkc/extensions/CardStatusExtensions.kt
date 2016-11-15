@@ -16,16 +16,24 @@ enum class CardStatus(@StringRes val stringResId: Int) {
 
 fun CardStatus.backgroundColor(): Int {
     if (this == CardStatus.ACTIVATED) {
-        return R.color.colorPrimary
+        return R.color.colorCardBackActivated
     } else {
-        return R.color.colorCardView
+        return R.color.colorCardBackNotActivated
     }
 }
 
-fun CardStatus.textColor(): Int {
+fun CardStatus.nameColor(): Int {
     if (this == CardStatus.ACTIVATED) {
-        return R.color.colorWhite
+        return R.color.colorCardNameActivated
     } else {
-        return R.color.colorBlack
+        return R.color.colorCardNameNotActivated
+    }
+}
+
+fun CardStatus.dividerColor(): Int {
+    if (this == CardStatus.ACTIVATED) {
+        return R.color.colorCardDividerActivated
+    } else {
+        return R.color.colorCardDividerNotActivated
     }
 }

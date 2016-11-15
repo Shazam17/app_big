@@ -15,6 +15,7 @@ interface ICardsView : IListView<Card> {
     fun navigateToEditCard(card: Card)
     fun navigateToAddCard()
     fun navigateToHelp()
+    fun navigateToBankSite(url: String)
 }
 
 interface ICardsPresenter : IListPresenter<Card, ICardsView> {

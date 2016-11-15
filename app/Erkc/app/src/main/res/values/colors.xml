@@ -33,9 +33,18 @@
 
     <color name="colorError">#FFC5C5</color>
 
-    <color name="colorRed">#D42A2B</color>
+    <color name="colorRed">#f44336</color>
 
     <color name="colorInactive">#444444</color>
     <color name="colorCardView">#dddedd</color>
     <color name="colorGreen">#76b33a</color>
+
+    <!-- card list item -->
+    <color name="colorCardDividerActivated">#3b78de</color>
+    <color name="colorCardDividerNotActivated">#e0e0e0</color>
+    <color name="colorCardNameActivated">#ffffff</color>
+    <color name="colorCardNameNotActivated">#1d1d1d</color>
+    <color name="colorCardStatus">#4d4d4d</color>
+    <color name="colorCardBackActivated">@color/colorPrimary</color>
+    <color name="colorCardBackNotActivated">#e0e0e0</color>
 </resources>

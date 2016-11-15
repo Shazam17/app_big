@@ -2,6 +2,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.CardsDataSource
 import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.rest.models.CardActivation
 import com.software.ssp.erkc.data.rest.models.CardRegistration
 import okhttp3.ResponseBody
 import rx.Observable
@@ -23,6 +24,10 @@ class CardsRepository @Inject constructor(private val cardsDataSource: CardsData
 
     fun registrateCard(token: String, id: String): Observable<CardRegistration> {
         return cardsDataSource.registration(token, id).compose(this.applySchedulers<CardRegistration>())
+    }
+
+    fun activateCard(token: String, id: String): Observable<CardActivation> {
+        return cardsDataSource.activation(token, id).compose(this.applySchedulers<CardActivation>())
     }
 
     fun deleteCard(token: String, id: String): Observable<ResponseBody> {
