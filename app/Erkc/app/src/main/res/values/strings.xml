@@ -141,4 +141,11 @@
     <string name="api_error_user_authentication_failed">Аутентификация пользователя неудачна</string>
     <string name="api_error_unknown_barcode">Штрих код не найден в базе данных</string>
 
+    <!-- AutoPaymentsScreen -->
+    <string name="auto_payments_autopay_tab_title">Автоплатежи</string>
+    <string name="auto_payments_one_click_tab_title">Оплата в 1 клик</string>
+    <string name="auto_payments_delete_dialog_title">Подтвердите удаление</string>
+    <string name="auto_payments_delete_autopay_dialog_description">Вы действительно хотите удалить автоплатеж без возможности востановления?</string>
+    <string name="auto_payments_delete_one_click_dialog_description">Вы действительно хотите удалить оплату в один клик без возможности востановления?</string>
+
 </resources>

@@ -36,4 +36,6 @@
     <color name="colorInactive">#444444</color>
 
     <color name="colorReceiptAutoPay">#119D90</color>
+
+    <color name="colorTabIndicator">#F1F677</color>
 </resources>

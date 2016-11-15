@@ -12,6 +12,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
@@ -145,7 +146,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> Fragment()
             DrawerItem.HISTORY -> Fragment()
-            DrawerItem.AUTOPAY -> Fragment()
+            DrawerItem.AUTOPAY -> AutoPaymentsTabFragment()
             DrawerItem.NOTIFY -> Fragment()
             DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> Fragment()
