@@ -14,7 +14,6 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
-import com.software.ssp.erkc.utils.splitFullAddress
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -29,7 +28,7 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
-        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -112,14 +111,9 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         houseInputLayout.isEnabled = false
         apartmentInputLayout.isEnabled = false
 
-        val addressParts = splitFullAddress(receipt.address)
-        val street = addressParts[0]
-        val house = if (addressParts.size > 1) addressParts[1] else ""
-        val apartment = if (addressParts.size > 2) addressParts[2] else ""
-
-        streetEditText.setText(street)
-        houseEditText.setText(house)
-        apartmentEditText.setText(apartment)
+        streetEditText.setText(receipt.street)
+        houseEditText.setText(receipt.house)
+        apartmentEditText.setText(receipt.apart)
     }
 
     override fun setStreetField(street: String) {

@@ -15,7 +15,6 @@ import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
-import com.software.ssp.erkc.utils.splitFullAddress
 import kotlinx.android.synthetic.main.fragment_non_authed_main_screen.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -133,14 +132,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenHouseLayout.isEnabled = false
         mainScreenApartmentLayout.isEnabled = false
 
-        val addressParts = splitFullAddress(receipt.address)
-        val street = addressParts[0]
-        val house = if (addressParts.size > 1) addressParts[1] else ""
-        val apartment = if (addressParts.size > 2) addressParts[2] else ""
-
-        mainScreenStreetEditText.setText(street)
-        mainScreenHouseEditText.setText(house)
-        mainScreenApartmentEditText.setText(apartment)
+        mainScreenStreetEditText.setText(receipt.street)
+        mainScreenHouseEditText.setText(receipt.house)
+        mainScreenApartmentEditText.setText(receipt.apart)
     }
 
     private fun initViews() {
@@ -162,7 +156,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenStreetEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> mainScreenStreetLayout.error = null }
         }
-
 
         mainScreenStreetLayout.isHintAnimationEnabled = false
         mainScreenStreetEditText.onTouch { view, motionEvent ->

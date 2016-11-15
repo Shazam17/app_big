@@ -7,6 +7,12 @@ class Receipt(
         @SerializedName("street")
         val street: String,
 
+        @SerializedName("house")
+        val house: String,
+
+        @SerializedName("apart")
+        val apart: String,
+
         @SerializedName("mode_id")
         val autoPayMode: Int,
 
