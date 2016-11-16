@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.models.Receipt
-import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_autopayments.view.*
 import org.jetbrains.anko.onClick
 
@@ -41,7 +40,7 @@ class AutoPaymentsListAdapter(val dataList: List<Receipt>,
                 nameText.text = receipt.name
                 barcodeText.text = receipt.barcode
 
-                typeImage.setImageResource(receipt.receiptType.getIconResId())
+                //typeImage.setImageResource(receipt.receiptType.getIconResId())
 
                 linkedCardNameText.text = "TODO Replace with real name" //TODO Replace with real name
 

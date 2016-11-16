@@ -5,7 +5,6 @@ import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.extensions.getCompatColor
-import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.textColor
@@ -21,7 +20,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptName.text = receipt.name
             receiptBarcodeText.text = receipt.barcode
 
-            receiptTypeImage.setImageResource(receipt.receiptType.getIconResId())
+            //receiptTypeImage.setImageResource(receipt.receiptType.getIconResId()) //TODO remade
 
             val paymentText: String
 

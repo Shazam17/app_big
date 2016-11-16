@@ -1,16 +1,16 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.models.Address
+import com.software.ssp.erkc.data.rest.models.User
 import io.realm.Realm
-import rx.Observable
 import io.realm.RealmResults
-
+import rx.Observable
 import java.util.*
-
 import javax.inject.Inject
 
 /**
@@ -61,10 +61,9 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .asObservable()
                 .flatMap { results ->
                     val firstResult = results.firstOrNull()
-                    if(firstResult == null){
+                    if (firstResult == null) {
                         Observable.just(OfflineUserSettings(login))
-                    }
-                    else{
+                    } else {
                         Observable.just(realm.copyFromRealm(firstResult))
                     }
                 }
@@ -83,5 +82,64 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
+    }
+
+    fun fetchUser(login: String): Observable<RealmUser>{
+        return realm
+                .where(RealmUser::class.java)
+                .equalTo("login", login)
+                .findAllAsync()
+                .asObservable()
+                .flatMap { results ->
+                    val firstResult = results.firstOrNull()
+                    if(firstResult == null) {
+                        Observable.just(RealmUser(login))
+                    } else {
+                        Observable.just(realm.copyFromRealm(firstResult))
+                    }
+                }
+    }
+
+    fun fetchCurrentUser(): Observable<RealmUser> {
+        return realm
+                .where(RealmUser::class.java)
+                .equalTo("isCurrentUser", true)
+                .findAllAsync()
+                .asObservable()
+                .flatMap { results ->
+                    Observable.just(results.firstOrNull())
+                }
+    }
+
+    fun updateUser(user: User): Observable<Boolean> {
+        return fetchCurrentUser()
+                .flatMap { currentUser ->
+                    currentUser?.let {
+                        realm.executeTransaction {
+                            currentUser.isCurrentUser = false
+                        }
+                    }
+                    fetchUser(user.login)
+                }
+                .flatMap { realmUser ->
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    realmUser.apply {
+                                        email = user.email
+                                        name = user.name
+                                        isCurrentUser = true
+                                    }
+                                },
+                                {
+                                    sub.onNext(true)
+                                    sub.onCompleted()
+                                },
+                                { throwable ->
+                                    sub.onError(throwable)
+                                }
+                        )
+                    }
+                }
     }
 }

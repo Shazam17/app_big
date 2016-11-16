@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
@@ -19,6 +20,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -67,6 +69,13 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     user ->
                     activeSession.user = user
+
+                    realmRepository.updateUser(user)
+                }
+                .concatMap { realmRepository.fetchCurrentUser() }
+                .concatMap {
+                    currentUser ->
+
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)
                 }
                 .subscribe(
