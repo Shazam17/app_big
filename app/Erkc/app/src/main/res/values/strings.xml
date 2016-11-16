@@ -14,7 +14,7 @@
     <string name="error_empty_field">Поле не может быть пустым</string>
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
-    <string name="error_all_field_required">Все поля обязательны для заполнения</string>
+    <string name="error_field_required">Поле обязательно для заполнения</string>
     <string name="error_invalid_email">Неверно введен email</string>
 
     <!-- drawer menu -->
@@ -167,4 +167,5 @@
     <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="payment_title">Оплата</string>
     <string name="payment_continue_button">ПРОДОЛЖИТЬ</string>
+    <string name="payment_amount_title">Итого к оплате:</string>
 </resources>

@@ -2,12 +2,12 @@ package com.software.ssp.erkc.modules.paymentscreen.payment
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.support.v4.content.ContextCompat
+import android.view.*
+import android.widget.LinearLayout
+import android.widget.RadioButton
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -17,7 +17,8 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_payment.*
-import org.jetbrains.anko.onClick
+import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 /**
@@ -27,6 +28,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? = null
+    private var userCard: Card? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,23 +53,42 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
 
     override fun showActivatedCards(cards: List<Card>) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun navigateToDrawer() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun navigateToResult() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showConfirmDialog() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showConfirmDialog(commission: String, amount: String) {
+
+        val layoutParamsWithMargin = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParamsWithMargin.bottomMargin = 16
+        alert {
+            val view = LayoutInflater.from(this.ctx).inflate(R.layout.confirm_payment_layout, null, false)
+            view.paymentConfirmBarcode.text = "${receipt?.barcode} (${receipt?.serviceName})"
+            view.paymentConfirmAddress.text = receipt?.address
+            view.paymentConfirmCommission.text = commission
+            view.paymentConfirmAmount.text = amount
+            view.paymentConfirmCardName.text = userCard?.name
+            view.paymentConfirmCardNo.text = userCard?.maskCardNo
+            customView(view)
+            positiveButton("OK", {
+                presenter.onConfirmClick()
+                dismiss()
+            })
+            negativeButton("ЗАКРЫТЬ", {
+                dismiss()
+            })
+        }.show()
     }
 
     override fun showNotificationsDialog() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun fillAmountAndCommission(commission: String, sum: String) {
@@ -83,6 +104,14 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 .inject(this)
     }
 
+    override fun showSumError(errorRes: Int) {
+        paymentSumLayout.error = getString(errorRes)
+    }
+
+    override fun showEmailError(errorRes: Int) {
+        paymentEmailLayout.error = getString(errorRes)
+    }
+
     override fun fillData(user: User?, cards: List<Card>) {
         if (user != null) {
             paymentEmail.setText(user.email)
@@ -90,8 +119,12 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 paymentCardAdd.visibility = View.VISIBLE
                 paymentCardWrapper.visibility = View.GONE
             } else {
-                paymentCardNo.text = cards.first().maskCardNo
-                paymentCardName.text = cards.first().name
+                userCard = if (receipt?.userCardId.equals("1")) cards.first() else cards.find { card -> card.id == receipt?.userCardId }
+                paymentCardWrapper.onClick {
+                    generateCardsChooseLayout(cards)
+                }
+                paymentCardNo.text = userCard?.maskCardNo
+                paymentCardName.text = userCard?.name
                 paymentCardAdd.visibility = View.GONE
                 paymentCardWrapper.visibility = View.VISIBLE
             }
@@ -109,23 +142,9 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         paymentButton.onClick {
-            presenter.onNextClick()
+            presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
         }
-        paymentSum.setText("${receipt?.amount.toString().format(2)} р.")
-        paymentSum.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                presenter.onSumChange(p0.toString().toDouble())
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-        })
+        paymentSum.setText(receipt?.amount.toString().format(2))
         paymentAmount.text = "${receipt?.amount.toString().format(2)} р."
         paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
         paymentBarcode.text = "${receipt?.barcode} (${receipt?.serviceName})"
@@ -137,9 +156,88 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-        paymentCardWrapper.onClick {
-            //dialog
+        paymentAcceptCheckbox.onCheckedChange { compoundButton, b ->
+            paymentButton.isEnabled = b
+        }
+        paymentEmail.textChangedListener {
+            onTextChanged { charSequence, start, before, count -> paymentEmailLayout.error = null }
+        }
+        paymentSum.textChangedListener {
+            onTextChanged { charSequence, start, before, count ->
+                paymentSumLayout.error = null
+                presenter.onSumChange(charSequence.toString())
+            }
         }
     }
 
+    private fun generateCardsChooseLayout(cards: List<Card>) {
+        alert {
+            customTitle {
+                textView {
+                    text = "Карта для оплаты"
+                    gravity = Gravity.CENTER
+                    textSize = 20f
+                    padding = 16
+                    setTypeface(null, Typeface.BOLD)
+                    textColor = ContextCompat.getColor(this.context, R.color.colorPaymentBodyText)
+                }
+            }
+            customView {
+                scrollView {
+                    verticalLayout {
+                        padding = 16
+                        radioGroup {
+                            for (card in cards) {
+                                linearLayout {
+                                    orientation = LinearLayout.HORIZONTAL
+                                    gravity = Gravity.CENTER_VERTICAL
+                                    radioButton {
+                                        isChecked = card.id == userCard?.id
+                                        highlightColor = ContextCompat.getColor(this.context, R.color.colorPrimary)
+                                        tag = "RADIO"
+                                        isFocusable = false
+                                        isClickable = false
+//                                        setTheme(R.style.AppRadioButtonStylePrimary)
+                                    }.onCheckedChange { compoundButton, b ->
+                                        if (b) {
+                                            userCard = card
+                                        }
+                                    }
+                                    verticalLayout {
+                                        padding = 16
+                                        textView {
+                                            isFocusable = false
+                                            isClickable = false
+                                            text = card.maskCardNo
+                                            textSize = 16f
+                                            textColor = ContextCompat.getColor(this.context, R.color.colorPaymentBodyText)
+                                        }
+                                        textView {
+                                            isFocusable = false
+                                            isClickable = false
+                                            text = card.name
+                                            textSize = 14f
+                                            textColor = ContextCompat.getColor(this.context, R.color.colorPaymentSubText)
+                                        }
+                                    }
+
+                                }.onClick {
+                                    (this.findViewWithTag("RADIO") as RadioButton).isChecked = true
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            positiveButton("OK", {
+                paymentCardNo.text = userCard?.maskCardNo
+                paymentCardName.text = userCard?.name
+                dismiss()
+            })
+            negativeButton("ЗАКРЫТЬ", {
+                dismiss()
+            })
+        }.show()
+    }
 }

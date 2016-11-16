@@ -1,13 +1,15 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
+import com.software.ssp.erkc.extensions.isEmail
 import rx.Observable
-import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -26,7 +28,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         subscriptions += cardsRepository
                 .fetchCards(activeSession.accessToken!!)
                 .flatMap { cards ->
-                    Observable.just(cards.filter { card -> card.statusId.equals(CardStatus.ACTIVATED.ordinal) })
+                    Observable.just(cards.filter { card -> card.statusId == CardStatus.ACTIVATED.ordinal })
                 }
                 .subscribe({
                     cards ->
@@ -40,36 +42,55 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 })
     }
 
-    override fun validateData() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onChooseCardClick() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+          view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onChooseBankClick() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+          view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onChooseNotificationClick() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+          view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onConfirmClick() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onNextClick() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String) {
+        if (validateData(sum, email)) {
+            view?.showConfirmDialog("Комиссия ${(sum.toDouble() / 10).toString().format(2)} р.(10 %)", "${(sum.toDouble() + sum.toDouble() / 10).toString().format(2)} р.")
+        }
     }
 
-    override fun onSumChange(payment: Double) {
-       calculateSum(payment)
+    override fun onSumChange(payment: String) {
+       try {
+           calculateSum(payment.toDouble())
+       } catch (e: Exception) {
+           view?.showSumError(R.string.error_field_required)
+       }
     }
 
     private fun calculateSum(sum: Double) {
         view?.fillAmountAndCommission("Комиссия 10% (${(sum / 10).toString().format(2)} р.)", "${(sum + sum / 10).toString().format(2)} р.")
     }
 
+    fun validateData(sum: String, email: String): Boolean {
+        try {
+            sum.toDouble()
+        } catch (e: Exception) {
+            view?.showSumError(R.string.error_field_required)
+            return false
+        }
+        if (email.isNullOrBlank()) {
+            view?.showEmailError(R.string.error_field_required)
+            return false
+        }
+        if (!email.isEmail()) {
+            view?.showEmailError(R.string.error_invalid_email)
+            return false
+        }
+        return true
+    }
 }

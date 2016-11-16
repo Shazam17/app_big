@@ -5,7 +5,7 @@ import nz.bradcampbell.paperparcel.PaperParcel
 import nz.bradcampbell.paperparcel.PaperParcelable
 
 @PaperParcel
-class Receipt (
+class Receipt(
         @SerializedName("amount")
         val amount: Double,
         @SerializedName("mode_id")
@@ -19,8 +19,10 @@ class Receipt (
         @SerializedName("id")
         val id: String?,
         @SerializedName("barcode")
-        val barcode: String) : PaperParcelable {
-        companion object {
-                @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
-        }
+        val barcode: String,
+        @SerializedName("user_card_id")
+        val userCardId: String) : PaperParcelable {
+    companion object {
+        @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
+    }
 }

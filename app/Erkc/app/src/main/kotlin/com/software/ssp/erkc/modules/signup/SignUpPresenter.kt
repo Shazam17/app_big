@@ -36,7 +36,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 || name.isBlank()
                 || email.isBlank()
                 || turing.isBlank()) {
-            view?.showMessage(R.string.error_all_field_required)
+            view?.showMessage(R.string.error_all_fields_required)
             return
         }
         if (!email.isEmail()) {

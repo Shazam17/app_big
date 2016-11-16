@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#356DF2</color>
+    <color name="colorPrimary">#356df2</color>
     <color name="colorPrimaryDark">#356DF2</color>
 
     <color name="colorPrimary35">#5C356DF2</color>
@@ -47,4 +47,9 @@
     <color name="colorCardStatus">#4d4d4d</color>
     <color name="colorCardBackActivated">@color/colorPrimary</color>
     <color name="colorCardBackNotActivated">#e0e0e0</color>
+
+    <!-- payment -->
+    <color name="colorPaymentBodyText">#212121</color>
+    <color name="colorPaymentSubText">#878787</color>
+    <color name="colorPaymentHintText">#9e9e9e</color>
 </resources>

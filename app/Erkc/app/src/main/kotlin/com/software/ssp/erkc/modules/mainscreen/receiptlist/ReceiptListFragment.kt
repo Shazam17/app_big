@@ -3,12 +3,15 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
+import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
@@ -89,8 +92,7 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {
-        //TODO: NavigateToPayment
-        showMessage("TODO: NavigateToPayment - " + receipt.barcode)
+        startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
     }
 
     override fun navigateToHistoryScreen(receipt: Receipt) {

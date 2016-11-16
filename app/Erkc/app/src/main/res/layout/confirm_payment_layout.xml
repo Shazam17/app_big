@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:padding="@dimen/default_margin"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:text="Подтвердите оплату"
+        android:textSize="20sp"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textStyle="bold"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmBarcode"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:text="123"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/colorPaymentSubText"
+        android:textSize="14sp"
+        android:text="@string/payment_barcode_des"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmAddress"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:text="123"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmCommission"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:text="123"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmAmount"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:text="123"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/colorPaymentSubText"
+        android:textSize="14sp"
+        android:text="@string/payment_amount_title"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmCardNo"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:text="123"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paymentConfirmCardName"
+        android:textColor="@color/colorPaymentSubText"
+        android:textSize="14sp"
+        android:text="123"
+        android:layout_height="wrap_content" />
+</LinearLayout>

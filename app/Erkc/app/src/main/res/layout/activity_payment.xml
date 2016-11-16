@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDark"
+    android:background="#edefef"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,9 +20,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/default_margin"
                 android:background="@color/colorWhite"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/default_margin">
 
                 <TextView
                     android:id="@+id/paymentBarcode"
@@ -55,10 +56,14 @@
                     android:text="@string/payment_debts_des" />
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/paymentSumLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Сумма к зачислению"
-                    android:theme="@style/AppStyleInput">
+                    android:theme="@style/AppStyleInput"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
+                    app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/paymentSum"
@@ -66,9 +71,10 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLines="1"
+                        android:padding="@dimen/quarter_default_margin"
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/google_title_text_size" />
+                        android:textSize="24sp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -78,20 +84,24 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="Комиссия 10%"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/colorDarkText" />
+                    android:textColor="@color/colorPaymentHintText"
+                    android:textSize="12sp" />
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/paymentEmailLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
-                    android:theme="@style/AppStyleInput">
+                    android:theme="@style/AppStyleInput"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
+                    app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/paymentEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary"
@@ -118,21 +128,24 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Оплатить картой"
+                        android:textSize="14sp"
                         android:textAppearance="@style/BodyTextView" />
 
                     <TextView
                         android:id="@+id/paymentCardAdd"
-                        android:text="ДОБАВИТЬ"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="ДОБАВИТЬ"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
                         android:textAppearance="@style/LargeTextViewPrimaryColor" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="vertical"
                         android:id="@+id/paymentCardWrapper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/paymentCardNo"
@@ -148,27 +161,27 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/paymentNotifChooseContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/half_default_margin"
-                    android:orientation="horizontal">
+                <!--<LinearLayout-->
+                <!--android:id="@+id/paymentNotifChooseContainer"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_margin="@dimen/half_default_margin"-->
+                <!--android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Уведомление о завершении платежа"
-                        android:textAppearance="@style/BodyTextView" />
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="Уведомление о завершении платежа"-->
+                <!--android:textAppearance="@style/BodyTextView" />-->
 
-                    <TextView
-                        android:id="@+id/paymentNotif"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/BodyTextViewPrimaryColor" />
-                </LinearLayout>
+                <!--<TextView-->
+                <!--android:id="@+id/paymentNotif"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textAppearance="@style/BodyTextViewPrimaryColor" />-->
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/paymentAcceptContainer"
@@ -182,6 +195,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="14sp"
                         android:text="Я подтверждаю свое осгласияе на оплату комисии"
                         android:textAppearance="@style/BodyTextView" />
 
@@ -208,27 +222,37 @@
             android:id="@+id/paymentAmountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
+            android:layout_margin="8dp"
+            android:text="@string/payment_amount_title"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/paymentAmount"
             app:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintTop_creator="1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_creator="1" />
 
         <TextView
             android:id="@+id/paymentAmount"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="@+id/paymentAmountTitle"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="574.69 p."
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp"
             app:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toRightOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <Button
             android:id="@+id/paymentButton"
             style="@style/AppWhiteBlueButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right|center_vertical"
+            android:layout_margin="8dp"
             android:text="@string/payment_continue_button"
-            app:layout_constraintRight_toLeftOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_creator="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
