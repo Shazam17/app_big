@@ -8,6 +8,7 @@ object Constants {
     const val API_OAUTH_CLIENT_ID = "VtqDyaekN"
     const val API_OAUTH_RESPONSE_TYPE = "token"
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
+    const val API_SIG_PRIVATE_KEY = "21ba15f3410d6fe7fd00b83d18025358"
 
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
 

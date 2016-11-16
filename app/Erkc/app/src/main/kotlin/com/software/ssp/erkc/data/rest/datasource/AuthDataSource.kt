@@ -24,9 +24,11 @@ interface AuthDataSource {
     @FormUrlEncoded
     @POST("?method=users.recover")
     fun recoverPassword(@Field("token") token: String,
+                        @Field("app_id") app_id: String,
                          @Field("login") login: String,
                          @Field("email") email: String,
-                         @Field("number") number: String
+                         @Field("number") number: String,
+                         @Field("sig") sig: String
                          ): Observable<AuthData>
 
     @FormUrlEncoded
