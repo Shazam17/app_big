@@ -41,7 +41,7 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
-        inflater?.inflate(R.menu.value_transfer_menu, menu)
+        inflater?.inflate(R.menu.receipts_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

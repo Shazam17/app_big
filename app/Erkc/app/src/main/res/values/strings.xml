@@ -147,5 +147,6 @@
     <string name="auto_payments_delete_dialog_title">Подтвердите удаление</string>
     <string name="auto_payments_delete_autopay_dialog_description">Вы действительно хотите удалить автоплатеж без возможности востановления?</string>
     <string name="auto_payments_delete_one_click_dialog_description">Вы действительно хотите удалить оплату в один клик без возможности востановления?</string>
+    <string name="auto_payments_add_menu_text">Добавить новый автоплатеж / оплату в 1 клик</string>
 
 </resources>

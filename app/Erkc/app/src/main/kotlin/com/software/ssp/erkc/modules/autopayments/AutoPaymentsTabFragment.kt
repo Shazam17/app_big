@@ -32,6 +32,7 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
+        inflater?.inflate(R.menu.autopayments_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -45,6 +46,21 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
 
     override fun beforeDestroy() {
         presenter.dropView()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_add -> {
+                presenter.onAddNewAutoPaymentClick()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun navigateToNewAutoPayment() {
+        //TODO Navigate to new auto payment
+        showMessage("TODO: Navigate to new auto payment")
     }
 
     private fun initViews(){
