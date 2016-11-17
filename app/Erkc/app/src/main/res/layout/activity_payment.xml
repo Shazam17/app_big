@@ -113,6 +113,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -120,7 +121,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/default_margin"
             android:orientation="horizontal">
 
             <TextView
@@ -161,34 +161,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--<LinearLayout-->
-        <!--android:id="@+id/paymentNotifChooseContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_margin="@dimen/half_default_margin"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="Уведомление о завершении платежа"-->
-        <!--android:textAppearance="@style/BodyTextView" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/paymentNotif"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="@style/BodyTextViewPrimaryColor" />-->
-        <!--</LinearLayout>-->
-
         <LinearLayout
             android:id="@+id/paymentAcceptContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/half_default_margin"
             android:orientation="horizontal">
 
             <TextView
