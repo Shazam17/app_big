@@ -24,6 +24,7 @@ class EditCardPresenter @Inject constructor(view: IEditCardView) : RxPresenter<I
                     view?.navigateToDrawer()
                 }, {
                     error ->
+                    view?.setLoadingVisible(false)
                     view?.showMessage(error.message!!)
                 })
     }

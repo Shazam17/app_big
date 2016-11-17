@@ -42,18 +42,15 @@ class CardsAdapter(val cards: List<Card>,val listeners: CardClickListeners) : Re
                 when (card.statusId) {
                     CardStatus.NOT_REGISTERED.ordinal -> {
                         updateColors(CardStatus.NOT_REGISTERED)
-                        cardListItemStatusTextView.text = context.getString(CardStatus.NOT_REGISTERED.stringResId)
                     }
                     CardStatus.REGISTERED.ordinal -> {
                         updateColors(CardStatus.REGISTERED)
-                        cardListItemStatusTextView.text = context.getString(CardStatus.REGISTERED.stringResId)
                     }
                     CardStatus.ACTIVATED.ordinal -> {
                         updateColors(CardStatus.ACTIVATED)
-                        cardListItemStatusTextView.text = context.getString(CardStatus.ACTIVATED.stringResId)
                     }
                     CardStatus.DELETED.ordinal -> {
-                        cardListItemStatusTextView.text = context.getString(CardStatus.DELETED.stringResId)
+                        updateColors(CardStatus.DELETED)
                     }
                 }
                 cardListItemDeleteImageButton.onClick {
@@ -72,6 +69,7 @@ class CardsAdapter(val cards: List<Card>,val listeners: CardClickListeners) : Re
                 cardListItemNoTextView.setTextColorByContextCompat(cardStatus.nameColor())
                 cardDivider.setBackgroundColorByContextCompat(cardStatus.dividerColor())
                 cardListItemStatusTextView.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
+                cardListItemStatusTextView.setText(CardStatus.DELETED.stringResId)
             }
         }
     }
