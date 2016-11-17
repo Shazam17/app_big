@@ -12,7 +12,7 @@ import rx.Observable
 interface PaymentDataSource {
 
     @FormUrlEncoded
-    @POST("payments.init")
+    @POST("?method=payments.init")
     fun init(@FieldMap params: Map<String, String>): Observable<PaymentInit>
 
 }

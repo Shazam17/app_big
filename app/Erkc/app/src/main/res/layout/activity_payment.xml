@@ -67,6 +67,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/quarter_default_margin"
                     android:singleLine="true"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/colorPrimary"
                     android:textSize="24sp" />
 
