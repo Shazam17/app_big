@@ -69,7 +69,7 @@ class CardsAdapter(val cards: List<Card>,val listeners: CardClickListeners) : Re
                 cardListItemNoTextView.setTextColorByContextCompat(cardStatus.nameColor())
                 cardDivider.setBackgroundColorByContextCompat(cardStatus.dividerColor())
                 cardListItemStatusTextView.visibility = if (cardStatus == CardStatus.ACTIVATED) View.INVISIBLE else View.VISIBLE
-                cardListItemStatusTextView.setText(CardStatus.DELETED.stringResId)
+                cardListItemStatusTextView.setText(cardStatus.stringResId)
             }
         }
     }
