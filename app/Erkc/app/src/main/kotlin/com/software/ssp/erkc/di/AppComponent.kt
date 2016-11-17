@@ -25,5 +25,6 @@ interface AppComponent {
     fun provideFaqDataSource(): FaqDataSource
     fun provideCardsDataSource(): CardsDataSource
     fun provideActiveSession(): ActiveSession
+    fun providerPaymentDataSource() : PaymentDataSource
     fun provideRealm(): Realm
 }

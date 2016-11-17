@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:gravity="center"
-        android:text="Подтвердите оплату"
+        android:text="@string/payment_confirm_dialog_title"
         android:textSize="20sp"
         android:textColor="@color/colorPaymentBodyText"
         android:textStyle="bold"
@@ -18,7 +18,6 @@
         android:id="@+id/paymentConfirmBarcode"
         android:textColor="@color/colorPaymentBodyText"
         android:textSize="16sp"
-        android:text="123"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -34,7 +33,6 @@
         android:id="@+id/paymentConfirmAddress"
         android:textColor="@color/colorPaymentBodyText"
         android:textSize="16sp"
-        android:text="123"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_height="wrap_content" />
 
@@ -43,7 +41,6 @@
         android:id="@+id/paymentConfirmCommission"
         android:textColor="@color/colorPaymentBodyText"
         android:textSize="16sp"
-        android:text="123"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_height="wrap_content" />
 
@@ -52,7 +49,6 @@
         android:id="@+id/paymentConfirmAmount"
         android:textColor="@color/colorPaymentBodyText"
         android:textSize="16sp"
-        android:text="123"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -68,7 +64,6 @@
         android:id="@+id/paymentConfirmCardNo"
         android:textColor="@color/colorPaymentBodyText"
         android:textSize="16sp"
-        android:text="123"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -76,6 +71,5 @@
         android:id="@+id/paymentConfirmCardName"
         android:textColor="@color/colorPaymentSubText"
         android:textSize="14sp"
-        android:text="123"
         android:layout_height="wrap_content" />
 </LinearLayout>

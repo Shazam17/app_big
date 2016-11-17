@@ -21,7 +21,7 @@ class Receipt(
         @SerializedName("barcode")
         val barcode: String,
         @SerializedName("user_card_id")
-        val userCardId: String) : PaperParcelable {
+        val userCardId: String?= null) : PaperParcelable {
     companion object {
         @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
     }

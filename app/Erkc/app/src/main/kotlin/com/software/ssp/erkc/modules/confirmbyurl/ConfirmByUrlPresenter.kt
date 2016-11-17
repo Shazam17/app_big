@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.card.changestatus
+package com.software.ssp.erkc.modules.confirmbyurl
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * @author Alexander Popov on 01/11/2016.
  */
-class ChangeStatusCardPresenter @Inject constructor(view: IChangeStatusCardView) : RxPresenter<IChangeStatusCardView>(view), IChangeStatusCardPresenter {
+class ConfirmByUrlPresenter @Inject constructor(view: IConfirmByUrlView) : RxPresenter<IConfirmByUrlView>(view), IConfirmByUrlPresenter {
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var cardsRepo: CardsRepository

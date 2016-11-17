@@ -98,4 +98,10 @@ class NetworkModule {
     fun provideFaqDataSource(retrofit: Retrofit): FaqDataSource {
         return retrofit.create(FaqDataSource::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePaymentDataSource(retrofit: Retrofit): PaymentDataSource {
+        return retrofit.create(PaymentDataSource::class.java)
+    }
 }

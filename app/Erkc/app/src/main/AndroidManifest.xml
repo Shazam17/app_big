@@ -71,7 +71,7 @@
             android:label="@string/search_addresses_title"/>
 
         <activity
-            android:name=".modules.card.changestatus.ChangeStatusCardActivity"/>
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"/>
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"

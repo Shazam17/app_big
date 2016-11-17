@@ -1,215 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#edefef"
     android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="@dimen/default_margin">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/paymentBarcode"
+            style="@style/BodyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/BodyTextViewSub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/payment_barcode_des" />
 
-            <LinearLayout
+        <TextView
+            android:id="@+id/paymentAddress"
+            style="@style/BodyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/paymentDebts"
+            style="@style/BodyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/BodyTextViewSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/double_default_margin"
+            android:text="@string/payment_debts_des" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/paymentSumLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                android:padding="@dimen/default_margin">
+                android:hint="@string/payment_sum_title"
+                android:theme="@style/AppStyleInput"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
+                app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
 
-                <TextView
-                    android:id="@+id/paymentBarcode"
-                    style="@style/BodyTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    style="@style/BodyTextViewSub"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/paymentSum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/payment_barcode_des" />
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:padding="@dimen/quarter_default_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp" />
 
-                <TextView
-                    android:id="@+id/paymentAddress"
-                    style="@style/BodyTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/paymentDebts"
-                    style="@style/BodyTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/paymentCommission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/payment_commission"
+                android:textColor="@color/colorPaymentHintText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_creator="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_creator="1"
+                app:layout_constraintRight_toRightOf="parent" />
 
-                <TextView
-                    style="@style/BodyTextViewSub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/double_default_margin"
-                    android:text="@string/payment_debts_des" />
+        </android.support.constraint.ConstraintLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/paymentSumLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Сумма к зачислению"
-                    android:theme="@style/AppStyleInput"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
-                    app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/paymentEmailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/payment_email"
+            android:theme="@style/AppStyleInput"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
+            app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/paymentSum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:padding="@dimen/quarter_default_margin"
-                        android:singleLine="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="24sp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/paymentCommission"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="Комиссия 10%"
-                    android:textColor="@color/colorPaymentHintText"
-                    android:textSize="12sp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/paymentEmailLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:theme="@style/AppStyleInput"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@style/AppStyleInput.ErrorTextAppearance"
-                    app:hintTextAppearance="@style/AppStyleInput.HintTextAppearance">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/paymentEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/google_title_text_size" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/paymentEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/google_title_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/paymentCardChooseContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/half_default_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/payment_pay_by_card"
+                android:textAppearance="@style/BodyTextView"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/paymentCardAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/payment_add_card"
+                android:textAppearance="@style/LargeTextViewPrimaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/paymentCardWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/paymentCardChooseContainer"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/paymentCardNo"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/half_default_margin"
-                    android:orientation="horizontal">
+                    android:textAppearance="@style/BodyTextViewPrimaryColor" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Оплатить картой"
-                        android:textSize="14sp"
-                        android:textAppearance="@style/BodyTextView" />
-
-                    <TextView
-                        android:id="@+id/paymentCardAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ДОБАВИТЬ"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:textAppearance="@style/LargeTextViewPrimaryColor" />
-
-                    <LinearLayout
-                        android:id="@+id/paymentCardWrapper"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/paymentCardNo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/BodyTextViewPrimaryColor" />
-
-                        <TextView
-                            android:id="@+id/paymentCardName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/BodyTextViewPrimaryColor" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!--<LinearLayout-->
-                <!--android:id="@+id/paymentNotifChooseContainer"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_margin="@dimen/half_default_margin"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="Уведомление о завершении платежа"-->
-                <!--android:textAppearance="@style/BodyTextView" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/paymentNotif"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textAppearance="@style/BodyTextViewPrimaryColor" />-->
-                <!--</LinearLayout>-->
-
-                <LinearLayout
-                    android:id="@+id/paymentAcceptContainer"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/paymentCardName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/half_default_margin"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:text="Я подтверждаю свое осгласияе на оплату комисии"
-                        android:textAppearance="@style/BodyTextView" />
-
-                    <CheckBox
-                        android:id="@+id/paymentAcceptCheckbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:theme="@style/AppCheckBoxStylePrimary" />
-                </LinearLayout>
+                    android:textAppearance="@style/BodyTextViewPrimaryColor" />
             </LinearLayout>
-
         </LinearLayout>
-    </ScrollView>
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/paymentNotifChooseContainer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_margin="@dimen/half_default_margin"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Уведомление о завершении платежа"-->
+        <!--android:textAppearance="@style/BodyTextView" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/paymentNotif"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="@style/BodyTextViewPrimaryColor" />-->
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/paymentAcceptContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/half_default_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/payment_commission_confirmation"
+                android:textAppearance="@style/BodyTextView"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/paymentAcceptCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:theme="@style/AppCheckBoxStylePrimary" />
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -236,7 +232,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="574.69 p."
             android:textColor="@color/colorWhite"
             android:textSize="24sp"
             app:layout_constraintLeft_creator="1"

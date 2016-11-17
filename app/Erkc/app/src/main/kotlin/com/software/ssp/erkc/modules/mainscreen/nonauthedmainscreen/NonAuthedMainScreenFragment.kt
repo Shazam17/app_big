@@ -17,6 +17,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -99,8 +100,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
-        //TODO: NavigateToPayment
-        showMessage("TODO: NavigateToPayment")
+        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt)
     }
 
     override fun navigateToSendValuesScreen(data: Receipt) {

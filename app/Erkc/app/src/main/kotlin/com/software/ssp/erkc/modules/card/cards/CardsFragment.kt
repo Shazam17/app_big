@@ -9,7 +9,7 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
-import com.software.ssp.erkc.modules.card.changestatus.ChangeStatusCardActivity
+import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.startActivity
@@ -106,7 +106,7 @@ class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICa
     }
 
     override fun navigateToBankSite(url: String) {
-        startActivity<ChangeStatusCardActivity>(Constants.KEY_URL to url)
+        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
     }
 
 }

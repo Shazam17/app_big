@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.card.changestatus
+package com.software.ssp.erkc.modules.confirmbyurl
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -19,9 +19,9 @@ import javax.inject.Inject
 /**
  * @author Alexander Popov on 01/11/2016.
  */
-class ChangeStatusCardActivity : MvpActivity(), IChangeStatusCardView {
+class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
 
-    @Inject lateinit var presenter: IChangeStatusCardPresenter
+    @Inject lateinit var presenter: IConfirmByUrlPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,9 @@ class ChangeStatusCardActivity : MvpActivity(), IChangeStatusCardView {
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {
-        DaggerChangeStatusCardComponent.builder()
+        DaggerConfirmByUrlComponent.builder()
                 .appComponent(appComponent)
-                .changeStatusCardModule(ChangeStatusCardModule(this))
+                .confirmByUrlModule(ConfirmByUrlModule(this))
                 .build()
                 .inject(this)
 

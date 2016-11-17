@@ -15,6 +15,7 @@ import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
@@ -29,6 +30,10 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? = null
     private var userCard: Card? = null
+
+    companion object {
+        const val RADIO_BUTTON_TAG = "RADIO"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +56,13 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         return true
     }
 
-
-    override fun showActivatedCards(cards: List<Card>) {
-        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun navigateToDrawer() {
-        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
+        finish()
     }
 
-    override fun navigateToResult() {
-        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun navigateToResult(url: String) {
+        finish()
+        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
     }
 
     override fun showConfirmDialog(commission: String, amount: String) {
@@ -77,11 +78,11 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             view.paymentConfirmCardName.text = userCard?.name
             view.paymentConfirmCardNo.text = userCard?.maskCardNo
             customView(view)
-            positiveButton("OK", {
-                presenter.onConfirmClick()
+            positiveButton(R.string.payment_dialog_ok, {
+                presenter.onConfirmClick(receipt!!, userCard, amount)
                 dismiss()
             })
-            negativeButton("ЗАКРЫТЬ", {
+            negativeButton(R.string.payment_dialog_cancel, {
                 dismiss()
             })
         }.show()
@@ -144,7 +145,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentButton.onClick {
             presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
         }
-        paymentSum.setText(receipt?.amount.toString().format(2))
+        paymentSum.setText(receipt?.amount?.toInt().toString())
         paymentAmount.text = "${receipt?.amount.toString().format(2)} р."
         paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
         paymentBarcode.text = "${receipt?.barcode} (${receipt?.serviceName})"
@@ -174,7 +175,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         alert {
             customTitle {
                 textView {
-                    text = "Карта для оплаты"
+                    text = getString(R.string.payment_dialog_cards_title)
                     gravity = Gravity.CENTER
                     textSize = 20f
                     padding = 16
@@ -194,10 +195,9 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                                     radioButton {
                                         isChecked = card.id == userCard?.id
                                         highlightColor = ContextCompat.getColor(this.context, R.color.colorPrimary)
-                                        tag = "RADIO"
+                                        tag = RADIO_BUTTON_TAG
                                         isFocusable = false
                                         isClickable = false
-//                                        setTheme(R.style.AppRadioButtonStylePrimary)
                                     }.onCheckedChange { compoundButton, b ->
                                         if (b) {
                                             userCard = card
@@ -222,7 +222,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                                     }
 
                                 }.onClick {
-                                    (this.findViewWithTag("RADIO") as RadioButton).isChecked = true
+                                    (this.findViewWithTag(RADIO_BUTTON_TAG) as RadioButton).isChecked = true
                                 }
 
                             }
@@ -230,12 +230,12 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                     }
                 }
             }
-            positiveButton("OK", {
+            positiveButton(R.string.payment_dialog_ok, {
                 paymentCardNo.text = userCard?.maskCardNo
                 paymentCardName.text = userCard?.name
                 dismiss()
             })
-            negativeButton("ЗАКРЫТЬ", {
+            negativeButton(R.string.payment_dialog_cancel, {
                 dismiss()
             })
         }.show()
