@@ -9,8 +9,8 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
-import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
+import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -67,15 +67,19 @@ class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICa
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = CardsAdapter(dataset, {
-            card ->
-            presenter.onEditClick(card)
-        }, {
-            card ->
-            presenter.onByStatusClick(card)
-        }, {
-            card ->
-            presenter.onDeleteClick(card)
+        val adapter = CardsAdapter(dataset, object : CardsAdapter.CardClickListeners {
+            override fun itemEditClick(card: Card) {
+                presenter.onEditClick(card)
+            }
+
+            override fun itemByStatusClick(card: Card) {
+                presenter.onByStatusClick(card)
+            }
+
+            override fun itemDeleteClick(card: Card) {
+                presenter.onDeleteClick(card)
+            }
+
         })
         return adapter
     }

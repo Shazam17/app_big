@@ -1,11 +1,7 @@
 package com.software.ssp.erkc.modules.card.cards
 
-import android.support.annotation.StringRes
-import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
-import com.software.ssp.erkc.common.mvp.IPresenter
-import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.rest.models.Card
 
 /**

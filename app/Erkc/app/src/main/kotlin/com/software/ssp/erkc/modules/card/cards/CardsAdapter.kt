@@ -13,14 +13,11 @@ import org.jetbrains.anko.onClick
 /**
  * @author Alexander Popov on 28/10/2016.
  */
-class CardsAdapter(val cards: List<Card>,
-                   val itemEditClick: (Card) -> Unit,
-                   val itemByStatusClick: (Card) -> Unit,
-                   val itemDeleteClick: (Card) -> Unit) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
+class CardsAdapter(val cards: List<Card>,val listeners: CardClickListeners) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_listitem, parent, false)
-        return ViewHolder(view, itemEditClick, itemByStatusClick, itemDeleteClick)
+        return ViewHolder(view, listeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,16 +28,16 @@ class CardsAdapter(val cards: List<Card>,
         return cards.count()
     }
 
-    class ViewHolder(itemView: View, val itemEditClick: (Card) -> Unit, val itemByStatusClick: (Card) -> Unit, val itemDeleteClick: (Card) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, val listeners: CardClickListeners) : RecyclerView.ViewHolder(itemView) {
         fun bindCard(card: Card) {
             itemView.apply {
                 cardListItemNameTextView.text = card.name
                 cardListItemNoTextView.text = card.maskCardNo
                 cardListItemEditImageView.onClick {
-                    itemEditClick(card)
+                    listeners.itemEditClick(card)
                 }
                 cardListItemStatusTextView.onClick {
-                    itemByStatusClick(card)
+                    listeners.itemByStatusClick(card)
                 }
                 when (card.statusId) {
                     CardStatus.NOT_REGISTERED.ordinal -> {
@@ -60,7 +57,7 @@ class CardsAdapter(val cards: List<Card>,
                     }
                 }
                 cardListItemDeleteImageButton.onClick {
-                    itemDeleteClick(card)
+                    listeners.itemDeleteClick(card)
                     swipeLayout.animateReset()
                 }
                 swipeLayout.reset()
@@ -79,4 +76,9 @@ class CardsAdapter(val cards: List<Card>,
         }
     }
 
+    interface CardClickListeners {
+        fun itemEditClick(card: Card)
+        fun itemByStatusClick(card: Card)
+        fun itemDeleteClick(card: Card)
+    }
 }
