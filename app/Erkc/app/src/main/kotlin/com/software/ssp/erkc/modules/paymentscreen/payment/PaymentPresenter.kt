@@ -4,6 +4,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
@@ -60,10 +61,16 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onConfirmClick(receipt: Receipt, card: Card?, sum: String) {
+    override fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String) {
         view?.setProgressVisibility(true)
         val summ = sum.removeSuffix(" р.").toFloat()
-        subscriptions += paymentRepository.init(activeSession.accessToken ?: activeSession.appToken!!, receipt.barcode, if (card != null) 0 else 1, summ)
+        subscriptions += paymentRepository.init(
+                activeSession.accessToken ?: activeSession.appToken!!,
+                receipt.barcode,
+                if (card != null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
+                summ,
+                email,
+                card?.id)
                 .subscribe({
                     response ->
                     view?.setProgressVisibility(false)
@@ -76,7 +83,31 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String) {
         if (validateData(sum, email)) {
-            view?.showConfirmDialog("Комиссия ${(sum.toDouble() / 10).toString().format(2)} р.(10 %)", "${(sum.toDouble() + sum.toDouble() / 10).toString().format(2)} р.")
+            if (userCard != null) {
+                view?.showConfirmDialog(
+                        "Комиссия ${(sum.toDouble() / 10).toString().format(2)} р.(10 %)",
+                        "${(sum.toDouble() + sum.toDouble() / 10).toString().format(2)} р.",
+                        email)
+            } else {
+                view?.setProgressVisibility(true)
+                val summ = sum.removeSuffix(" р.").toFloat()
+                subscriptions += paymentRepository.init(
+                        activeSession.accessToken ?: activeSession.appToken!!,
+                        receipt.barcode,
+                        PaymentMethod.DEFAULT.ordinal,
+                        summ,
+                        email,
+                        null)
+                        .subscribe({
+                            response ->
+                            view?.setProgressVisibility(false)
+                            view?.navigateToResult(response.url)
+                        }, { error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.message!!)
+                        })
+
+            }
         }
     }
 

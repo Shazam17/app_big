@@ -65,7 +65,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
     }
 
-    override fun showConfirmDialog(commission: String, amount: String) {
+    override fun showConfirmDialog(commission: String, amount: String, email: String) {
 
         val layoutParamsWithMargin = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         layoutParamsWithMargin.bottomMargin = 16
@@ -79,7 +79,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             view.paymentConfirmCardNo.text = userCard?.maskCardNo
             customView(view)
             positiveButton(R.string.payment_dialog_ok, {
-                presenter.onConfirmClick(receipt!!, userCard, amount)
+                presenter.onConfirmClick(receipt!!, userCard, amount, email)
                 dismiss()
             })
             negativeButton(R.string.payment_dialog_cancel, {

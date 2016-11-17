@@ -11,3 +11,8 @@ data class PaymentInit(
         @SerializedName("url")
         var url: String
 )
+
+enum class PaymentMethod {
+    DEFAULT,
+    ONE_CLICK
+}
