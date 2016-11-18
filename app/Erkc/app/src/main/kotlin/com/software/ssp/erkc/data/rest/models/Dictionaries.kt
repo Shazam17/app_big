@@ -11,3 +11,7 @@ data class Address(
         @SerializedName("name")
         val name: String
 )
+
+data class Streets(
+        @SerializedName("street")
+        val street: Array<String>)

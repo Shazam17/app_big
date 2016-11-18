@@ -1,16 +1,16 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.db.StreetCache
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.data.rest.models.Address
+import com.software.ssp.erkc.data.rest.models.Streets
 import io.realm.Realm
-import rx.Observable
 import io.realm.RealmResults
-
+import rx.Observable
 import java.util.*
-
 import javax.inject.Inject
 
 /**
@@ -27,12 +27,33 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return results
     }
 
+
+    fun getAllStreets(): Observable<RealmResults<StreetCache>> {
+        val results = realm
+                .where(StreetCache::class.java)
+                .findAllAsync()
+                .asObservable()
+        return results
+    }
+
     fun getAllAddressesByQuery(query: String): Observable<RealmResults<AddressCache>> {
         val results = realm
                 .where(AddressCache::class.java)
                 .contains("query", query.toLowerCase())
                 .findAllAsync()
                 .asObservable()
+        return results
+    }
+
+    fun getAllStreetsByQuery(query: String): Observable<RealmResults<StreetCache>> {
+        val results = realm
+                .where(StreetCache::class.java)
+                .contains("query", query.toLowerCase())
+                .findAllAsync()
+                .asObservable()
+                .filter { results ->
+                    results.isLoaded
+                }
         return results
     }
 
@@ -44,6 +65,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         realm.executeTransaction {
             realm.deleteAll()
             realm.copyToRealm(cacheAddresses)
+        }
+        AppPrefs.lastCashingDate = Date().time
+    }
+
+    fun saveStreetList(streets: Streets) {
+        val cacheStreets = streets.street.map { StreetCache(it, it.toLowerCase()) }
+        realm.executeTransaction {
+            realm.deleteAll()
+            realm.copyToRealm(cacheStreets)
         }
         AppPrefs.lastCashingDate = Date().time
     }
@@ -61,10 +91,9 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .asObservable()
                 .flatMap { results ->
                     val firstResult = results.firstOrNull()
-                    if(firstResult == null){
+                    if (firstResult == null) {
                         Observable.just(OfflineUserSettings(login))
-                    }
-                    else{
+                    } else {
                         Observable.just(realm.copyFromRealm(firstResult))
                     }
                 }
@@ -83,5 +112,9 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
+    }
+
+    fun streetsLoaded(): Boolean {
+        return realm.where(StreetCache::class.java).count() > 0
     }
 }

@@ -61,7 +61,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
             Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
+            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onStreetSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
         }
     }
 
@@ -135,6 +135,10 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenApartmentEditText.setText(apartment)
     }
 
+    override fun fillStreet(street: String) {
+        mainScreenStreetEditText.setText(street)
+    }
+
     private fun initViews() {
         inDebugMode {
             mainScreenBarcodeEditText.setText("3523740000873")
@@ -171,6 +175,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenHouseEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> mainScreenHouseLayout.error = null }
         }
+        mainScreenStreetEditText.onClick {
+            presenter.onAddressClick()
+        }
 
         mainScreenApartmentEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count -> mainScreenApartmentLayout.error = null }
@@ -202,5 +209,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
     }
+
 }
 

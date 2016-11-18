@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.db.StreetCache
 import kotlinx.android.synthetic.main.address_item.view.*
 
 /**
  * @author Alexander Popov on 26/10/2016.
  */
-class SearchAddressListAdapter(private val onClick: (AddressCache) -> Unit) : RecyclerView.Adapter<SearchAddressListAdapter.ViewHolder>() {
+class SearchAddressListAdapter(private val onClick: (StreetCache) -> Unit) : RecyclerView.Adapter<SearchAddressListAdapter.ViewHolder>() {
 
-    private var dataSet = emptyList<AddressCache>()
+    private var dataSet = emptyList<StreetCache>()
 
-    fun swapData(mNewDataSet: List<AddressCache>) {
+    fun swapData(mNewDataSet: List<StreetCache>) {
         dataSet = mNewDataSet
         notifyDataSetChanged()
     }

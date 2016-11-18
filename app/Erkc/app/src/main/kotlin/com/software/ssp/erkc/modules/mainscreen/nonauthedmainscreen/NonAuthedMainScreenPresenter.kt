@@ -7,7 +7,6 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
-import com.software.ssp.erkc.utils.getStreetFromShortAddress
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -76,13 +75,12 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
                 )
     }
 
-    override fun onAddressSelected(address: String) {
-        val street = getStreetFromShortAddress(address)
-        view?.setStreetField(street)
-    }
-
     override fun onAddressClick() {
         view?.navigateToStreetSelectScreen()
+    }
+
+    override fun onStreetSelected(address: String) {
+        view?.fillStreet(address)
     }
 
     private fun validFields(barcode: String): Boolean {

@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:inputType="textCapSentences"
             android:maxLines="1"
+            android:focusable="false"
             android:textColor="@color/colorLightText" />
 
     </android.support.design.widget.TextInputLayout>
