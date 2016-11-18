@@ -11,7 +11,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
     override fun onViewAttached() {
         when {
             activeSession.user == null -> view?.showNonAuthedScreen()
-            activeSession.cachedReceipts == null || activeSession.cachedReceipts!!.isEmpty() -> view?.showAddReceiptScreen()
+            //activeSession.cachedReceipts == null || activeSession.cachedReceipts!!.isEmpty() -> view?.showAddReceiptScreen()
             else -> view?.showReceiptListScreen()
         }
     }

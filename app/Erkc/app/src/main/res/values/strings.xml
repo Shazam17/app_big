@@ -11,7 +11,7 @@
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
     <string name="error_all_field_required">Все поля обязательны для заполнения</string>
-    <string name="error_invalid_email">Неверно введен email</string>
+    <string name="error_invalid_email">Неверно введен login</string>
 
     <!-- drawer menu -->
     <string name="drawer_main_screen_text">Основной экран</string>

@@ -36,6 +36,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.navigateToForgotPasswordScreen()
     }
 
+    override fun onViewDetached() {
+        super.onViewDetached()
+        realmRepository.close()
+    }
+
     // ===========================================================
     // Methods
     // ===========================================================
@@ -56,11 +61,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         return isValid
     }
 
-    private fun login(email: String, password: String) {
+    private fun login(login: String, password: String) {
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.appToken!!, email, password)
+                .authenticate(activeSession.appToken!!, login, password)
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
@@ -70,19 +75,21 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     user ->
                     activeSession.user = user
 
-                    realmRepository.updateUser(user)
+                    realmRepository.fetchUser(user)
                 }
-                .concatMap { realmRepository.fetchCurrentUser() }
                 .concatMap {
-                    currentUser ->
-
+                    realmUser ->
+                    realmRepository.updateUser(realmUser)
+                }
+                .concatMap {
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
+                .concatMap {
+                    receipts ->
+                    realmRepository.saveReceiptsList(receipts)
                 }
                 .subscribe(
                         {
-                            receipts ->
-                            activeSession.cachedReceipts = receipts?.sortedBy { it.address }
-
                             view?.setProgressVisibility(false)
                             view?.navigateToMainScreen()
                         },
@@ -95,4 +102,3 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 )
     }
 }
-

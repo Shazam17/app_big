@@ -4,11 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 
 class User(
+        @SerializedName("login")
+        val login: String,
         @SerializedName("email")
         val email: String,
         @SerializedName("name")
         val name: String,
         @SerializedName("address")
-        val address: String?, //Maybe removed from API model
-        @SerializedName("login")
-        val login: String)
+        val address: String?) //Maybe removed from API model
+
