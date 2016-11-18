@@ -8,7 +8,7 @@ interface IContactsView : IView {
     fun setPending(isPending: Boolean)
     fun setControlsVisible(isVisible: Boolean)
     fun showMessageEmptyError(resId: Int)
-    fun showDidSentMessage()
+    fun didSentMessage()
 }
 
 interface IContactsPresenter : IPresenter<IContactsView> {

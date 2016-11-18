@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var dictionaryRepo: DictionaryRepository
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var realmRepo: RealmRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -44,17 +45,19 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     } else {
                         Observable.just(null)
                     }
-                }.subscribe({
-            addresses ->
-            if (addresses != null) {
-                realmRepo.saveAddressesList(addresses)
-            }
-            view?.navigateToDrawer()
-        }, {
-            error ->
-            view?.showTryAgainSnack(error.message!!)
-            error.printStackTrace()
-        })
+                }.subscribe(
+                {
+                    addresses ->
+                    if (addresses != null) {
+                        realmRepository.saveAddressesList(addresses)
+                    }
+                    view?.navigateToDrawer()
+                },
+                {
+                    error ->
+                    view?.showTryAgainSnack(error.parsedMessage())
+                    error.printStackTrace()
+                })
     }
 
     override fun onTryAgainClicked() {
@@ -62,7 +65,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     }
 
     override fun onViewDetached() {
-        realmRepo.close()
+        realmRepository.close()
         super.onViewDetached()
     }
 }

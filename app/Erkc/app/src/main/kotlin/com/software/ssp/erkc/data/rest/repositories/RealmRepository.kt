@@ -1,16 +1,14 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.db.AddressCache
+import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.data.rest.models.Address
 import io.realm.Realm
-import rx.Observable
 import io.realm.RealmResults
-
+import rx.Observable
 import java.util.*
-
 import javax.inject.Inject
 
 /**
