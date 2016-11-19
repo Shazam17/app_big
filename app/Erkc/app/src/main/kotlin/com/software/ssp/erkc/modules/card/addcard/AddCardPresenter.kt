@@ -34,12 +34,4 @@ class AddCardPresenter @Inject constructor(view: IAddCardView) : RxPresenter<IAd
                 })
     }
 
-    override fun onBankConfirm() {
-        view?.navigateToResults(true)
-    }
-
-    override fun onDoneClick() {
-        view?.navigateToCards()
-    }
-
 }

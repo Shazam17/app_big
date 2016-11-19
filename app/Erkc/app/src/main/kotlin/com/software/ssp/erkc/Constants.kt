@@ -21,8 +21,10 @@ object Constants {
     const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
     const val KEY_URL = "url_key"
+    const val KEY_URL_ACTIVITY_TITLE = "url_activity_title_key"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
+
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
 }

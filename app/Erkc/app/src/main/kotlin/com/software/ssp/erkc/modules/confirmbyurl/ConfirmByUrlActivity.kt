@@ -1,11 +1,9 @@
 package com.software.ssp.erkc.modules.confirmbyurl
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.software.ssp.erkc.Constants
@@ -67,6 +65,10 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
+        val title = intent.getIntExtra(Constants.KEY_URL_ACTIVITY_TITLE, -1)
+        if (title != -1) {
+            supportActionBar?.setTitle(title)
+        }
         setupWebView()
         changeStatusCardDoneButton.onClick {
             presenter.onDoneClick()

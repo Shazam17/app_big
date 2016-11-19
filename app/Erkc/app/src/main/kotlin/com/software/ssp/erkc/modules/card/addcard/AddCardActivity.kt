@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-import kotlinx.android.synthetic.main.activity_add_cards.*
+import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import kotlinx.android.synthetic.main.cardname_layout.*
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.onKey
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -26,7 +24,7 @@ class AddCardActivity : MvpActivity(), IAddCardView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_cards)
+        setContentView(R.layout.cardname_layout)
         initViews()
     }
 
@@ -39,17 +37,17 @@ class AddCardActivity : MvpActivity(), IAddCardView {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+    }
+
     override fun beforeDestroy() {
         presenter.dropView()
     }
 
     override fun navigateToUrl(url: String) {
-        addCardWebView.loadUrl(url)
-        addCardViewFlipper.showNext()
-    }
-
-    override fun navigateToResults(result: Boolean) {
-        addCardDoneButtonWrapper.visibility = View.VISIBLE
+        finish()
+        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url, Constants.KEY_URL_ACTIVITY_TITLE to R.string.add_card_title)
     }
 
     override fun navigateToCards() {
@@ -72,10 +70,6 @@ class AddCardActivity : MvpActivity(), IAddCardView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
-        setupWebView()
-        addCardDoneButton.onClick {
-            presenter.onDoneClick()
-        }
         addCardNameEditText.onKey { view, i, keyEvent ->
             if ((keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)
                     && keyEvent?.action == KeyEvent.ACTION_UP) {
@@ -84,22 +78,4 @@ class AddCardActivity : MvpActivity(), IAddCardView {
             return@onKey false
         }
     }
-
-    private fun setupWebView() {
-        addCardWebView.settings.useWideViewPort = true
-        addCardWebView.settings.loadWithOverviewMode = true
-        addCardWebView.settings.javaScriptEnabled = true
-        addCardWebView.settings.builtInZoomControls = true
-        addCardWebView.settings.displayZoomControls = false
-        addCardWebView.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                if (url.contains("service.gazprombank.ru")) { //для проверки что не ушли на левую страницу (клик по лэйблу "газпромбанк" например)
-                    view.loadUrl(url)
-                    presenter.onBankConfirm()
-                }
-                return true
-            }
-        })
-    }
-
 }
