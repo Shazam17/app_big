@@ -1,28 +1,38 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
+import com.software.ssp.erkc.data.rest.models.ApiResponse
 import com.software.ssp.erkc.data.rest.models.Receipt
 import rx.Observable
 import javax.inject.Inject
 
 class ReceiptsRepository @Inject constructor(private val receiptsDataSource: ReceiptsDataSource) : Repository() {
 
-    fun fetchReceiptInfo(token: String, code: String, street: String, house: String, apart: String): Observable<Receipt> {
-        val params = mapOf("token" to token, "code" to code)
-        if (!street.isBlank())
-            params.plus("street" to street)
-        if (!house.isBlank())
-            params.plus("house" to house)
-        if (!apart.isBlank())
-            params.plus("apart" to apart)
+    fun fetchReceiptInfo(token: String, code: String, street: String = "", house: String = "", apart: String = ""): Observable<Receipt> {
+        val params = hashMapOf(
+                "token" to token,
+                "code" to code)
+
+        if (!street.isNullOrBlank()) {
+            params.put("street", street)
+            params.put("house", house)
+            params.put("apart", apart)
+        }
+
         return receiptsDataSource
                 .fetchReceiptInfo(params).compose(this.applySchedulers<Receipt>())
     }
 
-    fun fetchReceiptInfo(token: String, code: String): Observable<Receipt> {
+    fun fetchReceipts(token: String): Observable<List<Receipt>> {
+        return receiptsDataSource
+                .fetchReceipts(token)
+                .compose(this.applySchedulers<List<Receipt>>())
+    }
+
+    fun deleteReceipt(token: String, receiptId: String): Observable<Receipt> {
         val params = hashMapOf(
                 "token" to token,
-                "code" to code)
+                "id" to receiptId)
 
         return receiptsDataSource
                 .fetchReceiptInfo(params)
@@ -30,10 +40,13 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
 
     }
 
+    fun updateReceipt(token: String, receiptId: String): Observable<ApiResponse> {
+        val params = hashMapOf(
+                "token" to token,
+                "id" to receiptId)
 
-    fun fetchReceipts(token: String): Observable<List<Receipt>> {
         return receiptsDataSource
-                .fetchReceipts(token)
-                .compose(this.applySchedulers<List<Receipt>>())
+                .updateReceipt(params)
+                .compose(this.applySchedulers<ApiResponse>())
     }
 }

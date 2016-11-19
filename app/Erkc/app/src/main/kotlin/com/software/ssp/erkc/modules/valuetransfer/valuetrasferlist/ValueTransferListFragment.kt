@@ -3,17 +3,19 @@ package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
-class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
+class ValueTransferListFragment : BaseListFragment<Receipt, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
 
     @Inject lateinit var presenter: IValueTransferListPresenter
 
@@ -40,7 +42,7 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
-        inflater?.inflate(R.menu.value_transfer_menu, menu)
+        inflater?.inflate(R.menu.receipts_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -62,31 +64,35 @@ class ValueTransferListFragment : BaseListFragment<ReceiptSectionViewModel, IVal
         presenter.onSwipeToRefresh()
     }
 
-    override fun navigateToSendValues(receipt: Receipt) {
-        //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
+    override fun receiptDidNotDeleted(receipt: Receipt) {
+        adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun navigateToNewValueTransfer() {
+    override fun receiptDeleted(receipt: Receipt){
+        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    }
+
+    override fun navigateToSendValues(receipt: Receipt) {
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
+    }
+
+    override fun navigateToAddReceiptScreen() {
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
                 .addToBackStack(null)
                 .commit()
     }
 
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
+                .commit()
+    }
+
     override fun createAdapter(): RecyclerView.Adapter<*> {
-
-        val adapter = ValueTransferAdapter(dataset,
+        return ValueTransferAdapter(dataset,
                 { receipt -> presenter.onTransferValueClick(receipt) },
-                { receipt, position ->
-                    dataset.find { it.address == receipt.address }?.receipts?.remove(receipt)
-                    adapter?.notifyDataSetChanged()
-                    presenter.onReceiptDeleted(receipt)
-                })
-
-        adapter.shouldShowHeadersForEmptySections(false)
-
-        return adapter
+                { receipt, position -> presenter.onReceiptDeleted(receipt) })
     }
 }
 

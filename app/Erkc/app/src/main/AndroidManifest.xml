@@ -83,6 +83,7 @@
         <activity
             android:name=".modules.sendvalues.SendValuesActivity"
             android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/send_values_title"/>
 
         <activity

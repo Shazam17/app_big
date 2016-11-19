@@ -71,7 +71,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         layoutParamsWithMargin.bottomMargin = 16
         alert {
             val view = LayoutInflater.from(this.ctx).inflate(R.layout.confirm_payment_layout, null, false)
-            view.paymentConfirmBarcode.text = "${receipt?.barcode} (${receipt?.serviceName})"
+            view.paymentConfirmBarcode.text = "${receipt?.barcode} (${receipt?.name})"
             view.paymentConfirmAddress.text = receipt?.address
             view.paymentConfirmCommission.text = commission
             view.paymentConfirmAmount.text = amount
@@ -120,7 +120,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 paymentCardAdd.visibility = View.VISIBLE
                 paymentCardWrapper.visibility = View.GONE
             } else {
-                userCard = if (receipt?.userCardId.equals("1")) cards.first() else cards.find { card -> card.id == receipt?.userCardId }
+                userCard = if (receipt?.linkedCardId == null || receipt?.linkedCardId.equals("1")) cards.first() else cards.find { card -> card.id == receipt?.linkedCardId }
                 paymentCardWrapper.onClick {
                     generateCardsChooseLayout(cards)
                 }
@@ -146,9 +146,8 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
         }
         paymentSum.setText(receipt?.amount?.toInt().toString())
-        paymentAmount.text = "${receipt?.amount.toString().format(2)} р."
         paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
-        paymentBarcode.text = "${receipt?.barcode} (${receipt?.serviceName})"
+        paymentBarcode.text = "${receipt?.barcode} (${receipt?.name})"
         paymentAddress.text = receipt?.address
 
         paymentCardAdd.onClick {

@@ -17,8 +17,13 @@ import javax.inject.Inject
  */
 class SignUpActivity : MvpActivity(), ISignUpView {
 
-
     @Inject lateinit var presenter: ISignUpPresenter
+
+    companion object {
+        val SIGN_UP_TAG = 25512
+
+        val DID_SIGN_UP = 25513
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +61,8 @@ class SignUpActivity : MvpActivity(), ISignUpView {
         signUpProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    override fun navigateToDrawerScreen() {
+    override fun navigateToMainScreen() {
+        setResult(DID_SIGN_UP)
         finish()
     }
 

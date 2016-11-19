@@ -16,36 +16,34 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
-        if (!validFields(barcode)) {
-            return
-        }
-        view?.showProgressVisible(true)
+        if (validFields(barcode)) {
+            view?.showProgressVisible(true)
+            subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+                    .subscribe(
+                            { receipt ->
+                                view?.showProgressVisible(false)
 
-        subscriptions += receiptsRepository
-                .fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
-                .subscribe(
-                        { receipt ->
-                            view?.showProgressVisible(false)
-                            if (isSendValue) {
-                                view?.navigateToSendValuesScreen(receipt)
-                            } else {
-                                view?.navigateToPaymentScreen(receipt)
-                            }
-                        },
-                        { throwable ->
-                            view?.showProgressVisible(false)
-
-                            if (throwable is ApiException) {
-                                when (throwable.errorCode) {
-                                    ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
-                                    ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
-                                    else -> view?.showMessage(throwable.parsedMessage())
+                                if (isSendValue) {
+                                    view?.navigateToSendValuesScreen(receipt)
+                                } else {
+                                    view?.navigateToPaymentScreen(receipt)
                                 }
-                            } else {
-                                view?.showMessage(throwable.parsedMessage())
+                            },
+                            { throwable ->
+                                view?.showProgressVisible(false)
+
+                                if (throwable is ApiException) {
+                                    when (throwable.errorCode) {
+                                        ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
+                                        ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
+                                        else -> view?.showMessage(throwable.parsedMessage())
+                                    }
+                                } else {
+                                    view?.showMessage(throwable.parsedMessage())
+                                }
                             }
-                        }
-                )
+                    )
+        }
     }
 
     override fun onSignInClick() {

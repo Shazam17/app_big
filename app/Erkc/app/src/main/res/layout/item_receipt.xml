@@ -1,212 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/half_default_margin"
-    android:layout_marginStart="@dimen/half_default_margin"
-    android:layout_marginTop="@dimen/half_default_margin"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="4dp">
+    android:orientation="vertical">
 
-    <ru.rambler.libs.swipe_layout.SwipeLayout
-        android:id="@+id/swipeLayout"
+    <TextView
+        android:id="@+id/receiptAddressText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:textAllCaps="false"
+        android:textColor="@color/colorLightInput"
+        android:textStyle="normal|bold"
+        tools:text="ул. Усова 25/1, кв 7" />
 
-        <LinearLayout
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half_default_margin"
+        android:layout_marginEnd="@dimen/half_default_margin"
+        android:layout_marginStart="@dimen/half_default_margin"
+        android:layout_marginTop="@dimen/quarter_default_margin"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="3dp">
+
+        <ru.rambler.libs.swipe_layout.SwipeLayout
+            android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/default_margin">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/default_margin">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/receiptName"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/half_default_margin"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:paddingBottom="@dimen/half_default_margin"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20sp"
-                        android:textStyle="normal|bold"
-                        tools:text="Отопление и очень горячая вода" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/receiptBarcodeText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="0000000000000" />
+                        <TextView
+                            android:id="@+id/receiptName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:paddingBottom="@dimen/half_default_margin"
+                            android:paddingEnd="@dimen/half_default_margin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="20sp"
+                            android:textStyle="normal|bold"
+                            tools:text="Отопление и очень горячая вода" />
 
-                    <TextView
-                        android:id="@+id/receiptAmountText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/half_default_margin"
-                        android:textSize="20sp"
-                        tools:text="-569 р." />
+                        <TextView
+                            android:id="@+id/receiptBarcodeText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="0000000000000" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/receiptAmountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingTop="@dimen/half_default_margin"
+                                android:textSize="20sp"
+                                tools:text="-56900000 р." />
+
+                            <TextView
+                                android:id="@+id/receiptAutoPaymentText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginStart="@dimen/half_default_margin"
+                                android:drawableStart="@drawable/ic_autopay_enabled"
+                                android:gravity="bottom"
+                                android:textColor="@color/colorReceiptAutoPay"
+                                android:textSize="12sp"
+                                tools:text="Автоплатеж" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/receiptTypeImage"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@color/colorPrimary" />
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/receiptTypeImage"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@color/colorPrimary" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_default_margin">
+
+                    <TextView
+                        android:id="@+id/receiptPayButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="@dimen/half_default_margin"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/receipts_pay_button"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textStyle="normal|bold"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/receiptTransferButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignWithParentIfMissing="true"
+                        android:layout_centerInParent="true"
+                        android:layout_toEndOf="@+id/receiptPayButton"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/receipts_transfer_value_button"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textStyle="normal|bold"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/receiptLastTransferLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical"
+                        tools:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/receipts_last_transfer_text" />
+
+                        <TextView
+                            android:id="@+id/receiptLastTransferDateText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            tools:text="20.10.2014" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/receiptLastPayLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical"
+                        tools:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/receipts_last_pay_text" />
+
+                        <TextView
+                            android:id="@+id/receiptLastPayDateText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            tools:text="20.10.2014" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/receiptMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:paddingStart="@dimen/half_default_margin"
+                        android:src="@drawable/ic_more"
+                        tools:visibility="visible" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/half_default_margin">
-
-                <TextView
-                    android:id="@+id/receiptPayButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="@dimen/half_default_margin"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:text="@string/receipts_pay_button"
-                    android:textAllCaps="true"
-                    android:textSize="13sp"
-                    android:textStyle="normal|bold"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/receiptTransferButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignWithParentIfMissing="true"
-                    android:layout_centerInParent="true"
-                    android:layout_toEndOf="@+id/receiptPayButton"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:text="@string/receipts_transfer_value_button"
-                    android:textAllCaps="true"
-                    android:textSize="13sp"
-                    android:textStyle="normal|bold"
-                    tools:visibility="visible" />
-
-                <LinearLayout
-                    android:id="@+id/receiptLastTransferLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="vertical"
-                    tools:visibility="gone">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/receipts_last_transfer_text" />
-
-                    <TextView
-                        android:id="@+id/receiptLastTransferDateText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        tools:text="20.10.2014" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/receiptLastPayLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="vertical"
-                    tools:visibility="gone">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/receipts_last_pay_text" />
-
-                    <TextView
-                        android:id="@+id/receiptLastPayDateText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        tools:text="20.10.2014" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/receiptIconsLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal"
-                    tools:visibility="visible">
-
-                    <ImageButton
-                        android:id="@+id/receiptPaymentHistoryImageButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:background="@null"
-                        android:src="@drawable/ic_action_receipt"
-                        tools:visibility="visible" />
-
-                    <ImageButton
-                        android:id="@+id/receiptAutoPayImageView"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_marginStart="@dimen/half_default_margin"
-                        android:background="@null"
-                        android:src="@drawable/ic_time"
-                        android:tint="@color/colorInactive"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/deleteLayout"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorRed"
-            android:orientation="horizontal"
-            app:bring_to_clamp="no"
-            app:clamp="100dp"
-            app:gravity="right"
-            app:sticky="100dp">
-
-            <ImageButton
-                android:id="@+id/deleteButton"
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/deleteLayout"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_action_delete" />
-        </LinearLayout>
+                android:background="@color/colorRed"
+                android:orientation="horizontal"
+                app:bring_to_clamp="no"
+                app:clamp="100dp"
+                app:gravity="right"
+                app:sticky="100dp">
 
-    </ru.rambler.libs.swipe_layout.SwipeLayout>
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_delete_white" />
 
-</android.support.v7.widget.CardView>
+                <ProgressBar
+                    android:id="@+id/deleteProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+        </ru.rambler.libs.swipe_layout.SwipeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

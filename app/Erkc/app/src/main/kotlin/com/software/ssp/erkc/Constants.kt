@@ -22,7 +22,6 @@ object Constants {
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
     const val KEY_URL = "url_key"
     const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
-    const val KEY_ADDRESS_NAME_RESULT = "KEY_ADDRESS_NAME_RESULT"
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"

@@ -6,8 +6,9 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
-import com.software.ssp.erkc.common.receipt.getMockReceiptList
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -32,6 +34,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     override fun onForgotPasswordButtonClick() {
         view?.navigateToForgotPasswordScreen()
+    }
+
+    override fun onViewDetached() {
+        super.onViewDetached()
+        realmRepository.close()
     }
 
     // ===========================================================
@@ -54,39 +61,44 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         return isValid
     }
 
-    private fun login(email: String, password: String) {
+    private fun login(login: String, password: String) {
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.appToken!!, email, password)
+                .authenticate(activeSession.appToken!!, login, password)
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
                 .concatMap {
-                    userResponse ->
-                    activeSession.user = userResponse
+                    user ->
+                    activeSession.user = user
+
+                    realmRepository.fetchUser(user)
+                }
+                .concatMap {
+                    realmUser ->
+                    realmRepository.updateUser(realmUser)
+                }
+                .concatMap {
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
+                .concatMap {
+                    receipts ->
+                    realmRepository.saveReceiptsList(receipts?: emptyList())
                 }
                 .subscribe(
                         {
-                            receipts ->
-                            activeSession.cachedReceipts = receipts
-
-                            //TODO REMOVE next
-                            activeSession.cachedReceipts = getMockReceiptList().sortedBy { it.address }
-
                             view?.setProgressVisibility(false)
-                            view?.navigateToDrawerScreen()
+                            view?.navigateToMainScreen()
                         },
                         {
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
-                            view?.showMessage(error.message.toString())
+                            view?.showMessage(error.parsedMessage())
                         }
                 )
     }
 }
-

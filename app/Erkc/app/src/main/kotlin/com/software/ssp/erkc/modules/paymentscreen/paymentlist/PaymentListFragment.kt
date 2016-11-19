@@ -8,7 +8,6 @@ import android.view.*
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
@@ -19,7 +18,7 @@ import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
-class PaymentListFragment : BaseListFragment<ReceiptSectionViewModel, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
+class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
 
     @Inject lateinit var presenter: IPaymentListPresenter
 
@@ -50,7 +49,7 @@ class PaymentListFragment : BaseListFragment<ReceiptSectionViewModel, IPaymentLi
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
-        inflater?.inflate(R.menu.value_transfer_menu, menu)
+        inflater?.inflate(R.menu.receipts_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -64,28 +63,34 @@ class PaymentListFragment : BaseListFragment<ReceiptSectionViewModel, IPaymentLi
         return super.onOptionsItemSelected(item)
     }
 
+    override fun receiptDidNotDeleted(receipt: Receipt) {
+        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+    }
+
+    override fun receiptDeleted(receipt: Receipt){
+        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    }
+
     override fun onSwipeToRefresh() {
         presenter.onSwipeToRefresh()
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = PaymentListAdapter(dataset,
+        return PaymentListAdapter(dataset,
                 { receipt -> presenter.onPayButtonClick(receipt) },
-                { receipt, position ->
-                    dataset.find { it.address == receipt.address }?.receipts?.remove(receipt)
-                    adapter?.notifyDataSetChanged()
-                    presenter.onReceiptDeleted(receipt)
-                })
-
-        adapter.shouldShowHeadersForEmptySections(false)
-
-        return adapter
+                { receipt, position -> presenter.onReceiptDeleted(receipt) })
     }
 
     override fun navigateToAddReceiptScreen() {
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValueVisible" to false))
                 .addToBackStack(null)
+                .commit()
+    }
+
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment().withArguments("isTransferValueVisible" to false))
                 .commit()
     }
 

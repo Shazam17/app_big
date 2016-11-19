@@ -85,8 +85,8 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         if (validateData(sum, email)) {
             if (userCard != null) {
                 view?.showConfirmDialog(
-                        "Комиссия ${(sum.toDouble() / 10).toString().format(2)} р.(10 %)",
-                        "${(sum.toDouble() + sum.toDouble() / 10).toString().format(2)} р.",
+                        "Комиссия %.2f р. (10 %%)".format(sum.toDouble() / 10),
+                        "%.2f р.".format(sum.toDouble() + sum.toDouble() / 10),
                         email)
             } else {
                 view?.setProgressVisibility(true)
@@ -120,7 +120,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     }
 
     private fun calculateSum(sum: Double) {
-        view?.fillAmountAndCommission("Комиссия 10% (${(sum / 10).toString().format(2)} р.)", "${(sum + sum / 10).toString().format(2)} р.")
+        view?.fillAmountAndCommission("Комиссия 10%% (%.2f р.)".format(sum / 10), "%.2f р.".format(sum + sum / 10))
     }
 
     fun validateData(sum: String, email: String): Boolean {

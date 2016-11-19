@@ -7,7 +7,7 @@ import com.software.ssp.erkc.common.mvp.IView
  * @author Alexander Popov on 23.10.2016.
  */
 interface ISignUpView : IView {
-    fun navigateToDrawerScreen()
+    fun navigateToMainScreen()
     fun showCaptcha(image: ByteArray)
 }
 

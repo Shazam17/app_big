@@ -68,7 +68,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                             userResponse ->
                             activeSession.user = userResponse
                             view?.setProgressVisibility(false)
-                            view?.navigateToDrawerScreen()
+                            view?.navigateToMainScreen()
                         },
                         {
                             error ->

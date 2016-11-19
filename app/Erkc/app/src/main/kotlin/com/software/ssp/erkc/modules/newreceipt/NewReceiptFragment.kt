@@ -14,7 +14,8 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
-import com.software.ssp.erkc.utils.splitFullAddress
+import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
-        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -57,7 +58,7 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
 
         when (requestCode) {
             Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
+            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
         }
     }
 
@@ -74,13 +75,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {
-        // todo
-        toast("navigateToIPUInputScreen")
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {
-        // todo
-        toast("navigateToPayScreen")
+        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt)
     }
 
     override fun showBarcodeError(errorStringResId: Int) {
@@ -112,14 +111,9 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         houseInputLayout.isEnabled = false
         apartmentInputLayout.isEnabled = false
 
-        val addressParts = splitFullAddress(receipt.address)
-        val street = addressParts[0]
-        val house = if (addressParts.size > 1) addressParts[1] else ""
-        val apartment = if (addressParts.size > 2) addressParts[2] else ""
-
-        streetEditText.setText(street)
-        houseEditText.setText(house)
-        apartmentEditText.setText(apartment)
+        streetEditText.setText(receipt.street)
+        houseEditText.setText(receipt.house)
+        apartmentEditText.setText(receipt.apart)
     }
 
     override fun setStreetField(street: String) {
@@ -135,6 +129,9 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
                     streetInputLayout.isEnabled = true
                     houseInputLayout.isEnabled = true
                     apartmentInputLayout.isEnabled = true
+                    streetEditText.setText("")
+                    houseEditText.setText("")
+                    apartmentEditText.setText("")
                 }
             }
         }
@@ -188,5 +185,4 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         sendValueCheckBox.visibility = if (isTransferValueVisible) View.VISIBLE else View.GONE
         sendValueCheckBox.setOnCheckedChangeListener { compoundButton, isChecked -> isTransferValue = isChecked }
     }
-
 }

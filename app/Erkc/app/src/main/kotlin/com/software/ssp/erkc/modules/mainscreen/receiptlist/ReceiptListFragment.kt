@@ -6,15 +6,16 @@ import android.view.*
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.common.receipt.ReceiptSectionViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
-class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
+class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
 
     @Inject lateinit var presenter: IReceiptListPresenter
 
@@ -45,7 +46,7 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
-        inflater?.inflate(R.menu.value_transfer_menu, menu)
+        inflater?.inflate(R.menu.receipts_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -63,20 +64,27 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
         presenter.onSwipeToRefresh()
     }
 
+    override fun receiptDidNotDeleted(receipt: Receipt) {
+        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+    }
+
+    override fun receiptDeleted(receipt: Receipt) {
+        val receiptIndex = dataset.indexOf(receipt)
+        dataset.removeAt(receiptIndex)
+        adapter?.notifyItemRemoved(receiptIndex)
+    }
+
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = ReceiptListAdapter(dataset,
+        return ReceiptListAdapter(dataset,
                 { receipt -> presenter.onPayButtonClick(receipt) },
                 { receipt -> presenter.onTransferButtonClick(receipt) },
-                { receipt -> presenter.onHistoryButtonClick(receipt) },
-                { receipt, position ->
-                    dataset.find { it.address == receipt.address }?.receipts?.remove(receipt)
-                    adapter?.notifyDataSetChanged()
-                    presenter.onReceiptDeleted(receipt)
-                })
-
-        adapter.shouldShowHeadersForEmptySections(false)
-
-        return adapter
+                { menuItem, receipt ->
+                    when (menuItem) {
+                        ReceiptMenuItem.HISTORY -> presenter.onHistoryButtonClick(receipt)
+                        ReceiptMenuItem.AUTOPAY -> presenter.onAutoPaymentButtonClick(receipt)
+                    }
+                },
+                { receipt, position -> presenter.onReceiptDeleted(receipt) })
     }
 
     override fun navigateToAddReceiptScreen() {
@@ -86,9 +94,14 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
                 .commit()
     }
 
+    override fun navigateToEmptyReceiptsList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
+                .commit()
+    }
+
     override fun navigateToIPUInputScreen(receipt: Receipt) {
-        //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {
@@ -96,7 +109,12 @@ class ReceiptListFragment : BaseListFragment<ReceiptSectionViewModel, IReceiptLi
     }
 
     override fun navigateToHistoryScreen(receipt: Receipt) {
-        //TODO: NavigateToPayment
+        //TODO: NavigateToHistory
         showMessage("TODO: NavigateToHistory - " + receipt.barcode)
+    }
+
+    override fun navigateToAutoPaymentSettingScreen(receipt: Receipt) {
+        //TODO: NavigateToAutoPayment
+        showMessage("TODO: NavigateToAutoPayment - " + receipt.barcode)
     }
 }

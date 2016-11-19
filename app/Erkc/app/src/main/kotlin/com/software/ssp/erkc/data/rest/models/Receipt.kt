@@ -6,23 +6,55 @@ import nz.bradcampbell.paperparcel.PaperParcelable
 
 @PaperParcel
 class Receipt(
-        @SerializedName("amount")
-        val amount: Double,
+        @SerializedName("street")
+        val street: String,
+
+        @SerializedName("house")
+        val house: String,
+
+        @SerializedName("apart")
+        val apart: String,
+
         @SerializedName("mode_id")
-        val autoPayMode: String?,
-        @SerializedName("supplier_name")
-        val supplierName: String,
+        val autoPayMode: Int,
+
         @SerializedName("service_name")
-        val serviceName: String,
-        @SerializedName("address")
-        val address: String,
+        val name: String,
+
+        @SerializedName("maxsumma")
+        val maxSumm: Double,
+
         @SerializedName("id")
         val id: String?,
+
+        @SerializedName("lastpay")
+        val lastPayment: String?,
+
+        @SerializedName("address")
+        val address: String,
+
+        @SerializedName("service_code")
+        val serviceCode: Int,
+
+        @SerializedName("amount")
+        val amount: Double,
+
         @SerializedName("barcode")
         val barcode: String,
+
+        @SerializedName("lastsendmeteripu")
+        val lastValueTransfer: String?,
+
+        @SerializedName("supplier_name")
+        val supplierName: String,
+
+        @SerializedName("percent_q")
+        val persent: Double,
+
         @SerializedName("user_card_id")
-        val userCardId: String?= null) : PaperParcelable {
+        val linkedCardId: String?) : PaperParcelable {
     companion object {
         @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
     }
 }
+

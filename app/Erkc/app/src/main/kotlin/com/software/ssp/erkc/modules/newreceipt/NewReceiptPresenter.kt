@@ -56,19 +56,21 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, barcode, street, house, apartment)
+                .concatMap {
+                    receipt ->
+                    view?.showProgressVisible(false)
+                    if (isSendValue) {
+                        view?.navigateToIPUInputScreen(receipt)
+                    } else {
+                        view?.navigateToPayScreen(receipt)
+                    }
+
+                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
                 .subscribe(
-                        { receipt ->
-
-                            //TODO Add new receipt to List
-
-                            view?.showProgressVisible(false)
-
-                            if (isSendValue) {
-                                view?.navigateToIPUInputScreen(receipt)
-                            } else {
-                                view?.navigateToPayScreen(receipt)
-                            }
+                        { receipts ->
+                            activeSession.cachedReceipts = receipts
                         },
                         { throwable ->
                             view?.showProgressVisible(false)

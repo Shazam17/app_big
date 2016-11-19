@@ -13,10 +13,13 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
+import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
+import com.software.ssp.erkc.modules.signin.SignInActivity
+import com.software.ssp.erkc.modules.signup.SignUpActivity
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -74,23 +77,35 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle!!.onOptionsItemSelected(item)) {
+        if (drawerToggle!!.isDrawerIndicatorEnabled &&
+                drawerToggle!!.onOptionsItemSelected(item)) {
             return true
+        } else if (item.itemId == android.R.id.home &&
+                fragmentManager.popBackStackImmediate()) {
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
         }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         when (resultCode) {
             UserProfileActivity.USER_PROFILE_UPDATED -> {
                 presenter.onUserProfileUpdated()
-                return
             }
-        }
 
-        super.onActivityResult(requestCode, resultCode, data)
+            SignInActivity.DID_SIGN_IN -> {
+                presenter.onUserProfileUpdated()
+                navigateToModule(selectedDrawerItem)
+            }
+
+            SignUpActivity.DID_SIGN_UP -> {
+                presenter.onUserProfileUpdated()
+                navigateToModule(selectedDrawerItem)
+            }
+
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun showUserInfo(user: User) {
@@ -117,6 +132,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateToMainScreen() {
+        drawerNavigationView.setCheckedItem(DrawerItem.MAIN.itemId)
         navigateToModule(DrawerItem.MAIN)
     }
 
@@ -131,7 +147,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> CardsFragment()
             DrawerItem.HISTORY -> Fragment()
-            DrawerItem.AUTOPAY -> Fragment()
+            DrawerItem.AUTOPAY -> AutoPaymentsTabFragment()
             DrawerItem.NOTIFY -> Fragment()
             DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> Fragment()
@@ -153,6 +169,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         drawerHeaderView = drawerNavigationView.getHeaderView(0)
 
@@ -166,18 +183,19 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             isSelectedDrawerItemChanged = (id != selectedDrawerItem.itemId)
             if (isSelectedDrawerItemChanged) {
                 when (id) {
-                    R.id.menuMainScreen -> selectedDrawerItem = DrawerItem.MAIN
-                    R.id.menuPayment -> selectedDrawerItem = DrawerItem.PAYMENT
-                    R.id.menuSendValues -> selectedDrawerItem = DrawerItem.VALUES
-                    R.id.menuMyCards -> selectedDrawerItem = DrawerItem.CARDS
-                    R.id.menuHistory -> selectedDrawerItem = DrawerItem.HISTORY
-                    R.id.menuAutoPayments -> selectedDrawerItem = DrawerItem.AUTOPAY
-                    R.id.menuNotifications -> selectedDrawerItem = DrawerItem.NOTIFY
-                    R.id.menuSettings -> selectedDrawerItem = DrawerItem.SETTINGS
-                    R.id.menuInstructions -> selectedDrawerItem = DrawerItem.TUTORIAL
-                    R.id.menuContacts -> selectedDrawerItem = DrawerItem.CONTACTS
-                    R.id.menuExit -> selectedDrawerItem = DrawerItem.EXIT
+                    DrawerItem.MAIN.itemId -> selectedDrawerItem = DrawerItem.MAIN
+                    DrawerItem.PAYMENT.itemId -> selectedDrawerItem = DrawerItem.PAYMENT
+                    DrawerItem.VALUES.itemId -> selectedDrawerItem = DrawerItem.VALUES
+                    DrawerItem.CARDS.itemId -> selectedDrawerItem = DrawerItem.CARDS
+                    DrawerItem.HISTORY.itemId -> selectedDrawerItem = DrawerItem.HISTORY
+                    DrawerItem.AUTOPAY.itemId -> selectedDrawerItem = DrawerItem.AUTOPAY
+                    DrawerItem.NOTIFY.itemId -> selectedDrawerItem = DrawerItem.NOTIFY
+                    DrawerItem.SETTINGS.itemId -> selectedDrawerItem = DrawerItem.SETTINGS
+                    DrawerItem.TUTORIAL.itemId -> selectedDrawerItem = DrawerItem.TUTORIAL
+                    DrawerItem.CONTACTS.itemId -> selectedDrawerItem = DrawerItem.CONTACTS
+                    DrawerItem.EXIT.itemId -> selectedDrawerItem = DrawerItem.EXIT
                 }
+
                 supportActionBar?.title = getString(selectedDrawerItem.titleId)
             }
             drawerLayout.closeDrawers()
@@ -208,9 +226,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
+
+        fragmentManager.addOnBackStackChangedListener {
+            drawerToggle?.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
+        }
     }
 
-    public fun navigateToDrawerItem(item: DrawerItem) {
+    fun navigateToDrawerItem(item: DrawerItem) {
         selectedDrawerItem = item
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
