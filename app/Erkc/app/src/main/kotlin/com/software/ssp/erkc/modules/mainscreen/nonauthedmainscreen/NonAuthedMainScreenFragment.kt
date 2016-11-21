@@ -17,6 +17,8 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
@@ -61,6 +63,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         when (requestCode) {
             Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
             Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onStreetSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
+            Constants.REQUEST_CODE_PAYMENT -> {
+                (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
+            }
         }
     }
 
@@ -99,7 +104,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
-        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt)
+        startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
     }
 
     override fun navigateToSendValuesScreen(data: Receipt) {

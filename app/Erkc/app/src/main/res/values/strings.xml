@@ -156,6 +156,7 @@
     <string name="api_error_unauthorized_user_failed">Авторизация пользователя неудачна</string>
     <string name="api_error_user_authentication_failed">Аутентификация пользователя неудачна</string>
     <string name="api_error_unknown_barcode">Штрих код не найден в базе данных</string>
+    <string name="api_error_payment">Оплата не завершена. Некорректные данные для совершеня платежа.</string>
 
     <!-- Edit card screen -->
     <string name="edit_card_title">Переименование карты</string>
@@ -183,6 +184,9 @@
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
+    <string name="payment_result_success">Процедура оплаты начата и будет завершена автоматически.</string>
+    <string name="payment_result_error">Операция не произведена.</string>
+    <string name="payment_done">Готово</string>
     <!-- AutoPaymentsScreen -->
     <string name="auto_payments_autopay_tab_title">Автоплатежи</string>
     <string name="auto_payments_one_click_tab_title">Оплата в 1 клик</string>

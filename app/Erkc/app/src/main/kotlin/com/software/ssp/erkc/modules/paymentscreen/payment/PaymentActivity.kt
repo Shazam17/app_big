@@ -15,9 +15,11 @@ import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.setTextColorByContextCompat
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_payment.*
+import kotlinx.android.synthetic.main.activity_payment.view.*
 import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -113,6 +115,20 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentEmailLayout.error = getString(errorRes)
     }
 
+    override fun showResult(result: Boolean) {
+        paymentContainer.visibility = View.GONE
+        paymentResultContainer.visibility = View.VISIBLE
+        if (result) {
+            paymentResultImageView.setImageResource(R.drawable.ic_circle_success)
+            paymentResultTextView.setText(R.string.payment_result_success)
+            paymentResultTextView.setTextColorByContextCompat(R.color.colorPaymentResultSuccess)
+        } else {
+            paymentResultImageView.setImageResource(R.drawable.ic_circle_warning)
+            paymentResultTextView.setText(R.string.payment_result_error)
+            paymentResultTextView.setTextColorByContextCompat(R.color.colorPaymentResultError)
+        }
+    }
+
     override fun fillData(user: User?, cards: List<Card>) {
         if (user != null) {
             paymentEmail.setText(user.email)
@@ -145,7 +161,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentButton.onClick {
             presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
         }
-        paymentSum.setText(receipt?.amount?.toInt().toString())
+        paymentSum.setText(receipt?.amount.toString())
         paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
         paymentBarcode.text = "${receipt?.barcode} (${receipt?.name})"
         paymentAddress.text = receipt?.address
@@ -167,6 +183,12 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 paymentSumLayout.error = null
                 presenter.onSumChange(charSequence.toString())
             }
+        }
+        paymentDoneButton.onClick {
+            val intent = Intent()
+            intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
         }
     }
 

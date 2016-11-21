@@ -67,7 +67,7 @@ class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICa
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = CardsAdapter(dataset, object : CardsAdapter.CardClickListeners {
+        val adapter = CardsAdapter(dataset, object : CardsAdapter.CardAdapterInteractionListener {
             override fun itemEditClick(card: Card) {
                 presenter.onEditClick(card)
             }

@@ -52,6 +52,8 @@
     <color name="colorPaymentBodyText">#212121</color>
     <color name="colorPaymentSubText">#878787</color>
     <color name="colorPaymentHintText">#9e9e9e</color>
+    <color name="colorPaymentResultSuccess">#8bc34a</color>
+    <color name="colorPaymentResultError">#e84e1b</color>
 
     <color name="colorReceiptAutoPay">#119D90</color>
     <color name="colorTabIndicator">#FB8C00</color>

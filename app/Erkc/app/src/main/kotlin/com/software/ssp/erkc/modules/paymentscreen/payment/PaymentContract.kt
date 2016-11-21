@@ -18,6 +18,7 @@ interface IPaymentView : IView {
     fun fillData(user: User?, cards: List<Card>)
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
+    fun showResult(result: Boolean)
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {

@@ -20,4 +20,6 @@ object ApiErrorType{
         const val NOT_SET_HOUSE = 316
 
         const val UNKNOWN_BARCODE = 318
+
+        const val PAYMENT_ERROR = 309
 }

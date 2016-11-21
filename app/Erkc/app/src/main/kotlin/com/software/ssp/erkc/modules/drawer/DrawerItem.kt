@@ -5,7 +5,7 @@ import android.support.annotation.StringRes
 import com.software.ssp.erkc.R
 import java.io.Serializable
 
-enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) : Serializable {
+enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
     MAIN(R.string.drawer_main_screen_text, R.id.menuMainScreen),
     PAYMENT(R.string.drawer_payment_text, R.id.menuPayment),
     VALUES(R.string.drawer_send_values_text, R.id.menuSendValues),

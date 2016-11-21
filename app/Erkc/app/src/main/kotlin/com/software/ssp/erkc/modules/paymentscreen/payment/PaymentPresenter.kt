@@ -1,8 +1,10 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -67,17 +69,25 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         subscriptions += paymentRepository.init(
                 activeSession.accessToken ?: activeSession.appToken!!,
                 receipt.barcode,
-                if (card != null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
+                if (card == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
                 summ,
                 email,
                 card?.id)
                 .subscribe({
                     response ->
                     view?.setProgressVisibility(false)
-                    view?.navigateToResult(response.url)
+                    if (card == null) {
+                        view?.navigateToResult(response.url)
+                    } else {
+                        view?.showResult(true)
+                    }
                 }, { error ->
+                    if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
+                        view?.showResult(false)
+                    } else {
+                        view?.showMessage(error.message!!)
+                    }
                     view?.setProgressVisibility(false)
-                    view?.showMessage(error.message!!)
                 })
     }
 
