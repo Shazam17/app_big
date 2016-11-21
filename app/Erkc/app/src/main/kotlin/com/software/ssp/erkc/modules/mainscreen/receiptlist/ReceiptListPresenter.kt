@@ -2,8 +2,8 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -29,11 +29,13 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
 
     override fun onSwipeToRefresh() {
         subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                .concatMap {
+                    receipts ->
+                    realmRepository.saveReceiptsList(receipts)
+                }
                 .subscribe(
                         {
-                            receipts ->
-                            activeSession.cachedReceipts = receipts?.sortedBy { it.address }
-                            view?.showData(activeSession.cachedReceipts!!)
+                            showReceiptsList()
                         },
                         {
                             error ->
@@ -42,22 +44,22 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
                         })
     }
 
-    override fun onItemClick(item: Receipt) {
+    override fun onItemClick(item: RealmReceipt) {
     }
 
-    override fun onPayButtonClick(receipt: Receipt) {
+    override fun onPayButtonClick(receipt: RealmReceipt) {
         view?.navigateToPayScreen(receipt)
     }
 
-    override fun onTransferButtonClick(receipt: Receipt) {
+    override fun onTransferButtonClick(receipt: RealmReceipt) {
         view?.navigateToIPUInputScreen(receipt)
     }
 
-    override fun onHistoryButtonClick(receipt: Receipt) {
+    override fun onHistoryButtonClick(receipt: RealmReceipt) {
         view?.navigateToHistoryScreen(receipt)
     }
 
-    override fun onAutoPaymentButtonClick(receipt: Receipt) {
+    override fun onAutoPaymentButtonClick(receipt: RealmReceipt) {
         view?.navigateToAutoPaymentSettingScreen(receipt)
     }
 
@@ -65,21 +67,19 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
         view?.navigateToAddReceiptScreen()
     }
 
-    override fun onReceiptDeleted(receipt: Receipt) {
+    override fun onReceiptDeleted(receipt: RealmReceipt) {
         subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    realmRepository.removeReceipt(receipt)
                 }
+                .concatMap { realmRepository.fetchCurrentUser() }
                 .subscribe(
                         {
-                            receipts ->
-                            if (receipts == null || receipts.count() == 0) {
-                                activeSession.cachedReceipts = null
+                            currentUser ->
+                            if(currentUser.receipts.count() == 0) {
                                 view?.navigateToEmptyReceiptsList()
-                            } else {
-                                activeSession.cachedReceipts = receipts.sortedBy { it.address }
                             }
                         },
                         {
@@ -95,7 +95,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
                 .subscribe(
                         {
                             receipts ->
-                            //view?.showData(receipts)
+                            view?.showData(receipts)
                         },
                         {
                             error ->

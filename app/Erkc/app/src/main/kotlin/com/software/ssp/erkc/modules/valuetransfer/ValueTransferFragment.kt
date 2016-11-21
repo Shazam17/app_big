@@ -38,7 +38,7 @@ class ValueTransferFragment : MvpFragment(), IValueTransferView {
         presenter.dropView()
     }
 
-    override fun navigateToNewValueTransferScreen() {
+    override fun navigateToAddReceiptScreen() {
         navigateTo(NewReceiptFragment().withArguments("isTransferValue" to true, "isTransferValueVisible" to false))
     }
 

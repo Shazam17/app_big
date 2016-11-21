@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
-class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
+class PaymentListFragment : BaseListFragment<RealmReceipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
 
     @Inject lateinit var presenter: IPaymentListPresenter
 
@@ -56,11 +56,11 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
         return super.onOptionsItemSelected(item)
     }
 
-    override fun receiptDidNotDeleted(receipt: Receipt) {
+    override fun receiptDidNotDeleted(receipt: RealmReceipt) {
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt){
+    override fun receiptDeleted(receipt: RealmReceipt){
         adapter?.notifyItemRemoved(dataset.indexOf(receipt))
     }
 
@@ -87,7 +87,7 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
                 .commit()
     }
 
-    override fun navigateToPayScreen(receipt: Receipt) {
+    override fun navigateToPayScreen(receipt: RealmReceipt) {
         //TODO: NavigateToPayment
         showMessage("TODO: NavigateToPayment - " + receipt.barcode)
     }

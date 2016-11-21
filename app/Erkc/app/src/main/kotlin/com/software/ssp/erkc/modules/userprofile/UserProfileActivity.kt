@@ -6,7 +6,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.rest.models.User
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import kotlinx.android.synthetic.main.activity_user_profile.*
@@ -67,7 +67,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
         finish()
     }
 
-    override fun showUserInfo(user: User) {
+    override fun showUserInfo(user: RealmUser) {
         nameEditText.setText(user.name)
         emailEditText.setText(user.email)
     }

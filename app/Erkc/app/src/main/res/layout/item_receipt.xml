@@ -11,6 +11,7 @@
         android:id="@+id/receiptAddressText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/quarter_default_margin"
         android:maxLines="1"
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"

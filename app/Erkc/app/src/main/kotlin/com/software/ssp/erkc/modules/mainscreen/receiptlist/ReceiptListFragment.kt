@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
-class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
+class ReceiptListFragment : BaseListFragment<RealmReceipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
 
     @Inject lateinit var presenter: IReceiptListPresenter
 
@@ -59,11 +59,11 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
         presenter.onSwipeToRefresh()
     }
 
-    override fun receiptDidNotDeleted(receipt: Receipt) {
+    override fun receiptDidNotDeleted(receipt: RealmReceipt) {
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt) {
+    override fun receiptDeleted(receipt: RealmReceipt) {
         val receiptIndex = dataset.indexOf(receipt)
         dataset.removeAt(receiptIndex)
         adapter?.notifyItemRemoved(receiptIndex)
@@ -95,22 +95,22 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
                 .commit()
     }
 
-    override fun navigateToIPUInputScreen(receipt: Receipt) {
+    override fun navigateToIPUInputScreen(receipt: RealmReceipt) {
         //TODO: NavigateToEnterValues
         showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
     }
 
-    override fun navigateToPayScreen(receipt: Receipt) {
+    override fun navigateToPayScreen(receipt: RealmReceipt) {
         //TODO: NavigateToPayment
         showMessage("TODO: NavigateToPayment - " + receipt.barcode)
     }
 
-    override fun navigateToHistoryScreen(receipt: Receipt) {
+    override fun navigateToHistoryScreen(receipt: RealmReceipt) {
         //TODO: NavigateToHistory
         showMessage("TODO: NavigateToHistory - " + receipt.barcode)
     }
 
-    override fun navigateToAutoPaymentSettingScreen(receipt: Receipt) {
+    override fun navigateToAutoPaymentSettingScreen(receipt: RealmReceipt) {
         //TODO: NavigateToAutoPayment
         showMessage("TODO: NavigateToAutoPayment - " + receipt.barcode)
     }

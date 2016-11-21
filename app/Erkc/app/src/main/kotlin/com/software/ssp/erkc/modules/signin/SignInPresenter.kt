@@ -73,20 +73,18 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 }
                 .concatMap {
                     user ->
-                    activeSession.user = user
-
                     realmRepository.fetchUser(user)
                 }
                 .concatMap {
                     realmUser ->
-                    realmRepository.updateUser(realmUser)
+                    realmRepository.setCurrentUser(realmUser)
                 }
                 .concatMap {
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)
                 }
                 .concatMap {
                     receipts ->
-                    realmRepository.saveReceiptsList(receipts)
+                    realmRepository.saveReceiptsList(receipts ?: emptyList())
                 }
                 .subscribe(
                         {

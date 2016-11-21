@@ -5,6 +5,7 @@ import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.utils.getStreetFromShortAddress
@@ -16,6 +17,12 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepository: RealmRepository
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
 
     override fun onBarCodeScanButtonClick() {
         view?.navigateToBarCodeScanScreen()
@@ -42,7 +49,6 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                             }
                         }
                 )
-
     }
 
     override fun onAddressSelected(address: String) {
@@ -56,9 +62,10 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken ?: activeSession.appToken!!, barcode, street, house, apartment)
                 .concatMap {
                     receipt ->
+
                     view?.showProgressVisible(false)
                     if (isSendValue) {
                         view?.navigateToIPUInputScreen(receipt)
@@ -66,11 +73,15 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                         view?.navigateToPayScreen(receipt)
                     }
 
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    //Need to add new receipt to Realm only when user is logged in
+                    //else just navigate next
+                    if(activeSession.accessToken != null) {
+                        realmRepository.addReceipt(receipt)
+                    }
+
                 }
                 .subscribe(
-                        { receipts ->
-                            activeSession.cachedReceipts = receipts
+                        {
                         },
                         { throwable ->
                             view?.showProgressVisible(false)

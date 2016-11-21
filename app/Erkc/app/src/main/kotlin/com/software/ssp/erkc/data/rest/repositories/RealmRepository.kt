@@ -54,22 +54,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         realm.close()
     }
 
-    fun fetchOfflineSettings(login: String): Observable<OfflineUserSettings> {
-        return realm
-                .where(OfflineUserSettings::class.java)
-                .equalTo("login", login)
-                .findAllAsync()
-                .asObservable()
-                .flatMap { results ->
-                    val firstResult = results.firstOrNull()
-                    if (firstResult == null) {
-                        Observable.just(OfflineUserSettings(login))
-                    } else {
-                        Observable.just(realm.copyFromRealm(firstResult))
-                    }
-                }
-    }
-
     fun updateOfflineSettings(userSettings: OfflineUserSettings): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
             realm.executeTransactionAsync(
@@ -78,8 +62,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         sub.onNext(true)
                         sub.onCompleted()
                     },
-                    { throwable ->
-                        sub.onError(throwable)
+                    { error ->
+                        sub.onError(error)
                     }
             )
         }
@@ -91,10 +75,16 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .equalTo("login", user.login)
                 .findAll()
                 .asObservable()
+                .filter { it.isLoaded }
+                .first()
                 .flatMap { results ->
                     val firstResult = results.firstOrNull()
                     if (firstResult == null) {
-                        Observable.just(RealmUser(user.login, user.email, user.name))
+                        Observable.just(RealmUser(
+                                user.login,
+                                user.email,
+                                user.name,
+                                settings = OfflineUserSettings(user.login)))
                     } else {
                         Observable.just(realm.copyFromRealm(firstResult))
                     }
@@ -108,6 +98,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .findAll()
                 .asObservable()
                 .filter { it.isLoaded }
+                .first()
                 .flatMap { results ->
                     val firstResult = results.firstOrNull()
                     if (firstResult == null) {
@@ -118,16 +109,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun updateUser(user: RealmUser): Observable<Boolean> {
+    fun setCurrentUser(user: RealmUser): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-
                     user.isCurrentUser = true
                     Observable.create<Boolean> { sub ->
                         realm.executeTransactionAsync(
                                 {
-                                    if(currentUser!=null){
+                                    if (currentUser != null) {
                                         currentUser.isCurrentUser = false
                                         it.copyToRealmOrUpdate(currentUser)
                                     }
@@ -136,12 +126,26 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 {
                                     sub.onNext(true)
                                 },
-                                { throwable ->
-                                    sub.onError(throwable)
+                                { error ->
+                                    sub.onError(error)
                                 }
                         )
                     }
                 }
+    }
+
+    fun updateUser(user: RealmUser): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    { it.copyToRealmOrUpdate(user) },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
     }
 
     fun saveReceiptsList(receipts: List<Receipt>): Observable<Boolean> {
@@ -165,7 +169,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.lastValueTransfer,
                                 it.supplierName,
                                 it.persent,
-                                it.linkedCardId)
+                                it.linkedCardId) //TODO remade to RealmCard
                     }
 
                     currentUser.receipts.clear()
@@ -180,8 +184,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 {
                                     sub.onNext(true)
                                 },
-                                { throwable ->
-                                    sub.onError(throwable)
+                                { error ->
+                                    sub.onError(error)
                                 }
                         )
                     }
@@ -193,6 +197,65 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser?.receipts?.sortedBy { it.address })
+                }
+    }
+
+    fun removeReceipt(receipt: RealmReceipt): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmReceipt::class.java)
+                                .equalTo("id", receipt.id)
+                                .findFirst()
+                                .deleteFromRealm()
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun addReceipt(receipt: Receipt): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val realmReceipt = RealmReceipt(
+                            receipt.id,
+                            receipt.street,
+                            receipt.house,
+                            receipt.apart,
+                            receipt.autoPayMode,
+                            receipt.name,
+                            receipt.maxSumm,
+                            receipt.lastPayment,
+                            receipt.address,
+                            receipt.serviceCode,
+                            receipt.amount,
+                            receipt.barcode,
+                            receipt.lastValueTransfer,
+                            receipt.supplierName,
+                            receipt.persent,
+                            receipt.linkedCardId) //TODO remade to RealmCard
+
+                    currentUser.receipts.add(realmReceipt)
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(realmReceipt)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
                 }
     }
 }

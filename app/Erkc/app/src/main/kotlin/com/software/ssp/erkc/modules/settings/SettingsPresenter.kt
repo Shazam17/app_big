@@ -14,12 +14,9 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    private lateinit var login: String
     private lateinit var offlineUserSettings: OfflineUserSettings
 
-
     override fun onViewAttached() {
-        login = activeSession.user!!.login
         fetchData()
     }
 
@@ -64,22 +61,29 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     private fun fetchData() {
-        subscriptions += realmRepository.fetchOfflineSettings(login)
+        subscriptions += realmRepository.fetchCurrentUser()
                 .subscribe(
-                        { settings ->
-                            offlineUserSettings = settings
+                        {
+                            currentUser ->
+                            offlineUserSettings = currentUser.settings!!
                             view?.showData(offlineUserSettings)
                             view?.setupInitialState()
                         },
-                        { throwable -> view?.showMessage(throwable.parsedMessage()) }
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
                 )
     }
 
     private fun updateData() {
-        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings).subscribe(
-                { response -> },
-                { throwable -> view?.showMessage(throwable.parsedMessage()) }
+        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
+                .subscribe(
+                {},
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                }
         )
     }
-
 }

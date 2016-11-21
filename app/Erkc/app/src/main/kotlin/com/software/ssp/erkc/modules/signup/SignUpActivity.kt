@@ -88,5 +88,4 @@ class SignUpActivity : MvpActivity(), ISignUpView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
     }
-
 }

@@ -1,9 +1,7 @@
 package com.software.ssp.erkc.modules.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
@@ -20,6 +18,7 @@ class SettingsFragment : MvpFragment(), ISettingsView {
     @Inject lateinit var presenter: ISettingsPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        setHasOptionsMenu(true)
         return inflater!!.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -36,12 +35,14 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         presenter.onViewAttached()
     }
 
-
     override fun beforeDestroy() {
         presenter.dropView()
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun setOfflinePasswordVisibility(visible: Boolean) {
         passwordButtonTextView.visibility = if(visible) View.VISIBLE else View.INVISIBLE

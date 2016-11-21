@@ -6,7 +6,10 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.isEmail
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -19,10 +22,17 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var accountRepository: AccountRepository
+    @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var receiptsRepository: ReceiptsRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
         fetchCaptcha()
+    }
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
     }
 
     override fun onCaptchaClick() {
@@ -54,19 +64,30 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                         password2,
                         turing)
                 .concatMap {
-                    authRepository.authenticate(activeSession.appToken!!,
-                            login,
-                            password)
+                    authRepository.authenticate(activeSession.appToken!!, login, password)
                 }
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
                     accountRepository.fetchUserInfo(activeSession.accessToken!!)
                 }
+                .concatMap {
+                    user ->
+                    realmRepository.fetchUser(user)
+                }
+                .concatMap {
+                    realmUser ->
+                    realmRepository.setCurrentUser(realmUser)
+                }
+                .concatMap {
+                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                }
+                .concatMap {
+                    receipts ->
+                    realmRepository.saveReceiptsList(receipts ?: emptyList())
+                }
                 .subscribe(
                         {
-                            userResponse ->
-                            activeSession.user = userResponse
                             view?.setProgressVisibility(false)
                             view?.navigateToMainScreen()
                         },
@@ -74,7 +95,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
-                            view?.showMessage(error.message.toString())
+                            view?.showMessage(error.parsedMessage())
                         }
                 )
     }

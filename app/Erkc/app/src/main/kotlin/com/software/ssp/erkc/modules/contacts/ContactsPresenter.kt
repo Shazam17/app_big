@@ -4,6 +4,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.FaqRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -11,30 +13,38 @@ class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<I
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var faqRepository: FaqRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
-        view?.setControlsVisible(activeSession.user != null)
+        view?.setControlsVisible(activeSession.accessToken != null)
+    }
+
+    override fun onViewDetached() {
+        super.onViewDetached()
+        realmRepository.close()
     }
 
     override fun onSendButtonClick(message: String, subjectPrefix: String) {
-        if(!validData(message)){
+        if (!validData(message)) {
             return
         }
 
-        with(activeSession) {
-            view?.setPending(true)
-            subscriptions += faqRepository.sendMessage(accessToken!!, user?.name!!, user?.login!!, user?.email!!, message, subjectPrefix + message.subSequence(0, Math.min(message.length, 60)))
-                    .subscribe(
-                            { response ->
-                                view?.setPending(false)
-                                view?.showDidSentMessage()
-                            },
-                            { error ->
-                                view?.setPending(false)
-                                view?.showMessage(error.message.toString())
-                            }
-                    )
-        }
+        view?.setPending(true)
+        subscriptions += realmRepository.fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    faqRepository.sendMessage(activeSession.accessToken!!, currentUser.name, currentUser.login, currentUser.email, message, subjectPrefix + message.subSequence(0, Math.min(message.length, 60)))
+                }
+                .subscribe(
+                        { response ->
+                            view?.setPending(false)
+                            view?.showDidSentMessage()
+                        },
+                        { error ->
+                            view?.setPending(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     private fun validData(message: String): Boolean {

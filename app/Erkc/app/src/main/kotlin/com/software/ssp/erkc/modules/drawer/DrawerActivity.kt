@@ -10,7 +10,7 @@ import android.view.View
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.rest.models.User
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
@@ -89,25 +89,14 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (resultCode) {
-            UserProfileActivity.USER_PROFILE_UPDATED -> {
-                presenter.onUserProfileUpdated()
-            }
-
-            SignInActivity.DID_SIGN_IN -> {
-                presenter.onUserProfileUpdated()
-                navigateToModule(selectedDrawerItem)
-            }
-
-            SignUpActivity.DID_SIGN_UP -> {
-                presenter.onUserProfileUpdated()
-                navigateToModule(selectedDrawerItem)
-            }
-
+            UserProfileActivity.USER_PROFILE_UPDATED -> presenter.onUserProfileUpdated()
+            SignInActivity.DID_SIGN_IN -> presenter.onUserProfileUpdated()
+            SignUpActivity.DID_SIGN_UP -> presenter.onUserProfileUpdated()
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
-    override fun showUserInfo(user: User) {
+    override fun showUserInfo(user: RealmUser) {
         drawerHeaderView.drawerUserNameTextView.text = user.name
         drawerHeaderView.drawerEmailTextView.text = user.email
     }
@@ -131,8 +120,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateToMainScreen() {
+        selectedDrawerItem = DrawerItem.MAIN
         drawerNavigationView.setCheckedItem(DrawerItem.MAIN.itemId)
         navigateToModule(DrawerItem.MAIN)
+    }
+
+    override fun updateCurrentScreen() {
+        navigateToModule(selectedDrawerItem)
     }
 
     override fun navigateToUserProfile() {

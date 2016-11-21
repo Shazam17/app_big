@@ -5,7 +5,7 @@ import com.software.ssp.erkc.common.mvp.IView
 
 
 interface IValueTransferView : IView {
-    fun navigateToNewValueTransferScreen()
+    fun navigateToAddReceiptScreen()
     fun navigateToValueTransferListScreen()
 }
 

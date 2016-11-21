@@ -14,12 +14,13 @@ import com.software.ssp.erkc.modules.mainscreen.receiptlist.ReceiptListFragment
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
+
 class MainScreenFragment : MvpFragment(), IMainScreenView {
 
     @Inject lateinit var presenter: IMainScreenPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_with_container, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_with_container, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -57,5 +58,4 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
                 .replace(R.id.containerLayout, fragment)
                 .commit()
     }
-
 }

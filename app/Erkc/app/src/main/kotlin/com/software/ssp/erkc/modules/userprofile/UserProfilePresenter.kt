@@ -5,7 +5,9 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AccountRepository
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.isEmail
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -15,13 +17,11 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var authRepository: AuthRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
-
-        activeSession.user?.let {
-            view?.showUserInfo(it)
-        }
+        fetchUserInfo()
     }
 
     override fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String) {
@@ -31,11 +31,15 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         view?.setProgressVisibility(true)
 
         subscriptions += accountRepository.updateUserInfo(activeSession.accessToken!!, name, email, password, rePassword)
-                .concatMap { accountRepository.fetchUserInfo(activeSession.accessToken!!) }
+                .concatMap { realmRepository.fetchCurrentUser() }
+                .concatMap {
+                    currentUser ->
+                    currentUser.email = email
+                    currentUser.name = name
+                    realmRepository.updateUser(currentUser)
+                }
                 .subscribe(
                         {
-                            user ->
-                            activeSession.user = user
                             view?.setProgressVisibility(false)
                             view?.showMessage(R.string.user_profile_data_saved)
                             view?.didUserProfileUpdated()
@@ -45,7 +49,7 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
                         {
                             error ->
                             view?.setProgressVisibility(false)
-                            view?.showMessage(error.message.toString())
+                            view?.showMessage(error.parsedMessage())
                         }
                 )
     }
@@ -76,5 +80,19 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         }
 
         return isValid
+    }
+
+    private fun fetchUserInfo(){
+        subscriptions += realmRepository.fetchCurrentUser()
+                .subscribe (
+                        {
+                            realmUser ->
+                            view?.showUserInfo(realmUser)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 }
