@@ -8,6 +8,7 @@ import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.utils.getStreetFromShortAddress
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -56,7 +57,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken ?: activeSession.appToken!!, barcode, street, house, apartment)
                 .concatMap {
                     receipt ->
                     view?.showProgressVisible(false)
@@ -65,8 +66,11 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                     } else {
                         view?.navigateToPayScreen(receipt)
                     }
-
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    if (activeSession.user != null) {
+                        receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    } else {
+                        Observable.just(null)
+                    }
                 }
                 .subscribe(
                         { receipts ->

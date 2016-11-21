@@ -45,7 +45,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         presenter.onViewAttached(receipt!!)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
             finish()
@@ -63,8 +62,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun navigateToResult(url: String) {
-        finish()
-        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
+        startActivityForResult<ConfirmByUrlActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_URL to url)
     }
 
     override fun showConfirmDialog(commission: String, amount: String, email: String) {
@@ -154,6 +152,18 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         presenter.dropView()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constants.REQUEST_CODE_PAYMENT -> {
+                val intent = Intent()
+                intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+    }
+
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
@@ -161,7 +171,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentButton.onClick {
             presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
         }
-        paymentSum.setText(receipt?.amount.toString())
+
         paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
         paymentBarcode.text = "${receipt?.barcode} (${receipt?.name})"
         paymentAddress.text = receipt?.address
@@ -190,6 +200,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
+        paymentSum.setText(receipt?.amount.toString())
     }
 
     private fun generateCardsChooseLayout(cards: List<Card>) {

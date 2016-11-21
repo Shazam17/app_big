@@ -140,7 +140,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     private fun initViews() {
         inDebugMode {
-            mainScreenBarcodeEditText.setText("3523740000873")
+            mainScreenBarcodeEditText.setText("3524770401487")
         }
         mainScreenBarcodeEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count ->

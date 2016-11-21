@@ -4,10 +4,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.ApiErrorType
-import com.software.ssp.erkc.data.rest.models.Card
-import com.software.ssp.erkc.data.rest.models.PaymentMethod
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.rest.models.*
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -100,7 +97,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                         email)
             } else {
                 view?.setProgressVisibility(true)
-                val summ = sum.removeSuffix(" р.").toFloat()
+                val summ = "%.2f".format(sum.toDouble() + sum.toDouble() / 10).toFloat()
                 subscriptions += paymentRepository.init(
                         activeSession.accessToken ?: activeSession.appToken!!,
                         receipt.barcode,

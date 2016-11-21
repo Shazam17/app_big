@@ -15,11 +15,11 @@ class ConfirmByUrlPresenter @Inject constructor(view: IConfirmByUrlView) : RxPre
     @Inject lateinit var cardsRepo: CardsRepository
 
     override fun onBankConfirm() {
-        view?.navigateToResults()
+        view?.showDoneButton()
     }
 
     override fun onDoneClick() {
-        view?.navigateToCards()
+        view?.navigateToResult()
     }
 
 }

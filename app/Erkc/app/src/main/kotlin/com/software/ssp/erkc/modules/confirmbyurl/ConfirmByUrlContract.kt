@@ -7,8 +7,8 @@ import com.software.ssp.erkc.common.mvp.IView
  * @author Alexander Popov on 01/11/2016.
  */
 interface IConfirmByUrlView : IView {
-    fun navigateToResults()
-    fun navigateToCards()
+    fun showDoneButton()
+    fun navigateToResult()
 }
 
 interface IConfirmByUrlPresenter : IPresenter<IConfirmByUrlView> {

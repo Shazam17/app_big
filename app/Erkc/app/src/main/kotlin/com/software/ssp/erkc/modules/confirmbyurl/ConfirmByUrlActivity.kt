@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.confirmbyurl
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +12,7 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_change_status_card.*
 import org.jetbrains.anko.onClick
 import javax.inject.Inject
@@ -23,7 +26,6 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_change_status_card)
         initViews()
     }
@@ -41,11 +43,11 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
         presenter.dropView()
     }
 
-    override fun navigateToCards() {
+    override fun navigateToResult() {
         finish()
     }
 
-    override fun navigateToResults() {
+    override fun showDoneButton() {
         changeStatusCardDoneButtonWrapper.visibility = View.VISIBLE
     }
 
@@ -83,12 +85,20 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
         changeStatusCardWebView.settings.builtInZoomControls = true
         changeStatusCardWebView.settings.displayZoomControls = false
         changeStatusCardWebView.setWebViewClient(object : WebViewClient() {
+            var startLoading = false
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 if (url.contains("service.gazprombank.ru")) { //для проверки что не ушли на левую страницу (клик по лэйблу "газпромбанк" например)
                     view.loadUrl(url)
-                    presenter.onBankConfirm()
+                    startLoading = true
                 }
                 return true
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (startLoading) {
+                    presenter.onBankConfirm()
+                }
             }
         })
     }
