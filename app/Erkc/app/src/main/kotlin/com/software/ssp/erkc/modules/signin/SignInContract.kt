@@ -10,6 +10,7 @@ interface ISignInView : IView {
     fun navigateToMainScreen()
     fun showLoginFieldError(@StringRes errorResId: Int)
     fun showPasswordFieldError(@StringRes errorResId: Int)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface ISignInPresenter : IPresenter<ISignInView> {

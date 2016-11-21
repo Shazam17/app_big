@@ -11,6 +11,7 @@ import java.util.*
 interface ISendValuesView : IView {
     fun navigateToDrawer()
     fun fillData(data: List<Ipu>)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {

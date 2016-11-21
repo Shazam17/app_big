@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -19,7 +20,6 @@ import com.software.ssp.erkc.extensions.setTextColorByContextCompat
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_payment.*
-import kotlinx.android.synthetic.main.activity_payment.view.*
 import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -32,6 +32,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? = null
     private var userCard: Card? = null
+    private var progressDialog : Dialog?= null
 
     companion object {
         const val RADIO_BUTTON_TAG = "RADIO"
@@ -59,6 +60,11 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     override fun navigateToDrawer() {
         finish()
+    }
+
+    override fun onDestroy() {
+        progressDialog?.dismiss()
+        super.onDestroy()
     }
 
     override fun navigateToResult(url: String) {
@@ -130,19 +136,16 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     override fun fillData(user: User?, cards: List<Card>) {
         if (user != null) {
             paymentEmail.setText(user.email)
-            if (cards.isEmpty()) {
-                paymentCardAdd.visibility = View.VISIBLE
-                paymentCardWrapper.visibility = View.GONE
-            } else {
+            paymentCardAdd.visibility = if (cards.isEmpty()) View.VISIBLE else View.GONE
+            paymentCardWrapper.visibility = if (cards.isEmpty()) View.GONE else View.VISIBLE
+            if (cards.isNotEmpty()) {
                 userCard = if (receipt?.linkedCardId == null || receipt?.linkedCardId.equals("1")) cards.first() else cards.find { card -> card.id == receipt?.linkedCardId }
-                paymentCardWrapper.onClick {
-                    generateCardsChooseLayout(cards)
-                }
-                paymentCardNo.text = userCard?.maskCardNo
-                paymentCardName.text = userCard?.name
-                paymentCardAdd.visibility = View.GONE
-                paymentCardWrapper.visibility = View.VISIBLE
             }
+            paymentCardWrapper.onClick {
+                generateCardsChooseLayout(cards)
+            }
+            paymentCardNo.text = userCard?.maskCardNo
+            paymentCardName.text = userCard?.name
         } else {
             paymentCardChooseContainer.visibility = View.GONE
         }
@@ -162,6 +165,14 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 finish()
             }
         }
+    }
+
+    override fun setProgressVisibility(isVisible: Boolean) {
+        if (progressDialog== null) {
+            progressDialog = indeterminateProgressDialog(R.string.data_loading)
+            progressDialog!!.setCanceledOnTouchOutside(false)
+        }
+        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
     }
 
     private fun initViews() {

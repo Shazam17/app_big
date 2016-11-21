@@ -12,6 +12,7 @@ interface IUserProfileView : IView {
     fun showErrorEmailMessage(resId: Int)
     fun showErrorPasswordMessage(resId: Int)
     fun didUserProfileUpdated()
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface IUserProfilePresenter : IPresenter<IUserProfileView> {

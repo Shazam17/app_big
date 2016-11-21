@@ -4,7 +4,10 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.*
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
+import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -31,7 +34,11 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
             subscriptions += cardsRepository
                     .fetchCards(activeSession.accessToken!!)
                     .flatMap { cards ->
-                        Observable.just(cards.filter { card -> card.statusId == CardStatus.ACTIVATED.ordinal })
+                        if (cards != null) {
+                            Observable.just(cards.filter { card -> card.statusId == CardStatus.ACTIVATED.ordinal })
+                        } else {
+                            Observable.just(emptyList())
+                        }
                     }
                     .subscribe({
                         cards ->

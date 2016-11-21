@@ -19,6 +19,7 @@ interface IPaymentView : IView {
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
     fun showResult(result: Boolean)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {
@@ -30,3 +31,4 @@ interface IPaymentPresenter : IPresenter<IPaymentView> {
     fun onSumChange(payment: String)
     fun onViewAttached(receipt: Receipt)
 }
+

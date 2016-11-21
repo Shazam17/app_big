@@ -12,6 +12,7 @@ interface ICardsView : IListView<Card> {
     fun navigateToAddCard()
     fun navigateToHelp()
     fun navigateToBankSite(url: String)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface ICardsPresenter : IListPresenter<Card, ICardsView> {

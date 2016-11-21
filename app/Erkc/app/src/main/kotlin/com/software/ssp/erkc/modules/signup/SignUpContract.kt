@@ -9,6 +9,7 @@ import com.software.ssp.erkc.common.mvp.IView
 interface ISignUpView : IView {
     fun navigateToMainScreen()
     fun showCaptcha(image: ByteArray)
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface ISignUpPresenter : IPresenter<ISignUpView> {

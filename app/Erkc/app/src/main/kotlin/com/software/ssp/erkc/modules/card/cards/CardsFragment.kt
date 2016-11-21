@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.card.cards
 
+import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -12,6 +13,7 @@ import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICardsView {
 
     @Inject lateinit var presenter: ICardsPresenter
+    private var progressDialog : Dialog?= null
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerCardsComponent.builder()
@@ -90,6 +93,7 @@ class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICa
     }
 
     override fun beforeDestroy() {
+        progressDialog?.dismiss()
         presenter.dropView()
     }
 
@@ -113,4 +117,11 @@ class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICa
         startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
     }
 
+    override fun setProgressVisibility(isVisible: Boolean) {
+        if (progressDialog== null) {
+            progressDialog = indeterminateProgressDialog(R.string.data_loading)
+            progressDialog!!.setCanceledOnTouchOutside(false)
+        }
+        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
+    }
 }
