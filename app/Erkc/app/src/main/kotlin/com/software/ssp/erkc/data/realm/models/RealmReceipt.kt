@@ -22,7 +22,7 @@ open class RealmReceipt(
         open var lastValueTransfer: String? = null,
         open var supplierName: String = "",
         open var persent: Double = 0.0,
-        open var linkedCardId: String? = null) : RealmObject() {
+        open var linkedCard: RealmCard? = null) : RealmObject() {
 
     @Ignore
     var receiptType: ReceiptType = ReceiptType.TEST

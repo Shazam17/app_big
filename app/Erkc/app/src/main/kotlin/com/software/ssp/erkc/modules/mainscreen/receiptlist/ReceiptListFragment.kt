@@ -95,23 +95,23 @@ class ReceiptListFragment : BaseListFragment<RealmReceipt, IReceiptListView, IRe
                 .commit()
     }
 
-    override fun navigateToIPUInputScreen(receipt: RealmReceipt) {
+    override fun navigateToIPUInputScreen(receiptId: String) {
         //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
+        showMessage("TODO: NavigateToSendValues - " + receiptId)
     }
 
-    override fun navigateToPayScreen(receipt: RealmReceipt) {
+    override fun navigateToPayScreen(receiptId: String) {
         //TODO: NavigateToPayment
-        showMessage("TODO: NavigateToPayment - " + receipt.barcode)
+        showMessage("TODO: NavigateToPayment - " + receiptId)
     }
 
-    override fun navigateToHistoryScreen(receipt: RealmReceipt) {
+    override fun navigateToHistoryScreen(receiptId: String) {
         //TODO: NavigateToHistory
-        showMessage("TODO: NavigateToHistory - " + receipt.barcode)
+        showMessage("TODO: NavigateToHistory - " + receiptId)
     }
 
-    override fun navigateToAutoPaymentSettingScreen(receipt: RealmReceipt) {
+    override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
         //TODO: NavigateToAutoPayment
-        showMessage("TODO: NavigateToAutoPayment - " + receipt.barcode)
+        showMessage("TODO: NavigateToAutoPayment - " + receiptId)
     }
 }

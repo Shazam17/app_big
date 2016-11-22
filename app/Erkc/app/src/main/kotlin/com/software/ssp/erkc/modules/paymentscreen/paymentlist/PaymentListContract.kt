@@ -8,7 +8,9 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 interface IPaymentListView : IListView<RealmReceipt> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
-    fun navigateToPayScreen(receipt: RealmReceipt)
+
+    fun navigateToPayScreen(receiptId: String)
+
     fun receiptDidNotDeleted(receipt: RealmReceipt)
     fun receiptDeleted(receipt: RealmReceipt)
 }

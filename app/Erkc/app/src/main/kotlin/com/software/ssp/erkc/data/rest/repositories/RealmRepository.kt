@@ -4,6 +4,7 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.db.AddressCache
 import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.models.Address
@@ -148,6 +149,48 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
+    fun saveReceipt(receipt: Receipt): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val realmReceipt = RealmReceipt(
+                            receipt.id,
+                            receipt.street,
+                            receipt.house,
+                            receipt.apart,
+                            receipt.autoPayMode,
+                            receipt.name,
+                            receipt.maxSumm,
+                            receipt.lastPayment,
+                            receipt.address,
+                            receipt.serviceCode,
+                            receipt.amount,
+                            receipt.barcode,
+                            receipt.lastValueTransfer,
+                            receipt.supplierName,
+                            receipt.persent,
+                            if (receipt.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
+
+                    if (currentUser.receipts.find { it.id == receipt.id } == null) {
+                        currentUser.receipts.add(realmReceipt)
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(realmReceipt)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
     fun saveReceiptsList(receipts: List<Receipt>): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap { currentUser ->
@@ -169,7 +212,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.lastValueTransfer,
                                 it.supplierName,
                                 it.persent,
-                                it.linkedCardId) //TODO remade to RealmCard
+                                if (it.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
                     }
 
                     currentUser.receipts.clear()
@@ -217,45 +260,5 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
-    }
-
-    fun addReceipt(receipt: Receipt): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap { currentUser ->
-                    val realmReceipt = RealmReceipt(
-                            receipt.id,
-                            receipt.street,
-                            receipt.house,
-                            receipt.apart,
-                            receipt.autoPayMode,
-                            receipt.name,
-                            receipt.maxSumm,
-                            receipt.lastPayment,
-                            receipt.address,
-                            receipt.serviceCode,
-                            receipt.amount,
-                            receipt.barcode,
-                            receipt.lastValueTransfer,
-                            receipt.supplierName,
-                            receipt.persent,
-                            receipt.linkedCardId) //TODO remade to RealmCard
-
-                    currentUser.receipts.add(realmReceipt)
-
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(realmReceipt)
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                { error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
     }
 }

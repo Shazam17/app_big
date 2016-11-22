@@ -48,19 +48,19 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onPayButtonClick(receipt: RealmReceipt) {
-        view?.navigateToPayScreen(receipt)
+        view?.navigateToPayScreen(receipt.id)
     }
 
     override fun onTransferButtonClick(receipt: RealmReceipt) {
-        view?.navigateToIPUInputScreen(receipt)
+        view?.navigateToIPUInputScreen(receipt.id)
     }
 
     override fun onHistoryButtonClick(receipt: RealmReceipt) {
-        view?.navigateToHistoryScreen(receipt)
+        view?.navigateToHistoryScreen(receipt.id)
     }
 
     override fun onAutoPaymentButtonClick(receipt: RealmReceipt) {
-        view?.navigateToAutoPaymentSettingScreen(receipt)
+        view?.navigateToAutoPaymentSettingScreen(receipt.id)
     }
 
     override fun onAddReceiptButtonClick() {

@@ -9,6 +9,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.utils.getStreetFromShortAddress
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -40,12 +41,12 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
-                        { throwable ->
+                        { error ->
                             view?.showProgressVisible(false)
-                            if (throwable is ApiException && throwable.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
+                            if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showBarcodeError(R.string.api_error_unknown_barcode)
                             } else {
-                                view?.showMessage(throwable.parsedMessage())
+                                view?.showMessage(error.parsedMessage())
                             }
                         }
                 )
@@ -67,37 +68,42 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                     receipt ->
 
                     view?.showProgressVisible(false)
-                    if (isSendValue) {
-                        view?.navigateToIPUInputScreen(receipt)
+
+                    if (activeSession.accessToken != null) {
+                        if (isSendValue) {
+                            view?.navigateToIPUInputScreen(receipt.id)
+                        } else {
+                            view?.navigateToPayScreen(receipt.id)
+                        }
+
+                        realmRepository.saveReceipt(receipt)
+
                     } else {
-                        view?.navigateToPayScreen(receipt)
-                    }
+                        if (isSendValue) {
+                            view?.navigateToIPUInputScreen(receipt)
+                        } else {
+                            view?.navigateToPayScreen(receipt)
+                        }
 
-                    //Need to add new receipt to Realm only when user is logged in
-                    //else just navigate next
-                    if(activeSession.accessToken != null) {
-                        realmRepository.addReceipt(receipt)
+                        Observable.empty()
                     }
-
                 }
                 .subscribe(
-                        {
-                        },
-                        { throwable ->
+                        { },
+                        { error ->
                             view?.showProgressVisible(false)
-                            if (throwable is ApiException) {
-                                when (throwable.errorCode) {
+                            if (error is ApiException) {
+                                when (error.errorCode) {
                                     ApiErrorType.UNKNOWN_BARCODE -> view?.showBarcodeError(R.string.api_error_unknown_barcode)
                                     ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
-                                    else -> view?.showMessage(throwable.parsedMessage())
+                                    else -> view?.showMessage(error.parsedMessage())
                                 }
                             } else {
-                                view?.showMessage(throwable.parsedMessage())
+                                view?.showMessage(error.parsedMessage())
                             }
                         }
                 )
     }
-
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
         var isValid = true

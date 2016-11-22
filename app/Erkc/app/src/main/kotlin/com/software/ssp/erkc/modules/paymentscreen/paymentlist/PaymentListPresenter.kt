@@ -48,7 +48,7 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
     }
 
     override fun onPayButtonClick(receipt: RealmReceipt) {
-        view?.navigateToPayScreen(receipt)
+        view?.navigateToPayScreen(receipt.id)
     }
 
     override fun onAddReceiptButtonClick() {

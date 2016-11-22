@@ -87,8 +87,8 @@ class PaymentListFragment : BaseListFragment<RealmReceipt, IPaymentListView, IPa
                 .commit()
     }
 
-    override fun navigateToPayScreen(receipt: RealmReceipt) {
+    override fun navigateToPayScreen(receiptId: String) {
         //TODO: NavigateToPayment
-        showMessage("TODO: NavigateToPayment - " + receipt.barcode)
+        showMessage("TODO: NavigateToPayment - " + receiptId)
     }
 }

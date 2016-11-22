@@ -6,7 +6,6 @@ import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import org.jetbrains.anko.withArguments
@@ -70,9 +69,9 @@ class ValueTransferListFragment : BaseListFragment<RealmReceipt, IValueTransferL
         adapter?.notifyItemRemoved(dataset.indexOf(receipt))
     }
 
-    override fun navigateToSendValues(receipt: RealmReceipt) {
+    override fun navigateToSendValues(receiptId: String) {
         //TODO: NavigateToEnterValues
-        showMessage("TODO: NavigateToSendValues - " + receipt.barcode)
+        showMessage("TODO: NavigateToSendValues - " + receiptId)
     }
 
     override fun navigateToAddReceiptScreen() {

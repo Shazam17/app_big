@@ -77,7 +77,17 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         toast("navigateToIPUInputScreen")
     }
 
+    override fun navigateToIPUInputScreen(receiptId: String) {
+        // todo
+        toast("navigateToIPUInputScreen")
+    }
+
     override fun navigateToPayScreen(receipt: Receipt) {
+        // todo
+        toast("navigateToPayScreen")
+    }
+
+    override fun navigateToPayScreen(receiptId: String) {
         // todo
         toast("navigateToPayScreen")
     }

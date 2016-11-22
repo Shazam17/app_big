@@ -43,7 +43,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
     }
 
     override fun onTransferValueClick(receipt: RealmReceipt) {
-        view?.navigateToSendValues(receipt)
+        view?.navigateToSendValues(receipt.id)
     }
 
     override fun onAddNewValueTransferClick() {
