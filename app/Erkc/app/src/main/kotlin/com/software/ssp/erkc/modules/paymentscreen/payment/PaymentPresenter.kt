@@ -4,7 +4,10 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.*
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
+import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -76,11 +79,11 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                     if (card == null) {
                         view?.navigateToResult(response.url)
                     } else {
-                        view?.showResult(true)
+                        view?.showResult(true, R.string.payment_result_oneclick_success)
                     }
                 }, { error ->
                     if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
-                        view?.showResult(false)
+                        view?.showResult(false, R.string.payment_result_oneclick_error)
                     } else {
                         view?.showMessage(error.message!!)
                     }
@@ -124,6 +127,10 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         } catch (e: Exception) {
             view?.showSumError(R.string.error_field_required)
         }
+    }
+
+    override fun onPaymentResult(result: Boolean) {
+        view?.showResult(result, if (result) R.string.payment_result_default_success else R.string.payment_result_default_error)
     }
 
     private fun calculateSum(sum: Double) {
