@@ -27,7 +27,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
     override fun onBarCodeScanned(barcode: String) {
         view?.showProgressVisible(true)
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode)
+        subscriptions += receiptsRepository.fetchReceiptInfo(barcode)
                 .subscribe(
                         { receipt ->
                             view?.showProgressVisible(false)
@@ -56,7 +56,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(barcode, street, house, apartment)
                 .concatMap {
                     receipt ->
                     view?.showProgressVisible(false)
@@ -66,7 +66,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                         view?.navigateToPayScreen(receipt)
                     }
 
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    receiptsRepository.fetchReceipts()
                 }
                 .subscribe(
                         { receipts ->

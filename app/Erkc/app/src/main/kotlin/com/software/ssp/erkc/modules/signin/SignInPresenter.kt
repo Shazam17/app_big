@@ -58,16 +58,16 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.appToken!!, email, password)
+                .authenticate(email, password)
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-                    accountRepository.fetchUserInfo(activeSession.accessToken!!)
+                    accountRepository.fetchUserInfo()
                 }
                 .concatMap {
                     user ->
                     activeSession.user = user
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    receiptsRepository.fetchReceipts()
                 }
                 .subscribe(
                         {

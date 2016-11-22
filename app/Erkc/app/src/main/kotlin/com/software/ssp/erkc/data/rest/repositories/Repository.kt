@@ -11,7 +11,7 @@ abstract class Repository {
         return Observable.Transformer<T, T> { observable -> observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()) }
     }
 
-    protected fun getSig(parameters: Map<String, String>): String {
+/*    protected fun getSig(parameters: Map<String, String>): String {
         val private_key = Constants.API_SIG_PRIVATE_KEY
         var params = ""
         val tokenValue = parameters["token"]
@@ -20,6 +20,6 @@ abstract class Repository {
         }
         val sig = (tokenValue + params + private_key).md5()
         return sig
-    }
+    }*/
 }
 

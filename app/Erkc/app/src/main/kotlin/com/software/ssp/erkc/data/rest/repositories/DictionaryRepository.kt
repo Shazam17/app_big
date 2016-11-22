@@ -10,9 +10,9 @@ import javax.inject.Inject
  */
 class DictionaryRepository @Inject constructor(private val dictionaryDataSource: DictionaryDataSource) : Repository() {
 
-    fun fetchAddresses(token: String): Observable<List<Address>> {
+    fun fetchAddresses(): Observable<List<Address>> {
         return dictionaryDataSource
-                .fetchAdresses(token)
+                .fetchAdresses()
                 .compose(this.applySchedulers<List<Address>>())
     }
 

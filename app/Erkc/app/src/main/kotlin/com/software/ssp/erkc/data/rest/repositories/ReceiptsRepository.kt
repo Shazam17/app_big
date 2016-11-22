@@ -8,10 +8,8 @@ import javax.inject.Inject
 
 class ReceiptsRepository @Inject constructor(private val receiptsDataSource: ReceiptsDataSource) : Repository() {
 
-    fun fetchReceiptInfo(token: String, code: String, street: String = "", house: String = "", apart: String = ""): Observable<Receipt> {
-        val params = hashMapOf(
-                "token" to token,
-                "code" to code)
+    fun fetchReceiptInfo(code: String, street: String = "", house: String = "", apart: String = ""): Observable<Receipt> {
+        val params = hashMapOf("code" to code)
 
         if (!street.isNullOrBlank()) {
             params.put("street", street)
@@ -24,16 +22,14 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<Receipt>())
     }
 
-    fun fetchReceipts(token: String): Observable<List<Receipt>>{
+    fun fetchReceipts(): Observable<List<Receipt>>{
         return receiptsDataSource
-                .fetchReceipts(token)
+                .fetchReceipts()
                 .compose(this.applySchedulers<List<Receipt>>())
     }
 
-    fun deleteReceipt(token: String, receiptId: String) : Observable<ApiResponse>{
-        val params = hashMapOf(
-                "token" to token,
-                "id" to receiptId)
+    fun deleteReceipt(receiptId: String) : Observable<ApiResponse>{
+        val params = hashMapOf("id" to receiptId)
 
         return receiptsDataSource
                 .deleteReceipt(params)

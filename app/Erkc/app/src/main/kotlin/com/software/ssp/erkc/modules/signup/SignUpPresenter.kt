@@ -46,7 +46,6 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
         subscriptions += authRepository
                 .registration(
-                        activeSession.appToken!!,
                         name,
                         login,
                         email,
@@ -54,14 +53,12 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                         password2,
                         turing)
                 .concatMap {
-                    authRepository.authenticate(activeSession.appToken!!,
-                            login,
-                            password)
+                    authRepository.authenticate(login, password)
                 }
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-                    accountRepository.fetchUserInfo(activeSession.accessToken!!)
+                    accountRepository.fetchUserInfo()
                 }
                 .subscribe(
                         {
@@ -81,7 +78,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
 
     private fun fetchCaptcha() {
         subscriptions += authRepository.
-                getCapcha(activeSession.appToken!!)
+                getCapcha()
                 .subscribe({
                     captcha ->
                     view?.showCaptcha(captcha.image)

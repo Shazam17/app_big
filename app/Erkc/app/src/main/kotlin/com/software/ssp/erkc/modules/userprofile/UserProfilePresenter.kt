@@ -30,8 +30,8 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         }
         view?.setProgressVisibility(true)
 
-        subscriptions += accountRepository.updateUserInfo(activeSession.accessToken!!, name, email, password, rePassword)
-                .concatMap { accountRepository.fetchUserInfo(activeSession.accessToken!!) }
+        subscriptions += accountRepository.updateUserInfo(name, email, password, rePassword)
+                .concatMap { accountRepository.fetchUserInfo() }
                 .subscribe(
                         {
                             user ->

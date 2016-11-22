@@ -23,7 +23,7 @@ class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<I
 
         with(activeSession) {
             view?.setPending(true)
-            subscriptions += faqRepository.sendMessage(accessToken!!, user?.name!!, user?.login!!, user?.email!!, message, subjectPrefix + message.subSequence(0, Math.min(message.length, 60)))
+            subscriptions += faqRepository.sendMessage(user?.name!!, user?.login!!, user?.email!!, message, subjectPrefix + message.subSequence(0, Math.min(message.length, 60)))
                     .subscribe(
                             { response ->
                                 view?.setPending(false)

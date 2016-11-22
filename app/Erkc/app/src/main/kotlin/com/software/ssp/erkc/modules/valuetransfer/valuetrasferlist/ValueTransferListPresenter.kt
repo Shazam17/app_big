@@ -21,7 +21,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .subscribe(
                         {
                             receipts ->
@@ -47,11 +47,11 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
     }
 
     override fun onReceiptDeleted(receipt: Receipt) {
-        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
+        subscriptions += receiptsRepository.deleteReceipt(receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    receiptsRepository.fetchReceipts()
                 }
                 .subscribe(
                         {

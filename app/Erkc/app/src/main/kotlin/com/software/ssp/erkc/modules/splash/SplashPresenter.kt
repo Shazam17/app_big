@@ -40,7 +40,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     }
                     activeSession.appToken = appToken
                     if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate)) {
-                        dictionaryRepo.fetchAddresses(activeSession.appToken!!)
+                        dictionaryRepo.fetchAddresses()
                     } else {
                         Observable.just(null)
                     }

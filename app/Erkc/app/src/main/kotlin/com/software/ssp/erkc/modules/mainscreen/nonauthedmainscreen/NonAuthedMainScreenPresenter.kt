@@ -22,7 +22,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         }
         view?.showProgressVisible(true)
 
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
+        subscriptions += receiptsRepository.fetchReceiptInfo(barcode, street, house, apartment)
                 .subscribe(
                         { receipt ->
                             view?.showProgressVisible(false)
@@ -59,7 +59,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     override fun onBarCodeScanned(code: String) {
         view?.showProgressVisible(true)
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, code)
+        subscriptions += receiptsRepository.fetchReceiptInfo(code)
                 .subscribe(
                         { receipt ->
                             view?.showProgressVisible(false)

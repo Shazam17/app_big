@@ -47,7 +47,7 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
     override fun onSendButtonClick() {
         if (isLoading) return
         isLoading = true
-        subscriptions += authRepository.recoverPassword(activeSession.appToken!!, login, email, captcha)
+        subscriptions += authRepository.recoverPassword(login, email, captcha)
                 .flatMap { response ->
                     isLoading = false
                     view?.showMessage(R.string.pass_recovery_sent_message)
@@ -77,7 +77,7 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
 
     private fun fetchCaptcha() {
         subscriptions += authRepository.
-                getCapcha(activeSession.appToken!!)
+                getCapcha()
                 .subscribe({
                     captcha ->
                     view?.showCaptcha(captcha.image)

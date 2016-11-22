@@ -96,7 +96,7 @@ class SignInActivity : MvpActivity(), ISignInView {
 
         if (BuildConfig.DEBUG) {
             signInLoginEditText.setText("kiki")
-            signInPasswordEditText.setText("9GQ5ZJ")
+            signInPasswordEditText.setText("J2NI91")
         }
     }
 }

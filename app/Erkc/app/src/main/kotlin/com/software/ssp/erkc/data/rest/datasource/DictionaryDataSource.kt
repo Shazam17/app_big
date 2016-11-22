@@ -9,6 +9,6 @@ import rx.Observable
 interface DictionaryDataSource {
 
     @GET("?method=dictionary.addresses")
-    fun fetchAdresses(@Query("token") token: String): Observable<List<Address>>
+    fun fetchAdresses(): Observable<List<Address>>
 
 }
