@@ -6,27 +6,26 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.receipt.BaseReceiptAdapter
 import com.software.ssp.erkc.common.receipt.BaseReceiptViewHolder
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 
 
-class PaymentListAdapter(dataList: List<Receipt>,
-                         val paymentClickListener: ((Receipt) -> Unit)? = null,
-                         val onDeleteClickListener: ((Receipt, Int) -> Unit)? = null) : BaseReceiptAdapter<PaymentListAdapter.ViewHolder>(dataList) {
+class PaymentListAdapter(dataList: List<ReceiptViewModel>,
+                         val interactionListener: InteractionListener? = null) : BaseReceiptAdapter<PaymentListAdapter.ViewHolder>(dataList) {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_receipt, parent, false)
-        return ViewHolder(view, paymentClickListener, onDeleteClickListener)
+        return ViewHolder(view, interactionListener)
     }
 
     class ViewHolder(view: View,
-                     val onPaymentClickListener: ((Receipt) -> Unit)?,
-                     val onDeleteClickListener: ((Receipt, Int) -> Unit)?) : BaseReceiptViewHolder(view) {
+                     val interactionListener: InteractionListener? = null) : BaseReceiptViewHolder(view) {
 
-        override fun bindReceipt(receipt: Receipt) {
-            super.bindReceipt(receipt)
+        override fun bindReceipt(receiptViewModel: ReceiptViewModel) {
+            super.bindReceipt(receiptViewModel)
 
             with(itemView) {
 
@@ -34,15 +33,21 @@ class PaymentListAdapter(dataList: List<Receipt>,
                 receiptTransferButton.visibility = View.GONE
                 receiptMenuImage.visibility = View.GONE
 
-                receiptPayButton.onClick { onPaymentClickListener?.invoke(receipt) }
+                receiptPayButton.onClick { interactionListener?.paymentClick(receiptViewModel.receipt) }
 
                 deleteButton.onClick {
                     deleteProgressBar.visibility = View.VISIBLE
                     receiptPayButton.enabled = false
                     deleteButton.isEnabled = false
-                    onDeleteClickListener?.invoke(receipt, adapterPosition)
+                    interactionListener?.deleteClick(receiptViewModel.receipt)
+                    receiptViewModel.isRemovePending = true
                 }
             }
         }
+    }
+
+    interface InteractionListener {
+        fun paymentClick(receipt: Receipt)
+        fun deleteClick(receipt: Receipt)
     }
 }

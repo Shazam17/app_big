@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.drawer
 
+import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +8,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.User
@@ -25,16 +25,21 @@ import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
-import kotlin.properties.Delegates
+
 
 class DrawerActivity : MvpActivity(), IDrawerView {
 
     @Inject lateinit var presenter: IDrawerPresenter
 
-    private var drawerToggle: ActionBarDrawerToggle? = null
+    lateinit private var drawerToggle: ActionBarDrawerToggle
+    lateinit private var drawerHeaderView: View
+
     private var selectedDrawerItem: DrawerItem = DrawerItem.MAIN
     private var isSelectedDrawerItemChanged = false
-    private var drawerHeaderView: View by Delegates.notNull<View>()
+
+    companion object {
+        val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
+    }
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerDrawerComponent.builder()
@@ -51,7 +56,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         initViews()
 
         if (savedInstanceState != null) {
-            selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
+            selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
         }
 
         presenter.onViewAttached()
@@ -62,7 +67,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putInt(Constants.KEY_SELECTED_DRAWER_ITEM, selectedDrawerItem.ordinal)
+        outState?.putInt(KEY_SELECTED_DRAWER_ITEM, selectedDrawerItem.ordinal)
         super.onSaveInstanceState(outState)
     }
 
@@ -75,8 +80,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle!!.isDrawerIndicatorEnabled &&
-                drawerToggle!!.onOptionsItemSelected(item)) {
+        if (drawerToggle.isDrawerIndicatorEnabled &&
+                drawerToggle.onOptionsItemSelected(item)) {
             return true
         } else if (item.itemId == android.R.id.home &&
                 fragmentManager.popBackStackImmediate()) {
@@ -87,22 +92,25 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (resultCode) {
-            UserProfileActivity.USER_PROFILE_UPDATED -> {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            UserProfileActivity.USER_PROFILE_REQUEST_CODE -> {
                 presenter.onUserProfileUpdated()
             }
 
-            SignInActivity.DID_SIGN_IN -> {
+            SignInActivity.SIGN_IN_REQUEST_CODE -> {
                 presenter.onUserProfileUpdated()
                 navigateToModule(selectedDrawerItem)
             }
 
-            SignUpActivity.DID_SIGN_UP -> {
+            SignUpActivity.SIGN_UP_REQUEST_CODE -> {
                 presenter.onUserProfileUpdated()
                 navigateToModule(selectedDrawerItem)
             }
-
-            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -135,7 +143,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateToUserProfile() {
-        startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_TAG)
+        startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_REQUEST_CODE)
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
@@ -218,15 +226,15 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             }
         }
 
-        drawerLayout.addDrawerListener(drawerToggle as ActionBarDrawerToggle)
-        drawerToggle?.syncState()
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
 
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
 
         fragmentManager.addOnBackStackChangedListener {
-            drawerToggle?.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
+            drawerToggle.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
         }
     }
 }

@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -17,7 +18,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
 
     override fun onViewAttached() {
         super.onViewAttached()
-        view?.showData(activeSession.cachedReceipts!!)
+        showReceipts(activeSession.cachedReceipts!!)
     }
 
     override fun onSwipeToRefresh() {
@@ -26,16 +27,13 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
                         {
                             receipts ->
                             activeSession.cachedReceipts = receipts?.sortedBy { it.address }
-                            view?.showData(activeSession.cachedReceipts!!)
+                            showReceipts(activeSession.cachedReceipts!!)
                         },
                         {
                             error ->
                             view?.showMessage(error.parsedMessage())
                             view?.setLoadingVisible(false)
                         })
-    }
-
-    override fun onItemClick(item: Receipt) {
     }
 
     override fun onPayButtonClick(receipt: Receipt) {
@@ -81,5 +79,9 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun showReceipts(receipts: List<Receipt>) {
+        view?.showData(receipts.map { ReceiptViewModel(it, false) })
     }
 }

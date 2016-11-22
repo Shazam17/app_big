@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -17,7 +18,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
 
     override fun onViewAttached() {
         super.onViewAttached()
-        view?.showData(activeSession.cachedReceipts!!)
+        showReceipts(activeSession.cachedReceipts!!)
     }
 
     override fun onSwipeToRefresh() {
@@ -26,16 +27,13 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                         {
                             receipts ->
                             activeSession.cachedReceipts = receipts?.sortedBy { it.address }
-                            view?.showData(activeSession.cachedReceipts!!)
+                            showReceipts(activeSession.cachedReceipts!!)
                         },
                         {
                             error ->
                             view?.showMessage(error.parsedMessage())
                             view?.setLoadingVisible(false)
                         })
-    }
-
-    override fun onItemClick(item: Receipt) {
     }
 
     override fun onTransferValueClick(receipt: Receipt) {
@@ -69,5 +67,9 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun showReceipts(receipts: List<Receipt>) {
+        view?.showData(receipts.map { ReceiptViewModel(it, false) })
     }
 }

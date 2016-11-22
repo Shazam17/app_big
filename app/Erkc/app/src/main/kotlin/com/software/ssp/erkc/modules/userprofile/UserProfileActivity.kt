@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.userprofile
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -21,9 +22,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     @Inject lateinit var presenter: IUserProfilePresenter
 
     companion object {
-        val USER_PROFILE_TAG = 23512
-
-        val USER_PROFILE_UPDATED = 23513
+        val USER_PROFILE_REQUEST_CODE = 23512
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +59,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     override fun didUserProfileUpdated() {
-        setResult(USER_PROFILE_UPDATED)
+        setResult(Activity.RESULT_OK)
     }
 
     override fun close() {

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.MvpFragment
@@ -26,9 +25,9 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     private var isTransferValueVisible: Boolean by args(defaultValue = true)
     private var isTransferValue: Boolean by args(defaultValue = false)
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
-        return inflater!!.inflate(R.layout.fragment_new_receipt, container, false)
+        return inflater.inflate(R.layout.fragment_new_receipt, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -45,8 +44,8 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         presenter.onViewAttached()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -55,8 +54,8 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
-            Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
+            BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE -> presenter.onBarCodeScanned(data!!.getStringExtra(BarcodeScannerActivity.BARCODE_SCANNED_RESULT_KEY))
+            SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE -> presenter.onAddressSelected(data!!.getStringExtra(SearchAddressActivity.SEARCH_ADDRESS_RESULT_KEY))
         }
     }
 
@@ -65,11 +64,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToBarCodeScanScreen() {
-        startActivityForResult<BarcodeScannerActivity>(Constants.REQUEST_CODE_BARCODE_SCAN)
+        startActivityForResult<BarcodeScannerActivity>(BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE)
     }
 
     override fun navigateToStreetSelectScreen() {
-        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
+        startActivityForResult<SearchAddressActivity>(SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE)
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {

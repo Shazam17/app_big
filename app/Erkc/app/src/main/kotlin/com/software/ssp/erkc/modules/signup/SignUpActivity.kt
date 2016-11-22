@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.signup
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,9 +21,7 @@ class SignUpActivity : MvpActivity(), ISignUpView {
     @Inject lateinit var presenter: ISignUpPresenter
 
     companion object {
-        val SIGN_UP_TAG = 25512
-
-        val DID_SIGN_UP = 25513
+        val SIGN_UP_REQUEST_CODE = 25512
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +61,7 @@ class SignUpActivity : MvpActivity(), ISignUpView {
     }
 
     override fun navigateToMainScreen() {
-        setResult(DID_SIGN_UP)
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -81,12 +80,13 @@ class SignUpActivity : MvpActivity(), ISignUpView {
                     signUpCaptchaEditText.text.toString()
             )
         }
+
         signUpCaptchaImageView.onClick {
             signUpCaptchaImageView.setImageResource(android.R.color.transparent)
             presenter.onCaptchaClick()
         }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
     }
-
 }

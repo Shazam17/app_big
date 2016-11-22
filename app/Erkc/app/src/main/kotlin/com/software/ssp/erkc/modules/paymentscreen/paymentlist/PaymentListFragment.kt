@@ -5,13 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
-class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
+class PaymentListFragment : BaseListFragment<ReceiptViewModel>(), IPaymentListView {
 
     @Inject lateinit var presenter: IPaymentListPresenter
 
@@ -57,11 +58,15 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
     }
 
     override fun receiptDidNotDeleted(receipt: Receipt) {
-        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
+        dataset[receiptIndex].isRemovePending = false
+        adapter?.notifyItemChanged(receiptIndex)
     }
 
-    override fun receiptDeleted(receipt: Receipt){
-        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    override fun receiptDeleted(receipt: Receipt) {
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
+        dataset.removeAt(receiptIndex)
+        adapter?.notifyItemRemoved(receiptIndex)
     }
 
     override fun onSwipeToRefresh() {
@@ -70,8 +75,15 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return PaymentListAdapter(dataset,
-                { receipt -> presenter.onPayButtonClick(receipt) },
-                { receipt, position -> presenter.onReceiptDeleted(receipt) })
+                object : PaymentListAdapter.InteractionListener {
+                    override fun paymentClick(receipt: Receipt) {
+                        presenter.onPayButtonClick(receipt)
+                    }
+
+                    override fun deleteClick(receipt: Receipt) {
+                        presenter.onReceiptDeleted(receipt)
+                    }
+                })
     }
 
     override fun navigateToAddReceiptScreen() {

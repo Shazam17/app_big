@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -23,9 +22,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     @Inject lateinit var presenter: INonAuthedMainScreenPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
-        return inflater!!.inflate(R.layout.fragment_non_authed_main_screen, container, false)
+        return inflater.inflate(R.layout.fragment_non_authed_main_screen, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -44,22 +43,25 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         presenter.onViewAttached()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
         when (requestCode) {
-            Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
-            Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_NAME_RESULT))
+            BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE -> presenter.onBarCodeScanned(data!!.getStringExtra(BarcodeScannerActivity.BARCODE_SCANNED_RESULT_KEY))
+            SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE -> presenter.onAddressSelected(data!!.getStringExtra(SearchAddressActivity.SEARCH_ADDRESS_RESULT_KEY))
         }
     }
 
     override fun navigateToStreetSelectScreen() {
-        startActivityForResult<SearchAddressActivity>(Constants.REQUEST_CODE_ADDRESS_FIND)
+        startActivityForResult<SearchAddressActivity>(SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE)
     }
 
     override fun beforeDestroy() {
@@ -97,11 +99,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToSignInScreen() {
-        activity.startActivityForResult<SignInActivity>(SignInActivity.SIGN_IN_TAG)
+        activity.startActivityForResult<SignInActivity>(SignInActivity.SIGN_IN_REQUEST_CODE)
     }
 
     override fun navigateToSignUpScreen() {
-        activity.startActivityForResult<SignUpActivity>(SignUpActivity.SIGN_UP_TAG)
+        activity.startActivityForResult<SignUpActivity>(SignUpActivity.SIGN_UP_REQUEST_CODE)
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
@@ -197,7 +199,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         }
 
         mainScreenCameraButton.onClick {
-            startActivityForResult<BarcodeScannerActivity>(Constants.REQUEST_CODE_BARCODE_SCAN)
+            startActivityForResult<BarcodeScannerActivity>(BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE)
         }
 
         mainScreenSingInButton.onClick { navigateToSignInScreen() }

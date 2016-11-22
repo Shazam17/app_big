@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.signin
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -19,9 +20,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     @Inject lateinit var presenter: ISignInPresenter
 
     companion object {
-        val SIGN_IN_TAG = 24512
-
-        val DID_SIGN_IN = 24513
+        val SIGN_IN_REQUEST_CODE = 24512
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +63,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     }
 
     override fun navigateToMainScreen() {
-        setResult(DID_SIGN_IN)
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -96,8 +95,7 @@ class SignInActivity : MvpActivity(), ISignInView {
 
         if (BuildConfig.DEBUG) {
             signInLoginEditText.setText("kiki")
-            signInPasswordEditText.setText("9GQ5ZJ")
+            signInPasswordEditText.setText("J2NI91")
         }
     }
 }
-

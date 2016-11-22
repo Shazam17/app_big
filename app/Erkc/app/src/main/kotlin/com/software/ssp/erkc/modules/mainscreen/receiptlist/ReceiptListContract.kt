@@ -2,10 +2,11 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 
 
-interface IReceiptListView : IListView<Receipt> {
+interface IReceiptListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
     fun navigateToIPUInputScreen(receipt: Receipt)
@@ -16,7 +17,7 @@ interface IReceiptListView : IListView<Receipt> {
     fun navigateToAutoPaymentSettingScreen(receipt: Receipt)
 }
 
-interface IReceiptListPresenter : IListPresenter<Receipt, IReceiptListView> {
+interface IReceiptListPresenter : IListPresenter<ReceiptViewModel, IReceiptListView> {
     fun onPayButtonClick(receipt: Receipt)
     fun onTransferButtonClick(receipt: Receipt)
     fun onHistoryButtonClick(receipt: Receipt)

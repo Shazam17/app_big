@@ -7,31 +7,26 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.receipt.BaseReceiptAdapter
 import com.software.ssp.erkc.common.receipt.BaseReceiptViewHolder
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.rest.models.Receipt
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 
 
-class ReceiptListAdapter(dataList: List<Receipt>,
-                         val paymentClickListener: ((Receipt) -> Unit)? = null,
-                         val transferClickListener: ((Receipt) -> Unit)? = null,
-                         val menuClickListener: ((ReceiptMenuItem, Receipt) -> Unit)? = null,
-                         val onDeleteClickListener: ((Receipt, Int) -> Unit)? = null) : BaseReceiptAdapter<ReceiptListAdapter.ViewHolder>(dataList) {
+class ReceiptListAdapter(dataList: List<ReceiptViewModel>,
+                         val interactionListener: InteractionListener? = null) : BaseReceiptAdapter<ReceiptListAdapter.ViewHolder>(dataList) {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_receipt, parent, false)
-        return ViewHolder(view, paymentClickListener, transferClickListener, menuClickListener, onDeleteClickListener)
+        return ViewHolder(view, interactionListener)
     }
 
     class ViewHolder(view: View,
-                     val onPaymentClickListener: ((Receipt) -> Unit)?,
-                     val onTransferClickListener: ((Receipt) -> Unit)?,
-                     val menuClickListener: ((ReceiptMenuItem, Receipt) -> Unit)?,
-                     val onDeleteClickListener: ((Receipt, Int) -> Unit)?) : BaseReceiptViewHolder(view) {
+                     val interactionListener: InteractionListener? = null) : BaseReceiptViewHolder(view) {
 
-        override fun bindReceipt(receipt: Receipt) {
-            super.bindReceipt(receipt)
+        override fun bindReceipt(receiptViewModel: ReceiptViewModel) {
+            super.bindReceipt(receiptViewModel)
 
             with(itemView) {
 
@@ -43,18 +38,15 @@ class ReceiptListAdapter(dataList: List<Receipt>,
                     popup.inflate(R.menu.receipt_list_item_menu)
 
                     popup.setOnMenuItemClickListener {
-                        when(it.itemId){
-                            ReceiptMenuItem.HISTORY.itemId -> menuClickListener?.invoke(ReceiptMenuItem.HISTORY, receipt)
-                            ReceiptMenuItem.AUTOPAY.itemId -> menuClickListener?.invoke(ReceiptMenuItem.AUTOPAY, receipt)
-                        }
-                        false
+                        interactionListener?.menuClick(it.itemId, receiptViewModel.receipt)
+                        true
                     }
 
                     popup.show()
                 }
 
-                receiptPayButton.onClick { onPaymentClickListener?.invoke(receipt) }
-                receiptTransferButton.onClick { onTransferClickListener?.invoke(receipt) }
+                receiptPayButton.onClick { interactionListener?.paymentClick(receiptViewModel.receipt) }
+                receiptTransferButton.onClick { interactionListener?.transferClick(receiptViewModel.receipt) }
 
                 deleteButton.onClick {
                     deleteProgressBar.visibility = View.VISIBLE
@@ -62,9 +54,17 @@ class ReceiptListAdapter(dataList: List<Receipt>,
                     receiptTransferButton.enabled = false
                     receiptMenuImage.isEnabled = false
                     deleteButton.isEnabled = false
-                    onDeleteClickListener?.invoke(receipt, adapterPosition)
+                    interactionListener?.deleteClick(receiptViewModel.receipt)
+                    receiptViewModel.isRemovePending = true
                 }
             }
         }
+    }
+
+    interface InteractionListener {
+        fun paymentClick(receipt: Receipt)
+        fun transferClick(receipt: Receipt)
+        fun menuClick(menuId: Int ,receipt: Receipt)
+        fun deleteClick(receipt: Receipt)
     }
 }
