@@ -83,7 +83,6 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                 })
     }
 
-
     override fun onSwipeToRefresh() {
         subscriptions += cardsRepository
                 .fetchCards(activeSession.accessToken!!)
@@ -97,9 +96,4 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                     view?.showMessage(error.message!!)
                 })
     }
-
-    override fun onItemClick(item: Card) {
-    }
-
-
 }

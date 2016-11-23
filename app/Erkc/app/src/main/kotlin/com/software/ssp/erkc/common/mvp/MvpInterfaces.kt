@@ -22,5 +22,4 @@ interface IPresenter<in V : IView> {
 
 interface IListPresenter<M, V : IListView<*>> : IPresenter<V> {
     fun onSwipeToRefresh()
-    fun onItemClick(item: M)
 }

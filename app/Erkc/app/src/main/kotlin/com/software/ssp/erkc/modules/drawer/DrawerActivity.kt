@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.drawer
 
+import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
@@ -12,8 +13,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
+import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
@@ -27,16 +28,16 @@ import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 class DrawerActivity : MvpActivity(), IDrawerView {
 
     @Inject lateinit var presenter: IDrawerPresenter
 
-    private var drawerToggle: ActionBarDrawerToggle? = null
+    lateinit private var drawerToggle: ActionBarDrawerToggle
+    lateinit private var drawerHeaderView: View
+
     private var selectedDrawerItem: DrawerItem = DrawerItem.MAIN
     private var isSelectedDrawerItemChanged = false
-    private var drawerHeaderView: View by Delegates.notNull<View>()
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerDrawerComponent.builder()
@@ -77,8 +78,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle!!.isDrawerIndicatorEnabled &&
-                drawerToggle!!.onOptionsItemSelected(item)) {
+        if (drawerToggle.isDrawerIndicatorEnabled &&
+                drawerToggle.onOptionsItemSelected(item)) {
             return true
         } else if (item.itemId == android.R.id.home &&
                 fragmentManager.popBackStackImmediate()) {
@@ -89,11 +90,14 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (resultCode) {
-            UserProfileActivity.USER_PROFILE_UPDATED -> presenter.onUserProfileUpdated()
-            SignInActivity.DID_SIGN_IN -> presenter.onUserProfileUpdated()
-            SignUpActivity.DID_SIGN_UP -> presenter.onUserProfileUpdated()
-            else -> super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode != Activity.RESULT_OK){
+            return
+        }
+        when (requestCode) {
+            UserProfileActivity.USER_PROFILE_REQUEST_CODE -> presenter.onUserProfileUpdated()
+            SignInActivity.SIGN_IN_REQUEST_CODE -> presenter.onUserProfileUpdated()
+            SignUpActivity.SIGN_UP_REQUEST_CODE -> presenter.onUserProfileUpdated()
         }
     }
 
@@ -131,11 +135,11 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateToUserProfile() {
-        startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_TAG)
+        startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_REQUEST_CODE)
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
-        val fragment = when (drawerItem) {
+        val fragment : Fragment = when (drawerItem) {
             DrawerItem.MAIN -> MainScreenFragment()
             DrawerItem.PAYMENT -> PaymentScreenFragment()
             DrawerItem.VALUES -> ValueTransferFragment()
@@ -214,15 +218,15 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             }
         }
 
-        drawerLayout.addDrawerListener(drawerToggle as ActionBarDrawerToggle)
-        drawerToggle?.syncState()
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
 
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
 
         fragmentManager.addOnBackStackChangedListener {
-            drawerToggle?.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
+            drawerToggle.isDrawerIndicatorEnabled = fragmentManager.backStackEntryCount == 0
         }
     }
 

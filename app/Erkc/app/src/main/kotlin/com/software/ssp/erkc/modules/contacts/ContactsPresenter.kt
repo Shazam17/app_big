@@ -38,7 +38,7 @@ class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<I
                 .subscribe(
                         { response ->
                             view?.setPending(false)
-                            view?.showDidSentMessage()
+                            view?.didSentMessage()
                         },
                         { error ->
                             view?.setPending(false)

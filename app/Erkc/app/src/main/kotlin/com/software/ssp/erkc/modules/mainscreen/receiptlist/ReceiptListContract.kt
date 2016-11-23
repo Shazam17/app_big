@@ -2,10 +2,11 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 
 
-interface IReceiptListView : IListView<RealmReceipt> {
+interface IReceiptListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
 
@@ -18,7 +19,7 @@ interface IReceiptListView : IListView<RealmReceipt> {
     fun receiptDeleted(receipt: RealmReceipt)
 }
 
-interface IReceiptListPresenter : IListPresenter<RealmReceipt, IReceiptListView> {
+interface IReceiptListPresenter : IListPresenter<ReceiptViewModel, IReceiptListView> {
     fun onPayButtonClick(receipt: RealmReceipt)
     fun onTransferButtonClick(receipt: RealmReceipt)
     fun onHistoryButtonClick(receipt: RealmReceipt)

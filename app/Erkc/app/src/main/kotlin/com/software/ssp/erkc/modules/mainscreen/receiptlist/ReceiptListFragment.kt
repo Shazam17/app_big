@@ -5,12 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 
-class ReceiptListFragment : BaseListFragment<RealmReceipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
+class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListView {
 
     @Inject lateinit var presenter: IReceiptListPresenter
 
@@ -60,26 +61,39 @@ class ReceiptListFragment : BaseListFragment<RealmReceipt, IReceiptListView, IRe
     }
 
     override fun receiptDidNotDeleted(receipt: RealmReceipt) {
-        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
+        dataset[receiptIndex].isRemovePending = false
+        adapter?.notifyItemChanged(receiptIndex)
     }
 
     override fun receiptDeleted(receipt: RealmReceipt) {
-        val receiptIndex = dataset.indexOf(receipt)
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
         dataset.removeAt(receiptIndex)
         adapter?.notifyItemRemoved(receiptIndex)
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ReceiptListAdapter(dataset,
-                { receipt -> presenter.onPayButtonClick(receipt) },
-                { receipt -> presenter.onTransferButtonClick(receipt) },
-                { menuItem, receipt ->
-                    when (menuItem) {
-                        ReceiptMenuItem.HISTORY -> presenter.onHistoryButtonClick(receipt)
-                        ReceiptMenuItem.AUTOPAY -> presenter.onAutoPaymentButtonClick(receipt)
+                object : ReceiptListAdapter.InteractionListener {
+                    override fun paymentClick(receipt: RealmReceipt) {
+                        presenter.onPayButtonClick(receipt)
                     }
-                },
-                { receipt, position -> presenter.onReceiptDeleted(receipt) })
+
+                    override fun transferClick(receipt: RealmReceipt) {
+                        presenter.onTransferButtonClick(receipt)
+                    }
+
+                    override fun menuClick(menuId: Int, receipt: RealmReceipt) {
+                        when (menuId) {
+                            R.id.menuHistory -> presenter.onHistoryButtonClick(receipt)
+                            R.id.menuAutoPay -> presenter.onAutoPaymentButtonClick(receipt)
+                        }
+                    }
+
+                    override fun deleteClick(receipt: RealmReceipt) {
+                        presenter.onReceiptDeleted(receipt)
+                    }
+                })
     }
 
     override fun navigateToAddReceiptScreen() {

@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var dictionaryRepo: DictionaryRepository
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var realmRepo: RealmRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -39,20 +40,21 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepo.streetsLoaded()) {
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepository.streetsLoaded()) {
                         dictionaryRepo.fetchStreets(activeSession.appToken!!)
                     } else {
                         Observable.just(null)
                     }
-                }.subscribe({
+                }
+                .subscribe({
                     streets ->
                     if (streets != null) {
-                        realmRepo.saveStreetList(streets)
+                        realmRepository.saveStreetList(streets)
                     }
                     view?.navigateToDrawer()
                 }, {
                     error ->
-                    view?.showTryAgainSnack(error.message!!)
+                    view?.showTryAgainSnack(error.parsedMessage())
                     error.printStackTrace()
                 })
     }
@@ -62,7 +64,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     }
 
     override fun onViewDetached() {
-        realmRepo.close()
+        realmRepository.close()
         super.onViewDetached()
     }
 }

@@ -11,7 +11,7 @@ import com.software.ssp.erkc.R
 import kotlinx.android.synthetic.main.layout_recycler_view.*
 import java.util.*
 
-abstract class BaseListFragment<M, V : IListView<M>, P : IListPresenter<M, V>> : MvpFragment(), IListView<M> {
+abstract class BaseListFragment<M> : MvpFragment(), IListView<M> {
 
     protected var dataset: MutableList<M> = ArrayList()
     protected var adapter: RecyclerView.Adapter<*>? = null
@@ -60,10 +60,6 @@ abstract class BaseListFragment<M, V : IListView<M>, P : IListPresenter<M, V>> :
         emptyMessageTextView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
-    // ===========================================================
-    // Methods
-    // ===========================================================
-
     protected open fun initViews() {
         swipeRefreshLayout!!.setOnRefreshListener {
             onSwipeToRefresh()
@@ -83,9 +79,4 @@ abstract class BaseListFragment<M, V : IListView<M>, P : IListPresenter<M, V>> :
     }
 
     protected abstract fun createAdapter(): RecyclerView.Adapter<*>
-
-    // ===========================================================
-    // Inner and Anonymous Classes
-    // ===========================================================
-
 }

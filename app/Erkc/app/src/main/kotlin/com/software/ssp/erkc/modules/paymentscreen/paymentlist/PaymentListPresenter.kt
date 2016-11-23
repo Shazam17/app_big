@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.paymentscreen.paymentlist
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -44,9 +45,6 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
                         })
     }
 
-    override fun onItemClick(item: RealmReceipt) {
-    }
-
     override fun onPayButtonClick(receipt: RealmReceipt) {
         view?.navigateToPayScreen(receipt.id)
     }
@@ -83,7 +81,7 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
                 .subscribe(
                         {
                             receipts ->
-                            view?.showData(receipts)
+                            view?.showData(receipts.map { ReceiptViewModel(it, false) })
                         },
                         {
                             error ->

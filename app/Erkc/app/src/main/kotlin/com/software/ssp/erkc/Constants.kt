@@ -8,6 +8,8 @@ object Constants {
     const val API_OAUTH_CLIENT_ID = "VtqDyaekN"
     const val API_OAUTH_RESPONSE_TYPE = "token"
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
+
+    //TODO CHECK IT OUT
     const val PERIOD_DATE_FORMAT_API = "yyyyMM"
     const val PERIOD_DATE_FORMAT_UI = "MMM yyyy"
 

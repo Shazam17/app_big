@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.zxing.Result
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.common.views.CustomBarcodeScannerFrameView
@@ -28,6 +27,11 @@ class BarcodeScannerActivity : MvpActivity(), IBarcodeScannerView, ZXingScannerV
 
     @Inject lateinit var presenter: IBarcodeScannerPresenter
     lateinit var scannerView: ZXingScannerView
+
+    companion object {
+        val BARCODE_SCANNER_REQUEST_CODE = 12401
+        val BARCODE_SCANNED_RESULT_KEY = "BARCODE_SCANNED_RESULT_KEY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +73,7 @@ class BarcodeScannerActivity : MvpActivity(), IBarcodeScannerView, ZXingScannerV
 
     override fun navigateToScan(qrData: String) {
         val intent = Intent()
-        intent.putExtra(Constants.KEY_SCAN_RESULT, qrData)
+        intent.putExtra(BARCODE_SCANNED_RESULT_KEY, qrData)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -109,5 +113,4 @@ class BarcodeScannerActivity : MvpActivity(), IBarcodeScannerView, ZXingScannerV
         }
         contentFrameLayout.addView(scannerView)
     }
-
 }

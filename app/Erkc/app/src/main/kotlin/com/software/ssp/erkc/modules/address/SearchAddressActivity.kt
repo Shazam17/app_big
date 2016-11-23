@@ -1,12 +1,12 @@
 package com.software.ssp.erkc.modules.address
 
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.db.StreetCache
@@ -21,6 +21,11 @@ import javax.inject.Inject
 class SearchAddressActivity : MvpActivity(), ISearchAddressView {
     @Inject lateinit var presenter: ISearchAddressPresenter
 
+    companion object {
+        val SEARCH_ADDRESS_REQUEST_CODE = 12501
+        val SEARCH_ADDRESS_RESULT_KEY = "SEARCH_ADDRESS_RESULT_KEY"
+    }
+
     var mSearchAdapter: SearchAddressListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +35,7 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
 
     override fun navigateToDrawer(street: StreetCache) {
         val intent = Intent()
-        intent.putExtra(Constants.KEY_ADDRESS_FIND_RESULT, street.name)
+        intent.putExtra(SEARCH_ADDRESS_RESULT_KEY, street.name)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -39,7 +44,8 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         finish()
     }
 
-    override fun showData(streets: List<StreetCache>) {4
+    override fun showData(streets: List<StreetCache>) {
+        4
         mSearchAdapter?.swapData(streets)
     }
 
@@ -79,5 +85,4 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         recyclerView.layoutManager = LinearLayoutManager(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-
 }

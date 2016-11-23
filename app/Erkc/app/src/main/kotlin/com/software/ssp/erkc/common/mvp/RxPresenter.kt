@@ -14,4 +14,5 @@ abstract class RxPresenter<V : IView>(view: V) : BasePresenter<V>(view) {
         subscriptions.clear()
         super.onViewDetached()
     }
+
 }

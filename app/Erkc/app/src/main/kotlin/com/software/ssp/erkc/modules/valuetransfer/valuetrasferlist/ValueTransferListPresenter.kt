@@ -1,7 +1,9 @@
 package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 
+
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -39,9 +41,6 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                         })
     }
 
-    override fun onItemClick(item: RealmReceipt) {
-    }
-
     override fun onTransferValueClick(receipt: RealmReceipt) {
         view?.navigateToSendValues(receipt.id)
     }
@@ -61,7 +60,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                 .subscribe(
                         {
                             currentUser ->
-                            if(currentUser.receipts.count() == 0) {
+                            if (currentUser.receipts.count() == 0) {
                                 view?.navigateToEmptyReceiptsList()
                             }
                         },
@@ -78,7 +77,7 @@ class ValueTransferListPresenter @Inject constructor(view: IValueTransferListVie
                 .subscribe(
                         {
                             receipts ->
-                            view?.showData(receipts)
+                            view?.showData(receipts.map { ReceiptViewModel(it, false) })
                         },
                         {
                             error ->

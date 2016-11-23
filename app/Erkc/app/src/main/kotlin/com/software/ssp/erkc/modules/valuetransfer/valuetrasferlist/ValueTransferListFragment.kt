@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
@@ -12,7 +13,7 @@ import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
-class ValueTransferListFragment : BaseListFragment<RealmReceipt, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
+class ValueTransferListFragment : BaseListFragment<ReceiptViewModel>(), IValueTransferListView {
 
     @Inject lateinit var presenter: IValueTransferListPresenter
 
@@ -62,11 +63,15 @@ class ValueTransferListFragment : BaseListFragment<RealmReceipt, IValueTransferL
     }
 
     override fun receiptDidNotDeleted(receipt: RealmReceipt) {
-        adapter?.notifyItemChanged(dataset.indexOf(receipt))
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
+        dataset[receiptIndex].isRemovePending = false
+        adapter?.notifyItemChanged(receiptIndex)
     }
 
-    override fun receiptDeleted(receipt: RealmReceipt){
-        adapter?.notifyItemRemoved(dataset.indexOf(receipt))
+    override fun receiptDeleted(receipt: RealmReceipt) {
+        val receiptIndex = dataset.indexOfFirst { it.receipt == receipt }
+        dataset.removeAt(receiptIndex)
+        adapter?.notifyItemRemoved(receiptIndex)
     }
 
     override fun navigateToSendValues(receiptId: String) {
@@ -89,8 +94,14 @@ class ValueTransferListFragment : BaseListFragment<RealmReceipt, IValueTransferL
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ValueTransferAdapter(dataset,
-                { receipt -> presenter.onTransferValueClick(receipt) },
-                { receipt, position -> presenter.onReceiptDeleted(receipt) })
+                object : ValueTransferAdapter.InteractionListener {
+                    override fun transferClick(receipt: RealmReceipt) {
+                        presenter.onTransferValueClick(receipt)
+                    }
+
+                    override fun deleteClick(receipt: RealmReceipt) {
+                        presenter.onReceiptDeleted(receipt)
+                    }
+                })
     }
 }
-

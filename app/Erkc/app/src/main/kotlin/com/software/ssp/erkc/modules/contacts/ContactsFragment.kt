@@ -26,11 +26,9 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
 
     @Inject lateinit var presenter: IContactsPresenter
 
-    private val companyLatitude = 56.473696
-    private val companyLongitude = 84.973129
+    private val defaultLatitude = 56.473696
+    private val defaultLongitude = 84.973129
     private val mapCameraZoom = 16f
-    private val mapCameraAngle = 0f
-    private val mapCameraBearing = 0f
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -59,13 +57,13 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         map.uiSettings?.isCompassEnabled = false
 
-        val location = LatLng(companyLatitude, companyLongitude)
+        val location = LatLng(defaultLatitude, defaultLongitude)
 
         val marker = MarkerOptions()
         marker.position(location)
         marker.title(getString(com.software.ssp.erkc.R.string.contacts_map_marker_title))
 
-        val cameraPosition = CameraPosition(location, mapCameraZoom, mapCameraAngle, mapCameraBearing)
+        val cameraPosition = CameraPosition.fromLatLngZoom(location, mapCameraZoom)
 
         val cameraUpdatePosition = CameraUpdateFactory.newCameraPosition(cameraPosition)
 
@@ -84,15 +82,15 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         messageEditText.enabled = !isPending
     }
 
-    override fun showDidSentMessage() {
+    override fun didSentMessage() {
+        messageEditText.text.clear()
+
         val snack = Snackbar.make(view, R.string.contacts_email_send_dialog_message, Snackbar.LENGTH_LONG)
         val textView = snack.view.findViewById(android.support.design.R.id.snackbar_text) as TextView
         textView.setTextColor(Color.WHITE)
         snack.setAction(R.string.contacts_snack_bar_action_text, {})
         snack.setActionTextColor(Color.WHITE)
         snack.show()
-
-        messageEditText.text.clear()
     }
 
     override fun showMessageEmptyError(resId: Int) {

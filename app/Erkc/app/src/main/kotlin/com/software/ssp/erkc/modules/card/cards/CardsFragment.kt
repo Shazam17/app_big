@@ -20,7 +20,7 @@ import javax.inject.Inject
 /**
  * @author Alexander Popov on 28/10/2016.
  */
-class CardsFragment : BaseListFragment<Card, ICardsView, ICardsPresenter>(), ICardsView {
+class CardsFragment : BaseListFragment<Card>(), ICardsView {
 
     @Inject lateinit var presenter: ICardsPresenter
     private var progressDialog : Dialog?= null
