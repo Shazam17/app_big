@@ -2,25 +2,27 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 
 
-interface IReceiptListView : IListView<Receipt> {
+interface IReceiptListView : IListView<RealmReceipt> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
-    fun navigateToIPUInputScreen(receipt: Receipt)
-    fun navigateToPayScreen(receipt: Receipt)
-    fun navigateToHistoryScreen(receipt: Receipt)
-    fun receiptDidNotDeleted(receipt: Receipt)
-    fun receiptDeleted(receipt: Receipt)
-    fun navigateToAutoPaymentSettingScreen(receipt: Receipt)
+
+    fun navigateToIPUInputScreen(receiptId: String)
+    fun navigateToPayScreen(receiptId: String)
+    fun navigateToHistoryScreen(receiptId: String)
+    fun navigateToAutoPaymentSettingScreen(receiptId: String)
+
+    fun receiptDidNotDeleted(receipt: RealmReceipt)
+    fun receiptDeleted(receipt: RealmReceipt)
 }
 
-interface IReceiptListPresenter : IListPresenter<Receipt, IReceiptListView> {
-    fun onPayButtonClick(receipt: Receipt)
-    fun onTransferButtonClick(receipt: Receipt)
-    fun onHistoryButtonClick(receipt: Receipt)
-    fun onAutoPaymentButtonClick(receipt: Receipt)
-    fun onReceiptDeleted(receipt: Receipt)
+interface IReceiptListPresenter : IListPresenter<RealmReceipt, IReceiptListView> {
+    fun onPayButtonClick(receipt: RealmReceipt)
+    fun onTransferButtonClick(receipt: RealmReceipt)
+    fun onHistoryButtonClick(receipt: RealmReceipt)
+    fun onAutoPaymentButtonClick(receipt: RealmReceipt)
+    fun onReceiptDeleted(receipt: RealmReceipt)
     fun onAddReceiptButtonClick()
 }

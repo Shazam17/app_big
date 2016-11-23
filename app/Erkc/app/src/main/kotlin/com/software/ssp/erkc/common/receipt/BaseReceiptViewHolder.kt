@@ -3,15 +3,16 @@ package com.software.ssp.erkc.common.receipt
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.extensions.getCompatColor
+import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.textColor
 
 abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    open fun bindReceipt(receipt: Receipt) {
+    open fun bindReceipt(receipt: RealmReceipt) {
         with(itemView) {
 
             //section header
@@ -20,7 +21,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptName.text = receipt.name
             receiptBarcodeText.text = receipt.barcode
 
-            //receiptTypeImage.setImageResource(receipt.receiptType.getIconResId()) //TODO remade
+            receiptTypeImage.setImageResource(receipt.receiptType.getIconResId())
 
             val paymentText: String
 

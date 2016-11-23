@@ -2,20 +2,22 @@ package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 
 
-interface IValueTransferListView : IListView<Receipt> {
-    fun navigateToSendValues(receipt: Receipt)
+interface IValueTransferListView : IListView<RealmReceipt> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
-    fun receiptDidNotDeleted(receipt: Receipt)
-    fun receiptDeleted(receipt: Receipt)
+
+    fun navigateToSendValues(receiptId: String)
+
+    fun receiptDidNotDeleted(receipt: RealmReceipt)
+    fun receiptDeleted(receipt: RealmReceipt)
 }
 
-interface IValueTransferListPresenter : IListPresenter<Receipt, IValueTransferListView> {
-    fun onTransferValueClick(receipt: Receipt)
+interface IValueTransferListPresenter : IListPresenter<RealmReceipt, IValueTransferListView> {
+    fun onTransferValueClick(receipt: RealmReceipt)
     fun onAddNewValueTransferClick()
-    fun onReceiptDeleted(receipt: Receipt)
+    fun onReceiptDeleted(receipt: RealmReceipt)
 }
 

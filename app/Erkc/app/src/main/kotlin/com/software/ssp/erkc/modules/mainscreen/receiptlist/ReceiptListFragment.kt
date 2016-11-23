@@ -1,25 +1,16 @@
 package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.drawer.DrawerActivity
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
-import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
-import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
-class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
+class ReceiptListFragment : BaseListFragment<RealmReceipt, IReceiptListView, IReceiptListPresenter>(), IReceiptListView {
 
     @Inject lateinit var presenter: IReceiptListPresenter
 
@@ -68,11 +59,11 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
         presenter.onSwipeToRefresh()
     }
 
-    override fun receiptDidNotDeleted(receipt: Receipt) {
+    override fun receiptDidNotDeleted(receipt: RealmReceipt) {
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt) {
+    override fun receiptDeleted(receipt: RealmReceipt) {
         val receiptIndex = dataset.indexOf(receipt)
         dataset.removeAt(receiptIndex)
         adapter?.notifyItemRemoved(receiptIndex)
@@ -104,32 +95,23 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
                 .commit()
     }
 
-    override fun navigateToIPUInputScreen(receipt: Receipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
+    override fun navigateToIPUInputScreen(receiptId: String) {
+        //TODO: NavigateToEnterValues
+        showMessage("TODO: NavigateToSendValues - " + receiptId)
     }
 
-    override fun navigateToPayScreen(receipt: Receipt) {
-        startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
+    override fun navigateToPayScreen(receiptId: String) {
+        //TODO: NavigateToPayment
+        showMessage("TODO: NavigateToPayment - " + receiptId)
     }
 
-    override fun navigateToHistoryScreen(receipt: Receipt) {
+    override fun navigateToHistoryScreen(receiptId: String) {
         //TODO: NavigateToHistory
-        showMessage("TODO: NavigateToHistory - " + receipt.barcode)
+        showMessage("TODO: NavigateToHistory - " + receiptId)
     }
 
-    override fun navigateToAutoPaymentSettingScreen(receipt: Receipt) {
+    override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
         //TODO: NavigateToAutoPayment
-        showMessage("TODO: NavigateToAutoPayment - " + receipt.barcode)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                Constants.REQUEST_CODE_PAYMENT -> {
-                    (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
+        showMessage("TODO: NavigateToAutoPayment - " + receiptId)
     }
 }

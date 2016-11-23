@@ -3,19 +3,16 @@ package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
-import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
-class ValueTransferListFragment : BaseListFragment<Receipt, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
+class ValueTransferListFragment : BaseListFragment<RealmReceipt, IValueTransferListView, IValueTransferListPresenter>(), IValueTransferListView {
 
     @Inject lateinit var presenter: IValueTransferListPresenter
 
@@ -64,16 +61,17 @@ class ValueTransferListFragment : BaseListFragment<Receipt, IValueTransferListVi
         presenter.onSwipeToRefresh()
     }
 
-    override fun receiptDidNotDeleted(receipt: Receipt) {
+    override fun receiptDidNotDeleted(receipt: RealmReceipt) {
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt){
+    override fun receiptDeleted(receipt: RealmReceipt){
         adapter?.notifyItemRemoved(dataset.indexOf(receipt))
     }
 
-    override fun navigateToSendValues(receipt: Receipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
+    override fun navigateToSendValues(receiptId: String) {
+        //TODO: NavigateToEnterValues
+        showMessage("TODO: NavigateToSendValues - " + receiptId)
     }
 
     override fun navigateToAddReceiptScreen() {

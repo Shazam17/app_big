@@ -16,12 +16,10 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    private lateinit var login: String
     private lateinit var password: String
     private lateinit var offlineUserSettings: OfflineUserSettings
 
     override fun onViewAttached() {
-        login = activeSession.user!!.login
         fetchData()
     }
 
@@ -46,12 +44,14 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
 
     override fun onSaveButtonClick() {
         offlineUserSettings.password = password
-        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings).subscribe(
-                { isSuccess ->
+        subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
+                .subscribe(
+                {
                     view?.dismiss()
                 },
-                { throwable ->
-                    view?.showMessage(throwable.parsedMessage())
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
                     view?.dismiss()
                 })
     }
@@ -61,16 +61,20 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     }
 
     private fun fetchData() {
-        subscriptions += realmRepository.fetchOfflineSettings(login)
+        subscriptions += realmRepository.fetchCurrentUser()
                 .subscribe(
-                        { settings ->
-                            offlineUserSettings = settings
+                        {
+                            currentUser ->
+                            offlineUserSettings = currentUser.settings!!
 
                             // todo delete after testing
-                            Log.d("---", "offlineUserSettings password: ${offlineUserSettings.password} ");
-                            Log.d("---", "offlineUserSettings passwordHash: ${offlineUserSettings.passwordHash} ");
+                            Log.d("---", "offlineUserSettings password: ${offlineUserSettings.password} ")
+                            Log.d("---", "offlineUserSettings passwordHash: ${offlineUserSettings.passwordHash} ")
                         },
-                        { throwable -> view?.showMessage(throwable.parsedMessage()) }
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
                 )
     }
 }

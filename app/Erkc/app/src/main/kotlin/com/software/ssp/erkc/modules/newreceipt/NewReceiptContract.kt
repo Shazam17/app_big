@@ -11,6 +11,8 @@ interface INewReceiptView : IView {
 
     fun navigateToIPUInputScreen(receipt: Receipt)
     fun navigateToPayScreen(receipt: Receipt)
+    fun navigateToIPUInputScreen(receiptId: String)
+    fun navigateToPayScreen(receiptId: String)
 
     fun showBarcodeError(errorStringResId: Int)
     fun showStreetError(errorStringResId: Int)

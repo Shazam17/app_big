@@ -34,5 +34,4 @@ open class OfflineUserSettings(
     fun checkPassword(password: String): Boolean {
         return password.hashCode() == passwordHash
     }
-
 }

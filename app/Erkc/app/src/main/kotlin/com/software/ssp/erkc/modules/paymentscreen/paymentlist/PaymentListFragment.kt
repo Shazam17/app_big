@@ -1,24 +1,17 @@
 package com.software.ssp.erkc.modules.paymentscreen.paymentlist
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.drawer.DrawerActivity
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
-import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
-class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
+class PaymentListFragment : BaseListFragment<RealmReceipt, IPaymentListView, IPaymentListPresenter>(), IPaymentListView {
 
     @Inject lateinit var presenter: IPaymentListPresenter
 
@@ -63,11 +56,11 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
         return super.onOptionsItemSelected(item)
     }
 
-    override fun receiptDidNotDeleted(receipt: Receipt) {
+    override fun receiptDidNotDeleted(receipt: RealmReceipt) {
         adapter?.notifyItemChanged(dataset.indexOf(receipt))
     }
 
-    override fun receiptDeleted(receipt: Receipt){
+    override fun receiptDeleted(receipt: RealmReceipt){
         adapter?.notifyItemRemoved(dataset.indexOf(receipt))
     }
 
@@ -94,18 +87,8 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
                 .commit()
     }
 
-    override fun navigateToPayScreen(receipt: Receipt) {
-        startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                Constants.REQUEST_CODE_PAYMENT -> {
-                    (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun navigateToPayScreen(receiptId: String) {
+        //TODO: NavigateToPayment
+        showMessage("TODO: NavigateToPayment - " + receiptId)
     }
 }

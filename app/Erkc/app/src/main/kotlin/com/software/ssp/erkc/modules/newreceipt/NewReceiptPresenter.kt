@@ -5,6 +5,7 @@ import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.utils.getStreetFromShortAddress
@@ -17,6 +18,12 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepository: RealmRepository
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
 
     override fun onBarCodeScanButtonClick() {
         view?.navigateToBarCodeScanScreen()
@@ -34,16 +41,15 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
-                        { throwable ->
+                        { error ->
                             view?.showProgressVisible(false)
-                            if (throwable is ApiException && throwable.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
+                            if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showBarcodeError(R.string.api_error_unknown_barcode)
                             } else {
-                                view?.showMessage(throwable.parsedMessage())
+                                view?.showMessage(error.parsedMessage())
                             }
                         }
                 )
-
     }
 
     override fun onAddressSelected(address: String) {
@@ -60,37 +66,44 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.accessToken ?: activeSession.appToken!!, barcode, street, house, apartment)
                 .concatMap {
                     receipt ->
+
                     view?.showProgressVisible(false)
-                    if (isSendValue) {
-                        view?.navigateToIPUInputScreen(receipt)
+
+                    if (activeSession.accessToken != null) {
+                        if (isSendValue) {
+                            view?.navigateToIPUInputScreen(receipt.id)
+                        } else {
+                            view?.navigateToPayScreen(receipt.id)
+                        }
+
+                        realmRepository.saveReceipt(receipt)
+
                     } else {
-                        view?.navigateToPayScreen(receipt)
-                    }
-                    if (activeSession.user != null) {
-                        receiptsRepository.fetchReceipts(activeSession.accessToken!!)
-                    } else {
-                        Observable.just(null)
+                        if (isSendValue) {
+                            view?.navigateToIPUInputScreen(receipt)
+                        } else {
+                            view?.navigateToPayScreen(receipt)
+                        }
+
+                        Observable.empty()
                     }
                 }
                 .subscribe(
-                        { receipts ->
-                            activeSession.cachedReceipts = receipts
-                        },
-                        { throwable ->
+                        { },
+                        { error ->
                             view?.showProgressVisible(false)
-                            if (throwable is ApiException) {
-                                when (throwable.errorCode) {
+                            if (error is ApiException) {
+                                when (error.errorCode) {
                                     ApiErrorType.UNKNOWN_BARCODE -> view?.showBarcodeError(R.string.api_error_unknown_barcode)
                                     ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
-                                    else -> view?.showMessage(throwable.parsedMessage())
+                                    else -> view?.showMessage(error.parsedMessage())
                                 }
                             } else {
-                                view?.showMessage(throwable.parsedMessage())
+                                view?.showMessage(error.parsedMessage())
                             }
                         }
                 )
     }
-
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
         var isValid = true
