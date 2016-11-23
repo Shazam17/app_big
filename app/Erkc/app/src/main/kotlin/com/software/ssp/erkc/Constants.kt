@@ -9,22 +9,16 @@ object Constants {
     const val API_OAUTH_RESPONSE_TYPE = "token"
     const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
 
-    //TODO CHECK IT OUT
     const val PERIOD_DATE_FORMAT_API = "yyyyMM"
     const val PERIOD_DATE_FORMAT_UI = "MMM yyyy"
 
     // Request codes
-    const val REQUEST_CODE_BARCODE_SCAN = 12401
-    const val REQUEST_CODE_ADDRESS_FIND = 12402
     const val REQUEST_CODE_PAYMENT = 12403
 
     // Keys
-    const val KEY_SCAN_RESULT = "KEY_SCAN_RESULT"
-    const val KEY_CACHE_ADDRESSES_DATE = "cache_addresses_date"
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
     const val KEY_URL = "url_key"
     const val KEY_URL_ACTIVITY_TITLE = "url_activity_title_key"
-    const val KEY_ADDRESS_FIND_RESULT = "KEY_ADDRESS_FIND_RESULT"
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
 

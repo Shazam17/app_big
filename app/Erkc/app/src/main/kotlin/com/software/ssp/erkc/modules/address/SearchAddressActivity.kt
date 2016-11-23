@@ -5,14 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.db.StreetCache
+import com.software.ssp.erkc.data.realm.models.RealmStreet
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_search_address.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.textChangedListener
 import javax.inject.Inject
 
 /**
@@ -31,21 +30,20 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_address)
         initViews()
+        presenter.onViewAttached()
     }
 
-    override fun navigateToDrawer(street: StreetCache) {
+    override fun setResult(street: RealmStreet) {
         val intent = Intent()
         intent.putExtra(SEARCH_ADDRESS_RESULT_KEY, street.name)
         setResult(Activity.RESULT_OK, intent)
+    }
+
+    override fun close() {
         finish()
     }
 
-    override fun navigateToDrawer() {
-        finish()
-    }
-
-    override fun showData(streets: List<StreetCache>) {
-        4
+    override fun showData(streets: List<RealmStreet>) {
         mSearchAdapter?.swapData(streets)
     }
 
@@ -62,25 +60,20 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
     }
 
     fun initViews() {
-        searchAddressQuery.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                presenter.onQuery(p0.toString())
-            }
+        searchAddressQuery.textChangedListener {
+            afterTextChanged { text -> presenter.onQuery(text.toString()) }
+        }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
         searchAddressBack.onClick {
             presenter.onBackClick()
         }
+
         mSearchAdapter = SearchAddressListAdapter({
             address ->
             presenter.onItemSelected(address)
 
         })
+
         recyclerView.adapter = mSearchAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

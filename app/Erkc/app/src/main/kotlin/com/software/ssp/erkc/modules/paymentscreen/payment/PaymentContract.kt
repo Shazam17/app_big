@@ -10,7 +10,7 @@ import com.software.ssp.erkc.data.rest.models.User
  * @author Alexander Popov on 10/11/2016.
  */
 interface IPaymentView : IView {
-    fun navigateToDrawer()
+    fun close()
     fun navigateToResult(url: String)
     fun showConfirmDialog(commission: String, amount: String, email: String)
     fun showNotificationsDialog()

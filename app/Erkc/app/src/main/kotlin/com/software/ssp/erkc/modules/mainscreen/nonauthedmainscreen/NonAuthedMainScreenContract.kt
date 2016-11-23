@@ -27,4 +27,3 @@ interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
     fun onStreetSelected(address: String)
     fun onAddressClick()
 }
-

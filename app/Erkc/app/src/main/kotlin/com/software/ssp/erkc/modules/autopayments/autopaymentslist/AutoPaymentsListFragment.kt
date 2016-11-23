@@ -11,7 +11,7 @@ import org.jetbrains.anko.alert
 import javax.inject.Inject
 
 
-class AutoPaymentsListFragment : BaseListFragment<Receipt, IAutoPaymentsListView, IAutoPaymentsListPresenter>(), IAutoPaymentsListView {
+class AutoPaymentsListFragment : BaseListFragment<Receipt>(), IAutoPaymentsListView {
 
     @Inject lateinit var presenter: IAutoPaymentsListPresenter
 

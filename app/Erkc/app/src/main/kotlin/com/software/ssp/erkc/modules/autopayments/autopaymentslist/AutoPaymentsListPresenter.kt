@@ -22,9 +22,6 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
         view?.showData(activeSession.cachedReceipts?.filter { it.autoPayMode == 0 } ?: emptyList())
     }
 
-    override fun onItemClick(item: Receipt) {
-    }
-
     override fun onDeleteButtonClick(receipt: Receipt) {
         view?.showConfirmDeleteDialog(receipt)
     }

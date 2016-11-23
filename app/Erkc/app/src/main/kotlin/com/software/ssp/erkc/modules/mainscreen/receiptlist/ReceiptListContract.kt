@@ -10,8 +10,8 @@ interface IReceiptListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
 
-    fun navigateToIPUInputScreen(receiptId: String)
-    fun navigateToPayScreen(receiptId: String)
+    fun navigateToIPUInputScreen(receipt: RealmReceipt)
+    fun navigateToPayScreen(receipt: RealmReceipt)
     fun navigateToHistoryScreen(receiptId: String)
     fun navigateToAutoPaymentSettingScreen(receiptId: String)
 

@@ -10,7 +10,7 @@ interface IPaymentListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
 
-    fun navigateToPayScreen(receiptId: String)
+    fun navigateToPayScreen(receipt: RealmReceipt)
 
     fun receiptDidNotDeleted(receipt: RealmReceipt)
     fun receiptDeleted(receipt: RealmReceipt)

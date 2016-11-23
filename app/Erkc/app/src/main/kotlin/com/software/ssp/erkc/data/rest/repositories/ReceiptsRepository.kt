@@ -29,15 +29,14 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<List<Receipt>>())
     }
 
-    fun deleteReceipt(token: String, receiptId: String): Observable<Receipt> {
+    fun deleteReceipt(token: String, receiptId: String): Observable<ApiResponse> {
         val params = hashMapOf(
                 "token" to token,
                 "id" to receiptId)
 
         return receiptsDataSource
-                .fetchReceiptInfo(params)
-                .compose(this.applySchedulers<Receipt>())
-
+                .deleteReceipt(params)
+                .compose(this.applySchedulers<ApiResponse>())
     }
 
     fun updateReceipt(token: String, receiptId: String): Observable<ApiResponse> {

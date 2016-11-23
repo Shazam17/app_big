@@ -5,6 +5,7 @@ import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.extensions.getCompatColor
+import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.textColor

@@ -7,12 +7,12 @@ import javax.inject.Inject
 
 class PaymentRepository @Inject constructor(private val paymentDataSource: PaymentDataSource) : Repository() {
 
-    fun init(token: String, code: String, method: Int, summ: Float, email: String, cardId: String?): Observable<PaymentInit> {
+    fun init(token: String, code: String, method: Int, summ: String, email: String, cardId: String?): Observable<PaymentInit> {
         val params = hashMapOf(
                 "token" to token,
                 "code" to code,
                 "method_id" to method.toString(),
-                "summ" to summ.toString(),
+                "summ" to summ,
                 "email" to email
         )
         if (cardId != null) {

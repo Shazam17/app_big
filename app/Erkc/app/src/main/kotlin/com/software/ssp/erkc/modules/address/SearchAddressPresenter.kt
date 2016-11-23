@@ -1,7 +1,7 @@
 package com.software.ssp.erkc.modules.address
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.db.StreetCache
+import com.software.ssp.erkc.data.realm.models.RealmStreet
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -13,8 +13,13 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
 
     @Inject lateinit var realmRepo: RealmRepository
 
-    override fun onItemSelected(street: StreetCache) {
-        view?.navigateToDrawer(street)
+    override fun onViewAttached() {
+        onQuery("")
+    }
+
+    override fun onItemSelected(street: RealmStreet) {
+        view?.setResult(street)
+        view?.close()
     }
 
     override fun onQuery(query: String) {
@@ -31,6 +36,6 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     }
 
     override fun onBackClick() {
-        view?.navigateToDrawer()
+        view?.close()
     }
 }

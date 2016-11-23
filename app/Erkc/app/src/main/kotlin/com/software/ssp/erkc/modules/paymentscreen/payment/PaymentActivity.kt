@@ -41,30 +41,40 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
+
         receipt = intent.getParcelableExtra<Receipt>(Constants.KEY_RECEIPT)
+
         initViews()
         presenter.onViewAttached(receipt!!)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    override fun resolveDependencies(appComponent: AppComponent) {
+        DaggerPaymentComponent.builder()
+                .appComponent(appComponent)
+                .paymentModule(PaymentModule(this))
+                .build()
+                .inject(this)
+    }
+
+    override fun onDestroy() {
+        progressDialog?.dismiss()
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return true
     }
 
-    override fun navigateToDrawer() {
-        finish()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
-    override fun onDestroy() {
-        progressDialog?.dismiss()
-        super.onDestroy()
+    override fun close() {
+        finish()
     }
 
     override fun navigateToResult(url: String) {
@@ -101,14 +111,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     override fun fillAmountAndCommission(commission: String, sum: String) {
         paymentCommission.text = commission
         paymentAmount.text = sum
-    }
-
-    override fun resolveDependencies(appComponent: AppComponent) {
-        DaggerPaymentComponent.builder()
-                .appComponent(appComponent)
-                .paymentModule(PaymentModule(this))
-                .build()
-                .inject(this)
     }
 
     override fun showSumError(errorRes: Int) {

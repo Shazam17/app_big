@@ -69,12 +69,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String) {
         view?.setProgressVisibility(true)
-        val summ = sum.removeSuffix(" р.").toFloat()
+        val summ = sum.removeSuffix(" р.")
         subscriptions += paymentRepository.init(
                 activeSession.accessToken ?: activeSession.appToken!!,
                 receipt.barcode,
                 if (card == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
-                summ,
+                summ.replace(',','.'),
                 email,
                 card?.id)
                 .subscribe({
@@ -104,12 +104,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                         email)
             } else {
                 view?.setProgressVisibility(true)
-                val summ = "%.2f".format(sum.toDouble() + sum.toDouble() / 10).toFloat()
+                val summ = "%.2f".format(sum.toDouble() + sum.toDouble() / 10)
                 subscriptions += paymentRepository.init(
                         activeSession.accessToken ?: activeSession.appToken!!,
                         receipt.barcode,
                         PaymentMethod.DEFAULT.ordinal,
-                        summ,
+                        summ.replace(',','.'),
                         email,
                         null)
                         .subscribe({
@@ -120,7 +120,6 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.setProgressVisibility(false)
                             view?.showMessage(error.message!!)
                         })
-
             }
         }
     }

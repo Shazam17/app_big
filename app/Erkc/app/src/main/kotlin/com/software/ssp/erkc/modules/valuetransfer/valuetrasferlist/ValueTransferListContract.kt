@@ -10,7 +10,7 @@ interface IValueTransferListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
 
-    fun navigateToSendValues(receiptId: String)
+    fun navigateToSendValues(receipt: RealmReceipt)
 
     fun receiptDidNotDeleted(receipt: RealmReceipt)
     fun receiptDeleted(receipt: RealmReceipt)

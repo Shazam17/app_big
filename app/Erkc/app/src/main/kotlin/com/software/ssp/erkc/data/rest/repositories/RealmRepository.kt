@@ -2,80 +2,37 @@ package com.software.ssp.erkc.data.rest.repositories
 
 
 import com.software.ssp.erkc.AppPrefs
-import com.software.ssp.erkc.data.db.AddressCache
-import com.software.ssp.erkc.data.db.StreetCache
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
-import com.software.ssp.erkc.data.realm.models.RealmCard
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.realm.models.RealmUser
-import com.software.ssp.erkc.data.rest.models.Address
+import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.Streets
 import com.software.ssp.erkc.data.rest.models.User
 import io.realm.Realm
-import io.realm.RealmResults
 import rx.Observable
 import java.util.*
 import javax.inject.Inject
 
-/**
- * @author Alexander Popov on 31/10/2016.
- */
 
 class RealmRepository @Inject constructor(private val realm: Realm) : Repository() {
 
-    fun getAllAddresses(): Observable<RealmResults<AddressCache>> {
-        val results = realm
-                .where(AddressCache::class.java)
-                .findAllAsync()
-                .asObservable()
-        return results
+    fun close() {
+        realm.close()
     }
 
-
-    fun getAllStreets(): Observable<RealmResults<StreetCache>> {
-        val results = realm
-                .where(StreetCache::class.java)
-                .findAllAsync()
-                .asObservable()
-        return results
-    }
-
-    fun getAllAddressesByQuery(query: String): Observable<RealmResults<AddressCache>> {
-        val results = realm
-                .where(AddressCache::class.java)
+    fun getAllStreetsByQuery(query: String): Observable<List<RealmStreet>> {
+        return realm
+                .where(RealmStreet::class.java)
                 .contains("query", query.toLowerCase())
                 .findAllAsync()
                 .asObservable()
-        return results
-    }
-
-    fun getAllStreetsByQuery(query: String): Observable<RealmResults<StreetCache>> {
-        val results = realm
-                .where(StreetCache::class.java)
-                .contains("query", query.toLowerCase())
-                .findAllAsync()
-                .asObservable()
-                .filter { results ->
-                    results.isLoaded
+                .filter { it.isLoaded }
+                .first()
+                .flatMap { results ->
+                    Observable.just(realm.copyFromRealm(results))
                 }
-        return results
-    }
-
-    fun saveAddressesList(addresses: List<Address>) {
-        val cacheAddresses = arrayListOf<AddressCache>()
-        for ((id, name) in addresses) {
-            cacheAddresses.add(AddressCache(id, name, name.toLowerCase()))
-        }
-        realm.executeTransaction {
-            realm.deleteAll()
-            realm.copyToRealm(cacheAddresses)
-        }
-        AppPrefs.lastCashingDate = Date().time
     }
 
     fun saveStreetList(streets: Streets) {
-        val cacheStreets = streets.street.map { StreetCache(it, it.toLowerCase()) }
+        val cacheStreets = streets.street.map { RealmStreet(it, it.toLowerCase()) }
         realm.executeTransaction {
             realm.deleteAll()
             realm.copyToRealm(cacheStreets)
@@ -83,8 +40,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         AppPrefs.lastCashingDate = Date().time
     }
 
-    fun close() {
-        realm.close()
+    fun streetsLoaded(): Boolean {
+        return realm.where(RealmStreet::class.java).count() > 0
     }
 
     fun updateOfflineSettings(userSettings: OfflineUserSettings): Observable<Boolean> {
@@ -100,10 +57,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
-    }
-
-    fun streetsLoaded(): Boolean {
-        return realm.where(StreetCache::class.java).count() > 0
     }
 
     fun fetchUser(user: User): Observable<RealmUser> {
@@ -189,7 +142,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap { currentUser ->
                     val realmReceipt = RealmReceipt(
-                            receipt.id,
+                            receipt.id!!,
                             receipt.street,
                             receipt.house,
                             receipt.apart,
