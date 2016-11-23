@@ -1,14 +1,12 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 
-import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.Streets
 import com.software.ssp.erkc.data.rest.models.User
 import io.realm.Realm
 import rx.Observable
-import java.util.*
 import javax.inject.Inject
 
 
@@ -18,7 +16,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         realm.close()
     }
 
-    fun getAllStreetsByQuery(query: String): Observable<List<RealmStreet>> {
+    fun fetchStreets(query: String = ""): Observable<List<RealmStreet>> {
         return realm
                 .where(RealmStreet::class.java)
                 .contains("query", query.toLowerCase())
@@ -31,13 +29,21 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun saveStreetList(streets: Streets) {
-        val cacheStreets = streets.street.map { RealmStreet(it, it.toLowerCase()) }
-        realm.executeTransaction {
-            realm.deleteAll()
-            realm.copyToRealm(cacheStreets)
+    fun saveStreetList(streets: Streets): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.delete(RealmStreet::class.java)
+                        it.copyToRealm(streets.street.map { RealmStreet(it, it.toLowerCase()) })
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
         }
-        AppPrefs.lastCashingDate = Date().time
     }
 
     fun streetsLoaded(): Boolean {

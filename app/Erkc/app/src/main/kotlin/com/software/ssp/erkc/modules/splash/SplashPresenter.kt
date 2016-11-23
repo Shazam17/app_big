@@ -10,6 +10,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -17,7 +18,7 @@ import javax.inject.Inject
  */
 class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISplashView>(view), ISplashPresenter {
 
-    @Inject lateinit var dictionaryRepo: DictionaryRepository
+    @Inject lateinit var dictionaryRepository: DictionaryRepository
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
@@ -41,15 +42,23 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     }
                     activeSession.appToken = appToken
                     if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepository.streetsLoaded()) {
-                        dictionaryRepo.fetchStreets(activeSession.appToken!!)
+                        dictionaryRepository.fetchStreets(activeSession.appToken!!)
                     } else {
                         Observable.just(null)
                     }
                 }
-                .subscribe({
+                .concatMap {
                     streets ->
                     if (streets != null) {
                         realmRepository.saveStreetList(streets)
+                    } else {
+                        Observable.just(false)
+                    }
+                }
+                .subscribe({
+                    isCashed ->
+                    if (isCashed) {
+                        AppPrefs.lastCashingDate = Date().time
                     }
                     view?.navigateToDrawer()
                 }, {

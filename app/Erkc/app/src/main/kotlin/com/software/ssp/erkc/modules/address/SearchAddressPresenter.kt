@@ -14,7 +14,7 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     @Inject lateinit var realmRepo: RealmRepository
 
     override fun onViewAttached() {
-        onQuery("")
+        showAllStreets()
     }
 
     override fun onItemSelected(street: RealmStreet) {
@@ -23,7 +23,7 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     }
 
     override fun onQuery(query: String) {
-        subscriptions += realmRepo.getAllStreetsByQuery(query)
+        subscriptions += realmRepo.fetchStreets(query)
                 .subscribe({
                     streets ->
                     view?.showData(streets)
@@ -37,5 +37,13 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
 
     override fun onBackClick() {
         view?.close()
+    }
+
+    private fun showAllStreets() {
+        subscriptions += realmRepo.fetchStreets()
+                .subscribe({
+                    streets ->
+                    view?.showData(streets)
+                })
     }
 }
