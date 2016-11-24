@@ -15,6 +15,9 @@ interface CardsDataSource {
     @GET("?method=cards.get")
     fun fetchCards(@Query("token") token: String): Observable<List<Card>>
 
+    @GET("?method=cards.get")
+    fun fetchCard(@Query("token") token: String, @Query("id") id: String): Observable<Card>
+
     @POST("?method=cards.delete")
     @FormUrlEncoded
     fun deleteCard(@Field("token") token: String, @Field("id") id: String): Observable<ResponseBody>

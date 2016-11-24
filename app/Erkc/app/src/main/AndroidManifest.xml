@@ -46,10 +46,12 @@
             android:name=".modules.signup.SignUpActivity"
             android:theme="@style/AppTheme.Dark"
             android:label="@string/sign_up_registration"/>
+
         <activity
             android:name="com.software.ssp.erkc.modules.card.addcard.AddCardActivity"
             android:theme="@style/AppTheme.Light"
             android:label="@string/add_card_title"/>
+
         <activity
             android:name="com.software.ssp.erkc.modules.card.editcard.EditCardActivity"
             android:theme="@style/AppTheme.Light"
@@ -71,7 +73,7 @@
             android:label="@string/search_addresses_title"/>
 
         <activity
-            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"/>
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity" />
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"

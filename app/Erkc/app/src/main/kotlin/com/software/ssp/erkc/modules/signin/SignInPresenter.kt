@@ -4,10 +4,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.repositories.AccountRepository
-import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -21,6 +18,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var cardsRepository: CardsRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -40,10 +38,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         super.onViewDetached()
         realmRepository.close()
     }
-
-    // ===========================================================
-    // Methods
-    // ===========================================================
 
     private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
@@ -78,6 +72,13 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     realmUser ->
                     realmRepository.setCurrentUser(realmUser)
+                }
+                .concatMap {
+                    cardsRepository.fetchCards(activeSession.accessToken!!)
+                }
+                .concatMap {
+                    cards ->
+                    realmRepository.saveCardsList(cards)
                 }
                 .concatMap {
                     receiptsRepository.fetchReceipts(activeSession.accessToken!!)

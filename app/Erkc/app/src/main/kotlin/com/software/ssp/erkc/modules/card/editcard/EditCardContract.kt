@@ -8,8 +8,8 @@ import com.software.ssp.erkc.data.rest.models.Card
  * @author Alexander Popov on 08/11/2016.
  */
 interface IEditCardView : IView {
-    fun navigateToDrawer()
-    fun setLoadingVisible(isVisible: Boolean)
+    fun close()
+    fun setPending(isPending: Boolean)
 }
 
 interface IEditCardPresenter : IPresenter<IEditCardView> {

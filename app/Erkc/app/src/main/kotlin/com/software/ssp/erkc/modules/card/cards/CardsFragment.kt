@@ -1,29 +1,27 @@
 package com.software.ssp.erkc.modules.card.cards
 
-import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
+import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
  * @author Alexander Popov on 28/10/2016.
  */
-class CardsFragment : BaseListFragment<Card>(), ICardsView {
+class CardsFragment : BaseListFragment<CardViewModel>(), ICardsView {
 
     @Inject lateinit var presenter: ICardsPresenter
-    private var progressDialog : Dialog?= null
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerCardsComponent.builder()
@@ -41,10 +39,15 @@ class CardsFragment : BaseListFragment<Card>(), ICardsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+    }
+
+    override fun onResume() {
+        super.onResume()
         presenter.onViewAttached()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.cards_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -53,16 +56,13 @@ class CardsFragment : BaseListFragment<Card>(), ICardsView {
         when (item.itemId) {
             R.id.card_menu_add -> {
                 presenter.onAddClick()
-                return true
             }
             R.id.card_menu_help -> {
                 presenter.onHelpClick()
-                return true
             }
-            else ->
-                return super.onOptionsItemSelected(item)
-
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     override fun onSwipeToRefresh() {
@@ -70,30 +70,40 @@ class CardsFragment : BaseListFragment<Card>(), ICardsView {
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        val adapter = CardsAdapter(dataset, object : CardsAdapter.CardAdapterInteractionListener {
-            override fun itemEditClick(card: Card) {
+        return CardsAdapter(dataset, object : CardsAdapter.InteractionListener {
+            override fun itemEditClick(card: RealmCard) {
                 presenter.onEditClick(card)
             }
 
-            override fun itemByStatusClick(card: Card) {
-                presenter.onByStatusClick(card)
+            override fun itemByStatusClick(card: RealmCard) {
+                presenter.onStatusClick(card)
             }
 
-            override fun itemDeleteClick(card: Card) {
+            override fun itemDeleteClick(card: RealmCard) {
                 presenter.onDeleteClick(card)
             }
-
         })
-        return adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onViewAttached()
+    override fun cardDidNotDeleted(card: RealmCard) {
+        val cardIndex = dataset.indexOfFirst { it.card == card }
+        dataset[cardIndex].isDeletePending = false
+        adapter?.notifyItemChanged(cardIndex)
+    }
+
+    override fun cardDeleted(card: RealmCard) {
+        val cardIndex = dataset.indexOfFirst { it.card == card }
+        dataset.removeAt(cardIndex)
+        adapter?.notifyItemRemoved(cardIndex)
+    }
+
+    override fun setCardPending(card: RealmCard, isPending: Boolean) {
+        val cardIndex = dataset.indexOfFirst { it.card == card }
+        dataset[cardIndex].isRequestPending = isPending
+        adapter?.notifyItemChanged(cardIndex)
     }
 
     override fun beforeDestroy() {
-        progressDialog?.dismiss()
         presenter.dropView()
     }
 
@@ -115,13 +125,5 @@ class CardsFragment : BaseListFragment<Card>(), ICardsView {
 
     override fun navigateToBankSite(url: String) {
         startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
-    }
-
-    override fun setProgressVisibility(isVisible: Boolean) {
-        if (progressDialog== null) {
-            progressDialog = indeterminateProgressDialog(R.string.data_loading)
-            progressDialog!!.setCanceledOnTouchOutside(false)
-        }
-        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
     }
 }

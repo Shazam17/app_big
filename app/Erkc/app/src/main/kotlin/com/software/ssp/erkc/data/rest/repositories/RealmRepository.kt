@@ -2,6 +2,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 
 import com.software.ssp.erkc.data.realm.models.*
+import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.Streets
 import com.software.ssp.erkc.data.rest.models.User
@@ -255,5 +256,98 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
+    }
+
+    fun saveCardsList(cards: List<Card>): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val cachedCards = arrayListOf<RealmCard>()
+                    cards.mapTo(cachedCards) {
+                        RealmCard(
+                                it.id,
+                                it.name,
+                                it.statusId,
+                                it.remoteCardId,
+                                it.maskCardNo,
+                                it.statusStr)
+                    }
+
+                    currentUser.cards.clear()
+                    currentUser.cards.addAll(cachedCards)
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(cachedCards)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun removeCard(card: RealmCard): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmCard::class.java)
+                                .equalTo("id", card.id)
+                                .findFirst()
+                                .deleteFromRealm()
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun fetchCardsList(): Observable<List<RealmCard>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.cards)
+                }
+    }
+
+    fun saveCard(card: Card): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val realmCard = RealmCard(
+                            card.id,
+                            card.name,
+                            card.statusId,
+                            card.remoteCardId,
+                            card.maskCardNo,
+                            card.statusStr)
+
+                    if (currentUser.cards.find { it.id == card.id } == null) {
+                        currentUser.cards.add(realmCard)
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(realmCard)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
     }
 }

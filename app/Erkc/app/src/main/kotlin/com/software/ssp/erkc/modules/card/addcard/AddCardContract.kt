@@ -8,9 +8,10 @@ import com.software.ssp.erkc.common.mvp.IView
  */
 interface IAddCardView : IView {
     fun navigateToUrl(url: String)
-    fun navigateToCards()
+    fun close()
+    fun setPending(isPending: Boolean)
 }
 
 interface IAddCardPresenter : IPresenter<IAddCardView> {
-    fun onNameConfirm(name: String)
+    fun onCreateCardClick(name: String)
 }

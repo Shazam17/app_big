@@ -4,29 +4,39 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
-/**
- * @author Alexander Popov on 08/11/2016.
- */
+
 class EditCardPresenter @Inject constructor(view: IEditCardView) : RxPresenter<IEditCardView>(view), IEditCardPresenter {
 
     @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var cardsRepo: CardsRepository
+    @Inject lateinit var cardsRepository: CardsRepository
+    @Inject lateinit var realmRepository: RealmRepository
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
 
     override fun onSaveClick(card: Card, cardName: String) {
-        view?.setLoadingVisible(true)
-        subscriptions += cardsRepo.updateCard(activeSession.accessToken!!, card.id, cardName)
+        view?.setPending(true)
+        subscriptions += cardsRepository.updateCard(activeSession.accessToken!!, card.id, cardName)
+                .concatMap {
+                    cardsRepository.fetchCard(activeSession.accessToken!!, card.id)
+                }
+                .concatMap {
+                    card ->
+                    realmRepository.saveCard(card)
+                }
                 .subscribe({
-                    response ->
-                    view?.setLoadingVisible(false)
-                    view?.navigateToDrawer()
+                    view?.setPending(false)
+                    view?.close()
                 }, {
                     error ->
-                    view?.setLoadingVisible(false)
+                    view?.setPending(false)
                     view?.showMessage(error.message!!)
                 })
     }
-
 }

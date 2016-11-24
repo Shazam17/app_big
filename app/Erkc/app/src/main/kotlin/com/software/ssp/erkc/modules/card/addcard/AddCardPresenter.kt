@@ -3,35 +3,50 @@ package com.software.ssp.erkc.modules.card.addcard
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.CardsRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
-/**
- * @author Alexander Popov on 01/11/2016.
- */
+
 class AddCardPresenter @Inject constructor(view: IAddCardView) : RxPresenter<IAddCardView>(view), IAddCardPresenter {
 
     @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var cardsRepo: CardsRepository
+    @Inject lateinit var cardsRepository: CardsRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
-    override fun onNameConfirm(name: String) {
-        subscriptions += cardsRepo
+    private var cardId: String = ""
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
+
+    override fun onCreateCardClick(name: String) {
+        view?.setPending(true)
+        subscriptions += cardsRepository
                 .addCard(activeSession.accessToken!!, name)
                 .concatMap {
                     card ->
-                    cardsRepo.registrateCard(activeSession.accessToken!!, card!!.id)
+                    cardsRepository.fetchCard(activeSession.accessToken!!, card!!.id)
+                }
+                .concatMap {
+                    card ->
+                    cardId = card.id
+                    realmRepository.saveCard(card)
+                }
+                .concatMap {
+                    cardsRepository.registrateCard(activeSession.accessToken!!, cardId)
                 }
                 .subscribe({
                     cardReg ->
+                    view?.setPending(false)
                     view?.navigateToUrl(cardReg!!.url)
                 }, {
                     error ->
-                    view?.showMessage(error.message!!)
-                    //уходим на список карточек.
-                    // т.к. мы могли ее добавить,
-                    // но не зарегистировать и она там будет доступна
-                    view?.navigateToCards()
+                    view?.setPending(false)
+                    view?.showMessage(error.parsedMessage())
+                    view?.close()
                 })
     }
-
 }

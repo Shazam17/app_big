@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="145dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/quarter_default_margin"
     android:layout_marginLeft="@dimen/half_default_margin"
     android:layout_marginRight="@dimen/half_default_margin"
@@ -29,49 +29,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                tools:text="Карта 2"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                tools:text="Зарплатная карта" />
 
             <TextView
                 android:id="@+id/cardListItemNoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/default_margin"
-                tools:text="45** **** **** **78"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                tools:text="45** **** **** **78" />
 
             <View
+                android:id="@+id/cardDivider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:id="@+id/cardDivider"
                 android:background="@color/colorCardDividerNotActivated" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginLeft="@dimen/default_margin"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/cardListItemStatusTextView"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorCardStatus"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:textStyle="bold"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    tools:text="Зарегестрировать"/>
 
                 <ImageView
                     android:id="@+id/cardListItemEditImageView"
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/half_default_margin"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/half_default_margin"
                     android:src="@drawable/ic_edit_grey" />
+
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/cardRequestProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:indeterminate="true" />
+
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/deleteLayout"
             android:layout_width="60dp"
             android:layout_height="match_parent"
@@ -83,14 +99,20 @@
             app:sticky="60dp">
 
             <ImageButton
-                android:id="@+id/cardListItemDeleteImageButton"
+                android:id="@+id/deleteButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_delete_white" />
-        </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/deleteProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </ru.rambler.libs.swipe_layout.SwipeLayout>
-
 </android.support.v7.widget.CardView>

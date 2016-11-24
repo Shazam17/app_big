@@ -18,6 +18,10 @@ class CardsRepository @Inject constructor(private val cardsDataSource: CardsData
         return cardsDataSource.fetchCards(token).compose(this.applySchedulers<List<Card>>())
     }
 
+    fun fetchCard(token: String, id: String): Observable<Card> {
+        return cardsDataSource.fetchCard(token, id).compose(this.applySchedulers<Card>())
+    }
+
     fun addCard(token: String, name: String): Observable<Card> {
         return cardsDataSource.add(token, name).compose(this.applySchedulers<Card>())
     }

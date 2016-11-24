@@ -1,35 +1,32 @@
 package com.software.ssp.erkc.modules.card.editcard
 
-import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.di.AppComponent
-import kotlinx.android.synthetic.main.cardname_layout.*
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.onKey
+import kotlinx.android.synthetic.main.activity_add_card.*
+import org.jetbrains.anko.enabled
+import org.jetbrains.anko.onEditorAction
 import javax.inject.Inject
 
-/**
- * @author Alexander Popov on 08/11/2016.
- */
+
 class EditCardActivity : MvpActivity(), IEditCardView {
 
     @Inject lateinit var presenter: IEditCardPresenter
     private var card: Card? = null
-    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cardname_layout)
+        setContentView(R.layout.activity_add_card)
         card = intent.getParcelableExtra<Card>(Constants.KEY_SELECTED_CARD_ITEM)
         initViews()
+        presenter.onViewAttached()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -40,7 +37,7 @@ class EditCardActivity : MvpActivity(), IEditCardView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         return true
     }
 
@@ -56,31 +53,28 @@ class EditCardActivity : MvpActivity(), IEditCardView {
         presenter.dropView()
     }
 
-    override fun navigateToDrawer() {
+    override fun close() {
         finish()
     }
 
-    override fun setLoadingVisible(isVisible: Boolean) {
-        if (progressDialog == null) {
-            progressDialog = indeterminateProgressDialog(R.string.data_loading)
-        }
-        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
+    override fun setPending(isPending: Boolean) {
+        progressBar.visibility = if(isPending) View.VISIBLE else View.GONE
+        addCardNameEditText.enabled = !isPending
     }
-
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         addCardNameEditText.setText(card!!.name)
-        addCardNameEditText.onKey { view, i, keyEvent ->
-            if ((keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)
-                    && keyEvent?.action == KeyEvent.ACTION_UP) {
+
+        addCardNameEditText.onEditorAction { textView, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE) {
                 presenter.onSaveClick(card!!, addCardNameEditText.text.toString())
+                true
+            } else {
+                false
             }
-            return@onKey false
         }
     }
-
-
 }

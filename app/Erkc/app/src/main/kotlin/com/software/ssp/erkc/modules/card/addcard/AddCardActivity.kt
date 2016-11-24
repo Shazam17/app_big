@@ -1,17 +1,18 @@
 package com.software.ssp.erkc.modules.card.addcard
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
-import kotlinx.android.synthetic.main.cardname_layout.*
-import org.jetbrains.anko.onKey
+import kotlinx.android.synthetic.main.activity_add_card.*
+import org.jetbrains.anko.enabled
+import org.jetbrains.anko.onEditorAction
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class AddCardActivity : MvpActivity(), IAddCardView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cardname_layout)
+        setContentView(R.layout.activity_add_card)
         initViews()
     }
 
@@ -34,7 +35,6 @@ class AddCardActivity : MvpActivity(), IAddCardView {
                 .addCardModule(AddCardModule(this))
                 .build()
                 .inject(this)
-
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -46,11 +46,11 @@ class AddCardActivity : MvpActivity(), IAddCardView {
     }
 
     override fun navigateToUrl(url: String) {
-        finish()
         startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url, Constants.KEY_URL_ACTIVITY_TITLE to R.string.add_card_title)
+        finish()
     }
 
-    override fun navigateToCards() {
+    override fun close() {
         finish()
     }
 
@@ -66,16 +66,23 @@ class AddCardActivity : MvpActivity(), IAddCardView {
         return true
     }
 
+    override fun setPending(isPending: Boolean) {
+        progressBar.visibility = if(isPending) View.VISIBLE else View.GONE
+        addCardNameEditText.enabled = !isPending
+    }
+
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
-        addCardNameEditText.onKey { view, i, keyEvent ->
-            if ((keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER || i == EditorInfo.IME_ACTION_DONE)
-                    && keyEvent?.action == KeyEvent.ACTION_UP) {
-                presenter.onNameConfirm(addCardNameEditText.text.toString())
+
+        addCardNameEditText.onEditorAction { textView, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.onCreateCardClick(addCardNameEditText.text.toString())
+                true
+            } else {
+                false
             }
-            return@onKey false
         }
     }
 }
