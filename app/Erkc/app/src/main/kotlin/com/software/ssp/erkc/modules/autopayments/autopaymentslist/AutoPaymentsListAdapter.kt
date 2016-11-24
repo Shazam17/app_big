@@ -5,63 +5,74 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.extensions.dp
+import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_autopayments.view.*
 import org.jetbrains.anko.onClick
 
 
-class AutoPaymentsListAdapter(val dataList: List<Receipt>,
-                              val onEditClick: ((Receipt) -> Unit)?,
-                              val onDeleteClick: ((Receipt) -> Unit)?) : RecyclerView.Adapter<AutoPaymentsListAdapter.ViewHolder>() {
+class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
+                              val interactionListener: InteractionListener? = null) : RecyclerView.Adapter<AutoPaymentsListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return dataList.count()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setHeaderVisibility(position == 0 || dataList[position].address != dataList[position - 1].address)
+        holder.setHeaderVisibility(position == 0 || dataList[position].receipt.address != dataList[position - 1].receipt.address)
         holder.bindReceipt(dataList[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AutoPaymentsListAdapter.ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_autopayments, parent, false)
-        return AutoPaymentsListAdapter.ViewHolder(view, onEditClick, onDeleteClick)
+        return AutoPaymentsListAdapter.ViewHolder(view, interactionListener)
     }
 
     class ViewHolder(view: View,
-                     val onEditClick: ((Receipt) -> Unit)?,
-                     val onDeleteClick: ((Receipt) -> Unit)?) : RecyclerView.ViewHolder(view) {
+                     val interactionListener: InteractionListener?) : RecyclerView.ViewHolder(view) {
 
-        fun bindReceipt(receipt: Receipt){
+        fun bindReceipt(receiptViewModel: ReceiptViewModel) {
             itemView.apply {
 
-                addressHeaderText.text = receipt.address
+                addressHeaderText.text = receiptViewModel.receipt.address
 
-                nameText.text = receipt.name
-                barcodeText.text = receipt.barcode
+                nameText.text = receiptViewModel.receipt.name
+                barcodeText.text = receiptViewModel.receipt.barcode
 
-                //typeImage.setImageResource(receipt.receiptType.getIconResId())
+                typeImage.setImageResource(receiptViewModel.receipt.receiptType.getIconResId())
 
-                linkedCardNameText.text = "TODO Replace with real name" //TODO Replace with real name
+                linkedCardNameText.text = receiptViewModel.receipt.linkedCard?.name ?: ""
 
-                editImageButton.onClick { onEditClick?.invoke(receipt) }
+                editImageButton.onClick { interactionListener?.editClick(receiptViewModel.receipt) }
 
                 deleteButton.onClick {
-                    onDeleteClick?.invoke(receipt)
                     deleteProgressBar.visibility = View.VISIBLE
                     deleteButton.isEnabled = false
                     editImageButton.isEnabled = false
+                    receiptViewModel.isRemovePending = true
+                    interactionListener?.deleteClick(receiptViewModel.receipt)
                 }
 
-                deleteProgressBar.visibility = View.GONE
-                deleteButton.isEnabled = true
-                editImageButton.isEnabled = true
+                deleteProgressBar.visibility = if (receiptViewModel.isRemovePending) View.VISIBLE else View.GONE
+                deleteButton.isEnabled = !receiptViewModel.isRemovePending
+                editImageButton.isEnabled = !receiptViewModel.isRemovePending
                 swipeLayout.reset()
+
+                if (receiptViewModel.isRemovePending) {
+                    swipeLayout.offset = -80.dp
+                }
             }
         }
 
         fun setHeaderVisibility(isVisible: Boolean) {
-            itemView.addressHeaderText.visibility = if(isVisible) View.VISIBLE else View.GONE
+            itemView.addressHeaderText.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
+    }
+
+    interface InteractionListener {
+        fun editClick(receipt: RealmReceipt)
+        fun deleteClick(receipt: RealmReceipt)
     }
 }

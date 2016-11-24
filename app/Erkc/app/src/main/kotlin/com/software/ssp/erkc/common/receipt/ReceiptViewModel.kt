@@ -5,5 +5,5 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 
 class ReceiptViewModel(
         val receipt: RealmReceipt,
-        var isRemovePending: Boolean
+        var isRemovePending: Boolean = false
 )

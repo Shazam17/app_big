@@ -48,4 +48,10 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .updateReceipt(params)
                 .compose(this.applySchedulers<ApiResponse>())
     }
+
+    fun clearReceiptSettings(token: String, id: String): Observable<ApiResponse> {
+        return receiptsDataSource
+                .clearReceiptSettings(token, id)
+                .compose(this.applySchedulers<ApiResponse>())
+    }
 }

@@ -1,8 +1,10 @@
 package com.software.ssp.erkc.modules.autopayments.autopaymentslist
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.common.receipt.ReceiptViewModel
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
@@ -13,35 +15,69 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var receiptsRepository: ReceiptsRepository
+    @Inject lateinit var realmRepository: RealmRepository
+
+    private var autoPaymentMode = 0
 
     override fun onViewAttached() {
-        onSwipeToRefresh()
+        showReceiptsList()
     }
 
     override fun onSwipeToRefresh() {
-        view?.showData(activeSession.cachedReceipts?.filter { it.autoPayMode == 0 } ?: emptyList())
+        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                .concatMap {
+                    receipts ->
+                    realmRepository.saveReceiptsList(receipts ?: emptyList())
+                }
+                .subscribe(
+                        {
+                            showReceiptsList()
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setLoadingVisible(false)
+                        })
     }
 
-    override fun onDeleteButtonClick(receipt: Receipt) {
+    override fun onDeleteButtonClick(receipt: RealmReceipt) {
         view?.showConfirmDeleteDialog(receipt)
     }
 
-    override fun onEditButtonClick(receipt: Receipt) {
+    override fun onEditButtonClick(receipt: RealmReceipt) {
         view?.navigateToEditAutoPayment(receipt)
     }
 
-    override fun onConfirmDelete(receipt: Receipt) {
-        subscriptions += receiptsRepository.updateReceipt(activeSession.accessToken!!, receipt.id!!)
+    override fun onConfirmDelete(receipt: RealmReceipt) {
+        subscriptions += receiptsRepository.clearReceiptSettings(activeSession.accessToken!!, receipt.id)
+                .concatMap {
+                    view?.autoPaymentDeleted(receipt)
+                    receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, receipt.barcode)
+                }
+                .concatMap {
+                    receipt ->
+                    realmRepository.saveReceipt(receipt)
+                }
                 .subscribe(
-                        {
-                            view?.autoPaymentDeleted(receipt)
-                            //TODO update list
-                        },
+                        { },
                         {
                             error ->
                             view?.autoPaymentDidNotDeleted(receipt)
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun showReceiptsList() {
+        subscriptions += realmRepository.fetchReceiptsList()
+                .subscribe(
+                        {
+                            receipts ->
+                            view?.showData(receipts.filter { it.autoPayMode == autoPaymentMode }.map { ReceiptViewModel(it) })
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        })
     }
 }
