@@ -45,7 +45,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
     }
 
     override fun onStatusClick(card: RealmCard) {
-        if(isCardRequestPending) return
+        if (isCardRequestPending) return
 
         isCardRequestPending = true
         view?.setCardPending(card, true)
@@ -108,7 +108,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                 .fetchCards(activeSession.accessToken!!)
                 .concatMap {
                     cards ->
-                    realmRepository.saveCardsList(cards)
+                    realmRepository.saveCardsList(cards ?: emptyList())
                 }
                 .subscribe({
                     cards ->

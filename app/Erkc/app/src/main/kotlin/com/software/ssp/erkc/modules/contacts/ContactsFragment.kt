@@ -47,6 +47,8 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+
+        presenter.onViewAttached()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -69,8 +71,6 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
 
         map.moveCamera(cameraUpdatePosition)
         map.addMarker(marker).showInfoWindow()
-
-        presenter.onViewAttached()
     }
 
     override fun beforeDestroy() {
