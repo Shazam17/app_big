@@ -18,16 +18,15 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession) : Interc
     override fun intercept(chain: Interceptor.Chain?): Response {
         try {
             val originalRequest = chain!!.request()
-            val originalBody = chain!!.request().body()
+            val originalBody = originalRequest.body()
 
             val token = activeSession.accessToken ?: activeSession.appToken
             val app_id = Constants.API_OAUTH_CLIENT_ID
 
-            val authorizedRequest: Request
-            when {
-                token == null -> authorizedRequest = originalRequest
-                originalBody != null && originalBody is FormBody -> authorizedRequest = getSignedFormBodyRequest(token, app_id, originalRequest)
-                else -> authorizedRequest = getSignedGetRequest(token, app_id, originalRequest)
+            val authorizedRequest: Request = when {
+                token == null -> originalRequest
+                originalBody != null && originalBody is FormBody -> getSignedFormBodyRequest(token, app_id, originalRequest)
+                else -> getSignedGetRequest(token, app_id, originalRequest)
             }
 
             val response = chain.proceed(authorizedRequest)
