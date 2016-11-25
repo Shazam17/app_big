@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -44,6 +45,10 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
 
     override fun onAddReceiptButtonClick() {
         view?.navigateToAddReceiptScreen()
+    }
+
+    override fun onPaymentResult(drawerItem: DrawerItem) {
+        view?.navigateToDrawerItem(drawerItem)
     }
 
     override fun onReceiptDeleted(receipt: Receipt) {

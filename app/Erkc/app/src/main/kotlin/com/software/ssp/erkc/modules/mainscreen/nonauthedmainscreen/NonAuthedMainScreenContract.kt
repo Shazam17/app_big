@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 
 
 interface INonAuthedMainScreenView : IView {
@@ -17,6 +18,7 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToStreetSelectScreen()
     fun showReceiptData(receipt: Receipt)
     fun fillStreet(street: String)
+    fun navigateToDrawerItem(drawerItem: DrawerItem)
 }
 
 interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
@@ -26,5 +28,6 @@ interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
     fun onBarCodeScanned(code: String)
     fun onStreetSelected(address: String)
     fun onAddressClick()
+    fun onPaymentResult(drawerItem: DrawerItem)
 }
 

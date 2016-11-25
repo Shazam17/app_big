@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import com.software.ssp.erkc.utils.getStreetFromShortAddress
 import rx.Observable
 import rx.lang.kotlin.plusAssign
@@ -91,6 +92,9 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                 )
     }
 
+    override fun onPaymentResult(drawerItem: DrawerItem) {
+        view?.navigateToDrawerItem(drawerItem)
+    }
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
         var isValid = true

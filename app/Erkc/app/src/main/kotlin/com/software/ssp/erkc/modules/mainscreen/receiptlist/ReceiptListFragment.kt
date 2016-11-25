@@ -98,6 +98,12 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
                 .commit()
     }
 
+    override fun navigateToDrawerItem(drawerItem: DrawerItem) {
+        if (activity is DrawerActivity) {
+            (activity as DrawerActivity).navigateToDrawerItem(drawerItem)
+        }
+    }
+
     override fun navigateToEmptyReceiptsList() {
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
@@ -125,9 +131,7 @@ class ReceiptListFragment : BaseListFragment<Receipt, IReceiptListView, IReceipt
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                Constants.REQUEST_CODE_PAYMENT -> {
-                    (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-                }
+                Constants.REQUEST_CODE_PAYMENT -> presenter.onPaymentResult(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

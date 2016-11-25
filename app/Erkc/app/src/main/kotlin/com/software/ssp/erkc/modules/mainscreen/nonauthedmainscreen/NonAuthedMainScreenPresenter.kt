@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -75,6 +76,10 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     override fun onAddressClick() {
         view?.navigateToStreetSelectScreen()
+    }
+
+    override fun onPaymentResult(drawerItem: DrawerItem) {
+        view?.navigateToDrawerItem(drawerItem)
     }
 
     override fun onStreetSelected(address: String) {

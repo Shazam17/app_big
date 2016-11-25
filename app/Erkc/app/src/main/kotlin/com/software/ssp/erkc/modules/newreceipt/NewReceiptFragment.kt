@@ -61,9 +61,13 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         when (requestCode) {
             Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
             Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onAddressSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
-            Constants.REQUEST_CODE_PAYMENT -> {
-                (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-            }
+            Constants.REQUEST_CODE_PAYMENT -> presenter.onPaymentResult(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
+        }
+    }
+
+    override fun navigateToDrawerItem(drawerItem: DrawerItem) {
+        if (activity is DrawerActivity) {
+            (activity as DrawerActivity).navigateToDrawerItem(drawerItem)
         }
     }
 

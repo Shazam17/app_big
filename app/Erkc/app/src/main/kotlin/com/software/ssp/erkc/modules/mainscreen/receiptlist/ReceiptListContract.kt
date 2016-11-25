@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView
 import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 
 
 interface IReceiptListView : IListView<Receipt> {
@@ -14,6 +15,7 @@ interface IReceiptListView : IListView<Receipt> {
     fun receiptDidNotDeleted(receipt: Receipt)
     fun receiptDeleted(receipt: Receipt)
     fun navigateToAutoPaymentSettingScreen(receipt: Receipt)
+    fun navigateToDrawerItem(drawerItem: DrawerItem)
 }
 
 interface IReceiptListPresenter : IListPresenter<Receipt, IReceiptListView> {
@@ -23,4 +25,5 @@ interface IReceiptListPresenter : IListPresenter<Receipt, IReceiptListView> {
     fun onAutoPaymentButtonClick(receipt: Receipt)
     fun onReceiptDeleted(receipt: Receipt)
     fun onAddReceiptButtonClick()
+    fun onPaymentResult(drawerItem: DrawerItem)
 }

@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.EditorInfo
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.inDebugMode
@@ -63,9 +61,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         when (requestCode) {
             Constants.REQUEST_CODE_BARCODE_SCAN -> presenter.onBarCodeScanned(data!!.getStringExtra(Constants.KEY_SCAN_RESULT))
             Constants.REQUEST_CODE_ADDRESS_FIND -> presenter.onStreetSelected(data!!.getStringExtra(Constants.KEY_ADDRESS_FIND_RESULT))
-            Constants.REQUEST_CODE_PAYMENT -> {
-                (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-            }
+            Constants.REQUEST_CODE_PAYMENT -> presenter.onPaymentResult(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
         }
     }
 
@@ -105,6 +101,12 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
         startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
+    }
+
+    override fun navigateToDrawerItem(drawerItem: DrawerItem) {
+        if (activity is DrawerActivity) {
+            (activity as DrawerActivity).navigateToDrawerItem(drawerItem)
+        }
     }
 
     override fun navigateToSendValuesScreen(data: Receipt) {

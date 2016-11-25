@@ -155,10 +155,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
             Constants.REQUEST_CODE_PAYMENT -> {
-//                val intent = Intent()
-//                intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
-//                setResult(Activity.RESULT_OK, intent)
-//                finish()
                 if (data != null && data.hasExtra(Constants.KEY_URL_RESULT)) {
                     presenter.onPaymentResult(data.getBooleanExtra(Constants.KEY_URL_RESULT, false))
                 }

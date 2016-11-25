@@ -101,11 +101,15 @@ class PaymentListFragment : BaseListFragment<Receipt, IPaymentListView, IPayment
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                Constants.REQUEST_CODE_PAYMENT -> {
-                    (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-                }
+                Constants.REQUEST_CODE_PAYMENT -> presenter.onPaymentResult(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun navigateToDrawerItem(drawerItem: DrawerItem) {
+        if (activity is DrawerActivity) {
+            (activity as DrawerActivity).navigateToDrawerItem(drawerItem)
+        }
     }
 }

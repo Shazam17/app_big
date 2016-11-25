@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.newreceipt
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 
 
 interface INewReceiptView : IView {
@@ -21,6 +22,7 @@ interface INewReceiptView : IView {
 
     fun showProgressVisible(isVisible: Boolean)
     fun showReceiptData(receipt: Receipt)
+    fun navigateToDrawerItem(drawerItem: DrawerItem)
 }
 
 interface INewReceiptPresenter : IPresenter<INewReceiptView> {
@@ -29,4 +31,5 @@ interface INewReceiptPresenter : IPresenter<INewReceiptView> {
     fun onBarCodeScanned(barcode: String)
     fun onAddressSelected(address: String)
     fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean)
+    fun onPaymentResult(drawerItem: DrawerItem)
 }
