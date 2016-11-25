@@ -15,6 +15,7 @@ interface IAutoPaymentsListView: IListView<ReceiptViewModel> {
 }
 
 interface IAutoPaymentsListPresenter: IListPresenter<Receipt, IAutoPaymentsListView> {
+    var autoPaymentMode: Int
     fun onDeleteButtonClick(receipt: RealmReceipt)
     fun onEditButtonClick(receipt: RealmReceipt)
     fun onConfirmDelete(receipt: RealmReceipt)

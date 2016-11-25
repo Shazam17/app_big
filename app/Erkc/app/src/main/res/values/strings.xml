@@ -196,5 +196,7 @@
     <string name="auto_payments_delete_one_click_dialog_description">Вы действительно хотите удалить оплату в один клик без возможности востановления?</string>
     <string name="auto_payments_add_menu_text">Добавить новый автоплатеж / оплату в 1 клик</string>
     <string name="auto_payments_empty_list_text">Здесь вы пожете добавить автоплатежи и настроить оплату в один клик.</string>
+    <string name="auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
+    <string name="auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
 
 </resources>

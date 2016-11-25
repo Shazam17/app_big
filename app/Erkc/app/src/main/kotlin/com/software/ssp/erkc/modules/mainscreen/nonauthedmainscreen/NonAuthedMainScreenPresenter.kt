@@ -16,7 +16,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
-        if (validFields(barcode)) {
+        if (validFields(barcode, street, house, apartment, isWithAddress)) {
             view?.showProgressVisible(true)
             subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
                     .subscribe(
@@ -29,17 +29,17 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
                                     view?.navigateToPaymentScreen(receipt)
                                 }
                             },
-                            { throwable ->
+                            { error ->
                                 view?.showProgressVisible(false)
 
-                                if (throwable is ApiException) {
-                                    when (throwable.errorCode) {
+                                if (error is ApiException) {
+                                    when (error.errorCode) {
                                         ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
                                         ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
-                                        else -> view?.showMessage(throwable.parsedMessage())
+                                        else -> view?.showMessage(error.parsedMessage())
                                     }
                                 } else {
-                                    view?.showMessage(throwable.parsedMessage())
+                                    view?.showMessage(error.parsedMessage())
                                 }
                             }
                     )
@@ -62,12 +62,12 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
-                        { throwable ->
+                        { error ->
                             view?.showProgressVisible(false)
-                            if (throwable is ApiException && throwable.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
+                            if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
                             } else {
-                                view?.showMessage(throwable.parsedMessage())
+                                view?.showMessage(error.parsedMessage())
                             }
                         }
                 )
@@ -81,12 +81,18 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
         view?.fillStreet(address)
     }
 
-    private fun validFields(barcode: String): Boolean {
-        var isValid = true
-        if (barcode.isNullOrEmpty()) {
-            isValid = false
-            view?.showErrorBarcodeMessage(R.string.error_empty_field)
+    private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
+        when{
+            barcode.isNullOrBlank() -> {
+                view?.showErrorBarcodeMessage(R.string.error_empty_field)
+                return false
+            }
+
+            isWithAddress && (street.isNullOrBlank() || house.isNullOrBlank() || apartment.isNullOrBlank()) -> {
+                view?.showMessage(R.string.error_all_fields_required)
+                return false
+            }
         }
-        return isValid
+        return true
     }
 }

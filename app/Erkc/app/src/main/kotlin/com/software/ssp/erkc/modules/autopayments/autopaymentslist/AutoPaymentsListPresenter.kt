@@ -17,7 +17,7 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var realmRepository: RealmRepository
 
-    private var autoPaymentMode = 0
+    override var autoPaymentMode: Int = 0
 
     override fun onViewAttached() {
         showReceiptsList()

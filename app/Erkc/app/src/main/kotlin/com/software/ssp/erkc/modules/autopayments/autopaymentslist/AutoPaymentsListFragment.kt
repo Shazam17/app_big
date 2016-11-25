@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
@@ -18,6 +19,8 @@ import javax.inject.Inject
 class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaymentsListView {
 
     @Inject lateinit var presenter: IAutoPaymentsListPresenter
+
+    private val autoPaymentMode: Int by args(defaultValue = 0)
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerAutoPaymentsListComponent.builder()
@@ -34,6 +37,7 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.autoPaymentMode = autoPaymentMode
         presenter.onViewAttached()
     }
 

@@ -10,6 +10,7 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.autopaymentslist.AutoPaymentsListFragment
 import kotlinx.android.synthetic.main.fragment_auto_payments_tab.*
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
@@ -30,8 +31,8 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
         return inflater!!.inflate(R.layout.fragment_auto_payments_tab, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.clear()
         inflater?.inflate(R.menu.autopayments_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -87,8 +88,8 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
 
             override fun getItem(position: Int): Fragment {
                 return when(TabItem.values()[position]){
-                    TabItem.AUTO_PAYMENTS -> AutoPaymentsListFragment()
-                    TabItem.ONE_CLICK_PAYMENT -> AutoPaymentsListFragment()
+                    TabItem.AUTO_PAYMENTS -> AutoPaymentsListFragment().withArguments("autoPaymentMode" to 2)
+                    TabItem.ONE_CLICK_PAYMENT -> AutoPaymentsListFragment().withArguments("autoPaymentMode" to 1)
                 }
             }
         }

@@ -95,6 +95,9 @@ class CardsFragment : BaseListFragment<CardViewModel>(), ICardsView {
         val cardIndex = dataset.indexOfFirst { it.card == card }
         dataset.removeAt(cardIndex)
         adapter?.notifyItemRemoved(cardIndex)
+        if (dataset.count() == 0) {
+            setEmptyViewVisible(true)
+        }
     }
 
     override fun setCardPending(card: RealmCard, isPending: Boolean) {

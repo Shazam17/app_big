@@ -8,7 +8,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.inDebugMode
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
@@ -141,9 +140,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     private fun initViews() {
-        inDebugMode {
-            mainScreenBarcodeEditText.setText("3524770401487")
-        }
         mainScreenBarcodeEditText.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
                 mainScreenBarcodeLayout.error = null
@@ -212,6 +208,4 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
     }
-
 }
-

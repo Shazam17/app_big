@@ -11,7 +11,7 @@ fun RealmReceipt.toReceipt() : Receipt {
             this.apart,
             this.autoPayMode,
             this.name,
-            this.maxSumm,
+            this.maxSum,
             this.id,
             this.lastPayment,
             this.address,
@@ -20,6 +20,6 @@ fun RealmReceipt.toReceipt() : Receipt {
             this.barcode,
             this.lastValueTransfer,
             this.supplierName,
-            this.persent,
+            this.percent,
             this.linkedCard?.id)
 }

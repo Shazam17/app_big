@@ -13,7 +13,7 @@ open class RealmReceipt(
         open var apart: String = "",
         open var autoPayMode: Int = 0,
         open var name: String = "",
-        open var maxSumm: Double = 0.0,
+        open var maxSum: Double = 0.0,
         open var lastPayment: String? = null,
         open var address: String = "",
         open var serviceCode: Int = 0,
@@ -21,7 +21,7 @@ open class RealmReceipt(
         open var barcode: String = "",
         open var lastValueTransfer: String? = null,
         open var supplierName: String = "",
-        open var persent: Double = 0.0,
+        open var percent: Double = 0.0,
         open var linkedCard: RealmCard? = null) : RealmObject() {
 
     @Ignore
