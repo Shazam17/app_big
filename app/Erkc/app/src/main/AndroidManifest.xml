@@ -24,6 +24,7 @@
 
         <activity
             android:name=".modules.splash.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +35,7 @@
 
         <activity
             android:name=".modules.drawer.DrawerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
@@ -44,54 +46,65 @@
 
         <activity
             android:name=".modules.signup.SignUpActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/sign_up_registration"/>
+            android:label="@string/sign_up_registration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
 
         <activity
             android:name="com.software.ssp.erkc.modules.card.addcard.AddCardActivity"
-            android:theme="@style/AppTheme.Light"
-            android:label="@string/add_card_title"/>
+            android:label="@string/add_card_title"
+            android:theme="@style/AppTheme.Light" />
 
         <activity
             android:name="com.software.ssp.erkc.modules.card.editcard.EditCardActivity"
-            android:theme="@style/AppTheme.Light"
-            android:label="@string/edit_card_title"/>
+            android:label="@string/edit_card_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
 
         <activity
             android:name=".modules.barcodescanner.BarcodeScannerActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:label="@string/barcode_scanner_title"/>
+            android:label="@string/barcode_scanner_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
 
-        <activity android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
-            android:theme="@style/AppTheme.Dark"
+        <activity
+            android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
             android:label="@string/pass_recovery_title"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
 
         <activity
             android:name=".modules.address.SearchAddressActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/search_addresses_title"/>
+            android:label="@string/search_addresses_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity" />
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"
-            android:label="@string/user_profile_title" />
+            android:label="@string/user_profile_title"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
-            android:label="@string/offline_password_title" />
+        <activity
+            android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
+            android:label="@string/offline_password_title"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.sendvalues.SendValuesActivity"
+            android:label="@string/send_values_title"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/send_values_title"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.paymentscreen.payment.PaymentActivity"
-            android:theme="@style/AppTheme.Light"
-            android:label="@string/payment_title"/>
+            android:label="@string/payment_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
     </application>
 
 </manifest>

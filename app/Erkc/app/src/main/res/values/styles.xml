@@ -107,13 +107,6 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="LargeTextViewPrimaryColor" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="BodyTextViewPrimaryColor" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
     <!-- Input for Dark Theme -->
     <style name="AppDarkStyleInput" parent="Widget.Design.TextInputLayout">
         <item name="android:textColor">@color/colorLightText</item>
@@ -178,6 +171,14 @@
     <style name="MainColorTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/colorBlueButton</item>
+    </style>
+
+    <style name="LargeTextViewPrimaryColor" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BodyTextViewPrimaryColor" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
 </resources>

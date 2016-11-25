@@ -35,10 +35,9 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginTop="12dp"
         android:background="@null"
         android:src="@drawable/ic_scan_black"
-        app:layout_constraintBottom_toBottomOf="@+id/barcodeInputLayout"
         app:layout_constraintRight_toRightOf="@+id/barcodeInputLayout"
         app:layout_constraintTop_toTopOf="@+id/barcodeInputLayout"
         app:layout_constraintVertical_bias="0.3" />
