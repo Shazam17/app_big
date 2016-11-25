@@ -121,18 +121,17 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentEmailLayout.error = getString(errorRes)
     }
 
-    override fun showResult(result: Boolean) {
-        paymentContainer.visibility = View.GONE
-        paymentResultContainer.visibility = View.VISIBLE
+    override fun showResult(result: Boolean, textRes: Int) {
+        paymentResultTextView.setText(textRes)
         if (result) {
             paymentResultImageView.setImageResource(R.drawable.ic_circle_success)
-            paymentResultTextView.setText(R.string.payment_result_success)
             paymentResultTextView.setTextColorByContextCompat(R.color.colorPaymentResultSuccess)
         } else {
             paymentResultImageView.setImageResource(R.drawable.ic_circle_warning)
-            paymentResultTextView.setText(R.string.payment_result_error)
             paymentResultTextView.setTextColorByContextCompat(R.color.colorPaymentResultError)
         }
+        paymentContainer.visibility = View.GONE
+        paymentResultContainer.visibility = View.VISIBLE
     }
 
     override fun fillData(user: User?, cards: List<Card>) {
@@ -159,12 +158,16 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
             Constants.REQUEST_CODE_PAYMENT -> {
-                val intent = Intent()
-                intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+//                val intent = Intent()
+//                intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
+//                setResult(Activity.RESULT_OK, intent)
+//                finish()
+                if (data != null && data.hasExtra(Constants.KEY_URL_RESULT)) {
+                    presenter.onPaymentResult(data.getBooleanExtra(Constants.KEY_URL_RESULT, false))
+                }
             }
         }
     }

@@ -184,8 +184,10 @@
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
-    <string name="payment_result_success">Процедура оплаты начата и будет завершена автоматически.</string>
-    <string name="payment_result_error">Операция не произведена.</string>
+    <string name="payment_result_oneclick_success">Процедура оплаты начата и будет завершена автоматически.</string>
+    <string name="payment_result_oneclick_error">Операция не произведена.</string>
+    <string name="payment_result_default_success">Платеж произведен успешно.</string>
+    <string name="payment_result_default_error">Платеж не произведен.</string>
     <string name="payment_done">Готово</string>
 
     <!-- AutoPaymentsScreen -->
