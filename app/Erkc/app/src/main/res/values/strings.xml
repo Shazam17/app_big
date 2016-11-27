@@ -201,4 +201,11 @@
     <string name="auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
     <string name="auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
 
+    <!-- HistoryScreen -->
+    <string name="history_payments_tab_title">Платежи</string>
+    <string name="history_values_tab_title">Показания счетчиков</string>
+    <string name="history_filter_menu_item">Применить фильтр</string>
+    <string name="history_money_format">%,.2f р.</string>
+    <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+
 </resources>
