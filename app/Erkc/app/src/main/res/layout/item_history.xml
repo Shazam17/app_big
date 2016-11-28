@@ -28,15 +28,16 @@
 
         <TextView
             android:id="@+id/dateText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             tools:text="30 Aug" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
             android:orientation="vertical">
 
             <TextView
@@ -59,9 +60,8 @@
 
         <LinearLayout
             android:id="@+id/paymentLayout"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView

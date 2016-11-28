@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.history.PaymentHistoryList
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
@@ -12,9 +13,10 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var paymentRepository: PaymentRepository
 
     override fun onViewAttached() {
-        showReceiptsList()
+        showPaymentsList()
     }
 
     override fun onViewDetached() {
@@ -23,18 +25,19 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
     }
 
     override fun onSwipeToRefresh() {
-        showReceiptsList()
+        showPaymentsList()
     }
 
-    private fun showReceiptsList() {
-        subscriptions += realmRepository.fetchReceiptsList()
+    private fun showPaymentsList() {
+        subscriptions += realmRepository.fetchPayments()
                 .subscribe(
                         {
-                            receipts ->
-                            view?.showData(receipts)
+                            payments ->
+                            view?.showData(payments)
                         },
                         {
                             error ->
+                            view?.setLoadingVisible(false)
                             view?.showMessage(error.parsedMessage())
                         })
     }

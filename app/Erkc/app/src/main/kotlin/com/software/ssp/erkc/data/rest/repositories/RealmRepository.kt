@@ -2,13 +2,11 @@ package com.software.ssp.erkc.data.rest.repositories
 
 
 import com.software.ssp.erkc.data.realm.models.*
-import com.software.ssp.erkc.data.rest.models.Card
-import com.software.ssp.erkc.data.rest.models.Receipt
-import com.software.ssp.erkc.data.rest.models.Streets
-import com.software.ssp.erkc.data.rest.models.User
+import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
 import rx.Observable
 import javax.inject.Inject
+import kotlin.comparisons.compareBy
 
 
 class RealmRepository @Inject constructor(private val realm: Realm) : Repository() {
@@ -348,6 +346,92 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 }
                         )
                     }
+                }
+    }
+
+    fun savePayment(payment: Payment): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    val realmPayment = RealmPayment(
+                            payment.id,
+                            payment.date,
+                            payment.amount,
+                            payment.checkFile,
+                            payment.status,
+                            payment.maskedCardNumber,
+                            payment.comment,
+                            payment.errorCode,
+                            payment.errorDesc,
+                            payment.methodId,
+                            realm.where(RealmReceipt::class.java).equalTo("barcode", payment.receiptCode).findFirst())
+
+                    if (currentUser.payments.find { it.id == payment.id } == null) {
+                        currentUser.payments.add(realmPayment)
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(realmPayment)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                {
+                                    error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun savePaymentsList(payments: List<Payment>): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val cachedPayments = arrayListOf<RealmPayment>()
+                    payments.mapTo(cachedPayments) {
+                        RealmPayment(
+                                it.id,
+                                it.date,
+                                it.amount,
+                                it.checkFile,
+                                it.status,
+                                it.maskedCardNumber,
+                                it.comment,
+                                it.errorCode,
+                                it.errorDesc,
+                                it.methodId,
+                                realm.where(RealmReceipt::class.java).equalTo("barcode", it.receiptCode).findFirst())
+                    }
+
+                    //currentUser.payments.clear()
+                    currentUser.payments.addAll(cachedPayments)
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(cachedPayments)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun fetchPayments(): Observable<List<RealmPayment>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser.payments.sortedWith(compareBy({ it.receipt?.address }, { it.date })))
                 }
     }
 }

@@ -81,8 +81,6 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
             }
         })
 
-        tabsViewPaper.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
         tabsViewPaper.adapter = object : FragmentStatePagerAdapter(fragmentManager) {
             override fun getCount(): Int {
                 return tabLayout.tabCount

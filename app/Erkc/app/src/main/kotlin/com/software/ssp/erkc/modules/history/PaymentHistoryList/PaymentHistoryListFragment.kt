@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
 import javax.inject.Inject
 
 
-class PaymentHistoryListFragment : BaseListFragment<RealmReceipt>(), IPaymentHistoryListView {
+class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHistoryListView {
 
     @Inject lateinit var presenter: IPaymentHistoryListPresenter
 

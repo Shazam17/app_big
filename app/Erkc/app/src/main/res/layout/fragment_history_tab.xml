@@ -15,7 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:tabIndicatorColor="@color/colorTabIndicator" />
 
-    <android.support.v4.view.ViewPager
+    <com.software.ssp.erkc.common.views.UnswipeableViewPager
         android:id="@+id/tabsViewPaper"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" />
