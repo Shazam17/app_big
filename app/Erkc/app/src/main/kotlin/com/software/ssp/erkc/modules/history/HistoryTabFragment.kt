@@ -57,11 +57,15 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_filter -> {
-
+                presenter.onFilterClick()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun navigateToFilter() {
+        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).navigateToFilter()
     }
 
     private fun initViews() {

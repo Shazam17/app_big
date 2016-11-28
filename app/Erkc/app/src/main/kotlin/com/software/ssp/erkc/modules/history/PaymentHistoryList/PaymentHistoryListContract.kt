@@ -6,7 +6,9 @@ import com.software.ssp.erkc.data.realm.models.RealmPayment
 
 
 interface IPaymentHistoryListView: IListView<RealmPayment> {
+    fun navigateToPaymentInfo(payment: RealmPayment)
 }
 
 interface IPaymentHistoryListPresenter: IListPresenter<RealmPayment, IPaymentHistoryListView> {
+    fun onPaymentClick(payment: RealmPayment)
 }

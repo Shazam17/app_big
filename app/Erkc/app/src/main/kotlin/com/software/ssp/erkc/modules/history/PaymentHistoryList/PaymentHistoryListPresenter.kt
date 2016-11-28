@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.history.PaymentHistoryList
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -26,6 +27,10 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
 
     override fun onSwipeToRefresh() {
         showPaymentsList()
+    }
+
+    override fun onPaymentClick(payment: RealmPayment) {
+        view?.navigateToPaymentInfo(payment)
     }
 
     private fun showPaymentsList() {

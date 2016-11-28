@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.history.ValuesHistoryList
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -26,12 +27,16 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
         showReceiptsList()
     }
 
+    override fun onIpuValueClick(ipuValue: RealmIpuValue) {
+        view?.navigateToIpuValueInfo(ipuValue)
+    }
+
     private fun showReceiptsList() {
-        subscriptions += realmRepository.fetchReceiptsList()
+        subscriptions += realmRepository.fetchIpuValues()
                 .subscribe(
                         {
-                            receipts ->
-                            view?.showData(receipts)
+                            ipuValues ->
+                            view?.showData(ipuValues)
                         },
                         {
                             error ->

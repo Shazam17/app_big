@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.history.IHistoryListDelegate
 import javax.inject.Inject
 
 
-class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHistoryListView {
+class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHistoryListView, IHistoryListDelegate {
 
     @Inject lateinit var presenter: IPaymentHistoryListPresenter
 
@@ -38,10 +39,22 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        return PaymentHistoryListAdapter(dataset)
+        return PaymentHistoryListAdapter(
+                dataset,
+                { payment -> presenter.onPaymentClick(payment) }
+        )
     }
 
     override fun onSwipeToRefresh() {
         presenter.onSwipeToRefresh()
+    }
+
+    override fun navigateToPaymentInfo(payment: RealmPayment) {
+        showMessage("TODO") //TODO
+    }
+
+    override fun navigateToFilter() {
+        showMessage("TODO Filter by Payment")
+        //TODO startActivityForResult
     }
 }
