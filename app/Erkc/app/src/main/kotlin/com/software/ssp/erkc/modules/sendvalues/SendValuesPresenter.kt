@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.sendvalues
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
+import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import java.util.*
 import javax.inject.Inject
@@ -25,8 +26,8 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                 }, {
                     error ->
                     error.printStackTrace()
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(error.message!!)
+                    view?.close()
+                    view?.showMessage(error.parsedMessage())
                 })
     }
 
@@ -36,7 +37,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                 .subscribe({
                     response ->
                     view?.setProgressVisibility(false)
-                    view?.navigateToDrawer()
+                    view?.close()
                 }, {
                     error ->
                     view?.setProgressVisibility(false)

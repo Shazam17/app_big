@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -32,7 +31,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? = null
     private var userCard: Card? = null
-    private var progressDialog : Dialog?= null
 
     companion object {
         const val RADIO_BUTTON_TAG = "RADIO"
@@ -58,34 +56,28 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         return true
     }
 
-    override fun navigateToDrawer() {
+    override fun close() {
         finish()
-    }
-
-    override fun onDestroy() {
-        progressDialog?.dismiss()
-        super.onDestroy()
     }
 
     override fun navigateToResult(url: String) {
         startActivityForResult<ConfirmByUrlActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_URL to url)
     }
 
-    override fun showConfirmDialog(commission: String, amount: String, email: String) {
-
+    override fun showConfirmDialog(commission: Double, amount: Double, email: String) {
         val layoutParamsWithMargin = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         layoutParamsWithMargin.bottomMargin = 16
         alert {
             val view = LayoutInflater.from(this.ctx).inflate(R.layout.confirm_payment_layout, null, false)
             view.paymentConfirmBarcode.text = "${receipt?.barcode} (${receipt?.name})"
             view.paymentConfirmAddress.text = receipt?.address
-            view.paymentConfirmCommission.text = commission
-            view.paymentConfirmAmount.text = amount
+            view.paymentConfirmCommission.text = getString(R.string.payment_commission).format(commission, receipt?.persent)
+            view.paymentConfirmAmount.text = getString(R.string.payment_sum).format(amount)
             view.paymentConfirmCardName.text = userCard?.name
             view.paymentConfirmCardNo.text = userCard?.maskCardNo
             customView(view)
             positiveButton(R.string.payment_dialog_ok, {
-                presenter.onConfirmClick(receipt!!, userCard, amount, email)
+                presenter.onConfirmClick(receipt!!, userCard, getString(R.string.payment_sum).format(amount), email)
                 dismiss()
             })
             negativeButton(R.string.payment_dialog_cancel, {
@@ -98,9 +90,9 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fillAmountAndCommission(commission: String, sum: String) {
-        paymentCommission.text = commission
-        paymentAmount.text = sum
+    override fun fillAmountAndCommission(commission: Double, sum: Double) {
+        paymentCommission.text = getString(R.string.payment_commission).format(commission, receipt?.persent)
+        paymentAmount.text = getString(R.string.payment_sum).format(sum)
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {
@@ -142,7 +134,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 userCard = if (receipt?.linkedCardId == null || receipt?.linkedCardId.equals("1")) cards.first() else cards.find { card -> card.id == receipt?.linkedCardId }
             }
             paymentCardWrapper.onClick {
-                generateCardsChooseLayout(cards)
+                presenter.onChooseCardClick(cards)
             }
             paymentCardNo.text = userCard?.maskCardNo
             paymentCardName.text = userCard?.name
@@ -168,53 +160,24 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
-        if (progressDialog== null) {
-            progressDialog = indeterminateProgressDialog(R.string.data_loading)
-            progressDialog!!.setCanceledOnTouchOutside(false)
-        }
-        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
+        paymentCardAdd.enabled = !isVisible
+        paymentButton.enabled = !isVisible
+        paymentEmail.enabled = !isVisible
+        paymentSum.enabled = !isVisible
+        paymentDoneButton.enabled = !isVisible
+        paymentAcceptCheckbox.enabled = !isVisible
+        paymentCardWrapper.isClickable = !isVisible
+        paymentProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    private fun initViews() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.elevation = 0f
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
-        paymentButton.onClick {
-            presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
-        }
-
-        paymentDebts.text = "${receipt?.amount.toString().format(2)} р."
-        paymentBarcode.text = "${receipt?.barcode} (${receipt?.name})"
-        paymentAddress.text = receipt?.address
-
-        paymentCardAdd.onClick {
-            val intent = Intent()
-            intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.CARDS)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
-        paymentAcceptCheckbox.onCheckedChange { compoundButton, b ->
-            paymentButton.isEnabled = b
-        }
-        paymentEmail.textChangedListener {
-            onTextChanged { charSequence, start, before, count -> paymentEmailLayout.error = null }
-        }
-        paymentSum.textChangedListener {
-            onTextChanged { charSequence, start, before, count ->
-                paymentSumLayout.error = null
-                presenter.onSumChange(charSequence.toString())
-            }
-        }
-        paymentDoneButton.onClick {
-            val intent = Intent()
-            intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
-        paymentSum.setText(receipt?.amount.toString())
+    override fun showReceiptInfo(receipt: Receipt) {
+        paymentDebts.text = "${receipt.amount.toString().format(2)} р."
+        paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
+        paymentAddress.text = receipt.address
+        paymentSum.setText(receipt.amount.toString())
     }
 
-    private fun generateCardsChooseLayout(cards: List<Card>) {
+    override fun generateCardsChooseLayout(cards: List<Card>) {
         alert {
             customTitle {
                 textView {
@@ -283,4 +246,40 @@ class PaymentActivity : MvpActivity(), IPaymentView {
             })
         }.show()
     }
+
+    override fun navigateToDrawer(drawerItem: DrawerItem) {
+        val intent = Intent()
+        intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, drawerItem)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    private fun initViews() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.elevation = 0f
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
+        paymentButton.onClick {
+            presenter.onNextClick(receipt!!, userCard, paymentSum.text.toString(), paymentEmail.text.toString())
+        }
+
+        paymentCardAdd.onClick {
+            presenter.onAddCardClick()
+        }
+        paymentAcceptCheckbox.onCheckedChange { compoundButton, b ->
+            paymentButton.isEnabled = b
+        }
+        paymentEmail.textChangedListener {
+            onTextChanged { charSequence, start, before, count -> paymentEmailLayout.error = null }
+        }
+        paymentSum.textChangedListener {
+            onTextChanged { charSequence, start, before, count ->
+                paymentSumLayout.error = null
+                presenter.onSumChange(charSequence.toString(), receipt!!.persent)
+            }
+        }
+        paymentDoneButton.onClick {
+            presenter.onDoneClick()
+        }
+    }
+
 }

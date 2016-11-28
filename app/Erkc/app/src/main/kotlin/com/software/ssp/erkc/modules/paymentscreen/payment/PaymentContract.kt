@@ -5,30 +5,34 @@ import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.User
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 
 /**
  * @author Alexander Popov on 10/11/2016.
  */
 interface IPaymentView : IView {
-    fun navigateToDrawer()
+    fun close()
     fun navigateToResult(url: String)
-    fun showConfirmDialog(commission: String, amount: String, email: String)
+    fun showConfirmDialog(commission: Double, amount: Double, email: String)
     fun showNotificationsDialog()
-    fun fillAmountAndCommission(commission: String, sum: String)
+    fun fillAmountAndCommission(commission: Double, sum: Double)
     fun fillData(user: User?, cards: List<Card>)
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
     fun showResult(result: Boolean)
     fun setProgressVisibility(isVisible: Boolean)
+    fun generateCardsChooseLayout(cards: List<Card>)
+    fun showReceiptInfo(receipt: Receipt)
+    fun navigateToDrawer(drawerItem: DrawerItem)
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {
-    fun onChooseCardClick()
-    fun onChooseBankClick()
-    fun onChooseNotificationClick()
+    fun onChooseCardClick(cards: List<Card>)
     fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String)
     fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String)
-    fun onSumChange(payment: String)
+    fun onSumChange(payment: String, percent: Double)
     fun onViewAttached(receipt: Receipt)
+    fun onAddCardClick()
+    fun onDoneClick()
 }
 

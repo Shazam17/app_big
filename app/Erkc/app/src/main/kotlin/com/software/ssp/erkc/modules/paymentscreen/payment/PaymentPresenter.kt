@@ -13,6 +13,7 @@ import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
 import com.software.ssp.erkc.extensions.isEmail
+import com.software.ssp.erkc.modules.drawer.DrawerItem
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override fun onViewAttached(receipt: Receipt) {
         super.onViewAttached()
+        view?.showReceiptInfo(receipt)
         if (activeSession.user != null) {
             view?.setProgressVisibility(true)
             subscriptions += cardsRepository
@@ -43,7 +45,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                     .subscribe({
                         cards ->
                         view?.setProgressVisibility(false)
-                        calculateSum(receipt.amount)
+                        calculateSum(receipt.amount, receipt.persent)
                         view?.fillData(activeSession.user, cards)
                     }, {
                         error ->
@@ -55,16 +57,8 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         }
     }
 
-    override fun onChooseCardClick() {
-        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onChooseBankClick() {
-        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onChooseNotificationClick() {
-        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onChooseCardClick(cards: List<Card>) {
+        view?.generateCardsChooseLayout(cards)
     }
 
     override fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String) {
@@ -98,13 +92,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     override fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String) {
         if (validateData(sum, email)) {
             if (userCard != null) {
-                view?.showConfirmDialog(
-                        "Комиссия %.2f р. (10 %%)".format(sum.toDouble() / 10),
-                        "%.2f р.".format(sum.toDouble() + sum.toDouble() / 10),
+                view?.showConfirmDialog(sum.toDouble() * receipt.persent / 100,
+                        sum.toDouble() + sum.toDouble() * receipt.persent / 100,
                         email)
             } else {
                 view?.setProgressVisibility(true)
-                val summ = "%.2f".format(sum.toDouble() + sum.toDouble() / 10).toFloat()
+                val summ = "%.2f".format(sum.toDouble() + sum.toDouble() * receipt.persent / 100).toFloat()
                 subscriptions += paymentRepository.init(
                         activeSession.accessToken ?: activeSession.appToken!!,
                         receipt.barcode,
@@ -125,16 +118,24 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         }
     }
 
-    override fun onSumChange(payment: String) {
+    override fun onSumChange(payment: String, percent: Double) {
         try {
-            calculateSum(payment.toDouble())
+            calculateSum(payment.toDouble(), percent)
         } catch (e: Exception) {
             view?.showSumError(R.string.error_field_required)
         }
     }
 
-    private fun calculateSum(sum: Double) {
-        view?.fillAmountAndCommission("Комиссия 10%% (%.2f р.)".format(sum / 10), "%.2f р.".format(sum + sum / 10))
+    override fun onAddCardClick() {
+        view?.navigateToDrawer(DrawerItem.CARDS)
+    }
+
+    override fun onDoneClick() {
+        view?.navigateToDrawer(DrawerItem.MAIN)
+    }
+
+    private fun calculateSum(sum: Double, percent: Double) {
+        view?.fillAmountAndCommission(sum * percent / 100, sum + sum * percent / 100)
     }
 
     fun validateData(sum: String, email: String): Boolean {

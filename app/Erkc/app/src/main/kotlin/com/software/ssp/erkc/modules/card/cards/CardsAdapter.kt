@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.models.Card
 import com.software.ssp.erkc.extensions.*
-import kotlinx.android.synthetic.main.card_listitem.view.*
+import kotlinx.android.synthetic.main.item_card.view.*
 import org.jetbrains.anko.onClick
 
 /**
@@ -19,7 +19,7 @@ import org.jetbrains.anko.onClick
 class CardsAdapter(val cards: List<Card>,val listeners: CardAdapterInteractionListener) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_listitem, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
         return ViewHolder(view, listeners)
     }
 
