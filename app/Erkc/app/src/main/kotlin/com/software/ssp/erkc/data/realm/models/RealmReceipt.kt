@@ -3,6 +3,7 @@ package com.software.ssp.erkc.data.realm.models
 import io.realm.RealmObject
 import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
+import java.util.*
 
 
 open class RealmReceipt(
@@ -14,12 +15,12 @@ open class RealmReceipt(
         open var autoPayMode: Int = 0,
         open var name: String = "",
         open var maxSum: Double = 0.0,
-        open var lastPayment: String? = null,
+        open var lastPaymentDate: Date? = null,
         open var address: String = "",
         open var serviceCode: Int = 0,
         open var amount: Double = 0.0,
         open var barcode: String = "",
-        open var lastValueTransfer: String? = null,
+        open var lastIpuTransferDate: Date? = null,
         open var supplierName: String = "",
         open var percent: Double = 0.0,
         open var linkedCard: RealmCard? = null) : RealmObject() {

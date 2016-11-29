@@ -19,7 +19,7 @@ class DatePeriodDeserializer : JsonDeserializer<Date> {
     }
 }
 
-class DateDeserializer : JsonDeserializer<Date> {
+class DateTimeDeserializer : JsonDeserializer<Date> {
     private val authDateFormat = SimpleDateFormat(Constants.DATE_TIME_FORMAT_API, Locale.ENGLISH)
 
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date {

@@ -57,4 +57,9 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         showMessage("TODO Filter by Payment")
         //TODO startActivityForResult
     }
+
+    override fun initViews() {
+        super.initViews()
+        emptyMessageText = ""
+    }
 }

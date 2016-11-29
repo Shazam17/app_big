@@ -13,7 +13,6 @@ import com.software.ssp.erkc.data.rest.models.Ipu
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_send_values.*
-import kotlinx.android.synthetic.main.sendparameters_ipu_layout.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -43,12 +42,12 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         ipus = data
         sendValuesButton.enabled = true
         sendValuesDebts.text = "${receipt?.amount} р.(${SimpleDateFormat(Constants.PERIOD_DATE_FORMAT_UI, Locale("ru")).format(data.first().period)})"
-        for ((uslugaName, mestoUstan, period, id, nomer) in data) {
+        data.forEach {
             val layoutInflater = LayoutInflater.from(this)
             val ipuLayout = layoutInflater.inflate(R.layout.sendparameters_ipu_layout, parametersContainer, false)
-            ipuLayout.ipuLocation.text = mestoUstan
-            ipuLayout.ipuValue.tag = id
-            ipuLayout.ipuValueWrapper.hint = "$uslugaName ($nomer)"
+            ipuLayout.ipuLocation.text = it.installPlace
+            ipuLayout.ipuValue.tag = it.id
+            ipuLayout.ipuValueWrapper.hint = "%s (%s)".format(it.serviceName, it.number)
             parametersContainer.addView(ipuLayout)
         }
     }
@@ -96,13 +95,13 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         sendValuesButton.onClick {
             val params = HashMap<String, String>()
-            for ((uslugaName, mestoUstan, period, id) in ipus!!) {
-                val value = (parametersContainer.findViewWithTag(id) as EditText).text.toString()
+            ipus?.forEach {
+                val value = (parametersContainer.findViewWithTag(it.id) as EditText).text.toString()
                 if (value.isBlank()) {
                     showMessage(R.string.error_all_fields_required)
                     return@onClick
                 }
-                params.put("ipu_$id", value)
+                params.put("ipu_" + it.id, value)
             }
             presenter.onSendValuesClick(receipt!!.barcode, params)
         }

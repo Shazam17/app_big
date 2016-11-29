@@ -12,5 +12,4 @@ open class RealmIpuValue(
         open var number: String = "",
         open var installPlace: String = "",
         open var date: Date? = null,
-        open var value: Int = 0,
-        open var receipt: RealmReceipt? = null) : RealmObject()
+        open var value: Int = 0) : RealmObject()

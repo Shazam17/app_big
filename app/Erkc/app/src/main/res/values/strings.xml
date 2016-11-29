@@ -10,7 +10,7 @@
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
 
     <!-- InputErrors -->
-    <string name="error_all_fields_required">Все поля обязательный для заполнения</string>
+    <string name="error_all_fields_required">Все поля обязательны для заполнения</string>
     <string name="error_empty_field">Поле не может быть пустым</string>
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
@@ -147,6 +147,7 @@
     <string name="receipts_last_pay_text">Последняя оплата</string>
     <string name="receipts_deleted">Квитанция успешно удалена</string>
     <string name="receipts_currency">р.</string>
+    <string name="receipts_date_never">никогда</string>
     <!-- Receipts menus  -->
     <string name="receipts_menu_history">История операций</string>
     <string name="receipts_menu_autopay">Настройка автоплатежа</string>

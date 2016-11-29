@@ -15,4 +15,4 @@ open class RealmUser(
         open var receipts: RealmList<RealmReceipt> = RealmList(),
         open var cards: RealmList<RealmCard> = RealmList(),
         open var payments: RealmList<RealmPayment> = RealmList(),
-        open var ipuValues: RealmList<RealmIpuValue> = RealmList()) : RealmObject()
+        open var ipus: RealmList<RealmIpu> = RealmList()) : RealmObject()

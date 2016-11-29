@@ -154,12 +154,12 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                             receipt.autoPayMode,
                             receipt.name,
                             receipt.maxSumm,
-                            receipt.lastPayment,
+                            receipt.lastPaymentDate,
                             receipt.address,
                             receipt.serviceCode,
                             receipt.amount,
                             receipt.barcode,
-                            receipt.lastValueTransfer,
+                            receipt.lastIpuTransferDate,
                             receipt.supplierName,
                             receipt.persent,
                             if (receipt.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
@@ -198,12 +198,12 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.autoPayMode,
                                 it.name,
                                 it.maxSumm,
-                                it.lastPayment,
+                                it.lastPaymentDate,
                                 it.address,
                                 it.serviceCode,
                                 it.amount,
                                 it.barcode,
-                                it.lastValueTransfer,
+                                it.lastIpuTransferDate,
                                 it.supplierName,
                                 it.persent,
                                 if (it.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
@@ -432,84 +432,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser.payments.sortedWith(compareBy({ it.receipt?.address }, { it.date })))
-                }
-    }
-
-    fun saveIpuValue(ipuValue: IpuValue): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-                    val realmIpuValue = RealmIpuValue(
-                            ipuValue.id,
-                            ipuValue.serviceName,
-                            ipuValue.number,
-                            ipuValue.installPlace,
-                            ipuValue.date,
-                            ipuValue.value,
-                            realm.where(RealmReceipt::class.java).equalTo("barcode", ipuValue.receiptCode).findFirst())
-
-                    if (currentUser.ipuValues.find { it.id == ipuValue.id } == null) {
-                        currentUser.ipuValues.add(realmIpuValue)
-                    }
-
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(realmIpuValue)
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                {
-                                    error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
-    }
-
-    fun saveIpuValuesList(ipuValues: List<IpuValue>): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap { currentUser ->
-                    val cachedIpuValues = arrayListOf<RealmIpuValue>()
-                    ipuValues.mapTo(cachedIpuValues) {
-                        RealmIpuValue(
-                                it.id,
-                                it.serviceName,
-                                it.number,
-                                it.installPlace,
-                                it.date,
-                                it.value,
-                                realm.where(RealmReceipt::class.java).equalTo("barcode", it.receiptCode).findFirst())
-                    }
-
-                    currentUser.ipuValues.clear()
-                    currentUser.ipuValues.addAll(cachedIpuValues)
-
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(cachedIpuValues)
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                { error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
-    }
-
-    fun fetchIpuValues(): Observable<List<RealmIpuValue>> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-                    Observable.just(currentUser.ipuValues.sortedWith(compareBy({ it.receipt?.address }, { it.date })))
                 }
     }
 }

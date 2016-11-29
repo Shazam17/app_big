@@ -26,7 +26,8 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
     }
 
     override fun onSwipeToRefresh() {
-        showPaymentsList()
+        view?.setLoadingVisible(false)
+        //TODO Add fetch payments api call
     }
 
     override fun onPaymentClick(payment: RealmPayment) {

@@ -2,7 +2,7 @@ package com.software.ssp.erkc.data.rest.models
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.software.ssp.erkc.data.rest.adapters.DateDeserializer
+import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializer
 import java.util.*
 
 /**
@@ -23,7 +23,7 @@ enum class PaymentMethod {
 data class Payment(
         @SerializedName("id")
         var id: String,
-        @JsonAdapter(DateDeserializer::class)
+        @JsonAdapter(DateTimeDeserializer::class)
         @SerializedName("date_pay")
         var date: Date,
         @SerializedName("amount")

@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.realm.models.RealmIpuValue
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
 import javax.inject.Inject
 
 
-class ValuesHistoryListFragment : BaseListFragment<RealmIpuValue>(), IValuesHistoryListView, IHistoryListDelegate {
+class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHistoryListView, IHistoryListDelegate {
 
     @Inject lateinit var presenter: IValuesHistoryListPresenter
 
@@ -41,7 +41,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmIpuValue>(), IValuesHist
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ValuesHistoryListAdapter(
                 dataset,
-                { ipuValue -> presenter.onIpuValueClick(ipuValue) }
+                { receipt -> presenter.onReceiptClick(receipt) }
         )
     }
 
@@ -49,12 +49,17 @@ class ValuesHistoryListFragment : BaseListFragment<RealmIpuValue>(), IValuesHist
         presenter.onSwipeToRefresh()
     }
 
-    override fun navigateToIpuValueInfo(ipuValue: RealmIpuValue) {
+    override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
         showMessage("TODO") //TODO
     }
 
     override fun navigateToFilter() {
         showMessage("TODO Filter by values")
         //TODO start activity for result
+    }
+
+    override fun initViews() {
+        super.initViews()
+        emptyMessageText = ""
     }
 }
