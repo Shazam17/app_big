@@ -1,7 +1,5 @@
 package com.software.ssp.erkc.modules.confirmbyurl
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,7 +10,6 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_change_status_card.*
 import org.jetbrains.anko.onClick
 import javax.inject.Inject

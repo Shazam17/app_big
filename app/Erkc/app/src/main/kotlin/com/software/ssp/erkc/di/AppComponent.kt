@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.di
 
 import com.google.gson.Gson
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.datasource.*
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, NetworkModule::class))
 interface AppComponent {
     fun proivdeGson(): Gson
+    fun provideEventBus(): Relay<Any, Any>
     fun provideHttpClient(): OkHttpClient
     fun provideAuthProvider(): AuthProvider
     fun provideAuthDataSource(): AuthDataSource

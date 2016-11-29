@@ -1,7 +1,5 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -17,7 +15,6 @@ import com.software.ssp.erkc.data.rest.models.User
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.setTextColorByContextCompat
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
 import org.jetbrains.anko.*
@@ -61,7 +58,8 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun navigateToResult(url: String) {
-        startActivityForResult<ConfirmByUrlActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_URL to url)
+        finish()
+        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
     }
 
     override fun showConfirmDialog(commission: Double, amount: Double, email: String) {
@@ -84,10 +82,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 dismiss()
             })
         }.show()
-    }
-
-    override fun showNotificationsDialog() {
-        showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun fillAmountAndCommission(commission: Double, sum: Double) {
@@ -147,21 +141,8 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         presenter.dropView()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            Constants.REQUEST_CODE_PAYMENT -> {
-                val intent = Intent()
-                intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, DrawerItem.MAIN)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
-            }
-        }
-    }
-
     override fun setProgressVisibility(isVisible: Boolean) {
         paymentCardAdd.enabled = !isVisible
-        paymentButton.enabled = !isVisible
         paymentEmail.enabled = !isVisible
         paymentSum.enabled = !isVisible
         paymentDoneButton.enabled = !isVisible
@@ -171,7 +152,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun showReceiptInfo(receipt: Receipt) {
-        paymentDebts.text = "${receipt.amount.toString().format(2)} р."
+        paymentDebts.text = receipt.amount.toString().format(2) + getString(R.string.payment_currency_symbol)
         paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
         paymentAddress.text = receipt.address
         paymentSum.setText(receipt.amount.toString())
@@ -245,13 +226,6 @@ class PaymentActivity : MvpActivity(), IPaymentView {
                 dismiss()
             })
         }.show()
-    }
-
-    override fun navigateToDrawer(drawerItem: DrawerItem) {
-        val intent = Intent()
-        intent.putExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT, drawerItem)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
     }
 
     private fun initViews() {

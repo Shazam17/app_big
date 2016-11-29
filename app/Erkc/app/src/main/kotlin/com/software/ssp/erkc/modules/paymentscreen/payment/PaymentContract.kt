@@ -14,7 +14,6 @@ interface IPaymentView : IView {
     fun close()
     fun navigateToResult(url: String)
     fun showConfirmDialog(commission: Double, amount: Double, email: String)
-    fun showNotificationsDialog()
     fun fillAmountAndCommission(commission: Double, sum: Double)
     fun fillData(user: User?, cards: List<Card>)
     fun showSumError(errorRes: Int)
@@ -23,7 +22,6 @@ interface IPaymentView : IView {
     fun setProgressVisibility(isVisible: Boolean)
     fun generateCardsChooseLayout(cards: List<Card>)
     fun showReceiptInfo(receipt: Receipt)
-    fun navigateToDrawer(drawerItem: DrawerItem)
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {

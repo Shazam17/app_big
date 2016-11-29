@@ -14,7 +14,6 @@ object Constants {
     // Request codes
     const val REQUEST_CODE_BARCODE_SCAN = 12401
     const val REQUEST_CODE_ADDRESS_FIND = 12402
-    const val REQUEST_CODE_PAYMENT = 12403
 
     // Keys
     const val KEY_SCAN_RESULT = "KEY_SCAN_RESULT"
@@ -26,5 +25,4 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
 
-    const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
 }

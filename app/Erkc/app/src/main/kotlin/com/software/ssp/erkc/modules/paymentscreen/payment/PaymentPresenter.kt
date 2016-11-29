@@ -1,7 +1,9 @@
 package com.software.ssp.erkc.modules.paymentscreen.payment
 
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
+import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
@@ -13,7 +15,6 @@ import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
 import com.software.ssp.erkc.extensions.isEmail
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -27,6 +28,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var paymentRepository: PaymentRepository
+    @Inject lateinit var eventBus: Relay<Any, Any>
 
     override fun onViewAttached(receipt: Receipt) {
         super.onViewAttached()
@@ -127,11 +129,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     }
 
     override fun onAddCardClick() {
-        view?.navigateToDrawer(DrawerItem.CARDS)
+        eventBus.call(OpenCardsEvent())
+        view?.close()
     }
 
     override fun onDoneClick() {
-        view?.navigateToDrawer(DrawerItem.MAIN)
+        view?.close()
     }
 
     private fun calculateSum(sum: Double, percent: Double) {

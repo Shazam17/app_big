@@ -188,6 +188,7 @@
     <string name="payment_done">Готово</string>
     <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>
     <string name="payment_sum" formatted="false">%.2f р.</string>
+    <string name="payment_currency_symbol"> р.</string>
 
     <!-- AutoPaymentsScreen -->
     <string name="auto_payments_autopay_tab_title">Автоплатежи</string>
