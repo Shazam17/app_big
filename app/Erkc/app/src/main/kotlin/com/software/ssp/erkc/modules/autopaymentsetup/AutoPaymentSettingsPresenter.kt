@@ -45,7 +45,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     }
 
     override fun onPaymentModeClick() {
-        view?.showPaymentTypeSelect(editingReceipt)
+        view?.showPaymentTypeSelect(autoPaymentMode)
     }
 
     override fun onPaymentModeSelect(mode: AutoPaymentMode) {
@@ -94,6 +94,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
 
     override fun onDialogClose() {
         view?.showReceiptDetails(editingReceipt)
+        view?.showAutoPaymentMode(autoPaymentMode)
         view?.showCardDetails(editingReceipt?.linkedCard)
     }
 
@@ -104,7 +105,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
                             currentUser = user
                             editingReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId } ?: currentUser.receipts.first()
 
-                            view?.showPaymentTypeSelect(editingReceipt)
+                            view?.showPaymentTypeSelect(autoPaymentMode)
                             view?.showReceiptDetails(editingReceipt)
                         },
                         { throwable -> view?.showMessage(throwable.parsedMessage()) }
@@ -140,7 +141,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     }
 
     private fun isMaxSumNoValid(): Boolean {
-        val maxSumNeeded = autoPaymentMode == AutoPaymentMode.AUTO
+        val maxSumNeeded = editingReceipt?.autoPayMode == AutoPaymentMode.AUTO.ordinal
         val maxSum = editingReceipt?.maxSum
         val maxSumNoValid = maxSum == null || !(maxSum > 0)
         return maxSumNeeded && maxSumNoValid

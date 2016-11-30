@@ -76,11 +76,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showPaymentTypeSelect(receipt: RealmReceipt?) {
-        val currentMode = when {
-            receipt==null-> AutoPaymentMode.OFF
-            else -> AutoPaymentMode.values()[receipt.autoPayMode]
-        }
+    override fun showPaymentTypeSelect(currentMode: AutoPaymentMode) {
 
         val title = getString(R.string.autopayment_screen_payment_type_label)
 
