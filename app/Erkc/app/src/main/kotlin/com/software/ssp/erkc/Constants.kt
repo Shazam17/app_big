@@ -28,4 +28,5 @@ object Constants {
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
 
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
+    const val KEY_PAYMENT = "KEY_PAYMENT"
 }

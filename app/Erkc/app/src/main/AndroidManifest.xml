@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".ErkcApplication"
@@ -102,6 +103,11 @@
         <activity
             android:name=".modules.paymentscreen.payment.PaymentActivity"
             android:label="@string/payment_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".modules.paymentcheck.PaymentCheckActivity"
+            android:label="@string/payment_check_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
     </application>

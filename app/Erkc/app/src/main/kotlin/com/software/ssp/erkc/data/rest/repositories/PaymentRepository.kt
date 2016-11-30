@@ -2,6 +2,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.PaymentDataSource
 import com.software.ssp.erkc.data.rest.models.Payment
+import com.software.ssp.erkc.data.rest.models.PaymentCheck
 import com.software.ssp.erkc.data.rest.models.PaymentInit
 import rx.Observable
 import javax.inject.Inject
@@ -22,9 +23,15 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
-    fun fetchPayments(token: String, receiptCode: String) : Observable<List<Payment>> {
+    fun fetchPayments(token: String, receiptCode: String): Observable<List<Payment>> {
         return paymentDataSource
                 .getByReceipt(token, receiptCode)
                 .compose(this.applySchedulers<List<Payment>>())
+    }
+
+    fun fetchCheck(token: String, id: String): Observable<PaymentCheck> {
+        return paymentDataSource
+                .getCheck(token, id)
+                .compose(this.applySchedulers<PaymentCheck>())
     }
 }
