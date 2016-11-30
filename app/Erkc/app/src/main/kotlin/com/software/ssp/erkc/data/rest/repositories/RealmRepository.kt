@@ -146,26 +146,29 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     fun saveReceipt(receipt: Receipt): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap { currentUser ->
-                    val realmReceipt = RealmReceipt(
-                            receipt.id!!,
-                            receipt.street,
-                            receipt.house,
-                            receipt.apart,
-                            receipt.autoPayMode,
-                            receipt.name,
-                            receipt.maxSumm,
-                            receipt.lastPaymentDate,
-                            receipt.address,
-                            receipt.serviceCode,
-                            receipt.amount,
-                            receipt.barcode,
-                            receipt.lastIpuTransferDate,
-                            receipt.supplierName,
-                            receipt.persent,
-                            if (receipt.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
+                    var realmReceipt = currentUser.receipts.find { it.id == receipt.id }
 
-                    if (currentUser.receipts.find { it.id == receipt.id } == null) {
+                    if (realmReceipt == null) {
+                        realmReceipt = RealmReceipt(receipt.id!!)
                         currentUser.receipts.add(realmReceipt)
+                    }
+
+                    realmReceipt.apply {
+                        street = receipt.street
+                        house = receipt.house
+                        apart = receipt.apart
+                        autoPayMode = receipt.autoPayMode
+                        name = receipt.name
+                        maxSum = receipt.maxSumm
+                        lastPaymentDate = receipt.lastPaymentDate
+                        address = receipt.address
+                        serviceCode = receipt.serviceCode
+                        amount = receipt.amount
+                        barcode = receipt.barcode
+                        lastIpuTransferDate = receipt.lastIpuTransferDate
+                        supplierName = receipt.supplierName
+                        percent = receipt.persent
+                        linkedCard = realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst()
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -206,7 +209,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.lastIpuTransferDate,
                                 it.supplierName,
                                 it.persent,
-                                if (it.linkedCardId == null) null else realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
+                                realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
                     }
 
                     currentUser.receipts.clear()
@@ -320,16 +323,20 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     fun saveCard(card: Card): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap { currentUser ->
-                    val realmCard = RealmCard(
-                            card.id,
-                            card.name,
-                            card.statusId,
-                            card.remoteCardId,
-                            card.maskCardNo,
-                            card.statusStr)
 
-                    if (currentUser.cards.find { it.id == card.id } == null) {
+                    var realmCard = currentUser.cards.find { it.id == card.id }
+
+                    if (realmCard == null) {
+                        realmCard = RealmCard(card.id)
                         currentUser.cards.add(realmCard)
+                    }
+
+                    realmCard.apply {
+                        name = card.name
+                        statusId = card.statusId
+                        remoteCardId = card.remoteCardId
+                        maskedCardNumber = card.maskCardNo
+                        statusStr = card.statusStr
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -353,21 +360,25 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    val realmPayment = RealmPayment(
-                            payment.id,
-                            payment.date,
-                            payment.amount,
-                            payment.checkFile,
-                            payment.status,
-                            payment.maskedCardNumber,
-                            payment.comment,
-                            payment.errorCode,
-                            payment.errorDesc,
-                            payment.methodId,
-                            realm.where(RealmReceipt::class.java).equalTo("barcode", payment.receiptCode).findFirst())
 
-                    if (currentUser.payments.find { it.id == payment.id } == null) {
+                    var realmPayment = currentUser.payments.find { it.id == payment.id }
+
+                    if (realmPayment == null) {
+                        realmPayment = RealmPayment(payment.id)
                         currentUser.payments.add(realmPayment)
+                    }
+
+                    realmPayment.apply {
+                        date = payment.date
+                        amount = payment.amount
+                        checkFile = payment.checkFile
+                        status = payment.status
+                        maskedCardNumber = payment.maskedCardNumber
+                        comment = payment.comment
+                        errorCode = payment.errorCode
+                        errorDesc = payment.errorDesc
+                        methodId = payment.methodId
+                        receipt = realm.where(RealmReceipt::class.java).equalTo("barcode", payment.receiptCode).findFirst()
                     }
 
                     Observable.create<Boolean> { sub ->
