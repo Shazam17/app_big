@@ -9,9 +9,11 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.autopaymentslist.AutoPaymentsListFragment
+import com.software.ssp.erkc.modules.autopaymentsetup.AutoPaymentSettingsActivity
 import kotlinx.android.synthetic.main.fragment_auto_payments_tab.*
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
+import org.jetbrains.anko.startActivity
 
 
 class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
@@ -60,8 +62,7 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
     }
 
     override fun navigateToNewAutoPayment() {
-        //TODO Navigate to new auto payment
-        showMessage("TODO: Navigate to new auto payment")
+        startActivity<AutoPaymentSettingsActivity>("autoPaymentEnabled" to true)
     }
 
     private fun initViews(){

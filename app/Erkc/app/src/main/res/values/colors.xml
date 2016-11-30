@@ -39,6 +39,8 @@
     <color name="colorCardView">#dddedd</color>
     <color name="colorGreen">#76b33a</color>
 
+    <color name="colorBaseText">#212121</color>
+
     <!-- card list item -->
     <color name="colorCardDividerActivated">#3b78de</color>
     <color name="colorCardDividerNotActivated">#e0e0e0</color>
@@ -57,4 +59,11 @@
 
     <color name="colorReceiptAutoPay">#119D90</color>
     <color name="colorTabIndicator">#FB8C00</color>
+
+    <!-- autopayment settings -->
+    <color name="colorLightGrayBackground">#edefef</color>
+    <color name="colorMidGrayBackground">#9e9e9e</color>
+    <color name="colorAutoPaymentDetailsTextBlue">#448aff</color>
+    <color name="colorAutoPaymentDialogSubText">#878787</color>
+
 </resources>

@@ -58,3 +58,9 @@ class Receipt(
     }
 }
 
+
+enum class AutoPaymentMode{
+        OFF,
+        AUTO,
+        ONE_CLICK
+}

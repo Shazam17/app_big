@@ -39,10 +39,19 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<ApiResponse>())
     }
 
-    fun updateReceipt(token: String, receiptId: String): Observable<ApiResponse> {
+    fun updateReceipt(token: String,
+                      receiptId: String,
+                      user_card_id: String,
+                      maxsumma: String,
+                      mode_id: String
+                      ): Observable<ApiResponse> {
         val params = hashMapOf(
                 "token" to token,
-                "id" to receiptId)
+                "id" to receiptId,
+                "user_card_id" to user_card_id,
+                "maxsumma" to maxsumma,
+                "mode_id" to mode_id
+                )
 
         return receiptsDataSource
                 .updateReceipt(params)

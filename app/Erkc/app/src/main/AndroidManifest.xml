@@ -105,6 +105,12 @@
             android:label="@string/payment_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
+
+        <activity
+            android:name=".modules.autopaymentsetup.AutoPaymentSettingsActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/autopayment_screen_tab_title"/>
+
     </application>
 
 </manifest>
