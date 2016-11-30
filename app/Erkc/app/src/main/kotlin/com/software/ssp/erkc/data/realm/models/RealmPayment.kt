@@ -16,4 +16,5 @@ open class RealmPayment(
         open var errorCode: String = "",
         open var errorDesc: String = "",
         open var methodId: String = "",
+        open var operationId: String = "",
         open var receipt: RealmReceipt? = null) : RealmObject()

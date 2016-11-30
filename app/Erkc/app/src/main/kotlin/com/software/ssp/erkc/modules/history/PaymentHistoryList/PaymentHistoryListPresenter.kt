@@ -26,8 +26,22 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
     }
 
     override fun onSwipeToRefresh() {
-        view?.setLoadingVisible(false)
-        //TODO Add fetch payments api call
+        subscriptions += paymentRepository
+                .fetchPayments(activeSession.accessToken!!)
+                .concatMap {
+                    payments ->
+                    realmRepository.savePaymentsList(payments)
+                }
+                .subscribe(
+                        {
+                            showPaymentsList()
+                        },
+                        {
+                            error ->
+                            view?.setLoadingVisible(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     override fun onPaymentClick(payment: RealmPayment) {

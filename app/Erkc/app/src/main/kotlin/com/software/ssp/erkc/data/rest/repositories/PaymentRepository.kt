@@ -22,9 +22,9 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
-    fun fetchPayments(token: String, receiptCode: String) : Observable<List<Payment>> {
+    fun fetchPayments(token: String): Observable<List<Payment>> {
         return paymentDataSource
-                .getByReceipt(token, receiptCode)
+                .getByUser(token)
                 .compose(this.applySchedulers<List<Payment>>())
     }
 }

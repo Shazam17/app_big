@@ -378,7 +378,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         errorCode = payment.errorCode
                         errorDesc = payment.errorDesc
                         methodId = payment.methodId
-                        receipt = realm.where(RealmReceipt::class.java).equalTo("barcode", payment.receiptCode).findFirst()
+                        operationId = payment.operationId
+                        receipt = realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst()
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -415,7 +416,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.errorCode,
                                 it.errorDesc,
                                 it.methodId,
-                                realm.where(RealmReceipt::class.java).equalTo("barcode", it.receiptCode).findFirst())
+                                it.operationId,
+                                realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
                     }
 
                     currentUser.payments.clear()

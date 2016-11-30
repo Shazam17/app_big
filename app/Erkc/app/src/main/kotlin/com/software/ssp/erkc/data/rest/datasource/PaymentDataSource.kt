@@ -16,4 +16,7 @@ interface PaymentDataSource {
 
     @GET("?method=payments.get")
     fun getByReceipt(@Query("token") token: String, @Query("code") code: String): Observable<List<Payment>>
+
+    @GET("?method=payments.getbyuser")
+    fun getByUser(@Query("token") token: String): Observable<List<Payment>>
 }
