@@ -205,31 +205,26 @@
     <!-- AutoPayment Settings-->
     <string name="autopayment_screen_tab_title">Настройка автоплатежа</string>
     <string name="autopayment_screen_payment_type_label">Тип платежа</string>
-    <string name="autopayment_screen_payment_no_mode_text">ДОБАВИТЬ</string>
+    <string name="autopayment_screen_payment_no_mode_text">Добавить</string>
     <string name="autopayment_screen_autopayment_mode_text">Автоплатеж</string>
     <string name="autopayment_screen_oneclick_mode_text">Оплата в 1 клик</string>
     <string name="autopayment_screen_receipt_label">Квитанция</string>
-    <string name="autopayment_screen_receipt_add_button_label">ДОБАВИТЬ</string>
+    <string name="autopayment_screen_receipt_add_button_label">Добавить</string>
     <string name="autopayment_screen_receipt_button_ok">Ок</string>
     <string name="autopayment_screen_receipt_button_close">Закрыть</string>
     <string name="autopayment_screen_cardpayment_label">Оплатить картой</string>
-    <string name="autopayment_screen_cardpayment_add_button_label">ДОБАВИТЬ</string>
+    <string name="autopayment_screen_cardpayment_add_button_label">Добавить</string>
     <string name="autopayment_screen_max_sum_hint">Макс. сумма платежа</string>
     <string name="autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %.1f%%</string>
+    <string name="autopayment_screen_dialog_button_ok">Ок</string>
+    <string name="autopayment_screen_dialog_button_close">Закрыть</string>
 
     <string name="autopayment_screen_error_receipt_id_notfound">Квитанция по ID не найдена</string>
-
-    <string name="autopayment_screen_mock_autopayment">Автоплатеж</string>
-    <string name="autopayment_screen_mock_receipt_id">234 678 45678 90</string>
-    <string name="autopayment_screen_mock_receipt_type">Оплата ХВ</string>
-    <string name="autopayment_screen_mock_receipt_address">пр.Ленина 34, кв.45</string>
-    <string name="autopayment_screen_mock_card_id">56** **** **** **67</string>
-    <string name="autopayment_screen_mock_card_type">Зарплатная</string>
 
     <string name="autopayment_screen_error_agreement_must_have">Необходимо согласие на оплату комиссии</string>
     <string name="autopayment_screen_error_card_must_have">Необходимо указать платежную карту</string>
     <string name="autopayment_screen_error_receipt_must_have">Необходимо указать квитанцию</string>
-    <string name="autopayment_screen_error_maxsum_must_have">Необходимо указать макс. платеж</string>
+    <string name="autopayment_screen_error_maxsum_must_have">Необходимо указать максимальную сумму платежа</string>
 
 
 </resources>

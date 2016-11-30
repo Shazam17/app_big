@@ -45,7 +45,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     }
 
     override fun onPaymentModeClick() {
-        view?.showPaymentTypeSelect(autoPaymentMode)
+        view?.showPaymentTypeSelectDialog(autoPaymentMode)
     }
 
     override fun onPaymentModeSelect(mode: AutoPaymentMode) {
@@ -59,12 +59,12 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
 
     override fun onReceiptClick() {
         val receipts = currentUser.receipts.filter { it.autoPayMode == AutoPaymentMode.OFF.ordinal }
-        view?.showReceiptSelect(receipts)
+        view?.showReceiptSelectDialog(receipts)
     }
 
     override fun onCardClick() {
         val cards = currentUser.cards.filter { it.statusId == CardStatus.ACTIVATED.ordinal }
-        view?.showCardSelect(cards)
+        view?.showCardSelectDialog(cards)
     }
 
 
@@ -103,9 +103,9 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
                 .subscribe(
                         { user ->
                             currentUser = user
-                            editingReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId } ?: currentUser.receipts.first()
+                            editingReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId }
 
-                            view?.showPaymentTypeSelect(autoPaymentMode)
+                            view?.showPaymentTypeSelectDialog(autoPaymentMode)
                             view?.showReceiptDetails(editingReceipt)
                         },
                         { throwable -> view?.showMessage(throwable.parsedMessage()) }

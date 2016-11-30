@@ -50,10 +50,6 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autopayment_settings)
 
-        autoPaymentModeString = getString(R.string.autopayment_screen_autopayment_mode_text)
-        oneClickModeString = getString(R.string.autopayment_screen_oneclick_mode_text)
-        noPaymentModeString = getString(R.string.autopayment_screen_payment_no_mode_text)
-
         initViews()
 
         presenter.incomingReceiptId = receiptId  // todo test
@@ -76,12 +72,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showPaymentTypeSelect(currentMode: AutoPaymentMode) {
-
-        val title = getString(R.string.autopayment_screen_payment_type_label)
-
+    override fun showPaymentTypeSelectDialog(currentMode: AutoPaymentMode) {
         materialDialog {
-            title(title)
+            title(R.string.autopayment_screen_payment_type_label)
             items(listOf(autoPaymentModeString, oneClickModeString))
             itemsCallbackSingleChoice(currentMode.ordinal - 1, {
                 dialog, view, which, text ->
@@ -104,7 +97,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         setMaxSumVisibility(autopaymentMode == AutoPaymentMode.AUTO)
     }
 
-    override fun showReceiptSelect(receipts: List<RealmReceipt>) {
+    override fun showReceiptSelectDialog(receipts: List<RealmReceipt>) {
         val title = getString(R.string.autopayment_screen_receipt_label)
 
         val dialog = materialDialog {
@@ -125,7 +118,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         dialog.show()
     }
 
-    override fun showCardSelect(cards: List<RealmCard>) {
+    override fun showCardSelectDialog(cards: List<RealmCard>) {
         val title = getString(R.string.autopayment_screen_cardpayment_label)
 
         val dialog = materialDialog {
@@ -196,6 +189,10 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         supportActionBar?.title = getString(R.string.autopayment_screen_tab_title)
+
+        autoPaymentModeString = getString(R.string.autopayment_screen_autopayment_mode_text)
+        oneClickModeString = getString(R.string.autopayment_screen_oneclick_mode_text)
+        noPaymentModeString = getString(R.string.autopayment_screen_payment_no_mode_text)
 
         paymentModeSelectTextView.onClick { presenter.onPaymentModeClick() }
 

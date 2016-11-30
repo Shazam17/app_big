@@ -7,9 +7,9 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
 
 interface IAutoPaymentSettingsView : IView {
-    fun showPaymentTypeSelect(autopaymentMode: AutoPaymentMode)
-    fun showReceiptSelect(receipts: List<RealmReceipt>)
-    fun showCardSelect(cards: List<RealmCard>)
+    fun showPaymentTypeSelectDialog(autopaymentMode: AutoPaymentMode)
+    fun showReceiptSelectDialog(receipts: List<RealmReceipt>)
+    fun showCardSelectDialog(cards: List<RealmCard>)
 
     fun showAutoPaymentMode(autopaymentMode: AutoPaymentMode)
     fun showReceiptDetails(receipt: RealmReceipt?)

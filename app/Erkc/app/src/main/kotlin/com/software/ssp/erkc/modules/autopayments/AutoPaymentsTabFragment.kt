@@ -62,7 +62,7 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
     }
 
     override fun navigateToNewAutoPayment() {
-        startActivity<AutoPaymentSettingsActivity>("autoPaymentEnabled" to true)
+        startActivity<AutoPaymentSettingsActivity>()
     }
 
     private fun initViews(){
