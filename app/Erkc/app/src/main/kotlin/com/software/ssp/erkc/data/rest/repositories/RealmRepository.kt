@@ -168,7 +168,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         lastIpuTransferDate = receipt.lastIpuTransferDate
                         supplierName = receipt.supplierName
                         percent = receipt.persent
-                        linkedCard = realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst()
+                        linkedCard = realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -209,7 +209,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.lastIpuTransferDate,
                                 it.supplierName,
                                 it.persent,
-                                realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
+                                if(it.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
+                        )
                     }
 
                     currentUser.receipts.clear()
@@ -379,7 +380,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         errorDesc = payment.errorDesc
                         methodId = payment.methodId
                         operationId = payment.operationId
-                        receipt = realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst()
+                        receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst())
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -417,7 +418,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.errorDesc,
                                 it.methodId,
                                 it.operationId,
-                                realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
+                                realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
+                        )
                     }
 
                     currentUser.payments.clear()
