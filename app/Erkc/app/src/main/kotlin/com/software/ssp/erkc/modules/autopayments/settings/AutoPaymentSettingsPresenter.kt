@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.autopaymentsetup
+package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter

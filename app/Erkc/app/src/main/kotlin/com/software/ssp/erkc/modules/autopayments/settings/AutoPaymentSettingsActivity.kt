@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.autopaymentsetup
+package com.software.ssp.erkc.modules.autopayments.settings
 
 import android.os.Bundle
 import android.view.Menu
@@ -14,8 +14,6 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
-import com.software.ssp.erkc.data.rest.models.Card
-import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import kotlinx.android.synthetic.main.activity_autopayment_settings.*
@@ -27,6 +25,8 @@ import javax.inject.Inject
 
 class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
+    @Inject lateinit var presenter: IAutoPaymentSettingsPresenter
+
     private var receiptId: String? by extras("receiptId")
 
     private var autoPaymentModeString: String = ""
@@ -34,8 +34,6 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
     private var noPaymentModeString: String = ""
 
     private var dialogRadioButtons: MutableList<RadioButton> = mutableListOf()
-
-    @Inject lateinit var presenter: IAutoPaymentSettingsPresenter
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerAutoPaymentSettingsComponent.builder()
@@ -72,29 +70,28 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showPaymentTypeSelectDialog(currentMode: AutoPaymentMode) {
+    override fun showPaymentTypeSelectDialog(autoPaymentMode: AutoPaymentMode) {
         materialDialog {
             title(R.string.autopayment_screen_payment_type_label)
             items(listOf(autoPaymentModeString, oneClickModeString))
-            itemsCallbackSingleChoice(currentMode.ordinal - 1, {
+            itemsCallbackSingleChoice(autoPaymentMode.ordinal - 1, {
                 dialog, view, which, text ->
-                val mode = AutoPaymentMode.values()[which + 1]
-                presenter.onPaymentModeSelect(mode)
-                dialog.dismiss()
                 true
             })
+            onPositive { materialDialog, dialogAction ->
+                presenter.onPaymentModeSelect(AutoPaymentMode.values()[materialDialog.selectedIndex])
+            }
         }.show()
-
     }
 
-    override fun showAutoPaymentMode(autopaymentMode: AutoPaymentMode) {
-        when (autopaymentMode) {
+    override fun showAutoPaymentMode(autoPaymentMode: AutoPaymentMode) {
+        when (autoPaymentMode) {
             AutoPaymentMode.OFF -> paymentModeSelectTextView.text = noPaymentModeString
             AutoPaymentMode.AUTO -> paymentModeSelectTextView.text = autoPaymentModeString
             AutoPaymentMode.ONE_CLICK -> paymentModeSelectTextView.text = oneClickModeString
         }
 
-        setMaxSumVisibility(autopaymentMode == AutoPaymentMode.AUTO)
+        setMaxSumVisibility(autoPaymentMode == AutoPaymentMode.AUTO)
     }
 
     override fun showReceiptSelectDialog(receipts: List<RealmReceipt>) {

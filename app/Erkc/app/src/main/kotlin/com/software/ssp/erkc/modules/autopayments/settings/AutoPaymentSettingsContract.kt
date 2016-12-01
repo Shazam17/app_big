@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.autopaymentsetup
+package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
@@ -7,11 +7,11 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
 
 interface IAutoPaymentSettingsView : IView {
-    fun showPaymentTypeSelectDialog(autopaymentMode: AutoPaymentMode)
+    fun showPaymentTypeSelectDialog(autoPaymentMode: AutoPaymentMode)
     fun showReceiptSelectDialog(receipts: List<RealmReceipt>)
     fun showCardSelectDialog(cards: List<RealmCard>)
 
-    fun showAutoPaymentMode(autopaymentMode: AutoPaymentMode)
+    fun showAutoPaymentMode(autoPaymentMode: AutoPaymentMode)
     fun showReceiptDetails(receipt: RealmReceipt?)
     fun showCardDetails(card: RealmCard?)
     fun setMaxSumVisibility(visible: Boolean)

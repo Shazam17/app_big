@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.autopaymentsetup
+package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.scopes.ActivityScope
