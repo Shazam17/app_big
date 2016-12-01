@@ -80,8 +80,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity" />
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"

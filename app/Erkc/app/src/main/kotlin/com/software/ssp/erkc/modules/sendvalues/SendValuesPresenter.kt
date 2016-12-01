@@ -32,7 +32,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     override fun onSendValuesClick(code: String, values: HashMap<String, String>) {
         view?.setProgressVisibility(true)
-        subscriptions += ipuProvider.sendParameters(activeSession.appToken!!, code, values)
+        subscriptions += ipuProvider.sendParameters(activeSession.accessToken ?: activeSession.appToken!!, code, values)
                 .subscribe({
                     response ->
                     view?.setProgressVisibility(false)
@@ -43,5 +43,4 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                     view?.showMessage(error.message!!)
                 })
     }
-
 }

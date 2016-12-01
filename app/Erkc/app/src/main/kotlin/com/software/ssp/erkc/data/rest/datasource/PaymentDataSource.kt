@@ -1,9 +1,8 @@
 package com.software.ssp.erkc.data.rest.datasource
 
+import com.software.ssp.erkc.data.rest.models.Payment
 import com.software.ssp.erkc.data.rest.models.PaymentInit
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 import rx.Observable
 
 /**
@@ -15,4 +14,9 @@ interface PaymentDataSource {
     @POST("?method=payments.init")
     fun init(@FieldMap params: Map<String, String>): Observable<PaymentInit>
 
+    @GET("?method=payments.get")
+    fun getByReceipt(@Query("token") token: String, @Query("code") code: String): Observable<List<Payment>>
+
+    @GET("?method=payments.getbyuser")
+    fun getByUser(@Query("token") token: String): Observable<List<Payment>>
 }

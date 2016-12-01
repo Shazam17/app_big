@@ -1,8 +1,11 @@
 package com.software.ssp.erkc.data.rest.models
 
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializer
 import nz.bradcampbell.paperparcel.PaperParcel
 import nz.bradcampbell.paperparcel.PaperParcelable
+import java.util.*
 
 @PaperParcel
 class Receipt(
@@ -27,8 +30,9 @@ class Receipt(
         @SerializedName("id")
         val id: String?,
 
+        @JsonAdapter(DateTimeDeserializer::class)
         @SerializedName("lastpay")
-        val lastPayment: String?,
+        val lastPaymentDate: Date?,
 
         @SerializedName("address")
         val address: String,
@@ -42,8 +46,9 @@ class Receipt(
         @SerializedName("barcode")
         val barcode: String,
 
+        @JsonAdapter(DateTimeDeserializer::class)
         @SerializedName("lastsendmeteripu")
-        val lastValueTransfer: String?,
+        val lastIpuTransferDate: Date?,
 
         @SerializedName("supplier_name")
         val supplierName: String,

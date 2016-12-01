@@ -10,7 +10,7 @@
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
 
     <!-- InputErrors -->
-    <string name="error_all_fields_required">Все поля обязательный для заполнения</string>
+    <string name="error_all_fields_required">Все поля обязательны для заполнения</string>
     <string name="error_empty_field">Поле не может быть пустым</string>
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
@@ -147,6 +147,7 @@
     <string name="receipts_last_pay_text">Последняя оплата</string>
     <string name="receipts_deleted">Квитанция успешно удалена</string>
     <string name="receipts_currency">р.</string>
+    <string name="receipts_date_never">никогда</string>
     <!-- Receipts menus  -->
     <string name="receipts_menu_history">История операций</string>
     <string name="receipts_menu_autopay">Настройка автоплатежа</string>
@@ -201,7 +202,6 @@
     <string name="auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
     <string name="auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
 
-
     <!-- AutoPayment Settings-->
     <string name="autopayment_screen_tab_title">Настройка автоплатежа</string>
     <string name="autopayment_screen_payment_type_label">Тип платежа</string>
@@ -226,5 +226,11 @@
     <string name="autopayment_screen_error_receipt_must_have">Необходимо указать квитанцию</string>
     <string name="autopayment_screen_error_maxsum_must_have">Необходимо указать максимальную сумму платежа</string>
 
+    <!-- HistoryScreen -->
+    <string name="history_payments_tab_title">Платежи</string>
+    <string name="history_values_tab_title">Показания счетчиков</string>
+    <string name="history_filter_menu_item">Применить фильтр</string>
+    <string name="history_money_format">%,.2f р.</string>
+    <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
 </resources>

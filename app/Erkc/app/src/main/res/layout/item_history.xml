@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/addressHeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_default_margin"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:textAllCaps="false"
+        android:textColor="@color/colorLightInput"
+        android:textStyle="normal|bold"
+        tools:text="ул. Усова 25/1, кв 7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_margin">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="30 Aug" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:textStyle="normal|bold"
+                tools:text="Оплата Электросна" />
+
+            <TextView
+                android:id="@+id/barcodeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="1231231321321" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/paymentLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/moneyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorGreen"
+                android:textSize="16sp"
+                android:textStyle="normal|bold"
+                tools:text="789000000 р." />
+
+            <TextView
+                android:id="@+id/commissionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorGreen"
+                tools:text="+789000 р.(10%)" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

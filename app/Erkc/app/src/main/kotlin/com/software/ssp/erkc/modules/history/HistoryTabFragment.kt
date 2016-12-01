@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.autopayments
+package com.software.ssp.erkc.modules.history
 
 import android.app.Fragment
 import android.os.Bundle
@@ -8,39 +8,37 @@ import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.autopayments.autopaymentslist.AutoPaymentsListFragment
-import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
-import kotlinx.android.synthetic.main.fragment_auto_payments_tab.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.withArguments
+import com.software.ssp.erkc.modules.history.PaymentHistoryList.PaymentHistoryListFragment
+import com.software.ssp.erkc.modules.history.ValuesHistoryList.ValuesHistoryListFragment
+import kotlinx.android.synthetic.main.fragment_history_tab.*
 import javax.inject.Inject
 
 
-class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
+class HistoryTabFragment : MvpFragment(), IHistoryTabView {
 
-    @Inject lateinit var presenter: IAutoPaymentsTabPresenter
+    @Inject lateinit var presenter: IHistoryTabPresenter
 
     enum class TabItem(val titleResId: Int) {
-        AUTO_PAYMENTS(R.string.auto_payments_autopay_tab_title),
-        ONE_CLICK_PAYMENT(R.string.auto_payments_one_click_tab_title)
+        PAYMENTS_HISTORY(R.string.history_payments_tab_title),
+        VALUES_HISTORY(R.string.history_values_tab_title)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
-        DaggerAutoPaymentsTabComponent.builder()
+        DaggerHistoryTabComponent.builder()
                 .appComponent(appComponent)
-                .autoPaymentsTabModule(AutoPaymentsTabModule(this))
+                .historyTabModule(HistoryTabModule(this))
                 .build()
                 .inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
-        return inflater!!.inflate(R.layout.fragment_auto_payments_tab, container, false)
+        return inflater!!.inflate(R.layout.fragment_history_tab, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
-        inflater?.inflate(R.menu.autopayments_menu, menu)
+        inflater?.inflate(R.menu.history_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -58,21 +56,21 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.menu_add -> {
-                presenter.onAddNewAutoPaymentClick()
+            R.id.menu_filter -> {
+                presenter.onFilterClick()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun navigateToNewAutoPayment() {
-        startActivity<AutoPaymentSettingsActivity>()
+    override fun navigateToFilter() {
+        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).navigateToFilter()
     }
 
     private fun initViews() {
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.AUTO_PAYMENTS.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ONE_CLICK_PAYMENT.titleResId))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.PAYMENTS_HISTORY.titleResId))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.VALUES_HISTORY.titleResId))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -94,8 +92,8 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
 
             override fun getItem(position: Int): Fragment {
                 return when (TabItem.values()[position]) {
-                    TabItem.AUTO_PAYMENTS -> AutoPaymentsListFragment().withArguments("autoPaymentMode" to 2)
-                    TabItem.ONE_CLICK_PAYMENT -> AutoPaymentsListFragment().withArguments("autoPaymentMode" to 1)
+                    TabItem.PAYMENTS_HISTORY -> PaymentHistoryListFragment()
+                    TabItem.VALUES_HISTORY -> ValuesHistoryListFragment()
                 }
             }
         }

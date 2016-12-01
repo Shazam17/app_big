@@ -13,4 +13,6 @@ open class RealmUser(
         open var isCurrentUser: Boolean = false,
         open var settings: OfflineUserSettings? = null,
         open var receipts: RealmList<RealmReceipt> = RealmList(),
-        open var cards: RealmList<RealmCard> = RealmList()) : RealmObject()
+        open var cards: RealmList<RealmCard> = RealmList(),
+        open var payments: RealmList<RealmPayment> = RealmList(),
+        open var ipus: RealmList<RealmIpu> = RealmList()) : RealmObject()
