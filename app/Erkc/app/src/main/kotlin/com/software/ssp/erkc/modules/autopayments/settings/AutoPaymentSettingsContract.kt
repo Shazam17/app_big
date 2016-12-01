@@ -2,9 +2,9 @@ package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
+import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
 
 interface IAutoPaymentSettingsView : IView {
     fun showPaymentTypeSelectDialog(autoPaymentMode: AutoPaymentMode)
@@ -14,28 +14,27 @@ interface IAutoPaymentSettingsView : IView {
     fun showAutoPaymentMode(autoPaymentMode: AutoPaymentMode)
     fun showReceiptDetails(receipt: RealmReceipt?)
     fun showCardDetails(card: RealmCard?)
-    fun setMaxSumVisibility(visible: Boolean)
-    fun showComissionPercent(percent: Double)
+    fun showCommissionPercent(percent: Double)
 
-    fun dismiss()
+    fun setPendingVisible(isPending: Boolean)
+
+    fun close()
 }
 
 
 interface IAutoPaymentSettingsPresenter : IPresenter<IAutoPaymentSettingsView> {
-    val editingReceipt: RealmReceipt?
-    var incomingReceiptId: String?
+    var receiptId: String?
+    var selectedReceipt: RealmReceipt?
+    var selectedCard: RealmCard?
 
     fun onPaymentModeClick()
     fun onReceiptClick()
     fun onCardClick()
     fun onContinueButtonClick()
 
-    fun onAgreementChecked(checked: Boolean = true)
     fun onMaxSumChanged(text: String)
 
     fun onPaymentModeSelect(mode: AutoPaymentMode)
     fun onReceiptSelect(receipt: RealmReceipt?)
     fun onCardSelect(card: RealmCard?)
-
-    fun onDialogClose()
 }

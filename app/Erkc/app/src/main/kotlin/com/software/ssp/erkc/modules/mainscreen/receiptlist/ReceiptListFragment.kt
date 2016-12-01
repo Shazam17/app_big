@@ -10,6 +10,7 @@ import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.toReceipt
+import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
@@ -129,6 +130,6 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
 
     override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
         //TODO: NavigateToAutoPayment
-        showMessage("TODO: NavigateToAutoPayment - " + receiptId)
+        startActivity<AutoPaymentSettingsActivity>("receiptId" to receiptId)
     }
 }

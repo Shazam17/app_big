@@ -101,6 +101,7 @@
     <string name="search_addresses_title"/>
 
     <string name="none"/>
+
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
     <string name="user_profile_first_name_hint">Имя</string>
@@ -148,6 +149,7 @@
     <string name="receipts_deleted">Квитанция успешно удалена</string>
     <string name="receipts_currency">р.</string>
     <string name="receipts_date_never">никогда</string>
+    <string name="receipts_auto_payment">Автоплатеж</string>
     <!-- Receipts menus  -->
     <string name="receipts_menu_history">История операций</string>
     <string name="receipts_menu_autopay">Настройка автоплатежа</string>
@@ -214,8 +216,8 @@
     <string name="autopayment_screen_receipt_button_close">Закрыть</string>
     <string name="autopayment_screen_cardpayment_label">Оплатить картой</string>
     <string name="autopayment_screen_cardpayment_add_button_label">Добавить</string>
-    <string name="autopayment_screen_max_sum_hint">Макс. сумма платежа</string>
-    <string name="autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %.1f%%</string>
+    <string name="autopayment_screen_max_sum_hint">Максимальная сумма платежа</string>
+    <string name="autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %,.2f%%</string>
     <string name="autopayment_screen_dialog_button_ok">Ок</string>
     <string name="autopayment_screen_dialog_button_close">Закрыть</string>
 

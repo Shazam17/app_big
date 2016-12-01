@@ -95,7 +95,7 @@
                                 android:gravity="bottom"
                                 android:textColor="@color/colorReceiptAutoPay"
                                 android:textSize="12sp"
-                                tools:text="Автоплатеж" />
+                                android:text="@string/receipts_auto_payment" />
 
                         </LinearLayout>
 

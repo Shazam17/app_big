@@ -2,11 +2,11 @@ package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
@@ -21,27 +21,17 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    override var editingReceipt: RealmReceipt? = null
-        set(value) {
-            value?.let {
-                field = value
-                autoPaymentMode = AutoPaymentMode.values()[it.autoPayMode]
-            }
-        }
-    override var incomingReceiptId: String? = null
+    override var receiptId: String? = null
+
+    override var selectedReceipt: RealmReceipt? = null
+    override var selectedCard: RealmCard? = null
+
+    private var autoPaymentMode: AutoPaymentMode = AutoPaymentMode.OFF
 
     private lateinit var currentUser: RealmUser
-    private var autoPaymentMode: AutoPaymentMode = AutoPaymentMode.OFF
-        set(value) {
-            field = value
-            editingReceipt?.autoPayMode = autoPaymentMode.ordinal
-        }
-
-
-    private var isAgreementChecked = false
 
     override fun onViewAttached() {
-        fetchData(incomingReceiptId?:"")
+        fetchData(receiptId ?: "")
     }
 
     override fun onPaymentModeClick() {
@@ -51,10 +41,6 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     override fun onPaymentModeSelect(mode: AutoPaymentMode) {
         autoPaymentMode = mode
         view?.showAutoPaymentMode(autoPaymentMode)
-    }
-
-    override fun onAgreementChecked(checked: Boolean) {
-        isAgreementChecked = checked
     }
 
     override fun onReceiptClick() {
@@ -67,83 +53,86 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
         view?.showCardSelectDialog(cards)
     }
 
-
     override fun onContinueButtonClick() {
-        if (validate()) {
-            saveData()
+        if (!dataValidation()) {
+            return
         }
+        view?.setPendingVisible(true)
+        subscriptions += receiptsRepository
+                .updateReceipt(
+                        token = activeSession.accessToken!!,
+                        receiptId = selectedReceipt!!.id,
+                        user_card_id = selectedCard!!.id,
+                        maxsumma = selectedReceipt!!.maxSum.toString(),
+                        mode_id = autoPaymentMode.ordinal.toString()
+                )
+                .subscribe(
+                        {
+                            response ->
+                            view?.setPendingVisible(false)
+                            view?.close()
+                        },
+                        {
+                            error ->
+                            view?.setPendingVisible(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     override fun onReceiptSelect(receipt: RealmReceipt?) {
-        editingReceipt = receipt
+        selectedReceipt = receipt
         view?.showReceiptDetails(receipt)
     }
 
     override fun onCardSelect(card: RealmCard?) {
-        editingReceipt?.linkedCard = card
+        selectedCard = card
         view?.showCardDetails(card)
     }
 
     override fun onMaxSumChanged(text: String) {
-        if (text.isNotBlank()) {
-            editingReceipt?.maxSum = text.toDouble()
-        } else {
-            editingReceipt?.maxSum = 0.0
-        }
+        selectedReceipt?.maxSum = if (text.isNotBlank()) text.toDouble() else 0.0
     }
 
-    override fun onDialogClose() {
-        view?.showReceiptDetails(editingReceipt)
-        view?.showAutoPaymentMode(autoPaymentMode)
-        view?.showCardDetails(editingReceipt?.linkedCard)
-    }
-
-    private fun fetchData(fetchedReceiptId: String="") {
+    private fun fetchData(fetchedReceiptId: String = "") {
+        view?.setPendingVisible(true)
         subscriptions += realmRepository.fetchCurrentUser()
                 .subscribe(
-                        { user ->
+                        {
+                            user ->
                             currentUser = user
-                            editingReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId }
+                            selectedReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId }
+                            selectedCard = selectedReceipt?.linkedCard
+                            autoPaymentMode = AutoPaymentMode.values()[selectedReceipt?.autoPayMode ?: 0]
 
-                            view?.showPaymentTypeSelectDialog(autoPaymentMode)
-                            view?.showReceiptDetails(editingReceipt)
+                            view?.showAutoPaymentMode(autoPaymentMode)
+                            view?.showReceiptDetails(selectedReceipt)
+                            view?.showCardDetails(selectedCard)
+                            view?.setPendingVisible(false)
                         },
-                        { throwable -> view?.showMessage(throwable.parsedMessage()) }
+                        {
+                            error ->
+                            view?.setPendingVisible(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
                 )
     }
 
-    private fun saveData() {
-        // todo pending indicator ..............
-        subscriptions += receiptsRepository.updateReceipt(
-                token = activeSession.accessToken!!,
-                receiptId = editingReceipt!!.id,
-                user_card_id = editingReceipt!!.linkedCard!!.id,
-                maxsumma = editingReceipt!!.maxSum.toString(),
-                mode_id = editingReceipt!!.autoPayMode.toString()
-        ).subscribe(
-                { response ->
-                    view?.dismiss()
-                },
-                { throwable -> view?.showMessage(throwable.parsedMessage()) }
-        )
-    }
-
-    private fun validate(): Boolean {
+    private fun dataValidation(): Boolean {
         var isValid = false
         when {
-            editingReceipt == null -> view?.showMessage(R.string.autopayment_screen_error_receipt_must_have)
-            editingReceipt!!.linkedCard == null -> view?.showMessage(R.string.autopayment_screen_error_card_must_have)
+            selectedReceipt == null -> view?.showMessage(R.string.autopayment_screen_error_receipt_must_have)
+            selectedCard == null -> view?.showMessage(R.string.autopayment_screen_error_card_must_have)
             isMaxSumNoValid() -> view?.showMessage(R.string.autopayment_screen_error_maxsum_must_have)
-            !isAgreementChecked -> view?.showMessage(R.string.autopayment_screen_error_agreement_must_have)
             else -> isValid = true
         }
         return isValid
     }
 
     private fun isMaxSumNoValid(): Boolean {
-        val maxSumNeeded = editingReceipt?.autoPayMode == AutoPaymentMode.AUTO.ordinal
-        val maxSum = editingReceipt?.maxSum
-        val maxSumNoValid = maxSum == null || !(maxSum > 0)
-        return maxSumNeeded && maxSumNoValid
+        val isMaxSumNeeded = selectedReceipt?.autoPayMode == AutoPaymentMode.AUTO.ordinal
+        val isMaxSum = selectedReceipt?.maxSum
+        val isMaxSumNoValid = isMaxSum == null || isMaxSum <= 0
+        return isMaxSumNeeded && isMaxSumNoValid
     }
 }

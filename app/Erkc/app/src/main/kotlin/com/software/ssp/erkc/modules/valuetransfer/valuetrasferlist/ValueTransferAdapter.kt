@@ -33,6 +33,7 @@ class ValueTransferAdapter(dataList: List<ReceiptViewModel>,
                 receiptPayButton.visibility = View.GONE
                 receiptLastPayLayout.visibility = View.GONE
                 receiptMenuImage.visibility = View.GONE
+                receiptAutoPaymentText.visibility = View.GONE
 
                 receiptTransferButton.onClick { interactionListener?.transferClick(receiptViewModel.receipt) }
                 deleteButton.onClick {

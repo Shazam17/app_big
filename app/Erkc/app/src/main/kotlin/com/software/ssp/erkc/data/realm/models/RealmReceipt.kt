@@ -74,3 +74,9 @@ enum class ReceiptType() {
     GKU_FINE,
     TEST; //TODO REMOVE TEST;
 }
+
+enum class AutoPaymentMode{
+    OFF,
+    ONE_CLICK,
+    AUTO
+}

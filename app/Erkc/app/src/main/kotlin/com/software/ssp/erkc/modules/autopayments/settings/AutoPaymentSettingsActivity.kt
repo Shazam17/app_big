@@ -11,12 +11,13 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.rest.models.AutoPaymentMode
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import kotlinx.android.synthetic.main.activity_autopayment_settings.*
+import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onCheckedChange
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textChangedListener
@@ -27,7 +28,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
     @Inject lateinit var presenter: IAutoPaymentSettingsPresenter
 
-    private var receiptId: String? by extras("receiptId")
+    private var receiptId: String? by extras()
 
     private var autoPaymentModeString: String = ""
     private var oneClickModeString: String = ""
@@ -41,7 +42,6 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
                 .autoPaymentSettingsModule(AutoPaymentSettingsModule(this))
                 .build()
                 .inject(this)
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
         initViews()
 
-        presenter.incomingReceiptId = receiptId  // todo test
+        presenter.receiptId = receiptId
         presenter.onViewAttached()
     }
 
@@ -62,8 +62,8 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
             return true
         }
@@ -73,25 +73,25 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
     override fun showPaymentTypeSelectDialog(autoPaymentMode: AutoPaymentMode) {
         materialDialog {
             title(R.string.autopayment_screen_payment_type_label)
-            items(listOf(autoPaymentModeString, oneClickModeString))
+            items(listOf(oneClickModeString, autoPaymentModeString))
             itemsCallbackSingleChoice(autoPaymentMode.ordinal - 1, {
                 dialog, view, which, text ->
+                presenter.onPaymentModeSelect(AutoPaymentMode.values()[which + 1])
                 true
             })
-            onPositive { materialDialog, dialogAction ->
-                presenter.onPaymentModeSelect(AutoPaymentMode.values()[materialDialog.selectedIndex])
-            }
         }.show()
     }
 
     override fun showAutoPaymentMode(autoPaymentMode: AutoPaymentMode) {
-        when (autoPaymentMode) {
-            AutoPaymentMode.OFF -> paymentModeSelectTextView.text = noPaymentModeString
-            AutoPaymentMode.AUTO -> paymentModeSelectTextView.text = autoPaymentModeString
-            AutoPaymentMode.ONE_CLICK -> paymentModeSelectTextView.text = oneClickModeString
+        paymentModeSelectTextView.text = when (autoPaymentMode) {
+            AutoPaymentMode.OFF -> noPaymentModeString
+            AutoPaymentMode.AUTO -> autoPaymentModeString
+            AutoPaymentMode.ONE_CLICK -> oneClickModeString
         }
 
-        setMaxSumVisibility(autoPaymentMode == AutoPaymentMode.AUTO)
+        maxSumTextInputLayout.visibility = if (autoPaymentMode == AutoPaymentMode.AUTO) View.VISIBLE else View.GONE
+        agreementTextView.visibility = if (autoPaymentMode == AutoPaymentMode.OFF) View.GONE else View.VISIBLE
+        agreementCheckBox.visibility = if (autoPaymentMode == AutoPaymentMode.OFF) View.GONE else View.VISIBLE
     }
 
     override fun showReceiptSelectDialog(receipts: List<RealmReceipt>) {
@@ -103,7 +103,6 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             positiveText(R.string.autopayment_screen_receipt_button_ok)
             onPositive { materialDialog, dialogAction ->
                 materialDialog.dismiss()
-                presenter.onDialogClose()
             }
             negativeText(R.string.autopayment_screen_receipt_button_close)
             onNegative { materialDialog, dialogAction -> materialDialog.dismiss() }
@@ -124,7 +123,6 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             positiveText(R.string.autopayment_screen_receipt_button_ok)
             onPositive { materialDialog, dialogAction ->
                 materialDialog.dismiss()
-                presenter.onDialogClose()
             }
             negativeText(R.string.autopayment_screen_receipt_button_close)
             onNegative { materialDialog, dialogAction -> materialDialog.dismiss() }
@@ -136,49 +134,30 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         dialog.show()
     }
 
-
-
     override fun showReceiptDetails(receipt: RealmReceipt?) {
-        if (receipt == null) {
-            receiptIdTextView.text = getString(R.string.autopayment_screen_receipt_add_button_label)
-            receiptTypeTextView.text = ""
-            receiptAddressTextView.text = ""
-            maxSumEditText.setText("")
-            showComissionPercent(0.0)
-        } else {
-            receiptIdTextView.text = receipt.barcode   // todo format
-            receiptTypeTextView.text = receipt.name
-            receiptAddressTextView.text = receipt.address
-            maxSumEditText.setText("${receipt.maxSum}")
-            showComissionPercent(receipt.percent)
-        }
+        receiptIdTextView.text = receipt?.barcode ?: getString(R.string.autopayment_screen_receipt_add_button_label)
+        receiptTypeTextView.text = receipt?.name ?: ""
+        receiptAddressTextView.text = receipt?.address ?: ""
+        maxSumEditText.setText(receipt?.maxSum?.toString() ?: "")
+        showCommissionPercent(receipt?.percent ?: 0.0)
     }
 
     override fun showCardDetails(card: RealmCard?) {
-        if (card == null) {
-            cardIdTextView.text = getString(R.string.autopayment_screen_receipt_add_button_label)
-            cardTypeTextView.text = ""
-        } else {
-            cardIdTextView.text = card.maskedCardNumber
-            cardTypeTextView.text = card.name
-        }
+        cardIdTextView.text = card?.maskedCardNumber ?: getString(R.string.autopayment_screen_receipt_add_button_label)
+        cardTypeTextView.text = card?.name ?: ""
     }
 
-    override fun setMaxSumVisibility(visible: Boolean) {
-        maxSumTextInputLayout.visibility = if (visible) View.VISIBLE else View.GONE
+    override fun showCommissionPercent(percent: Double) {
+        agreementTextView.text = getString(R.string.autopayment_screen_agreement_checkbox_label).format(percent)
     }
 
-    override fun showComissionPercent(percent: Double) {
-        val agreementTemplate = getString(R.string.autopayment_screen_agreement_checkbox_label)
-        val notZeroPercent = percent != 0.0
-
-        agreementTextView.visibility = if (notZeroPercent) View.VISIBLE else View.GONE
-        agreementCheckBox.visibility = if (notZeroPercent) View.VISIBLE else View.GONE
-        agreementTextView.text = String.format(agreementTemplate, percent)
+    override fun close() {
+        finish()
     }
 
-    override fun dismiss() {
-        onBackPressed()
+    override fun setPendingVisible(isPending: Boolean) {
+        progressBar.visibility = if (isPending) View.VISIBLE else View.GONE
+        continueButton.enabled = continueButton.isEnabled && !isPending
     }
 
     private fun initViews() {
@@ -200,20 +179,20 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         cardIdTextView.onClick { presenter.onCardClick() }
         cardTypeTextView.onClick { presenter.onCardClick() }
 
-        agreementCheckBox.onCheckedChange { compoundButton, checked -> presenter.onAgreementChecked(checked) }
+        agreementCheckBox.onCheckedChange { compoundButton, checked -> continueButton.enabled = checked }
 
         maxSumEditText.textChangedListener {
             onTextChanged { text, start, before, count -> presenter.onMaxSumChanged(text.toString()) }
         }
 
         continueButton.onClick { presenter.onContinueButtonClick() }
-
+        continueButton.enabled = false
     }
 
     private fun addItemsToReceiptDialog(dialog: MaterialDialog, receipts: List<RealmReceipt>) {
         val rootView = dialog.customView as LinearLayout
 
-        dialogRadioButtons = mutableListOf()
+        dialogRadioButtons.clear()
 
         for (receipt in receipts) {
             val receiptItemView = layoutInflater.inflate(R.layout.item_autopayment_dialog, rootView, false)
@@ -222,8 +201,8 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             val radioButton = receiptItemView.findViewById(R.id.radioButton) as RadioButton
 
             titleTextView.text = "${receipt.barcode}\n${receipt.name}"
-            subtitleTextView.text = "${receipt.address}"
-            radioButton.isChecked = receipt.id == presenter.editingReceipt?.id
+            subtitleTextView.text = receipt.address
+            radioButton.isChecked = receipt.id == presenter.selectedReceipt?.id
 
             radioButton.onCheckedChange { compoundButton, checked ->
                 if (checked) {
@@ -244,7 +223,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
     private fun addItemsToCardDialog(dialog: MaterialDialog, cards: List<RealmCard>) {
         val rootView = dialog.customView as LinearLayout
 
-        dialogRadioButtons = mutableListOf()
+        dialogRadioButtons.clear()
 
         for (card in cards) {
             val receiptItemView = layoutInflater.inflate(R.layout.item_autopayment_dialog, rootView, false)
@@ -252,9 +231,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             val subtitleTextView = receiptItemView.findViewById(R.id.subtitleTextView) as TextView
             val radioButton = receiptItemView.findViewById(R.id.radioButton) as RadioButton
 
-            titleTextView.text = "${card.maskedCardNumber}"
+            titleTextView.text = card.maskedCardNumber
             subtitleTextView.text = card.name
-            radioButton.isChecked = card.id == presenter.editingReceipt?.linkedCard?.id
+            radioButton.isChecked = card.id == presenter.selectedCard?.id
 
             radioButton.onCheckedChange { compoundButton, checked ->
                 if (checked) {
@@ -267,8 +246,8 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
                 dialogRadioButtons.forEach { it.isChecked = false }
                 radioButton.isChecked = true
             }
+
             rootView.addView(receiptItemView)
         }
     }
-
 }

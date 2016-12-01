@@ -43,15 +43,17 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                       receiptId: String,
                       user_card_id: String,
                       maxsumma: String,
-                      mode_id: String
-                      ): Observable<ApiResponse> {
+                      mode_id: String): Observable<ApiResponse> {
         val params = hashMapOf(
                 "token" to token,
                 "id" to receiptId,
                 "user_card_id" to user_card_id,
-                "maxsumma" to maxsumma,
                 "mode_id" to mode_id
-                )
+        )
+
+        if(!maxsumma.isNullOrBlank()) {
+            params.put("maxsumma", maxsumma)
+        }
 
         return receiptsDataSource
                 .updateReceipt(params)

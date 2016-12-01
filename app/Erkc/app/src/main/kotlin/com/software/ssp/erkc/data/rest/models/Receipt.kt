@@ -62,10 +62,3 @@ class Receipt(
         @JvmField val CREATOR = PaperParcelable.Creator(Receipt::class.java)
     }
 }
-
-
-enum class AutoPaymentMode{
-        OFF,
-        AUTO,
-        ONE_CLICK
-}

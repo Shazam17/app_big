@@ -3,6 +3,7 @@ package com.software.ssp.erkc.common.receipt
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.getIconResId
@@ -39,8 +40,8 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptLastTransferDateText.text = receiptViewModel.receipt.lastIpuTransferDate?.receiptFormat ?: context.getString(R.string.receipts_date_never)
 
             when (receiptViewModel.receipt.autoPayMode) {
-                0 -> receiptAutoPaymentText.visibility = View.GONE
-                2 -> receiptAutoPaymentText.visibility = View.VISIBLE
+                AutoPaymentMode.AUTO.ordinal -> receiptAutoPaymentText.visibility = View.VISIBLE
+                else -> receiptAutoPaymentText.visibility = View.GONE
             }
 
             deleteProgressBar.visibility = if (receiptViewModel.isRemovePending) View.VISIBLE else View.GONE

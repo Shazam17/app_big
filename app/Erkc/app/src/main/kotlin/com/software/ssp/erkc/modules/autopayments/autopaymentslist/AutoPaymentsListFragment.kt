@@ -11,8 +11,10 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -66,8 +68,7 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
     }
 
     override fun navigateToEditAutoPayment(receipt: RealmReceipt) {
-        //TODO NavigateToEditAutoPayment
-        showMessage("TODO: NavigateToEditAutoPayment " + receipt.barcode)
+        startActivity<AutoPaymentSettingsActivity>("receiptId" to receipt.id)
     }
 
     override fun showConfirmDeleteDialog(receipt: RealmReceipt) {
