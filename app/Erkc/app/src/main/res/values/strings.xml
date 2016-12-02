@@ -235,4 +235,36 @@
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
+    <!-- History Filter Screen -->
+    <string name="history_filter_title">Фильтр</string>
+    <string name="history_filter_apply_button">Применить</string>
+    <string name="history_filter_not_selected">Не выбран</string>
+    <string name="history_filter_payment_sum_hint">Сумма платежа</string>
+    <string name="history_filter_payment_type_caption">Вид платежа</string>
+    <string name="history_filter_payment_period_caption">Период платежа</string>
+    <string name="history_filter_payment_process">Способ оплаты</string>
+
+    <string name="history_filter_date_from_dialog_title">Период ОТ</string>
+    <string name="history_filter_date_to_dialog_title">Период от %s до…</string>
+
+    <!-- Receipt Types -->
+    <string name="receipt_gku">ЖКУ</string>
+    <string name="receipt_rent">Наем</string>
+    <string name="receipt_water">Водосчетчики</string>
+    <string name="receipt_water_private">Частный сектор</string>
+    <string name="receipt_water_city">Муниципальный сектор</string>
+    <string name="receipt_antenna">Антенна</string>
+    <string name="receipt_domofon">Обслуживание домофона</string>
+    <string name="receipt_other">Прочие услуги</string>
+    <string name="receipt_heat">Отопление и ГВС</string>
+    <string name="receipt_uk_other">УК за прочие услуги</string>
+    <string name="receipt_heat_fine">Пени за отопление и ГВС</string>
+    <string name="receipt_gku_other">ЖКУ прочие</string>
+    <string name="receipt_gku_erkc">ЖКУ ЕРКЦ</string>
+    <string name="receipt_overhaul">КапРемонт</string>
+    <string name="receipt_overhaul_village">КапРемонтДеревни</string>
+    <string name="receipt_overhaul_fine">КапРемПеня</string>
+    <string name="receipt_gku_fine">ЖКУ Пени</string>
+    <string name="receipt_test">Тест</string>
+
 </resources>

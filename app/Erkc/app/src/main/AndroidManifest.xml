@@ -110,6 +110,9 @@
             android:theme="@style/AppTheme.Light"
             android:label="@string/autopayment_screen_tab_title"/>
 
+        <activity android:name=".modules.history.filter.HistoryFilterActivity"
+            android:label="@string/history_filter_title" />
+
     </application>
 
 </manifest>

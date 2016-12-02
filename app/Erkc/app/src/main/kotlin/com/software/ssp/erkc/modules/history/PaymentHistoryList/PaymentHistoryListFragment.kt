@@ -9,6 +9,8 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterActivity
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -54,7 +56,7 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
     }
 
     override fun navigateToFilter() {
-        showMessage("TODO Filter by Payment")
+        startActivity<HistoryFilterActivity>()
         //TODO startActivityForResult
     }
 
