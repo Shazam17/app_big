@@ -4,6 +4,7 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
 
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var settingsRepository: SettingsRepository
 
     private lateinit var offlineUserSettings: OfflineUserSettings
 
@@ -36,26 +38,60 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     override fun onPushSwitch(checked: Boolean) {
+        if (!checked) {
+            view?.setIpuSwitch(checked)
+            view?.setNewsSwitch(checked)
+            view?.setPaymentSwitch(checked)
+            view?.setOperationStatusSwitch(checked)
+        }
         offlineUserSettings.pushEnabled = checked
         updateData()
     }
 
     override fun onOperationStatusSwitch(checked: Boolean) {
+        subscriptions += settingsRepository.setStatusOperations(activeSession.accessToken!!, checked)
+                .subscribe({
+                    responseBody ->
+                }, {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
         offlineUserSettings.operationStatusNotificationEnabled = checked
         updateData()
     }
 
     override fun onNewsSwitch(checked: Boolean) {
+        subscriptions += settingsRepository.setGetNews(activeSession.accessToken!!, checked)
+                .subscribe({
+                    responseBody ->
+                }, {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
         offlineUserSettings.newsNotificationEnabled = checked
         updateData()
     }
 
     override fun onPaymentSwitch(checked: Boolean) {
+        subscriptions += settingsRepository.setNeedToPay(activeSession.accessToken!!, checked)
+                .subscribe({
+                    responseBody ->
+                }, {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
         offlineUserSettings.paymentNotificationEnabled = checked
         updateData()
     }
 
     override fun onIpuSwitch(checked: Boolean) {
+        subscriptions += settingsRepository.setNeedToSendMeters(activeSession.accessToken!!, checked)
+                .subscribe({
+                    responseBody ->
+                }, {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
         offlineUserSettings.ipuNotificationEnabled = checked
         updateData()
     }
@@ -77,13 +113,19 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     private fun updateData() {
+        offlineUserSettings.apply {
+            view?.setPushSwitch(paymentNotificationEnabled
+                    || newsNotificationEnabled
+                    || ipuNotificationEnabled
+                    || operationStatusNotificationEnabled)
+        }
         subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
                 .subscribe(
-                {},
-                {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                }
-        )
+                        {},
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 }
