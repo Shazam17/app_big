@@ -12,7 +12,9 @@ object Constants {
     //DateTime formats
     const val PERIOD_DATE_FORMAT_API = "yyyyMM"
     const val PERIOD_DATE_FORMAT_UI = "MMM yyyy"
+    const val DATE_TIME_FORMAT_PAYMENTS_UI = "dd MMM yyyy, HH:mm"
     const val DATE_TIME_FORMAT_API = "yyyy-MM-dd hh:mm:ss"
+    const val DATE_TIME_FORMAT_API_PAYMENTS = "dd.MM.yyyy hh:mm"
     const val HISTORY_DATE_FORMAT = "dd MMM"
     const val RECEIPT_DATE_FORMAT = "dd MMM yyyy"
 
@@ -26,6 +28,7 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_URL_RESULT = "URL_RESULT_KEY"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
+    const val KEY_PAYMENT = "payment_key"
 
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
 }

@@ -102,6 +102,12 @@
         <item name="android:textColor">@color/colorPaymentBodyText</item>
     </style>
 
+    <style name="PaymentInfoCurrencyTextView" parent="BodyTextView">
+        <item name="android:layout_marginTop">@dimen/half_default_margin</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPaymentInfoCurrencyTextColor</item>
+    </style>
+
     <style name="BodyTextViewSub" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/colorPaymentSubText</item>
         <item name="android:textSize">14sp</item>

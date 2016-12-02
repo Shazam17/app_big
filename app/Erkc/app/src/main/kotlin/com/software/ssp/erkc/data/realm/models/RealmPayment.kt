@@ -11,10 +11,25 @@ open class RealmPayment(
         open var amount: Double = 0.0,
         open var checkFile: String = "",
         open var status: Int = 0,
-        open var maskedCardNumber: String = "",
-        open var comment: String = "",
-        open var errorCode: String = "",
-        open var errorDesc: String = "",
-        open var methodId: String = "",
+        open var errorDesc: String? = null,
         open var operationId: String = "",
+        open var methodId: String? = null,
         open var receipt: RealmReceipt? = null) : RealmObject()
+
+open class RealmPaymentInfo(
+        @PrimaryKey
+        var id: String = "",
+        var date: Date? = null,
+        var house: String = "",
+        var status: Int = 0,
+        var street: String = "",
+        var barcode: String = "",
+        var operationId: String = "",
+        var summ: Double = 0.0,
+        var supplierName: String = "",
+        var serviceName: String = "",
+        var amount: Double = 0.0,
+        var text: String = "",
+        var address: String = "",
+        open var receipt: RealmReceipt? = null,
+        var apart: String = "") : RealmObject()
