@@ -2,6 +2,8 @@ package com.software.ssp.erkc.modules.history.filter
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.ReceiptType
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import java.util.*
 import javax.inject.Inject
@@ -11,10 +13,12 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
 
     @Inject lateinit var realmRepository: RealmRepository
 
-    override var currentFilter: HistoryFilterModel = HistoryFilterModel()
+    override lateinit var currentFilter: HistoryFilterModel
 
     override fun onViewAttached() {
         super.onViewAttached()
+
+        view?.showCurrentFilter(currentFilter)
     }
 
     override fun onViewDetached() {
@@ -35,32 +39,27 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onSelectPaymentProcessClick() {
-        view?.showMessage("not implemented")
+        view?.showListSelectDialog(R.string.history_filter_payment_process,
+                R.array.payment_methods,
+                currentFilter.paymentMethod?.ordinal ?: -1,
+                {index ->
+                    currentFilter.paymentMethod = PaymentMethod.values()[index]
+                    view?.showSelectedPaymentMethod(currentFilter.paymentMethod!!)
+                })
     }
 
     override fun onSelectPaymentTypeClick() {
-//        subscriptions += realmRepository.fetchReceiptsList()
-//                .subscribe(
-//                        {
-//                            receipt ->
-//                            view?.showListSelectDialog(
-//                                    R.string.history_filter_payment_type_caption,
-//                                    receipt.map { Resources.getSystem().getString(it.receiptType.getStringResId()) },
-//                                    { index -> }
-//                            )
-//                        },
-//                        {
-//                            error ->
-//                            view?.showMessage(error.parsedMessage())
-//                        }
-//                )
         view?.showListSelectDialog(R.string.history_filter_payment_type_caption,
-                listOf("asd", "asd2", "asd3"),
-                {index -> })
+                R.array.receipt_types,
+                currentFilter.paymentType?.ordinal ?: -1,
+                {index ->
+                    currentFilter.paymentType = ReceiptType.values()[index]
+                    view?.showSelectedPaymentType(currentFilter.paymentType!!)
+                })
     }
 
     override fun onApplyFilterClick() {
-        view?.showMessage("not implemented")
+        view?.applyFilter(currentFilter)
     }
 
     override fun onBarCodeTextChanged(barcode: String) {

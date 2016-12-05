@@ -247,6 +247,9 @@
     <string name="history_filter_date_from_dialog_title">Период ОТ</string>
     <string name="history_filter_date_to_dialog_title">Период от %s до…</string>
 
+    <string name="history_filter_dialog_ok">Ок</string>
+    <string name="history_filter_dialog_cancel">Отмена</string>
+
     <!-- Receipt Types -->
     <string name="receipt_gku">ЖКУ</string>
     <string name="receipt_rent">Наем</string>
@@ -266,5 +269,10 @@
     <string name="receipt_overhaul_fine">КапРемПеня</string>
     <string name="receipt_gku_fine">ЖКУ Пени</string>
     <string name="receipt_test">Тест</string>
+
+    <!-- Payment Methods -->
+    <string name="payment_default">Стандартная оплата</string>
+    <string name="payment_one_click">Оплата в 1 клик</string>
+    <string name="payment_auto">Автоплатеж</string>
 
 </resources>

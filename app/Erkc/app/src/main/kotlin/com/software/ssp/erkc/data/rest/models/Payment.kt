@@ -17,7 +17,8 @@ data class PaymentInit(
 
 enum class PaymentMethod {
     DEFAULT,
-    ONE_CLICK
+    ONE_CLICK,
+    AUTO
 }
 
 data class Payment(
@@ -41,7 +42,7 @@ data class Payment(
         @SerializedName("erdesc")
         var errorDesc: String,
         @SerializedName("method_id")
-        var methodId: String,
+        var methodId: Int,
         @SerializedName("receipt_id")
         var receiptId: String,
         @SerializedName("operation_id")

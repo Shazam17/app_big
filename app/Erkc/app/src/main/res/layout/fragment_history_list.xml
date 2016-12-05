@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.plumillonforge.android.chipview.ChipView
+                android:id="@+id/filterChipView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/half_default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                app:chip_background="@color/colorFilterChip"
+                app:chip_corner_radius="16dp"
+                app:chip_line_spacing="8dp"
+                app:chip_side_padding="8dp"
+                app:chip_spacing="8dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/half_default_margin"
+                android:scrollbars="vertical"
+                android:splitMotionEvents="false" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/emptyMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/double_default_margin"
+        android:layout_marginRight="@dimen/double_default_margin"
+        android:gravity="center"
+        android:text="@string/default_empty_list_message_text"
+        android:textSize="@dimen/google_subhead_text_size"
+        android:visibility="invisible" />
+
+</FrameLayout>

@@ -2,18 +2,27 @@ package com.software.ssp.erkc.modules.history.filter
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
+import com.software.ssp.erkc.data.realm.models.ReceiptType
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import java.util.*
 
 
 interface IHistoryFilterView : IView {
     fun navigateToBarcodeScanner()
     fun navigateToSearchAddress()
-    fun showListSelectDialog(titleRes: Int, items: List<String>, onConfirm: (Int) -> Unit)
+
+    fun showListSelectDialog(titleRes: Int, itemsRes: Int, selectedIndex: Int, onConfirm: (Int) -> Unit)
 
     fun showSelectPeriodFromDialog(date: Date)
     fun showSelectPeriodToDialog(date: Date)
 
     fun showSelectedPeriod(dateFrom: Date, dateTo: Date)
+    fun showSelectedPaymentType(paymentType: ReceiptType)
+    fun showSelectedPaymentMethod(paymentMethod: PaymentMethod)
+
+    fun showCurrentFilter(currentFilter: HistoryFilterModel)
+
+    fun applyFilter(currentFilter: HistoryFilterModel)
 }
 
 interface IHistoryFilterPresenter : IPresenter<IHistoryFilterView> {

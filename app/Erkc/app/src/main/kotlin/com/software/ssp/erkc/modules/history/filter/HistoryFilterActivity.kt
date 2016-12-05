@@ -8,7 +8,10 @@ import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.realm.models.ReceiptType
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.getStringResId
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.receiptFormat
@@ -25,7 +28,9 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
     @Inject lateinit var presenter: IHistoryFilterPresenter
 
     companion object {
-        val REQUEST_CODE = 24222
+        const val REQUEST_CODE = 24222
+        const val RESULT_KEY = "history_filter_result_key"
+        const val KEY_CURRENT_FILTER = "current_filter"
     }
 
     val DATE_PICKER_DIALOG_TAG: String = "datePickerDialog"
@@ -41,7 +46,11 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_filter)
+
         initViews()
+
+        presenter.currentFilter = intent.getParcelableExtra<HistoryFilterModel>(KEY_CURRENT_FILTER) ?: HistoryFilterModel()
+
         presenter.onViewAttached()
     }
 
@@ -71,17 +80,41 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         }
     }
 
-    override fun showListSelectDialog(titleRes: Int, items: List<String>, onConfirm: (Int) -> Unit) {
+    override fun showCurrentFilter(currentFilter: HistoryFilterModel) {
+        with(currentFilter){
+            barcodeEditText.setText(barcode)
+            streetEditText.setText(street)
+            houseEditText.setText(house)
+            apartmentEditText.setText(apartment)
+            paymentSumEditText.setText(paymentSum)
+
+            periodFrom?.let {
+                showSelectedPeriod(it, periodTo!!)
+            }
+
+            paymentType?.let {
+                showSelectedPaymentType(it)
+            }
+
+            paymentMethod?.let {
+                showSelectedPaymentMethod(it)
+            }
+        }
+    }
+
+    override fun showListSelectDialog(titleRes: Int, itemsRes: Int, selectedIndex: Int, onConfirm: (Int) -> Unit) {
         materialDialog {
             title(titleRes)
-            items(items)
-            itemsCallbackSingleChoice( -1,
-                    { materialDialog, view, index, charSequence -> true })
-            onPositive { dialog, action ->
-
-            }
-            onNegative { dialog, dialogAction ->
-
+            items(itemsRes)
+            itemsCallbackSingleChoice(
+                    selectedIndex,
+                    { materialDialog, view, index, charSequence -> true }
+            )
+            positiveText(R.string.history_filter_dialog_ok)
+            negativeText(R.string.history_filter_dialog_cancel)
+            onPositive {
+                dialog, action ->
+                onConfirm(dialog.selectedIndex)
             }
         }.show()
     }
@@ -127,12 +160,27 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         periodText.text = "%s - %s".format(dateFrom.receiptFormat, dateTo.receiptFormat)
     }
 
+    override fun showSelectedPaymentMethod(paymentMethod: PaymentMethod) {
+        paymentProcessText.setText(paymentMethod.getStringResId())
+    }
+
+    override fun showSelectedPaymentType(paymentType: ReceiptType) {
+        paymentTypeText.setText(paymentType.getStringResId())
+    }
+
     override fun navigateToBarcodeScanner() {
         startActivityForResult<BarcodeScannerActivity>(BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE)
     }
 
     override fun navigateToSearchAddress() {
         startActivityForResult<SearchAddressActivity>(SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE)
+    }
+
+    override fun applyFilter(currentFilter: HistoryFilterModel) {
+        val intent = Intent()
+        intent.putExtra(RESULT_KEY, currentFilter)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun initViews() {
@@ -157,9 +205,16 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
                 motionEvent.actionMasked == MotionEvent.ACTION_UP -> {
                     rootLayout.requestFocus()
                     presenter.onAddressClick()
-                    true
+                    false
                 }
                 else -> true
+            }
+        }
+
+        streetEditText.onFocusChange { view, isFocus ->
+            if(isFocus) {
+                presenter.onAddressClick()
+                rootLayout.requestFocus()
             }
         }
 
@@ -192,7 +247,7 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         }
 
         barCodeScanButton.onClick { presenter.onBarCodeScanButtonClick() }
-        streetInputLayout.onClick { presenter.onAddressClick() }
+        //streetInputLayout.onClick { presenter.onAddressClick() }
         periodText.onClick { presenter.onSelectPeriodClick() }
         applyFilterButton.onClick { presenter.onApplyFilterClick() }
         paymentTypeText.onClick { presenter.onSelectPaymentTypeClick() }

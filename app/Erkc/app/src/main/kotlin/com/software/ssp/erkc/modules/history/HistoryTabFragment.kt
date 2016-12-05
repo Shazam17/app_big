@@ -65,7 +65,7 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
     }
 
     override fun navigateToFilter() {
-        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).navigateToFilter()
+        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).onFilterClick()
     }
 
     private fun initViews() {

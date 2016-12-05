@@ -28,6 +28,10 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
         return ViewHolder(view, onItemClick)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     class ViewHolder(view: View, val onItemClick: ((RealmReceipt) -> Unit)?) : RecyclerView.ViewHolder(view) {
 
         fun bindReceipt(receipt: RealmReceipt) {
