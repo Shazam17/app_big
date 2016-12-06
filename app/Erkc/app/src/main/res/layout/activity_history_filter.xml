@@ -116,35 +116,10 @@
             android:id="@+id/paymentSumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:inputType="numberDecimal" />
 
     </android.support.design.widget.TextInputLayout>
-
-    <FrameLayout
-        android:id="@+id/bottomSheetLayout"
-        android:layout_width="0dp"
-        android:layout_height="77dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/applyFilterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin"
-        android:text="@string/history_filter_apply_button"
-        android:theme="@style/AppWhiteButtonStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/bottomSheetLayout"
-        app:layout_constraintLeft_toLeftOf="@+id/bottomSheetLayout"
-        app:layout_constraintRight_toRightOf="@+id/bottomSheetLayout"
-        app:layout_constraintTop_toTopOf="@+id/bottomSheetLayout" />
 
     <TextView
         android:id="@+id/paymentTypeText"
@@ -185,7 +160,7 @@
         app:layout_constraintTop_toBottomOf="@+id/paymentTypeCaption" />
 
     <TextView
-        android:id="@+id/paymentPeriodCaption"
+        android:id="@+id/periodCaption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -207,7 +182,7 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymentPeriodCaption" />
+        app:layout_constraintTop_toBottomOf="@+id/periodCaption" />
 
     <TextView
         android:id="@+id/paymentProcessCaption"
@@ -220,5 +195,30 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paymentProcessText" />
+
+    <FrameLayout
+        android:id="@+id/bottomSheetLayout"
+        android:layout_width="0dp"
+        android:layout_height="77dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/applyFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:text="@string/history_filter_apply_button"
+        android:theme="@style/AppWhiteButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomSheetLayout"
+        app:layout_constraintLeft_toLeftOf="@+id/bottomSheetLayout"
+        app:layout_constraintRight_toRightOf="@+id/bottomSheetLayout"
+        app:layout_constraintTop_toTopOf="@+id/bottomSheetLayout" />
 
 </android.support.constraint.ConstraintLayout>

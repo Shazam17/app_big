@@ -26,10 +26,6 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
             showPaymentsList()
         }
 
-    override fun onViewAttached() {
-        showPaymentsList()
-    }
-
     override fun onViewDetached() {
         realmRepository.close()
         super.onViewDetached()
@@ -68,10 +64,12 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                 currentFilter.periodFrom = null
                 currentFilter.periodTo = null
             }
-            HistoryFilterField.MAX_SUM -> currentFilter.paymentSum = ""
+            HistoryFilterField.MAX_SUM -> currentFilter.paymentSum = null
             HistoryFilterField.PAYMENT_TYPE -> currentFilter.paymentType = null
             HistoryFilterField.PAYMENT_METHOD -> currentFilter.paymentMethod = null
+            else -> return
         }
+        showPaymentsList()
     }
 
     override fun onFilterClick() {
@@ -88,10 +86,10 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                     payment ->
                     payment.receipt?.let {
                         when {
-                            !it.barcode.contains(currentFilter.barcode) -> return@filter false
-                            !it.street.contains(currentFilter.street) -> return@filter false
-                            !it.house.contains(currentFilter.house, true) -> return@filter false
-                            !it.apart.contains(currentFilter.apartment) -> return@filter false
+                            !currentFilter.barcode.isNullOrBlank() && it.barcode != currentFilter.barcode -> return@filter false
+                            !currentFilter.street.isNullOrBlank() && it.street != currentFilter.street -> return@filter false
+                            !currentFilter.house.isNullOrBlank() && !it.house.equals(currentFilter.house, true) -> return@filter false
+                            !currentFilter.apartment.isNullOrBlank() && it.apart != currentFilter.apartment -> return@filter false
                             currentFilter.paymentType != null && it.receiptType != currentFilter.paymentType -> return@filter false
                             else -> {}
                         }
@@ -109,7 +107,11 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                         }
                     }
 
-                    //TODO maxsum filter
+                    currentFilter.paymentSum?.let {
+                        if(it != payment.amount) {
+                            return@filter false
+                        }
+                    }
 
                     return@filter true
                 }

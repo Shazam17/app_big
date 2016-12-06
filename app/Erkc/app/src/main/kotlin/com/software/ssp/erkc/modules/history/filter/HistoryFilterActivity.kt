@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import com.redmadrobot.inputmask.MaskedTextChangedListener
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
@@ -23,6 +26,8 @@ import org.jetbrains.anko.*
 import java.util.*
 import javax.inject.Inject
 
+
+
 class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
 
     @Inject lateinit var presenter: IHistoryFilterPresenter
@@ -31,9 +36,10 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         const val REQUEST_CODE = 24222
         const val RESULT_KEY = "history_filter_result_key"
         const val KEY_CURRENT_FILTER = "current_filter"
+        const val DATE_PICKER_DIALOG_TAG = "datePickerDialog"
     }
 
-    val DATE_PICKER_DIALOG_TAG: String = "datePickerDialog"
+    private val isPaymentFilter: Boolean by extras(defaultValue = true)
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerHistoryFilterComponent.builder()
@@ -86,7 +92,10 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             streetEditText.setText(street)
             houseEditText.setText(house)
             apartmentEditText.setText(apartment)
-            paymentSumEditText.setText(paymentSum)
+
+            paymentSum?.let {
+                paymentSumEditText.setText(String.format("%.2f", it))
+            }
 
             periodFrom?.let {
                 showSelectedPeriod(it, periodTo!!)
@@ -230,11 +239,48 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             }
         }
 
-        paymentSumEditText.textChangedListener {
-            afterTextChanged { sum ->
-                presenter.onPaymentSumTextChanged(sum.toString())
-            }
-        }
+        val listener = MaskedTextChangedListener(
+                "[099999999]{.}[99]",
+                false,
+                paymentSumEditText,
+                null,
+                object : MaskedTextChangedListener.ValueListener{
+                    override fun onExtracted(value: String) {
+                        presenter.onPaymentSumTextChanged(value)
+                    }
+
+                    override fun onMandatoryCharactersFilled(complete: Boolean) {
+                    }
+                }
+        )
+
+        paymentSumEditText.addTextChangedListener(listener)
+        paymentSumEditText.onFocusChangeListener = listener
+
+
+//        paymentSumEditText.textChangedListener {
+//            afterTextChanged { text ->
+//                val input = text.toString()
+//                when {
+//                    input[0] == '.' || input[0] == ',' ->
+//                        text?.insert(0, "0")
+//
+//                    input.contains(".") && input.last() !== '.' && input.indexOf(".") + 3 <= input.length - 1 -> {
+//                        val formatted = input.substring(0, input.indexOf(".") + 3)
+//                        paymentSumEditText.setText(formatted)
+//                        paymentSumEditText.setSelection(formatted.length)
+//                    }
+//
+//                    input.contains(",") && input.last() !== ',' && input.indexOf(",") + 3 <= input.length - 1 -> {
+//                        val formatted = input.substring(0, input.indexOf(",") + 3)
+//                        paymentSumEditText.setText(formatted)
+//                        paymentSumEditText.setSelection(formatted.length)
+//                    }
+//
+//                    else -> presenter.onPaymentSumTextChanged(text.toString())
+//                }
+//            }
+//        }
 
         paymentSumEditText.onEditorAction { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -247,10 +293,18 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         }
 
         barCodeScanButton.onClick { presenter.onBarCodeScanButtonClick() }
-        //streetInputLayout.onClick { presenter.onAddressClick() }
         periodText.onClick { presenter.onSelectPeriodClick() }
         applyFilterButton.onClick { presenter.onApplyFilterClick() }
         paymentTypeText.onClick { presenter.onSelectPaymentTypeClick() }
         paymentProcessText.onClick { presenter.onSelectPaymentProcessClick() }
+
+        if(!isPaymentFilter) {
+            paymentSumInputLayout.visibility = View.GONE
+            paymentTypeText.visibility = View.GONE
+            paymentTypeCaption.visibility = View.GONE
+            paymentProcessText.visibility = View.GONE
+            paymentProcessCaption.visibility = View.GONE
+            periodCaption.setText(R.string.history_filter_transfer_value_period_caption)
+        }
     }
 }

@@ -15,7 +15,7 @@ data class HistoryFilterModel(
         var periodFrom: Date? = null,
         var periodTo: Date? = null,
 
-        var paymentSum: String = "",
+        var paymentSum: Double? = null,
         var paymentType: ReceiptType? = null,
         var paymentMethod: PaymentMethod? = null) : PaperParcelable {
     companion object {

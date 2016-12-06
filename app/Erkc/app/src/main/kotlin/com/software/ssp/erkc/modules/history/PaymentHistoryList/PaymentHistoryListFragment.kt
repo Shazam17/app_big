@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
@@ -35,6 +36,8 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
                 .inject(this)
     }
 
+    private var historyFilter: HistoryFilterModel by args(defaultValue = HistoryFilterModel())
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater?.inflate(R.layout.fragment_history_list, container, false)
@@ -42,6 +45,7 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.currentFilter = historyFilter
         presenter.onViewAttached()
     }
 
@@ -57,7 +61,8 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
 
         when (requestCode) {
             HistoryFilterActivity.REQUEST_CODE -> {
-                presenter.currentFilter = data?.getParcelableExtra(HistoryFilterActivity.RESULT_KEY) ?: HistoryFilterModel()
+                historyFilter = data?.getParcelableExtra(HistoryFilterActivity.RESULT_KEY) ?: HistoryFilterModel()
+                presenter.currentFilter = historyFilter
             }
         }
     }
@@ -80,7 +85,10 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         checkAndAddFilterTag(currentFilter.street, HistoryFilterField.STREET)
         checkAndAddFilterTag(currentFilter.house, HistoryFilterField.HOUSE)
         checkAndAddFilterTag(currentFilter.apartment, HistoryFilterField.APARTMENT)
-        checkAndAddFilterTag(currentFilter.paymentSum, HistoryFilterField.MAX_SUM)
+
+        currentFilter.paymentSum?.let {
+            checkAndAddFilterTag(String.format("%.2f", it), HistoryFilterField.MAX_SUM)
+        }
 
         currentFilter.periodFrom?.let {
             checkAndAddFilterTag("%s - %s".format(it.receiptFormat, currentFilter.periodTo!!.receiptFormat), HistoryFilterField.PERIOD)
@@ -97,6 +105,10 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         filterChipView.refresh()
     }
 
+    override fun navigateToPaymentInfo(payment: RealmPayment) {
+        showMessage("TODO") //TODO
+    }
+
     override fun onFilterClick() {
         presenter.onFilterClick()
     }
@@ -104,12 +116,9 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
     override fun navigateToFilter(currentFilter: HistoryFilterModel) {
         startActivityForResult<HistoryFilterActivity>(
                 HistoryFilterActivity.REQUEST_CODE,
-                HistoryFilterActivity.KEY_CURRENT_FILTER to currentFilter
+                HistoryFilterActivity.KEY_CURRENT_FILTER to currentFilter,
+                "isPaymentFilter" to true
         )
-    }
-
-    override fun navigateToPaymentInfo(payment: RealmPayment) {
-        showMessage("TODO") //TODO
     }
 
     override fun initViews() {

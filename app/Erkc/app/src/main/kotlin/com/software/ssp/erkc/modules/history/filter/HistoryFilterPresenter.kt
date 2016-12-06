@@ -79,7 +79,11 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onPaymentSumTextChanged(paymentSum: String) {
-        currentFilter.paymentSum = paymentSum
+        if(paymentSum.isNullOrBlank()) {
+            currentFilter.paymentSum = null
+        } else {
+            currentFilter.paymentSum = paymentSum.toDouble()
+        }
     }
 
     override fun onPeriodDateFromSelected(date: Date) {

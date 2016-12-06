@@ -94,6 +94,7 @@ dependencies {
 
     compile 'com.wdullaer:materialdatetimepicker:3.0.0'
     compile 'com.github.Plumillon:ChipView:1.2.0'
+    compile 'com.redmadrobot:inputmask:1.1.0'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

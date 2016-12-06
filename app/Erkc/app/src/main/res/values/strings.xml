@@ -244,6 +244,8 @@
     <string name="history_filter_payment_period_caption">Период платежа</string>
     <string name="history_filter_payment_process">Способ оплаты</string>
 
+    <string name="history_filter_transfer_value_period_caption">Период передачи показаний</string>
+
     <string name="history_filter_date_from_dialog_title">Период ОТ</string>
     <string name="history_filter_date_to_dialog_title">Период от %s до…</string>
 
