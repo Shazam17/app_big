@@ -66,10 +66,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     override fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String) {
         view?.setProgressVisibility(true)
         val summ = sum.removeSuffix(" р.").toFloat()
+        val method = if (card == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
+        val token = activeSession.accessToken ?: activeSession.appToken!!
         subscriptions += paymentRepository.init(
-                activeSession.accessToken ?: activeSession.appToken!!,
+                token,
                 receipt.barcode,
-                if (card == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
+                method,
                 summ,
                 email,
                 card?.id)
