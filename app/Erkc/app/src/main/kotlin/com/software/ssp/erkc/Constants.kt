@@ -17,14 +17,11 @@ object Constants {
     const val HISTORY_DATE_FORMAT = "dd MMM"
     const val RECEIPT_DATE_FORMAT = "dd MMM yyyy"
 
-    // Request codes
-    const val REQUEST_CODE_PAYMENT = 12403
-
     // Keys
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"
     const val KEY_URL = "url_key"
     const val KEY_URL_ACTIVITY_TITLE = "url_activity_title_key"
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
-
+    const val KEY_PAYMENT = "KEY_PAYMENT"
 }

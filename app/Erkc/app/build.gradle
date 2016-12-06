@@ -93,6 +93,9 @@ dependencies {
 
     compile 'ru.rambler.android:swipe-layout:1.0.14'
 
+    //pdf
+    compile 'com.github.barteksc:android-pdf-viewer:2.1.0'
+
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'

@@ -45,4 +45,14 @@ data class Payment(
         @SerializedName("receipt_id")
         var receiptId: String,
         @SerializedName("operation_id")
-        var operationId: String)
+        var operationId: String) {
+    var receiptCode: String? = null
+}
+
+data class PaymentCheck(
+        @SerializedName("id")
+        var id: String,
+        @SerializedName("filecheck")
+        var fileCheck: String
+)
+
