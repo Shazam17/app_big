@@ -51,7 +51,6 @@ class PaymentCheckActivity : MvpActivity(), IPaymentCheckView {
 
     override fun showCheck(file: File) {
         this.file = file
-        invalidateOptionsMenu()
         paymentPdfView.fromFile(file).load()
     }
 
@@ -67,21 +66,10 @@ class PaymentCheckActivity : MvpActivity(), IPaymentCheckView {
         return true
     }
 
-    override fun saveFile(file: File) {
-        try {
-            val outputStream = openFileOutput(payment.checkFile, Context.MODE_PRIVATE)
-            outputStream.write(file.readBytes())
-            outputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.payment_check_menu_download -> presenter.onDownloadClick(file)
+            R.id.payment_check_menu_download -> presenter.onDownloadClick(file, payment.checkFile)
             R.id.payment_check_menu_share -> presenter.onShareClick(file)
             else -> return super.onOptionsItemSelected(item)
         }

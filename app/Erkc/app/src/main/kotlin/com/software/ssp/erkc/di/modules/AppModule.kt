@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.di.modules
 
 import android.app.Application
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -35,5 +36,10 @@ class AppModule(val application: Application) {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         return Realm.getInstance(realmConfiguration)
+    }
+
+    @Provides
+    fun provideContext(): Context {
+        return application.applicationContext
     }
 }

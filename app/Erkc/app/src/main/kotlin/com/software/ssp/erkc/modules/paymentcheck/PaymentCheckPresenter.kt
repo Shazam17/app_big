@@ -5,6 +5,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.PaymentCheck
+import com.software.ssp.erkc.common.ErkcFileManager
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
@@ -19,6 +20,7 @@ class PaymentCheckPresenter @Inject constructor(view: IPaymentCheckView) : RxPre
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var paymentRepository: PaymentRepository
+    @Inject lateinit var fileManager: ErkcFileManager
 
     override fun onViewAttached(id: String) {
         view?.setLoadingVisible(true)
@@ -35,9 +37,9 @@ class PaymentCheckPresenter @Inject constructor(view: IPaymentCheckView) : RxPre
                 })
     }
 
-    override fun onDownloadClick(file: File?) {
+    override fun onDownloadClick(file: File?, fileName: String) {
         if (file != null) {
-            view?.saveFile(file)
+            fileManager.saveFile(fileName, file)
         } else {
             view?.showMessage(R.string.payment_check_error)
         }

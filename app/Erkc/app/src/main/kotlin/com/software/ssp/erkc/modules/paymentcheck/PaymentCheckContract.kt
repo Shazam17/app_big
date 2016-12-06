@@ -11,11 +11,10 @@ interface IPaymentCheckView : IView {
     fun setLoadingVisible(isVisible: Boolean)
     fun showCheck(file: File)
     fun showShareDialog(file: File)
-    fun saveFile(file: File)
 }
 
 interface IPaymentCheckPresenter : IPresenter<IPaymentCheckView> {
     fun onViewAttached(id: String)
     fun onShareClick(file: File?)
-    fun onDownloadClick(file: File?)
+    fun onDownloadClick(file: File?, fileName: String)
 }

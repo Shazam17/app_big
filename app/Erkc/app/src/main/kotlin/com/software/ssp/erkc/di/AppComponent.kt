@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
@@ -27,4 +28,5 @@ interface AppComponent {
     fun provideActiveSession(): ActiveSession
     fun providerPaymentDataSource() : PaymentDataSource
     fun provideRealm(): Realm
+    fun provideContext(): Context
 }
