@@ -138,7 +138,9 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     }
 
     private fun calculateSum(sum: Double, percent: Double) {
-        view?.fillAmountAndCommission(sum * percent / 100, sum + sum * percent / 100)
+        // Расчет комиссии и итоговой суммы оплаты
+        val commission = sum * percent / 100
+        view?.fillAmountAndCommission(commission, sum + commission)
     }
 
     fun validateData(sum: String, email: String): Boolean {
