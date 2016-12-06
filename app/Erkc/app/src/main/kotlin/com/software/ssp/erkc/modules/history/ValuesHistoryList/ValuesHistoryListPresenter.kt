@@ -27,7 +27,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .concatMap {
                     receipts ->
                     realmRepository.saveReceiptsList(receipts)

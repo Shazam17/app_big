@@ -24,7 +24,7 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .concatMap {
                     receipts ->
                     realmRepository.saveReceiptsList(receipts ?: emptyList())

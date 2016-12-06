@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource) : Repository() {
 
-    fun authenticate(token: String, login: String, password: String): Observable<AuthData> {
+    fun authenticate(login: String, password: String): Observable<AuthData> {
         return authDataSource
-                .authenticate(token, login, password)
+                .authenticate(login, password)
                 .compose(this.applySchedulers<AuthData>())
     }
 
@@ -46,21 +46,19 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 }
     }
 
-    fun recoverPassword(token: String, login: String, email: String, number: String = "12345"): Observable<AuthData> {
+    fun recoverPassword(login: String, email: String, number: String): Observable<AuthData> {
         return authDataSource
-                .recoverPassword(token, login, email, number)
+                .recoverPassword(login, email, number)
                 .compose(this.applySchedulers<AuthData>())
     }
 
-    fun registration(token: String,
-                     name: String,
+    fun registration(name: String,
                      login: String,
                      email: String,
                      password: String,
                      repassword: String,
                      turing: String): Observable<Response<ResponseBody>> {
         return authDataSource.registration(mapOf(
-                "token" to token,
                 "name" to name,
                 "login" to login,
                 "email" to email,
@@ -70,8 +68,8 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
 
-    fun getCapcha(token: String): Observable<Captcha> {
-        return authDataSource.captcha(token).compose(this.applySchedulers<Captcha>())
+    fun getCapcha(): Observable<Captcha> {
+        return authDataSource.captcha().compose(this.applySchedulers<Captcha>())
     }
 
     private fun fetchParamsFromHtmlPage(page: String): Map<String, String> {

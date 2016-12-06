@@ -42,7 +42,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     }
                     activeSession.appToken = appToken
                     if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepository.streetsLoaded()) {
-                        dictionaryRepository.fetchStreets(activeSession.appToken!!)
+                        dictionaryRepository.fetchStreets()
                     } else {
                         Observable.just(null)
                     }

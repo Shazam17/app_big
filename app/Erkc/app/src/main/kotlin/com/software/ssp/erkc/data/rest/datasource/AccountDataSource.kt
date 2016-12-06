@@ -12,7 +12,7 @@ import rx.Observable
 interface AccountDataSource {
 
     @GET("?method=users.get")
-    fun fetchUserInfo(@Query("token") token: String): Observable<User>
+    fun fetchUserInfo(): Observable<User>
 
     @POST("?method=users.update")
     fun updateUserInfo(@QueryMap params: Map<String, String>): Observable<ApiResponse>

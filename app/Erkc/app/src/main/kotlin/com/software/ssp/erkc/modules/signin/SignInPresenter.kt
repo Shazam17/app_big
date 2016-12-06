@@ -59,11 +59,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.appToken!!, login, password)
+                .authenticate(login, password)
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-                    accountRepository.fetchUserInfo(activeSession.accessToken!!)
+                    accountRepository.fetchUserInfo()
                 }
                 .concatMap {
                     user ->
@@ -81,7 +81,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmRepository.saveCardsList(cards ?: emptyList())
                 }
                 .concatMap {
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    receiptsRepository.fetchReceipts()
                 }
                 .concatMap {
                     receipts ->

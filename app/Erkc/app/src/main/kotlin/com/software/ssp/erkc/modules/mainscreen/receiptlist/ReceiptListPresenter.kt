@@ -29,7 +29,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .concatMap {
                     receipts ->
                     realmRepository.saveReceiptsList(receipts)
@@ -67,7 +67,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onReceiptDeleted(receipt: RealmReceipt) {
-        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
+        subscriptions += receiptsRepository.deleteReceipt(receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)

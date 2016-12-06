@@ -14,7 +14,7 @@ interface ReceiptsDataSource {
     fun fetchReceiptInfo(@QueryMap params: Map<String, String>): Observable<Receipt>
 
     @GET("?method=receipts.getbyuser")
-    fun fetchReceipts(@Query("token") token: String): Observable<List<Receipt>>
+    fun fetchReceipts(): Observable<List<Receipt>>
 
     @GET("?method=receipts.deletebyuser")
     fun deleteReceipt(@QueryMap params: Map<String, String>): Observable<ApiResponse>
