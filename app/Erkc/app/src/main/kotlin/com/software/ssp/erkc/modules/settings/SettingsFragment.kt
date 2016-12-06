@@ -53,6 +53,11 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         offlineModeSwitch.isChecked = checked
     }
 
+    override fun onPause() {
+        presenter.saveSettings()
+        super.onPause()
+    }
+
     override fun setPushSwitch(checked: Boolean) {
         pushSwitch.isChecked = checked
     }

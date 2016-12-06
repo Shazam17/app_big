@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -49,51 +50,43 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     override fun onOperationStatusSwitch(checked: Boolean) {
-        subscriptions += settingsRepository.setStatusOperations(activeSession.accessToken!!, checked)
-                .subscribe({
-                    responseBody ->
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                })
         offlineUserSettings.operationStatusNotificationEnabled = checked
         updateData()
     }
 
     override fun onNewsSwitch(checked: Boolean) {
-        subscriptions += settingsRepository.setGetNews(activeSession.accessToken!!, checked)
-                .subscribe({
-                    responseBody ->
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                })
         offlineUserSettings.newsNotificationEnabled = checked
         updateData()
     }
 
     override fun onPaymentSwitch(checked: Boolean) {
-        subscriptions += settingsRepository.setNeedToPay(activeSession.accessToken!!, checked)
-                .subscribe({
-                    responseBody ->
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                })
         offlineUserSettings.paymentNotificationEnabled = checked
         updateData()
     }
 
     override fun onIpuSwitch(checked: Boolean) {
-        subscriptions += settingsRepository.setNeedToSendMeters(activeSession.accessToken!!, checked)
-                .subscribe({
-                    responseBody ->
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                })
         offlineUserSettings.ipuNotificationEnabled = checked
         updateData()
+    }
+
+    override fun saveSettings() {
+        offlineUserSettings.apply {
+            subscriptions += Observable.zip(
+                    settingsRepository.setStatusOperations(activeSession.accessToken!!, operationStatusNotificationEnabled),
+                    settingsRepository.setGetNews(activeSession.accessToken!!, newsNotificationEnabled),
+                    settingsRepository.setNeedToPay(activeSession.accessToken!!, paymentNotificationEnabled),
+                    settingsRepository.setNeedToSendMeters(activeSession.accessToken!!, ipuNotificationEnabled),
+                    {
+                        statusOperation, getNews, needToPay, needToSendMeters ->
+                        Observable.just(null)
+                    })
+                    .subscribe({
+                        result ->
+                    }, {
+                        error ->
+                        view?.showMessage(error.parsedMessage())
+                    })
+        }
     }
 
     private fun fetchData() {
