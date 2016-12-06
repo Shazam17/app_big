@@ -75,8 +75,13 @@ enum class ReceiptType() {
     TEST; //TODO REMOVE TEST;
 }
 
-enum class AutoPaymentMode{
+enum class AutoPaymentMode {
     OFF,
     ONE_CLICK,
     AUTO
 }
+
+data class ReceiptForHistoryValuesList(
+        val title: String,
+        val receipts: List<RealmReceipt>
+)

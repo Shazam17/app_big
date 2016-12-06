@@ -4,7 +4,9 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
+import io.realm.RealmList
 import rx.Observable
+import java.util.*
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -39,6 +41,34 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         sub.onNext(true)
                     },
                     { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun saveIpusByBarсode(ipus: List<Ipu>, receipt: RealmReceipt): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmIpu::class.java).equalTo("receipt.barcode", receipt.id).findAll().deleteAllFromRealm()
+                        it.copyToRealm(ipus.map {
+                            val realmIpus = ipus.mapTo(RealmList<RealmIpuValue>()) {
+                                RealmIpuValue(it.id,
+                                        it.serviceName,
+                                        it.number,
+                                        it.installPlace,
+                                        it.date,
+                                        it.value)
+                            }
+                            RealmIpu(realmIpus, receipt)
+                        })
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    {
+                        error ->
                         sub.onError(error)
                     }
             )
@@ -209,7 +239,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.lastIpuTransferDate,
                                 it.supplierName,
                                 it.persent,
-                                if(it.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
+                                if (it.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst())
                         )
                     }
 
@@ -238,6 +268,16 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser?.receipts?.sortedBy { it.address })
+                }
+    }
+
+    fun fetchReceiptsListByRange(dateFrom: Date?, dateTo: Date?): Observable<List<RealmIpu>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.ipus
+                            ?.filter { it.receipt?.lastIpuTransferDate!!.after(dateFrom) && it.receipt?.lastIpuTransferDate!!.before(dateTo) }
+                            ?.sortedBy { it.receipt?.lastIpuTransferDate })
                 }
     }
 

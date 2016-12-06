@@ -19,4 +19,8 @@ class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource
     fun getByReceipt(token: String, code: String): Observable<List<Ipu>> {
         return ipuDataSource.getByReceipt(token, code).compose(this.applySchedulers<List<Ipu>>())
     }
+
+    fun getHistoryByReceipt(token: String, code: String): Observable<List<Ipu>> {
+        return ipuDataSource.getHistoryByReceipt(token, code).compose(this.applySchedulers<List<Ipu>>())
+    }
 }

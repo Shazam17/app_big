@@ -15,6 +15,7 @@ object Constants {
     const val DATE_TIME_FORMAT_API = "yyyy-MM-dd hh:mm:ss"
     const val HISTORY_DATE_FORMAT = "dd MMM"
     const val RECEIPT_DATE_FORMAT = "dd MMM yyyy"
+    const val VALUES_DATE_FORMAT = "dd.MM.yyyy"
 
     // Request codes
     const val REQUEST_CODE_PAYMENT = 12403
@@ -26,6 +27,7 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_URL_RESULT = "URL_RESULT_KEY"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
-
+    const val KEY_DATE_FROM = "DATE_FROM_KEY"
+    const val KEY_DATE_TO = "DATE_TO_KEY"
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
 }

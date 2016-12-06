@@ -66,4 +66,9 @@
     <color name="colorAutoPaymentDetailsTextBlue">#448aff</color>
     <color name="colorAutoPaymentDialogSubText">#878787</color>
 
+    <!-- history value -->
+    <color name="colorHistoryValueHeader">#878787</color>
+    <color name="colorHistoryValueBody">#212121</color>
+    <color name="colorHistoryValueBackground">#DFE1E2</color>
+
 </resources>

@@ -235,4 +235,10 @@
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
+    <!-- History Value -->
+    <string name="history_value_title">Показания</string>
+    <string name="history_value_average_title">Средний расход</string>
+    <string name="history_value_total" formatted="false">Общий расход за период %s - %s</string>
+    <string name="history_value_placeholder">..................................................................................................................</string>
+
 </resources>
