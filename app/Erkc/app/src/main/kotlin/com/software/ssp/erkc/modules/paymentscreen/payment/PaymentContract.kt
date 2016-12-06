@@ -12,23 +12,24 @@ import com.software.ssp.erkc.data.rest.models.User
 interface IPaymentView : IView {
     fun close()
     fun navigateToResult(url: String)
-    fun showConfirmDialog(commission: String, amount: String, email: String)
-    fun showNotificationsDialog()
-    fun fillAmountAndCommission(commission: String, sum: String)
+    fun showConfirmDialog(commission: Double, amount: Double, email: String)
+    fun fillAmountAndCommission(commission: Double, sum: Double)
     fun fillData(user: User?, cards: List<Card>)
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
     fun setProgressVisibility(isVisible: Boolean)
-    fun showResult(result: Boolean, textRes: Int)
+    fun showResult(result: Boolean)
+    fun generateCardsChooseLayout(cards: List<Card>)
+    fun showReceiptInfo(receipt: Receipt)
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {
-    fun onChooseCardClick()
-    fun onChooseBankClick()
-    fun onChooseNotificationClick()
+    fun onChooseCardClick(cards: List<Card>)
     fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String)
     fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String)
-    fun onSumChange(payment: String)
+    fun onSumChange(payment: String, percent: Double)
     fun onViewAttached(receipt: Receipt)
-    fun onPaymentResult(result: Boolean)
+    fun onAddCardClick()
+    fun onDoneClick()
 }
+

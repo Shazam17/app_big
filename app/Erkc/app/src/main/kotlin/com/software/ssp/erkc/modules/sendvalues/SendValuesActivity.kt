@@ -1,10 +1,10 @@
 package com.software.ssp.erkc.modules.sendvalues
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
@@ -15,7 +15,6 @@ import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_send_values.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
 import org.jetbrains.anko.enabled
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.onClick
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class SendValuesActivity : MvpActivity(), ISendValuesView {
 
     @Inject lateinit var presenter: ISendValuesPresenter
-    private var progressDialog : Dialog?= null
     private var receipt: Receipt? = null
     private var ipus: List<Ipu>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +38,6 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
 
     override fun fillData(data: List<Ipu>) {
         ipus = data
-        sendValuesButton.enabled = true
         sendValuesDebts.text = "${receipt?.amount} р.(${SimpleDateFormat(Constants.PERIOD_DATE_FORMAT_UI, Locale("ru")).format(data.first().period)})"
         data.forEach {
             val layoutInflater = LayoutInflater.from(this)
@@ -73,20 +70,21 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     }
 
     override fun beforeDestroy() {
-        progressDialog?.dismiss()
         presenter.dropView()
     }
 
-    override fun navigateToDrawer() {
+    override fun close() {
         finish()
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
-        if (progressDialog== null) {
-            progressDialog = indeterminateProgressDialog(R.string.data_loading)
-            progressDialog!!.setCanceledOnTouchOutside(false)
+        if (ipus != null) {
+            for ((uslugaName, mestoUstan, period, id) in ipus!!) {
+                (parametersContainer.findViewWithTag(id) as EditText).enabled = !isVisible
+            }
         }
-        if (isVisible) progressDialog?.show() else progressDialog?.dismiss()
+        sendValuesButton.enabled = !isVisible
+        sendValuesProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {
@@ -107,6 +105,5 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         }
         sendValuesBarcode.text = receipt?.barcode
         sendValuesAddress.text = receipt?.address
-        sendValuesButton.enabled = false
     }
 }

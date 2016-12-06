@@ -3,6 +3,8 @@ package com.software.ssp.erkc.di.modules
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.rxrelay.PublishRelay
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.data.rest.ActiveSession
 import dagger.Module
 import dagger.Provides
@@ -35,5 +37,11 @@ class AppModule(val application: Application) {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         return Realm.getInstance(realmConfiguration)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBus(): Relay<Any, Any> {
+        return PublishRelay.create()
     }
 }

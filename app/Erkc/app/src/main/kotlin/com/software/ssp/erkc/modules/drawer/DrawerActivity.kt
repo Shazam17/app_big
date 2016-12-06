@@ -161,7 +161,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, fragment)
-                .commit()
+                .commitAllowingStateLoss()
     }
 
     private fun initViews() {
@@ -231,7 +231,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         }
     }
 
-    fun navigateToDrawerItem(item: DrawerItem) {
+    override fun navigateToDrawerItem(item: DrawerItem) {
         selectedDrawerItem = item
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)

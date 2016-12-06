@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
+
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -16,6 +17,7 @@ import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
+
 
 class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListView {
 
@@ -129,7 +131,6 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
     }
 
     override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
-        //TODO: NavigateToAutoPayment
         startActivity<AutoPaymentSettingsActivity>("receiptId" to receiptId)
     }
 }

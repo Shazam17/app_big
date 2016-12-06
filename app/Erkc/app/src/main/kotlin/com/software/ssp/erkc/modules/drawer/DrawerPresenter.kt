@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.drawer
 
+import com.jakewharton.rxrelay.Relay
+import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -12,10 +14,14 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var eventBus: Relay<Any, Any>
 
     override fun onViewAttached() {
         super.onViewAttached()
 
+        subscribeToOpenCardsEvent()
+
+        view?.navigateToMainScreen()
         showCurrentUser()
     }
 
@@ -59,5 +65,12 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun subscribeToOpenCardsEvent() {
+        eventBus.ofType(OpenCardsEvent::class.java)
+                .subscribe {
+                    view?.navigateToDrawerItem(DrawerItem.CARDS)
+                }
     }
 }

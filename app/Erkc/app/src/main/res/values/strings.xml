@@ -98,9 +98,9 @@
 
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Введите адрес…</string>
-    <string name="search_addresses_title"/>
+    <string name="search_addresses_title" />
 
-    <string name="none"/>
+    <string name="none" />
 
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
@@ -112,8 +112,8 @@
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
     <string name="card_status_not_registered">ЗАРЕГИСТРИРОВАТЬ</string>
     <string name="card_status_registered">АКТИВИРОВАТЬ</string>
-    <string name="card_status_activate"/>
-    <string name="card_status_deleted"/>
+    <string name="card_status_activate" />
+    <string name="card_status_deleted" />
     <string name="cards_empty_text">Здесь вы пожете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
 
     <!-- Add card screen -->
@@ -180,18 +180,18 @@
     <string name="payment_dialog_ok">OK</string>
     <string name="payment_dialog_cancel">ЗАКРЫТЬ</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>
-    <string name="payment_commission">Комиссия 10%</string>
     <string name="payment_email">Email</string>
     <string name="payment_pay_by_card">Оплатить картой</string>
     <string name="payment_add_card">ДОБАВИТЬ</string>
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
-    <string name="payment_result_oneclick_success">Процедура оплаты начата и будет завершена автоматически.</string>
-    <string name="payment_result_oneclick_error">Операция не произведена.</string>
-    <string name="payment_result_default_success">Платеж произведен успешно.</string>
-    <string name="payment_result_default_error">Платеж не произведен.</string>
+    <string name="payment_result_success">Процедура оплаты начата и будет завершена автоматически.</string>
+    <string name="payment_result_error">Операция не произведена.</string>
     <string name="payment_done">Готово</string>
+    <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>
+    <string name="payment_sum" formatted="false">%.2f р.</string>
+    <string name="payment_currency_symbol"> р.</string>
 
     <!-- AutoPaymentsScreen -->
     <string name="auto_payments_autopay_tab_title">Автоплатежи</string>

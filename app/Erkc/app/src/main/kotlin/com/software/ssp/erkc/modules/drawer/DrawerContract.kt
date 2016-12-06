@@ -10,6 +10,7 @@ interface IDrawerView : IView {
     fun clearUserInfo()
     fun setAuthedMenuVisible(isVisible: Boolean)
     fun updateCurrentScreen()
+    fun navigateToDrawerItem(drawerItem: DrawerItem)
     fun navigateToMainScreen()
     fun navigateToUserProfile()
 }
