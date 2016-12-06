@@ -60,11 +60,10 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
         view?.setPendingVisible(true)
         subscriptions += receiptsRepository
                 .updateReceipt(
-                        token = activeSession.accessToken!!,
-                        receiptId = selectedReceipt!!.id,
-                        user_card_id = selectedCard!!.id,
-                        maxsumma = selectedReceipt!!.maxSum.toString(),
-                        mode_id = autoPaymentMode.ordinal.toString()
+                        selectedReceipt!!.id,
+                        selectedCard!!.id,
+                        selectedReceipt!!.maxSum.toString(),
+                        autoPaymentMode.ordinal.toString()
                 )
                 .subscribe(
                         {

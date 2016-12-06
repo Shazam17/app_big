@@ -32,7 +32,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         if (activeSession.user != null) {
             view?.setProgressVisibility(true)
             subscriptions += cardsRepository
-                    .fetchCards(activeSession.accessToken!!)
+                    .fetchCards()
                     .flatMap { cards ->
                         if (cards != null) {
                             Observable.just(cards.filter { card -> card.statusId == CardStatus.ACTIVATED.ordinal })
@@ -71,7 +71,6 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         view?.setProgressVisibility(true)
         val summ = sum.removeSuffix(" р.")
         subscriptions += paymentRepository.init(
-                activeSession.accessToken ?: activeSession.appToken!!,
                 receipt.barcode,
                 if (card == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
                 summ.replace(',','.'),
@@ -106,7 +105,6 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 view?.setProgressVisibility(true)
                 val summ = "%.2f".format(sum.toDouble() + sum.toDouble() / 10)
                 subscriptions += paymentRepository.init(
-                        activeSession.accessToken ?: activeSession.appToken!!,
                         receipt.barcode,
                         PaymentMethod.DEFAULT.ordinal,
                         summ.replace(',','.'),

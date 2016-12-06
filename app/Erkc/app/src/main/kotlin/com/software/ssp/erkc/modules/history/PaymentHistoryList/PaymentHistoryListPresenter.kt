@@ -27,7 +27,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
 
     override fun onSwipeToRefresh() {
         subscriptions += paymentRepository
-                .fetchPayments(activeSession.accessToken!!)
+                .fetchPayments()
                 .concatMap {
                     payments ->
                     realmRepository.savePaymentsList(payments)

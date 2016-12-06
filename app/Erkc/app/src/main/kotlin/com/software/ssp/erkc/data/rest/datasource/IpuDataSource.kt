@@ -13,5 +13,5 @@ interface IpuDataSource {
     fun sendParameters(@FieldMap params: Map<String, String>): Observable<ResponseBody>
 
     @GET("?method=ipu.getbyreceipt")
-    fun getByReceipt(@Query("token") token: String, @Query("code") code: String): Observable<List<Ipu>>
+    fun getByReceipt(@Query("code") code: String): Observable<List<Ipu>>
 }

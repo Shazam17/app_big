@@ -77,7 +77,7 @@ class SignInPresenter @Inject constructor(view: IPasswordRecoveryView) : RxPrese
 
     private fun fetchCaptcha() {
         subscriptions += authRepository.
-                getCapcha()
+                getCaptcha()
                 .subscribe({
                     captcha ->
                     view?.showCaptcha(captcha.image)

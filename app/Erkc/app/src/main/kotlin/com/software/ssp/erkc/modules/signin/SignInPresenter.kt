@@ -74,7 +74,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmRepository.setCurrentUser(realmUser)
                 }
                 .concatMap {
-                    cardsRepository.fetchCards(activeSession.accessToken!!)
+                    cardsRepository.fetchCards()
                 }
                 .concatMap {
                     cards ->

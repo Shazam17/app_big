@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.data.rest
 
-import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.models.User
 
 
@@ -8,8 +7,7 @@ class ActiveSession {
 
     var appToken: String? = null
     var accessToken: String? = null
-    var user: User? = null
-    var cachedReceipts: List<Receipt>? = emptyList()
+    var user: User? = null //TODO remove
 
     fun clear() {
         accessToken = null

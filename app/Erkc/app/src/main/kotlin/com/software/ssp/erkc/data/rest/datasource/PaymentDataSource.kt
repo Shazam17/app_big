@@ -15,8 +15,8 @@ interface PaymentDataSource {
     fun init(@FieldMap params: Map<String, String>): Observable<PaymentInit>
 
     @GET("?method=payments.get")
-    fun getByReceipt(@Query("token") token: String, @Query("code") code: String): Observable<List<Payment>>
+    fun getByReceipt(@Query("code") code: String): Observable<List<Payment>>
 
     @GET("?method=payments.getbyuser")
-    fun getByUser(@Query("token") token: String): Observable<List<Payment>>
+    fun getByUser(): Observable<List<Payment>>
 }

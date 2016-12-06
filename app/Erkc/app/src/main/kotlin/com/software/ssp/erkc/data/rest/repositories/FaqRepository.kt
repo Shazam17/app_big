@@ -22,5 +22,4 @@ class FaqRepository @Inject constructor(private val faqDataSource: FaqDataSource
                 "subject" to subject)
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
-
 }

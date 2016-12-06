@@ -21,13 +21,13 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .fetchReceiptInfo(params).compose(this.applySchedulers<Receipt>())
     }
 
-    fun fetchReceipts(): Observable<List<Receipt>>{
+    fun fetchReceipts(): Observable<List<Receipt>> {
         return receiptsDataSource
                 .fetchReceipts()
                 .compose(this.applySchedulers<List<Receipt>>())
     }
 
-    fun deleteReceipt(receiptId: String) : Observable<ApiResponse>{
+    fun deleteReceipt(receiptId: String): Observable<ApiResponse> {
         val params = hashMapOf("id" to receiptId)
 
         return receiptsDataSource
@@ -35,20 +35,18 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<ApiResponse>())
     }
 
-    fun updateReceipt(token: String,
-                      receiptId: String,
-                      user_card_id: String,
-                      maxsumma: String,
-                      mode_id: String): Observable<ApiResponse> {
+    fun updateReceipt(receiptId: String,
+                      userCardId: String,
+                      maxSum: String,
+                      modeId: String): Observable<ApiResponse> {
         val params = hashMapOf(
-                "token" to token,
                 "id" to receiptId,
-                "user_card_id" to user_card_id,
-                "mode_id" to mode_id
+                "user_card_id" to userCardId,
+                "mode_id" to modeId
         )
 
-        if(!maxsumma.isNullOrBlank()) {
-            params.put("maxsumma", maxsumma)
+        if (!maxSum.isNullOrBlank()) {
+            params.put("maxsumma", maxSum)
         }
 
         return receiptsDataSource
@@ -56,9 +54,9 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 .compose(this.applySchedulers<ApiResponse>())
     }
 
-    fun clearReceiptSettings(token: String, id: String): Observable<ApiResponse> {
+    fun clearReceiptSettings(id: String): Observable<ApiResponse> {
         return receiptsDataSource
-                .clearReceiptSettings(token, id)
+                .clearReceiptSettings(id)
                 .compose(this.applySchedulers<ApiResponse>())
     }
 }

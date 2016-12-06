@@ -23,5 +23,5 @@ interface ReceiptsDataSource {
     fun updateReceipt(@QueryMap params: Map<String, String>): Observable<ApiResponse>
 
     @POST("?method=receipts.delsettingbyuser")
-    fun clearReceiptSettings(@Query("token") token: String, @Query("id") id: String): Observable<ApiResponse>
+    fun clearReceiptSettings(@Query("id") id: String): Observable<ApiResponse>
 }

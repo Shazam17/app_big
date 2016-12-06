@@ -49,10 +49,10 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
     }
 
     override fun onConfirmDelete(receipt: RealmReceipt) {
-        subscriptions += receiptsRepository.clearReceiptSettings(activeSession.accessToken!!, receipt.id)
+        subscriptions += receiptsRepository.clearReceiptSettings(receipt.id)
                 .concatMap {
                     view?.autoPaymentDeleted(receipt)
-                    receiptsRepository.fetchReceiptInfo(activeSession.accessToken!!, receipt.barcode)
+                    receiptsRepository.fetchReceiptInfo(receipt.barcode)
                 }
                 .concatMap {
                     receipt ->

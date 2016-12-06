@@ -68,7 +68,7 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
 
-    fun getCapcha(): Observable<Captcha> {
+    fun getCaptcha(): Observable<Captcha> {
         return authDataSource.captcha().compose(this.applySchedulers<Captcha>())
     }
 

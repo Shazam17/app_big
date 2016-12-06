@@ -101,7 +101,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
 
     private fun fetchCaptcha() {
         subscriptions += authRepository.
-                getCapcha()
+                getCaptcha()
                 .subscribe({
                     captcha ->
                     view?.showCaptcha(captcha.image)

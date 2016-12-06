@@ -8,9 +8,8 @@ import javax.inject.Inject
 
 class PaymentRepository @Inject constructor(private val paymentDataSource: PaymentDataSource) : Repository() {
 
-    fun init(token: String, code: String, method: Int, summ: String, email: String, cardId: String?): Observable<PaymentInit> {
+    fun init(code: String, method: Int, summ: String, email: String, cardId: String?): Observable<PaymentInit> {
         val params = hashMapOf(
-                "token" to token,
                 "code" to code,
                 "method_id" to method.toString(),
                 "summ" to summ,
@@ -22,9 +21,9 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
-    fun fetchPayments(token: String): Observable<List<Payment>> {
+    fun fetchPayments(): Observable<List<Payment>> {
         return paymentDataSource
-                .getByUser(token)
+                .getByUser()
                 .compose(this.applySchedulers<List<Payment>>())
     }
 }
