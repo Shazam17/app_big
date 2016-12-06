@@ -10,9 +10,8 @@ import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
  */
 interface IPaymentInfoView : IView {
     fun close()
-    fun fillData(paymentInfo: RealmPaymentInfo)
+    fun fillData(paymentInfo: RealmPaymentInfo, payment: RealmPayment)
     fun setProgressVisibility(isVisible: Boolean)
-    fun fillData(payment: RealmPayment)
 }
 
 interface IPaymentInfoPresenter : IPresenter<IPaymentInfoView> {

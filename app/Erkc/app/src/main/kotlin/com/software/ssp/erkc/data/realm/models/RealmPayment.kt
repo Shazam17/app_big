@@ -13,7 +13,7 @@ open class RealmPayment(
         open var status: Int = 0,
         open var errorDesc: String? = null,
         open var operationId: String = "",
-        open var methodId: String? = null,
+        open var methodId: Int? = null,
         open var receipt: RealmReceipt? = null) : RealmObject()
 
 open class RealmPaymentInfo(
@@ -33,3 +33,8 @@ open class RealmPaymentInfo(
         var address: String = "",
         open var receipt: RealmReceipt? = null,
         var apart: String = "") : RealmObject()
+
+class PaymentAndPaymentInfo(
+        val payment: RealmPayment,
+        val paymentInfo: RealmPaymentInfo
+)

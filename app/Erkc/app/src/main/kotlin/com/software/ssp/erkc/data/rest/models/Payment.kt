@@ -1,7 +1,9 @@
 package com.software.ssp.erkc.data.rest.models
 
+import android.support.annotation.StringRes
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializer
 import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializerPayments
 import java.util.*
@@ -16,9 +18,10 @@ data class PaymentInit(
         var url: String
 )
 
-enum class PaymentMethod {
-    DEFAULT,
-    ONE_CLICK
+enum class PaymentMethod(@StringRes val stringRes: Int) {
+    DEFAULT(R.string.payment_info_type_default),
+    ONE_CLICK(R.string.payment_info_type_one_click),
+    AUTO(R.string.payment_info_type_auto)
 }
 
 enum class PaymentStatus {
@@ -43,8 +46,8 @@ data class Payment(
         var errorDesc: String?,
         @SerializedName("receipt_id")
         var receiptId: String,
-        @SerializedName("method_id")
-        var methodId: String?,
+        @SerializedName("mode_id")
+        var methodId: Int?,
         @SerializedName("operation_id")
         var operationId: String)
 

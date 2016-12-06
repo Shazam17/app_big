@@ -380,6 +380,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         status = payment.status
                         errorDesc = payment.errorDesc
                         operationId = payment.operationId
+                        methodId = payment.methodId
                         receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst())
                     }
 

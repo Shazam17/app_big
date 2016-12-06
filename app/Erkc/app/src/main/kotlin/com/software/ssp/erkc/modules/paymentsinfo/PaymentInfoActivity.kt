@@ -12,6 +12,7 @@ import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentStatus
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.type
 import kotlinx.android.synthetic.main.activity_payment_info.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
@@ -26,7 +27,6 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
 
     @Inject lateinit var presenter: IPaymentInfoPresenter
     private var paymentId: String by extras(Constants.KEY_PAYMENT)
-    private var payment: RealmPayment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,29 +39,29 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         finish()
     }
 
-    override fun fillData(payment: RealmPayment) {
-        this.payment = payment
-    }
-
-    override fun fillData(paymentInfo: RealmPaymentInfo) {
+    override fun fillData(paymentInfo: RealmPaymentInfo, payment: RealmPayment) {
         if (paymentInfo.status == PaymentStatus.SUCCESS.ordinal) {
             paymentInfoStatusErrorDescr.visibility = View.GONE
             paymentInfoStatusWrapper.setBackgroundResource(R.drawable.payment_info_successfully)
             paymentInfoStatusTitle.setText(R.string.payment_info_status_success)
         } else {
             paymentInfoStatusErrorDescr.visibility = View.VISIBLE
-            paymentInfoStatusErrorDescr.text = payment?.errorDesc
+            paymentInfoStatusErrorDescr.text = payment.errorDesc
             paymentInfoStatusWrapper.setBackgroundResource(R.drawable.payment_info_error)
             paymentInfoStatusTitle.setText(R.string.payment_info_status_error)
         }
-        paymentInfoBarcode.text = "${paymentInfo?.barcode} (${payment?.receipt?.name})"
+        paymentInfoBarcode.text = "${paymentInfo.barcode} (${payment.receipt?.name})"
         paymentInfoAddress.text = paymentInfo.address
-        paymentInfoStatusDateAndTime.text = SimpleDateFormat(Constants.DATE_TIME_FORMAT_PAYMENTS_UI, Locale("ru")).format(payment?.date)
+        paymentInfoStatusDateAndTime.text = SimpleDateFormat(Constants.DATE_TIME_FORMAT_PAYMENTS_UI, Locale("ru")).format(payment.date)
         paymentInfoSum.text = getString(R.string.payment_info_currency).format(paymentInfo.amount)
         paymentInfoResult.text = getString(R.string.payment_info_currency).format(paymentInfo.summ)
         paymentInfoCommission.text = getString(R.string.payment_info_currency).format(paymentInfo.summ - paymentInfo.amount)
-        paymentInfoOperationNo.text = payment?.operationId
-        //todo  После фиксов по АПИ проставить способ оплаты (payment.methodId)
+        paymentInfoOperationNo.text = payment.operationId
+        if (payment.methodId != null) {
+            paymentInfoPaymentType.setText(payment.type()!!)
+        } else {
+            paymentInfoTypeWrapper.visibility = View.GONE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

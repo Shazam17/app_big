@@ -183,6 +183,9 @@
     <string name="payment_info_retry">ПОВТОРИТЬ</string>
     <string name="payment_info_check">ПОЛУЧИТЬ ЧЕК</string>
     <string name="payment_info_currency">%,.2f р.</string>
+    <string name="payment_info_type_default">Стандартная оплата</string>
+    <string name="payment_info_type_one_click">Оплата в один клик</string>
+    <string name="payment_info_type_auto">Автоплатеж</string>
     <string name="payment_info_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
     <!-- Payment screen -->

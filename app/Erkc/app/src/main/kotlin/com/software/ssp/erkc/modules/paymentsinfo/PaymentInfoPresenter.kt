@@ -1,10 +1,12 @@
 package com.software.ssp.erkc.modules.paymentsinfo
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.PaymentAndPaymentInfo
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -27,27 +29,30 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
 
     override fun onViewAttached(id: String) {
         view?.setProgressVisibility(true)
-        subscriptions += realmRepository.fetchPaymentById(id)
-                .concatMap {
-                    payment ->
-                    view?.fillData(payment)
-                    paymentRepository.fetchPaymentInfo(activeSession.accessToken!!, id)
-                }
+        subscriptions += paymentRepository.fetchPaymentInfo(activeSession.accessToken!!, id)
                 .concatMap {
                     paymentInfo ->
                     realmRepository.savePaymentInfo(paymentInfo)
                 }
                 .subscribe({
                     showPaymentInfo(id)
+                }, {
+                    error ->
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(error.parsedMessage())
                 })
     }
 
     private fun showPaymentInfo(id: String) {
-        subscriptions += realmRepository.fetchPaymentInfoById(id)
+        subscriptions += Observable.zip(realmRepository.fetchPaymentInfoById(id), realmRepository.fetchPaymentById(id),
+                {
+                    paymentInfo, payment ->
+                    PaymentAndPaymentInfo(payment, paymentInfo)
+                })
                 .subscribe(
                         {
-                            paymentInfo ->
-                            view?.fillData(paymentInfo)
+                            result ->
+                            view?.fillData(result.paymentInfo, result.payment)
                             view?.setProgressVisibility(false)
                         },
                         {
