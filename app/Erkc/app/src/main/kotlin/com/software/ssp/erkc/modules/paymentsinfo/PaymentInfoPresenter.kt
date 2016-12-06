@@ -34,8 +34,17 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
                     paymentInfo ->
                     realmRepository.savePaymentInfo(paymentInfo)
                 }
+                .concatMap {
+                    Observable.zip(realmRepository.fetchPaymentInfoById(id), realmRepository.fetchPaymentById(id),
+                            {
+                                paymentInfo, payment ->
+                                PaymentAndPaymentInfo(payment, paymentInfo)
+                            })
+                }
                 .subscribe({
-                    showPaymentInfo(id)
+                    result ->
+                    view?.fillData(result.paymentInfo, result.payment)
+                    view?.setProgressVisibility(false)
                 }, {
                     error ->
                     view?.setProgressVisibility(false)
@@ -43,23 +52,5 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
                 })
     }
 
-    private fun showPaymentInfo(id: String) {
-        subscriptions += Observable.zip(realmRepository.fetchPaymentInfoById(id), realmRepository.fetchPaymentById(id),
-                {
-                    paymentInfo, payment ->
-                    PaymentAndPaymentInfo(payment, paymentInfo)
-                })
-                .subscribe(
-                        {
-                            result ->
-                            view?.fillData(result.paymentInfo, result.payment)
-                            view?.setProgressVisibility(false)
-                        },
-                        {
-                            error ->
-                            view?.setProgressVisibility(false)
-                            view?.showMessage(error.parsedMessage())
-                        })
-    }
 
 }
