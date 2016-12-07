@@ -28,5 +28,6 @@ interface ISettingsPresenter : IPresenter<ISettingsView> {
     fun onNewsSwitch(checked: Boolean)
     fun onPaymentSwitch(checked: Boolean)
     fun onIpuSwitch(checked: Boolean)
+    fun saveSettings()
 
 }
