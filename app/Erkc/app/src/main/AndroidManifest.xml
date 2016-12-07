@@ -109,6 +109,10 @@
             android:name="com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity"
             android:theme="@style/AppTheme.Light"
             android:label="@string/autopayment_screen_tab_title"/>
+        <activity
+            android:name=".modules.history.valuehistory.ValueHistoryActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/history_value_title"/>
 
     </application>
 

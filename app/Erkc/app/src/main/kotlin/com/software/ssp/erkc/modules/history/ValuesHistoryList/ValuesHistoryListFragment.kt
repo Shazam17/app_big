@@ -5,10 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
+import com.software.ssp.erkc.modules.history.valuehistory.ValueHistoryActivity
+import org.jetbrains.anko.startActivity
+import java.util.*
 import javax.inject.Inject
 
 
@@ -49,8 +53,8 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
         presenter.onSwipeToRefresh()
     }
 
-    override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
-        showMessage("TODO") //TODO
+    override fun navigateToIpuValueInfo(receipt: RealmReceipt, dateFrom: Date, dateTo: Date) {
+        startActivity<ValueHistoryActivity>(Constants.KEY_DATE_FROM to dateFrom, Constants.KEY_DATE_TO to dateTo, Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun navigateToFilter() {

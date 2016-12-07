@@ -98,9 +98,9 @@
 
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Введите адрес…</string>
-    <string name="search_addresses_title"/>
+    <string name="search_addresses_title" />
 
-    <string name="none"/>
+    <string name="none" />
 
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
@@ -112,8 +112,8 @@
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
     <string name="card_status_not_registered">ЗАРЕГИСТРИРОВАТЬ</string>
     <string name="card_status_registered">АКТИВИРОВАТЬ</string>
-    <string name="card_status_activate"/>
-    <string name="card_status_deleted"/>
+    <string name="card_status_activate" />
+    <string name="card_status_deleted" />
     <string name="cards_empty_text">Здесь вы пожете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
 
     <!-- Add card screen -->
@@ -240,5 +240,8 @@
     <string name="history_value_average_title">Средний расход</string>
     <string name="history_value_total" formatted="false">Общий расход за период %s - %s</string>
     <string name="history_value_placeholder">..................................................................................................................</string>
+    <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>
+    <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
+    <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
 
 </resources>

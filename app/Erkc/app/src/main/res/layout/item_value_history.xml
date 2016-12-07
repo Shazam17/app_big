@@ -17,6 +17,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/itemValueHistoryDatesContainer"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/half_default_margin"
+        android:paddingLeft="@dimen/half_default_margin"
+        android:paddingRight="@dimen/half_default_margin"
+        android:paddingBottom="@dimen/double_default_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/itemValueHistoryDate"
+            android:layout_width="wrap_content"
+            android:paddingRight="@dimen/half_default_margin"
+            android:textSize="16sp"
+            android:textColor="@color/colorHistoryValueBody"
+            tools:text="20.08.2016"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:text="@string/history_value_placeholder"
+            android:textColor="@color/colorHistoryValueBody"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/itemValueHistoryDateValue"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:paddingLeft="@dimen/double_default_margin"
+            android:textColor="@color/colorHistoryValueBody"
+            tools:text="00000,263"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

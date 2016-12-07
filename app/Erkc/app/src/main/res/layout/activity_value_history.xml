@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorHistoryValueBackground"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:padding="@dimen/half_default_margin"
-        android:orientation="horizontal">
+        android:background="@color/colorHistoryValueBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/half_default_margin">
 
         <Space
             android:layout_width="0dp"
@@ -36,42 +37,19 @@
             android:textSize="12sp"
             tools:text="Общий расход за период 01.01.2016 - 12.09.2016" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
-        android:background="@color/md_divider_black"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="@color/colorHistoryValueDivider" />
+
     <LinearLayout
+        android:id="@+id/valueHistoryIpuContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/half_default_margin"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:background="@color/colorHistoryValueBackground"
+        android:padding="@dimen/half_default_margin"/>
 
-        <TextView
-            android:id="@+id/valueHistoryFieldFirstNameTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorHistoryValueBody"
-            android:textSize="14sp"
-            tools:text="Горячая вода" />
-
-        <TextView
-            android:id="@+id/valueHistoryFieldFirstAverageTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorHistoryValueBody"
-            android:textSize="14sp"
-            tools:text="234 м\u00B3" />
-
-        <TextView
-            android:id="@+id/valueHistoryFieldFirstTotalTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/colorHistoryValueBody"
-            android:textSize="14sp"
-            tools:text="2345 м\u00B3" />
-    </LinearLayout>
-    <include layout="@layout/layout_recycler_view"/>
+    <include layout="@layout/layout_recycler_view" />
 </LinearLayout>

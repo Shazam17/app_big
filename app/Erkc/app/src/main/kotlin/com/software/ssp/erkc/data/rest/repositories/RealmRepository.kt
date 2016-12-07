@@ -48,31 +48,35 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     }
 
     fun saveIpusByBarсode(ipus: List<Ipu>, receipt: RealmReceipt): Observable<Boolean> {
-        return Observable.create<Boolean> { sub ->
-            realm.executeTransactionAsync(
-                    {
-                        it.where(RealmIpu::class.java).equalTo("receipt.barcode", receipt.id).findAll().deleteAllFromRealm()
-                        it.copyToRealm(ipus.map {
-                            val realmIpus = ipus.mapTo(RealmList<RealmIpuValue>()) {
-                                RealmIpuValue(it.id,
-                                        it.serviceName,
-                                        it.number,
-                                        it.installPlace,
-                                        it.date,
-                                        it.value)
-                            }
-                            RealmIpu(realmIpus, receipt)
-                        })
-                    },
-                    {
-                        sub.onNext(true)
-                    },
-                    {
-                        error ->
-                        sub.onError(error)
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    val realmIpu = RealmIpu(ipus.mapTo(RealmList<RealmIpuValue>()) {
+                        RealmIpuValue(it.id,
+                                it.serviceName,
+                                it.number,
+                                it.installPlace,
+                                it.date,
+                                it.value)
+                    }, receipt)
+                    val list = RealmList<RealmIpu>()
+                    list += currentUser.ipus.filter { it.receipt?.id != receipt.id }
+                    list.add(realmIpu)
+                    currentUser.ipus = list
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
                     }
-            )
-        }
+                }
     }
 
     fun streetsLoaded(): Boolean {
@@ -271,13 +275,25 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun fetchReceiptsListByRange(dateFrom: Date?, dateTo: Date?): Observable<List<RealmIpu>> {
+    fun fetchReceiptsById(receiptId: String): Observable<RealmReceipt> {
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    Observable.just(currentUser?.ipus
-                            ?.filter { it.receipt?.lastIpuTransferDate!!.after(dateFrom) && it.receipt?.lastIpuTransferDate!!.before(dateTo) }
-                            ?.sortedBy { it.receipt?.lastIpuTransferDate })
+                    Observable.just(currentUser?.receipts?.first { it.id == receiptId })
+                }
+    }
+
+    fun fetchIpuValuesListByRange(dateFrom: Date?, dateTo: Date?, receipt: RealmReceipt): Observable<List<RealmIpuValue>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    if (dateFrom != null || dateTo != null) {
+                        Observable.just(currentUser?.ipus
+                                ?.first { it.receipt?.lastIpuTransferDate!!.after(dateFrom) && it.receipt?.lastIpuTransferDate!!.before(dateTo) && it.receipt?.id == receipt.id }?.ipuValues)
+                    } else {
+                        Observable.just(currentUser?.ipus
+                                ?.first { it.receipt?.id == receipt.id }?.ipuValues)
+                    }
                 }
     }
 

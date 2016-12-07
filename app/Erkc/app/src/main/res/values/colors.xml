@@ -69,6 +69,8 @@
     <!-- history value -->
     <color name="colorHistoryValueHeader">#878787</color>
     <color name="colorHistoryValueBody">#212121</color>
-    <color name="colorHistoryValueBackground">#DFE1E2</color>
+    <color name="colorHistoryValueBackground">#dfe1e2</color>
+    <color name="colorHistoryValueDivider">#b5949494</color>
+
 
 </resources>

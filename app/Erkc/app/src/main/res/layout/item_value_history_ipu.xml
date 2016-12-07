@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/half_default_margin"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/valueHistoryIpuNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/colorHistoryValueBody"
+        android:textSize="14sp"
+        tools:text="Горячая вода" />
+
+    <TextView
+        android:id="@+id/valueHistoryIpuAverageTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/colorHistoryValueBody"
+        android:textSize="14sp"
+        tools:text="234 м\u00B3" />
+
+    <TextView
+        android:id="@+id/valueHistoryIpuTotalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/colorHistoryValueBody"
+        android:textSize="14sp"
+        tools:text="2345 м\u00B3" />
+</LinearLayout>

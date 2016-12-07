@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
+import java.util.*
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -44,7 +45,8 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onReceiptClick(receipt: RealmReceipt) {
-        view?.navigateToIpuValueInfo(receipt)
+        //todo change date from filter
+        view?.navigateToIpuValueInfo(receipt, Date(Date().time - 60000 * 60 * 24 * 7), Date())
     }
 
     private fun showReceiptsList() {

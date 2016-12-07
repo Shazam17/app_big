@@ -13,15 +13,15 @@ import dagger.Provides
 @ActivityScope
 @Component(modules = arrayOf(ValueHistoryModule::class), dependencies = arrayOf(AppComponent::class))
 interface ValueHistoryComponent {
-    fun inject(valueHistoryComponent: ValueHistoryComponent)
+    fun inject(valueHistoryActivity: ValueHistoryActivity)
 }
 
 @Module(includes = arrayOf(ValueHistoryModule.Declarations::class))
-class ValueHistoryModule(val valuehHistoryView: IValueHistoryView) {
+class ValueHistoryModule(val valueHistoryView: IValueHistoryView) {
 
     @Provides
     fun provideValueHistoryView(): IValueHistoryView {
-        return valuehHistoryView
+        return valueHistoryView
     }
 
     @Module
