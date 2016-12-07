@@ -17,7 +17,10 @@ data class HistoryFilterModel(
 
         var paymentSum: Double? = null,
         var paymentType: ReceiptType? = null,
-        var paymentMethod: PaymentMethod? = null) : PaperParcelable {
+        var paymentMethod: PaymentMethod? = null,
+
+        var deviceNumber: String = "",
+        var deviceInstallPlace: String = "") : PaperParcelable {
     companion object {
         @JvmField val CREATOR = PaperParcelable.Creator(HistoryFilterModel::class.java)
     }
@@ -31,5 +34,7 @@ enum class HistoryFilterField {
     PERIOD,
     MAX_SUM,
     PAYMENT_TYPE,
-    PAYMENT_METHOD
+    PAYMENT_METHOD,
+    DEVICE_NUMBER,
+    DEVICE_PLACE
 }

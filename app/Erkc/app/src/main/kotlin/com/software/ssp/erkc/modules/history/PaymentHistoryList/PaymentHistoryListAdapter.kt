@@ -9,7 +9,6 @@ import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.historyFormat
 import kotlinx.android.synthetic.main.item_history.view.*
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textColor
 
 
@@ -47,7 +46,7 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPayment>,
                 moneyText.text = context.getString(R.string.history_money_format).format(payment.amount)
                 commissionText.text = context.getString(R.string.history_commission_format).format(payment.amount * payment.receipt!!.percent / 100, payment.receipt!!.percent)
 
-                onClick { onItemClick?.invoke(payment) }
+                rootLayout.setOnClickListener { onItemClick?.invoke(payment) }
             }
         }
 

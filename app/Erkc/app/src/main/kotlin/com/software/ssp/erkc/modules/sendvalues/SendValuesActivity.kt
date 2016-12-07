@@ -78,10 +78,8 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
-        if (ipus != null) {
-            for ((uslugaName, mestoUstan, period, id) in ipus!!) {
-                (parametersContainer.findViewWithTag(id) as EditText).enabled = !isVisible
-            }
+        ipus?.forEach {
+            parametersContainer.findViewWithTag(it.id).isEnabled = !isVisible
         }
         sendValuesButton.enabled = !isVisible
         sendValuesProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE

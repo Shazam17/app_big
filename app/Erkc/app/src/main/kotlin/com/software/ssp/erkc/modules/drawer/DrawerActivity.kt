@@ -17,6 +17,7 @@ import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 class DrawerActivity : MvpActivity(), IDrawerView {
@@ -139,6 +141,16 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_REQUEST_CODE)
     }
 
+    override fun navigateToHistory(receiptCode: String) {
+        //Untypical navigation to history screen with args
+        selectedDrawerItem = DrawerItem.HISTORY
+        drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
+        supportActionBar?.title = getString(selectedDrawerItem.titleId)
+        fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, HistoryTabFragment().withArguments("historyFilter" to HistoryFilterModel(barcode = receiptCode)))
+                .commitAllowingStateLoss()
+    }
+
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment : Fragment = when (drawerItem) {
             DrawerItem.MAIN -> MainScreenFragment()
@@ -231,8 +243,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         }
     }
 
-    override fun navigateToDrawerItem(item: DrawerItem) {
-        selectedDrawerItem = item
+    override fun navigateToDrawerItem(drawerItem: DrawerItem) {
+        selectedDrawerItem = drawerItem
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
