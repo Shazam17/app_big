@@ -49,9 +49,7 @@ data class Payment(
         @SerializedName("mode_id")
         var methodId: Int?,
         @SerializedName("operation_id")
-        var operationId: String) {
-    var receiptCode: String? = null
-}
+        var operationId: String)
 
 data class PaymentCheck(
         @SerializedName("id")

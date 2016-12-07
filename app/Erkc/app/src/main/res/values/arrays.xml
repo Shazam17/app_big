@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="receipt_types">
+        <item>ЖКУ</item>
+        <item>Наем</item>
+        <item>Водосчетчики</item>
+        <item>Частный сектор</item>
+        <item>Муниципальный сектор</item>
+        <item>Антенна</item>
+        <item>Обслуживание домофона</item>
+        <item>Прочие услуги</item>
+        <item>Отопление и ГВС</item>
+        <item>УК за прочие услуги</item>
+        <item>Пени за отопление и ГВС</item>
+        <item>ЖКУ прочие</item>
+        <item>ЖКУ ЕРКЦ</item>
+        <item>КапРемонт</item>
+        <item>КапРемонтДеревни</item>
+        <item>КапРемПеня</item>
+        <item>ЖКУ Пени</item>
+        <item>Тест</item>
+    </string-array>
+
+    <string-array name="payment_methods">
+        <item>Стандартная оплата</item>
+        <item>Оплата в 1 клик</item>
+        <item>Автоплатеж</item>
+    </string-array>
+</resources>

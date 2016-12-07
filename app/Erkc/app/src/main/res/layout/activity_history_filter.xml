@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/barcodeInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/main_screen_barcode_hint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/barcodeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingEnd="30dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/barCodeScanButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginTop="12dp"
+        android:background="@null"
+        android:src="@drawable/ic_scan_black"
+        app:layout_constraintRight_toRightOf="@+id/barcodeInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/barcodeInputLayout"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/streetInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:hint="@string/main_screen_street_hint"
+        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barcodeInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/streetEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/houseInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:hint="@string/main_screen_house_hint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/apartmentInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/streetInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/houseEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="textWebEditText"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/apartmentInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:hint="@string/main_screen_apartment_hint"
+        app:layout_constraintLeft_toRightOf="@+id/houseInputLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/streetInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/apartmentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/paymentSumInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:hint="@string/history_filter_payment_sum_hint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apartmentInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/paymentSumEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="numberDecimal" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/paymentTypeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_not_selected"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentSumInputLayout" />
+
+    <TextView
+        android:id="@+id/paymentTypeCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/history_filter_payment_type_caption"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTypeText" />
+
+    <TextView
+        android:id="@+id/periodText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_not_selected"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTypeCaption" />
+
+    <TextView
+        android:id="@+id/periodCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/history_filter_payment_period_caption"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/periodText" />
+
+    <TextView
+        android:id="@+id/paymentProcessText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_not_selected"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/periodCaption" />
+
+    <TextView
+        android:id="@+id/paymentProcessCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/history_filter_payment_process"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentProcessText" />
+
+    <FrameLayout
+        android:id="@+id/bottomSheetLayout"
+        android:layout_width="0dp"
+        android:layout_height="77dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/applyFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:text="@string/history_filter_apply_button"
+        android:theme="@style/AppWhiteButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomSheetLayout"
+        app:layout_constraintLeft_toLeftOf="@+id/bottomSheetLayout"
+        app:layout_constraintRight_toRightOf="@+id/bottomSheetLayout"
+        app:layout_constraintTop_toTopOf="@+id/bottomSheetLayout" />
+
+</android.support.constraint.ConstraintLayout>
