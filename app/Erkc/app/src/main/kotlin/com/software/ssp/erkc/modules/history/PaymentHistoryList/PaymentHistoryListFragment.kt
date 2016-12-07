@@ -5,10 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
+import com.software.ssp.erkc.modules.paymentsinfo.PaymentInfoActivity
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -50,7 +53,7 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
     }
 
     override fun navigateToPaymentInfo(payment: RealmPayment) {
-        showMessage("TODO") //TODO
+        startActivity<PaymentInfoActivity>(Constants.KEY_PAYMENT to payment.id)
     }
 
     override fun navigateToFilter() {

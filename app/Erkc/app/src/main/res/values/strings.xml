@@ -170,6 +170,24 @@
     <string name="send_values_title">Ввод показаний ИПУ</string>
     <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
 
+    <!-- Payment Info -->
+    <string name="payment_info_title">Информация о платеже</string>
+    <string name="payment_info_status_success">Платеж произведен успешно</string>
+    <string name="payment_info_status_error">Платеж не произведен</string>
+    <string name="payment_info_barcode_subtitle">Штрих-код (Вид платежа)</string>
+    <string name="payment_info_sum">Сумма к зачислению</string>
+    <string name="payment_info_commission">Комиссия</string>
+    <string name="payment_info_result">Итого к оплате</string>
+    <string name="payment_info_operation_no">Операция №</string>
+    <string name="payment_info_payment_type">Способ оплаты</string>
+    <string name="payment_info_retry">ПОВТОРИТЬ</string>
+    <string name="payment_info_check">ПОЛУЧИТЬ ЧЕК</string>
+    <string name="payment_info_currency">%,.2f р.</string>
+    <string name="payment_info_type_default">Стандартная оплата</string>
+    <string name="payment_info_type_one_click">Оплата в один клик</string>
+    <string name="payment_info_type_auto">Автоплатеж</string>
+    <string name="payment_info_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+
     <!-- Payment screen -->
     <string name="payment_debts_des">Текущая задолженность</string>
     <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
