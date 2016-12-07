@@ -24,7 +24,7 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
     }
 
     override fun onGetCheckClick() {
-        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.navigateToCheck()
     }
 
     override fun onViewAttached(id: String) {

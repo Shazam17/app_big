@@ -201,25 +201,31 @@
 
     <Button
         android:id="@+id/paymentInfoRetryButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/payment_info_retry"
+        android:theme="@style/AppWhiteButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline2" />
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        android:layout_marginStart="32dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/paymentInfoShowCheckButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:theme="@style/AppWhiteButtonStyle"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="@string/payment_info_check"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline2" />
+        app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

@@ -180,13 +180,13 @@
     <string name="payment_info_result">Итого к оплате</string>
     <string name="payment_info_operation_no">Операция №</string>
     <string name="payment_info_payment_type">Способ оплаты</string>
-    <string name="payment_info_retry">ПОВТОРИТЬ</string>
-    <string name="payment_info_check">ПОЛУЧИТЬ ЧЕК</string>
+    <string name="payment_info_retry">повторить</string>
+    <string name="payment_info_check">получить чек</string>
     <string name="payment_info_currency">%,.2f р.</string>
     <string name="payment_info_type_default">Стандартная оплата</string>
     <string name="payment_info_type_one_click">Оплата в один клик</string>
     <string name="payment_info_type_auto">Автоплатеж</string>
-    <string name="payment_info_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+    <string name="payment_info_commission_format">%1$,.2f р. (%2$,.2f%%)</string>
 
     <!-- Payment screen -->
     <string name="payment_debts_des">Текущая задолженность</string>
@@ -253,7 +253,9 @@
 
     <!-- PaymentCheck -->
     <string name="payment_check_title">Чек</string>
+    <string name="payment_check_permission_denied">Для корректной работы приложения необходим доступ к загрузке файлов</string>
     <string name="payment_check_error">Дождитесь загрузки файла</string>
+    <string name="payment_check_success_save">Файл успешно сохранен в папке "Загрузки"</string>
 
     <!-- History Filter Screen -->
     <string name="history_filter_title">Фильтр</string>

@@ -38,3 +38,8 @@ class PaymentAndPaymentInfo(
         val payment: RealmPayment,
         val paymentInfo: RealmPaymentInfo
 )
+
+class PaymentCheckFile(
+        val name: String,
+        val data: String
+)

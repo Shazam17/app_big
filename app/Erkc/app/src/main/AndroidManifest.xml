@@ -125,6 +125,17 @@
         <activity android:name=".modules.history.filter.HistoryFilterActivity"
             android:label="@string/history_filter_title" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>

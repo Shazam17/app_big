@@ -13,9 +13,11 @@ import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentStatus
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.type
+import com.software.ssp.erkc.modules.paymentcheck.PaymentCheckActivity
 import kotlinx.android.synthetic.main.activity_payment_info.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -55,7 +57,7 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         paymentInfoStatusDateAndTime.text = SimpleDateFormat(Constants.DATE_TIME_FORMAT_PAYMENTS_UI, Locale("ru")).format(payment.date)
         paymentInfoSum.text = getString(R.string.payment_info_currency).format(paymentInfo.amount)
         paymentInfoResult.text = getString(R.string.payment_info_currency).format(paymentInfo.summ)
-        paymentInfoCommission.text = getString(R.string.payment_info_currency).format(paymentInfo.summ - paymentInfo.amount)
+        paymentInfoCommission.text = getString(R.string.payment_info_commission_format).format(payment.amount * payment.receipt!!.percent / 100, payment.receipt!!.percent)
         paymentInfoOperationNo.text = payment.operationId
         if (payment.methodId != null) {
             paymentInfoPaymentType.setText(payment.type()!!)
@@ -74,6 +76,10 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return true
+    }
+
+    override fun navigateToCheck() {
+        startActivity<PaymentCheckActivity>(Constants.KEY_PAYMENT to paymentId)
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {

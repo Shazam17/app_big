@@ -52,9 +52,7 @@ data class Payment(
         var operationId: String)
 
 data class PaymentCheck(
-        @SerializedName("id")
-        var id: String,
-        @SerializedName("filecheck")
+        @SerializedName("file")
         var fileCheck: String
 )
 

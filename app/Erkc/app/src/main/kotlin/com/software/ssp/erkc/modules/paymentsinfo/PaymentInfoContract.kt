@@ -12,6 +12,7 @@ interface IPaymentInfoView : IView {
     fun close()
     fun fillData(paymentInfo: RealmPaymentInfo, payment: RealmPayment)
     fun setProgressVisibility(isVisible: Boolean)
+    fun navigateToCheck()
 }
 
 interface IPaymentInfoPresenter : IPresenter<IPaymentInfoView> {
