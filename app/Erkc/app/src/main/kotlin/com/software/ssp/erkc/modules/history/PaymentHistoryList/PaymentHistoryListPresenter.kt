@@ -102,7 +102,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                     }
 
                     currentFilter.periodFrom?.let {
-                        if(payment.date != null && (payment.date!!.before(it) || payment.date!!.after(currentFilter.periodTo!!))) {
+                        if(payment.date != null && (payment.date!! < it || payment.date!! > currentFilter.periodTo!!)) {
                             return@filter false
                         }
                     }

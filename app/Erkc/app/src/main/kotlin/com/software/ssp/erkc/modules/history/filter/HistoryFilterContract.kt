@@ -12,6 +12,7 @@ interface IHistoryFilterView : IView {
     fun navigateToSearchAddress()
 
     fun showListSelectDialog(titleRes: Int, itemsRes: Int, selectedIndex: Int, onConfirm: (Int) -> Unit)
+    fun showListSelectDialog(titleRes: Int, items: List<String>, selectedItem: String, onConfirm: (String) -> Unit)
 
     fun showSelectPeriodFromDialog(date: Date)
     fun showSelectPeriodToDialog(date: Date)
@@ -19,6 +20,8 @@ interface IHistoryFilterView : IView {
     fun showSelectedPeriod(dateFrom: Date, dateTo: Date)
     fun showSelectedPaymentType(paymentType: ReceiptType)
     fun showSelectedPaymentMethod(paymentMethod: PaymentMethod)
+    fun showSelectedDeviceNumber(deviceNumber: String)
+    fun showSelectedDevicePlace(devicePlace: String)
 
     fun showCurrentFilter(currentFilter: HistoryFilterModel)
 
@@ -35,6 +38,8 @@ interface IHistoryFilterPresenter : IPresenter<IHistoryFilterView> {
     fun onApplyFilterClick()
     fun onSelectPaymentProcessClick()
     fun onSelectPaymentTypeClick()
+    fun onSelectDeviceNumberClick()
+    fun onSelectInstallPlaceClick()
 
     fun onBarCodeTextChanged(barcode: String)
     fun onStreetTextChanged(street: String)

@@ -84,12 +84,12 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
         checkAndAddFilterTag(currentFilter.street, HistoryFilterField.STREET)
         checkAndAddFilterTag(currentFilter.house, HistoryFilterField.HOUSE)
         checkAndAddFilterTag(currentFilter.apartment, HistoryFilterField.APARTMENT)
+        checkAndAddFilterTag(currentFilter.deviceNumber, HistoryFilterField.DEVICE_NUMBER)
+        checkAndAddFilterTag(currentFilter.deviceInstallPlace, HistoryFilterField.DEVICE_PLACE)
 
         currentFilter.periodFrom?.let {
             checkAndAddFilterTag("%s - %s".format(it.receiptFormat, currentFilter.periodTo!!.receiptFormat), HistoryFilterField.PERIOD)
         }
-
-        //TODO other ipu filters
 
         filterChipView.refresh()
     }

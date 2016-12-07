@@ -39,7 +39,8 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onSelectPaymentProcessClick() {
-        view?.showListSelectDialog(R.string.history_filter_payment_process,
+        view?.showListSelectDialog(
+                R.string.history_filter_payment_method_caption,
                 R.array.payment_methods,
                 currentFilter.paymentMethod?.ordinal ?: -1,
                 {index ->
@@ -49,7 +50,8 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onSelectPaymentTypeClick() {
-        view?.showListSelectDialog(R.string.history_filter_payment_type_caption,
+        view?.showListSelectDialog(
+                R.string.history_filter_payment_type_caption,
                 R.array.receipt_types,
                 currentFilter.paymentType?.ordinal ?: -1,
                 {index ->
@@ -94,5 +96,33 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     override fun onPeriodDateToSelected(date: Date) {
         currentFilter.periodTo = date
         view?.showSelectedPeriod(currentFilter.periodFrom!!, currentFilter.periodTo!!)
+    }
+
+    override fun onSelectDeviceNumberClick() {
+        //TODO device numbers list from realmRepository
+        view?.showMessage("Not implemented")
+//        view?.showListSelectDialog(
+//                R.string.history_filter_device_number_caption,
+//                listOf("asd", "asd2", "asd3"),
+//                currentFilter.deviceNumber,
+//                {
+//                    deviceNumber ->
+//                    currentFilter.deviceNumber = deviceNumber
+//                    view?.showSelectedDeviceNumber(deviceNumber)
+//                })
+    }
+
+    override fun onSelectInstallPlaceClick() {
+        //TODO device places list from realmRepository
+        view?.showMessage("Not implemented")
+//        view?.showListSelectDialog(
+//                R.string.history_filter_install_place_caption,
+//                listOf("фыв", "фыв2", "фыв3"),
+//                currentFilter.deviceInstallPlace,
+//                {
+//                    devicePlace ->
+//                    currentFilter.deviceInstallPlace = devicePlace
+//                    view?.showSelectedDevicePlace(devicePlace)
+//                })
     }
 }

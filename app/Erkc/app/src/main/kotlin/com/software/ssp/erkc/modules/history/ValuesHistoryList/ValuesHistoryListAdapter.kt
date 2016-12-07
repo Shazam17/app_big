@@ -8,7 +8,6 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.extensions.historyFormat
 import kotlinx.android.synthetic.main.item_history.view.*
-import org.jetbrains.anko.onClick
 
 
 class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
@@ -43,7 +42,7 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
 
                 paymentLayout.visibility = View.GONE
 
-                onClick { onItemClick?.invoke(receipt) }
+                rootLayout.setOnClickListener { onItemClick?.invoke(receipt) }
             }
         }
 

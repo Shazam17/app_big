@@ -125,11 +125,6 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
         startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt.toReceipt())
     }
 
-    override fun navigateToHistoryScreen(receiptId: String) {
-        //TODO: NavigateToHistory
-        showMessage("TODO: NavigateToHistory - " + receiptId)
-    }
-
     override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
         startActivity<AutoPaymentSettingsActivity>("receiptId" to receiptId)
     }

@@ -27,7 +27,6 @@ import java.util.*
 import javax.inject.Inject
 
 
-
 class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
 
     @Inject lateinit var presenter: IHistoryFilterPresenter
@@ -128,13 +127,30 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         }.show()
     }
 
+    override fun showListSelectDialog(titleRes: Int, items: List<String>, selectedItem: String, onConfirm: (String) -> Unit) {
+        materialDialog {
+            title(titleRes)
+            items(items)
+            itemsCallbackSingleChoice(
+                    items.indexOfFirst { it == selectedItem },
+                    { materialDialog, view, index, charSequence -> true }
+            )
+            positiveText(R.string.history_filter_dialog_ok)
+            negativeText(R.string.history_filter_dialog_cancel)
+            onPositive {
+                dialog, action ->
+                onConfirm(items[dialog.selectedIndex])
+            }
+        }.show()
+    }
+
     override fun showSelectPeriodFromDialog(date: Date) {
         val curDate = Calendar.getInstance()
         curDate.time = date
         val dialog = DatePickerDialog.newInstance(
                 { view, year, monthOfYear, dayOfMonth ->
                     val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, monthOfYear, dayOfMonth)
+                    selectedDate.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
                     presenter.onPeriodDateFromSelected(selectedDate.time)
                 },
                 curDate[Calendar.YEAR],
@@ -152,7 +168,7 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         val dialog = DatePickerDialog.newInstance(
                 { view, year, monthOfYear, dayOfMonth ->
                     val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, monthOfYear, dayOfMonth)
+                    selectedDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59)
                     presenter.onPeriodDateToSelected(selectedDate.time)
                 },
                 fromDate[Calendar.YEAR],
@@ -175,6 +191,14 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
 
     override fun showSelectedPaymentType(paymentType: ReceiptType) {
         paymentTypeText.setText(paymentType.getStringResId())
+    }
+
+    override fun showSelectedDeviceNumber(deviceNumber: String) {
+        deviceIdText.text = deviceNumber
+    }
+
+    override fun showSelectedDevicePlace(devicePlace: String) {
+        installPlaceText.text = devicePlace
     }
 
     override fun navigateToBarcodeScanner() {
@@ -239,6 +263,16 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             }
         }
 
+        apartmentEditText.onEditorAction { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                rootLayout.requestFocus()
+                hideKeyboard()
+                true
+            } else {
+                false
+            }
+        }
+
         val listener = MaskedTextChangedListener(
                 "[099999999]{.}[99]",
                 false,
@@ -256,31 +290,6 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
 
         paymentSumEditText.addTextChangedListener(listener)
         paymentSumEditText.onFocusChangeListener = listener
-
-
-//        paymentSumEditText.textChangedListener {
-//            afterTextChanged { text ->
-//                val input = text.toString()
-//                when {
-//                    input[0] == '.' || input[0] == ',' ->
-//                        text?.insert(0, "0")
-//
-//                    input.contains(".") && input.last() !== '.' && input.indexOf(".") + 3 <= input.length - 1 -> {
-//                        val formatted = input.substring(0, input.indexOf(".") + 3)
-//                        paymentSumEditText.setText(formatted)
-//                        paymentSumEditText.setSelection(formatted.length)
-//                    }
-//
-//                    input.contains(",") && input.last() !== ',' && input.indexOf(",") + 3 <= input.length - 1 -> {
-//                        val formatted = input.substring(0, input.indexOf(",") + 3)
-//                        paymentSumEditText.setText(formatted)
-//                        paymentSumEditText.setSelection(formatted.length)
-//                    }
-//
-//                    else -> presenter.onPaymentSumTextChanged(text.toString())
-//                }
-//            }
-//        }
 
         paymentSumEditText.onEditorAction { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -305,6 +314,14 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             paymentProcessText.visibility = View.GONE
             paymentProcessCaption.visibility = View.GONE
             periodCaption.setText(R.string.history_filter_transfer_value_period_caption)
+
+            deviceIdText.visibility = View.VISIBLE
+            deviceIdCaption.visibility = View.VISIBLE
+            installPlaceText.visibility = View.VISIBLE
+            installPlaceCaption.visibility = View.VISIBLE
+
+            deviceIdText.onClick { presenter.onSelectDeviceNumberClick() }
+            installPlaceText.onClick { presenter.onSelectInstallPlaceClick() }
         }
     }
 }

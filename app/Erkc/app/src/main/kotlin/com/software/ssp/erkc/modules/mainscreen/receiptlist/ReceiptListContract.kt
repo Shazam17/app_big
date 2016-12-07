@@ -12,7 +12,6 @@ interface IReceiptListView : IListView<ReceiptViewModel> {
 
     fun navigateToIPUInputScreen(receipt: RealmReceipt)
     fun navigateToPayScreen(receipt: RealmReceipt)
-    fun navigateToHistoryScreen(receiptId: String)
     fun navigateToAutoPaymentSettingScreen(receiptId: String)
 
     fun receiptDidNotDeleted(receipt: RealmReceipt)

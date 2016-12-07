@@ -63,7 +63,8 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
                 currentFilter.periodFrom = null
                 currentFilter.periodTo = null
             }
-        //TODO Transfer filter
+            HistoryFilterField.DEVICE_NUMBER -> currentFilter.deviceNumber = ""
+            HistoryFilterField.DEVICE_PLACE -> currentFilter.deviceInstallPlace = ""
             else -> return
         }
         showReceiptsList()
@@ -90,12 +91,12 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
                     }
 
                     currentFilter.periodFrom?.let {
-                        if (receipt.lastIpuTransferDate != null && (receipt.lastIpuTransferDate!!.before(it) || receipt.lastIpuTransferDate!!.after(currentFilter.periodTo!!))) {
+                        if (receipt.lastIpuTransferDate != null && (receipt.lastIpuTransferDate!! < it || receipt.lastIpuTransferDate!! > currentFilter.periodTo!!)) {
                             return@filter false
                         }
                     }
 
-                    //TODO other ipu filters
+                    //TODO filter with deviceNumber and deviceInstallPlace
 
                     return@filter true
                 }

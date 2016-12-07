@@ -116,8 +116,8 @@
             android:id="@+id/paymentSumEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -147,6 +147,33 @@
         app:layout_constraintTop_toBottomOf="@+id/paymentTypeText" />
 
     <TextView
+        android:id="@+id/deviceIdText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_not_selected"
+        android:textColor="@color/colorPrimary"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTypeCaption" />
+
+    <TextView
+        android:id="@+id/deviceIdCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/history_filter_device_number_caption"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deviceIdText" />
+
+    <TextView
         android:id="@+id/periodText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -157,7 +184,7 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymentTypeCaption" />
+        app:layout_constraintTop_toBottomOf="@+id/deviceIdCaption" />
 
     <TextView
         android:id="@+id/periodCaption"
@@ -190,11 +217,38 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:text="@string/history_filter_payment_process"
+        android:text="@string/history_filter_payment_method_caption"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paymentProcessText" />
+
+    <TextView
+        android:id="@+id/installPlaceText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_not_selected"
+        android:textColor="@color/colorPrimary"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentProcessCaption" />
+
+    <TextView
+        android:id="@+id/installPlaceCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/history_filter_install_place_caption"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/installPlaceText" />
 
     <FrameLayout
         android:id="@+id/bottomSheetLayout"
