@@ -180,13 +180,8 @@
     <string name="payment_info_result">Итого к оплате</string>
     <string name="payment_info_operation_no">Операция №</string>
     <string name="payment_info_payment_type">Способ оплаты</string>
-<<<<<<< HEAD
-    <string name="payment_info_retry">повторить</string>
-    <string name="payment_info_check">получить чек</string>
-=======
     <string name="payment_info_retry">Повторить</string>
     <string name="payment_info_check">Получить чек</string>
->>>>>>> fbf7d0db46005dcc43e05ac8c47988e8efdebee1
     <string name="payment_info_currency">%,.2f р.</string>
     <string name="payment_info_type_default">Стандартная оплата</string>
     <string name="payment_info_type_one_click">Оплата в один клик</string>
