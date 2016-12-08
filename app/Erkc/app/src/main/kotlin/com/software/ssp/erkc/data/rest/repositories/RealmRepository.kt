@@ -289,10 +289,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     currentUser ->
                     if (dateFrom != null || dateTo != null) {
                         Observable.just(currentUser?.ipus
-                                ?.first { it.receipt?.lastIpuTransferDate!!.after(dateFrom) && it.receipt?.lastIpuTransferDate!!.before(dateTo) && it.receipt?.id == receipt.id }?.ipuValues)
+                                ?.first {
+                                    it.receipt?.lastIpuTransferDate!!.after(dateFrom)
+                                            && it.receipt?.lastIpuTransferDate!!.before(dateTo)
+                                            && it.receipt?.id == receipt.id }?.ipuValues
+                                ?.sortedBy { it.number })
                     } else {
                         Observable.just(currentUser?.ipus
-                                ?.first { it.receipt?.id == receipt.id }?.ipuValues)
+                                ?.first { it.receipt?.id == receipt.id }?.ipuValues
+                                ?.sortedBy { it.number })
                     }
                 }
     }

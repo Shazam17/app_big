@@ -16,12 +16,12 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight=".4" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".25"
             android:gravity="bottom"
             android:text="@string/history_value_average_title"
             android:textColor="@color/colorHistoryValueHeader"
@@ -31,7 +31,7 @@
             android:id="@+id/valueHistoryTotalTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".25"
             android:gravity="bottom"
             android:textColor="@color/colorHistoryValueHeader"
             android:textSize="12sp"

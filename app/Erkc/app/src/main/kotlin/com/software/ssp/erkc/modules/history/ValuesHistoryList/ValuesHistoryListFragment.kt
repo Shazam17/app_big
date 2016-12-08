@@ -54,7 +54,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
     }
 
     override fun navigateToIpuValueInfo(receipt: RealmReceipt, dateFrom: Date, dateTo: Date) {
-        startActivity<ValueHistoryActivity>(Constants.KEY_DATE_FROM to dateFrom, Constants.KEY_DATE_TO to dateTo, Constants.KEY_RECEIPT to receipt.id)
+        startActivity<ValueHistoryActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun navigateToFilter() {

@@ -1,15 +1,16 @@
 package com.software.ssp.erkc.modules.history.valuehistory
 
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -21,13 +22,9 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepo: RealmRepository
     @Inject lateinit var ipuProvider: IpuRepository
-    var dateFrom: Date? = null
-    var dateTo: Date? = null
     var receipt: RealmReceipt? = null
 
-    override fun onViewAttached(dateFrom: Date?, dateTo: Date?, receiptId: String) {
-        this.dateFrom = dateFrom
-        this.dateTo = dateTo
+    override fun onViewAttached(receiptId: String) {
         view?.setLoadingVisible(true)
         subscriptions += realmRepo.fetchReceiptsById(receiptId)
                 .subscribe({
@@ -54,7 +51,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                     realmRepo.saveIpusByBarсode(ipus, receipt!!)
                 }
                 .concatMap {
-                    realmRepo.fetchIpuValuesListByRange(dateFrom, dateTo, receipt!!)
+                    realmRepo.fetchIpuValuesListByRange(null, null, receipt!!) //todo проставить даты из фильтра
                 }
                 .subscribe({
                     ipuValues ->
@@ -69,22 +66,37 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     }
 
     private fun fillData(ipus: List<RealmIpuValue>) {
+        val dateFormat = SimpleDateFormat(Constants.VALUES_DATE_FORMAT, Locale("RU"))
         val startCalendar = GregorianCalendar()
+        val dateFrom = ipus.first().date
         startCalendar.time = dateFrom
         val endCalendar = GregorianCalendar()
+        val dateTo = ipus.last().date
         endCalendar.time = dateTo
 
         val diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR)
         val diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH)
-        for (ipu in ipus) {
-
-        }
         val map = ipus.groupBy { it.serviceName }
+        view?.fillData(dateFormat.format(dateFrom), dateFormat.format(dateTo))
         map.forEach {
-            val value = it.value.last().value - it.value.first().value
-            val average = value / diffMonth
-            val unit = if (receipt?.receiptType == ReceiptType.WATER) R.string.history_value_water_unit else R.string.history_value_electro_unit
-            view?.fillData(it.key, value.toString(), average.toString(), unit)
+            val ipu = it.value
+            val serviceName = it.key
+            val diffValue = ipu.last().value - ipu.first().value
+            val average = if (diffValue != 0) diffValue / diffMonth else ipu.first().value
+            val total = if (diffValue != 0) diffValue else ipu.first().value
+            val unit: Int
+            val drawable: Int
+            if (serviceName.contains(Constants.HOT_WATER)) {
+                unit = R.string.history_value_water_unit
+                drawable = R.drawable.pic_hot_water
+            } else if (serviceName.contains(Constants.COLD_WATER)) {
+                unit = R.string.history_value_water_unit
+                drawable = R.drawable.pic_cold_water
+            } else {
+                unit = R.string.history_value_electro_unit
+                drawable = R.drawable.pic_electro
+            }
+            view?.fillData(it.key, total.toString(), average.toString(), unit, drawable)
         }
     }
 }

@@ -27,7 +27,9 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_URL_RESULT = "URL_RESULT_KEY"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
-    const val KEY_DATE_FROM = "DATE_FROM_KEY"
-    const val KEY_DATE_TO = "DATE_TO_KEY"
     const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
+
+    // Т.к. нет у АПИ кодов для определения горячая вода / холодная вода / эл-во приняли решение привязаться в названию
+    const val HOT_WATER = "Горяч"
+    const val COLD_WATER = "Холод"
 }
