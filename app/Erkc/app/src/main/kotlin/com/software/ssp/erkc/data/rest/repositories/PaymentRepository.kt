@@ -10,11 +10,11 @@ import javax.inject.Inject
 
 class PaymentRepository @Inject constructor(private val paymentDataSource: PaymentDataSource) : Repository() {
 
-    fun init(code: String, method: Int, summ: String, email: String, cardId: String?): Observable<PaymentInit> {
+    fun init(code: String, method: Int, sum: String, email: String, cardId: String?): Observable<PaymentInit> {
         val params = hashMapOf(
                 "code" to code,
                 "method_id" to method.toString(),
-                "summ" to summ,
+                "summ" to sum,
                 "email" to email
         )
         if (cardId != null) {

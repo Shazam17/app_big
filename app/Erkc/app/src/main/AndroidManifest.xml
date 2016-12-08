@@ -103,7 +103,8 @@
             android:name=".modules.paymentscreen.payment.PaymentActivity"
             android:label="@string/payment_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name=".modules.paymentsinfo.PaymentInfoActivity"

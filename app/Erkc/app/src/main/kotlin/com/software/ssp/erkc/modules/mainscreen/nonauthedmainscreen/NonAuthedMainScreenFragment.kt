@@ -99,7 +99,7 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
-        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt)
+        startActivity<PaymentActivity>("receipt" to receipt)
     }
 
     override fun navigateToSendValuesScreen(data: Receipt) {

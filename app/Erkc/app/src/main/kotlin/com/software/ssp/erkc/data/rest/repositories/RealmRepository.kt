@@ -167,7 +167,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         barcode = receipt.barcode
                         lastIpuTransferDate = receipt.lastIpuTransferDate
                         supplierName = receipt.supplierName
-                        percent = receipt.persent
+                        percent = receipt.percent
                         linkedCard = realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
                     }
 
@@ -212,7 +212,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.barcode,
                                 it.lastIpuTransferDate,
                                 it.supplierName,
-                                it.persent,
+                                it.percent,
                                 if (linkedCard == null) null else realm.copyFromRealm(linkedCard)
                         )
                     }

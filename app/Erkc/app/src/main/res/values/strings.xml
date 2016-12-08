@@ -192,15 +192,15 @@
     <string name="payment_debts_des">Текущая задолженность</string>
     <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="payment_title">Оплата</string>
-    <string name="payment_continue_button">ПРОДОЛЖИТЬ</string>
+    <string name="payment_continue_button">Продолжить</string>
     <string name="payment_amount_title">Итого к оплате:</string>
     <string name="payment_sum_title">Сумма к зачислению</string>
-    <string name="payment_dialog_ok">OK</string>
-    <string name="payment_dialog_cancel">ЗАКРЫТЬ</string>
+    <string name="payment_dialog_ok">Oк</string>
+    <string name="payment_dialog_cancel">Закрыть</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>
     <string name="payment_email">Email</string>
     <string name="payment_pay_by_card">Оплатить картой</string>
-    <string name="payment_add_card">ДОБАВИТЬ</string>
+    <string name="payment_add_card">Добавить</string>
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
@@ -208,8 +208,14 @@
     <string name="payment_result_error">Операция не произведена.</string>
     <string name="payment_done">Готово</string>
     <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>
+    <string name="payment_commission_sum" formatted="false">(%.2f р.)</string>
+    <string name="payment_commission_percent" formatted="false">Комиссия %.2f%%</string>
     <string name="payment_sum" formatted="false">%.2f р.</string>
     <string name="payment_currency_symbol"> р.</string>
+    <string name="payment_non_selected_card">Не выбрана</string>
+    <string name="payment_navigate_to_cards_dialog_text">На вашей учетной записи отсуствуют активированные карты.\nПерейти к добавлению/активации карты?</string>
+    <string name="payment_navigate_to_cards_dialog_positive">Перейти</string>
+    <string name="payment_navigate_to_cards_dialog_negative">Отмена</string>
 
     <!-- AutoPaymentsScreen -->
     <string name="auto_payments_autopay_tab_title">Автоплатежи</string>

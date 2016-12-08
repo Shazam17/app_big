@@ -84,12 +84,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {
-        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt)
+        startActivity<PaymentActivity>("receipt" to receipt)
     }
 
     override fun navigateToPayScreen(receiptId: String) {
-        // todo
-        toast("navigateToPayScreen")
+        startActivity<PaymentActivity>("receiptId" to receiptId)
     }
 
     override fun showBarcodeError(errorStringResId: Int) {
