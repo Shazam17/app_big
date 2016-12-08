@@ -1,6 +1,6 @@
 package com.software.ssp.erkc
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.DaggerAppComponent
@@ -8,7 +8,7 @@ import com.software.ssp.erkc.di.modules.AppModule
 import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 
-class ErkcApplication : Application() {
+class ErkcApplication : MultiDexApplication() {
 
     lateinit var appComponent: AppComponent
         private set
