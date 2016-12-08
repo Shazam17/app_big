@@ -5,7 +5,7 @@ import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 
 
-open class OfflineUserSettings(
+open class RealmSettings(
         @PrimaryKey
         open var login: String = "",
         password: String = "",
@@ -15,7 +15,6 @@ open class OfflineUserSettings(
         open var newsNotificationEnabled: Boolean = false,
         open var paymentNotificationEnabled: Boolean = false,
         open var ipuNotificationEnabled: Boolean = false
-
 ) : RealmObject() {
 
     @Ignore

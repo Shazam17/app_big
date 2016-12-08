@@ -4,10 +4,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
-import com.software.ssp.erkc.data.rest.repositories.AccountRepository
-import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.isEmail
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
@@ -24,6 +21,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
+    @Inject lateinit var settingsRepository: SettingsRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -68,6 +66,19 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
+
+                    settingsRepository.setStatusOperations(true)
+                }
+                .concatMap {
+                    settingsRepository.setGetNews(true)
+                }
+                .concatMap {
+                    settingsRepository.setNeedToPay(true)
+                }
+                .concatMap {
+                    settingsRepository.setNeedToSendMeters(true)
+                }
+                .concatMap {
                     accountRepository.fetchUserInfo()
                 }
                 .concatMap {

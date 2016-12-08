@@ -19,6 +19,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var cardsRepository: CardsRepository
+    @Inject lateinit var settingsRepository: SettingsRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -73,6 +74,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmUser ->
                     realmRepository.setCurrentUser(realmUser)
                 }
+//                .concatMap { settingsRepository.getSettings() } TODO uncomment when worked
+//                .concatMap {
+//                    settings ->
+//                    realmRepository.updateSettings(settings)
+//                }
                 .concatMap {
                     cardsRepository.fetchCards()
                 }

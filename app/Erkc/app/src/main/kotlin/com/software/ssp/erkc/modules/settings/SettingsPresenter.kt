@@ -1,7 +1,7 @@
 package com.software.ssp.erkc.modules.settings
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
@@ -17,7 +17,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var settingsRepository: SettingsRepository
 
-    private lateinit var offlineUserSettings: OfflineUserSettings
+    private lateinit var offlineUserSettings: RealmSettings
 
     override fun onViewAttached() {
         fetchData()
@@ -72,20 +72,22 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     override fun saveSettings() {
         offlineUserSettings.apply {
             subscriptions += Observable.zip(
-                    settingsRepository.setStatusOperations(activeSession.accessToken!!, operationStatusNotificationEnabled),
-                    settingsRepository.setGetNews(activeSession.accessToken!!, newsNotificationEnabled),
-                    settingsRepository.setNeedToPay(activeSession.accessToken!!, paymentNotificationEnabled),
-                    settingsRepository.setNeedToSendMeters(activeSession.accessToken!!, ipuNotificationEnabled),
+                    settingsRepository.setStatusOperations(operationStatusNotificationEnabled),
+                    settingsRepository.setGetNews(newsNotificationEnabled),
+                    settingsRepository.setNeedToPay(paymentNotificationEnabled),
+                    settingsRepository.setNeedToSendMeters(ipuNotificationEnabled),
                     {
                         statusOperation, getNews, needToPay, needToSendMeters ->
                         Observable.just(null)
                     })
-                    .subscribe({
-                        result ->
-                    }, {
-                        error ->
-                        view?.showMessage(error.parsedMessage())
-                    })
+                    .subscribe(
+                            {
+                                result ->
+                            },
+                            {
+                                error ->
+                                view?.showMessage(error.parsedMessage())
+                            })
         }
     }
 
@@ -107,10 +109,12 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
 
     private fun updateData() {
         offlineUserSettings.apply {
-            view?.setPushSwitch(paymentNotificationEnabled
-                    || newsNotificationEnabled
-                    || ipuNotificationEnabled
-                    || operationStatusNotificationEnabled)
+            view?.setPushSwitch(
+                    paymentNotificationEnabled
+                            || newsNotificationEnabled
+                            || ipuNotificationEnabled
+                            || operationStatusNotificationEnabled
+            )
         }
         subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
                 .subscribe(

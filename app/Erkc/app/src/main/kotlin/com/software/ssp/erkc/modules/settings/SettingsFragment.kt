@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.settings.offlinepassword.OfflinePasswordActivity
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -82,7 +82,7 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         startActivity<OfflinePasswordActivity>()
     }
 
-    override fun showData(userSettings: OfflineUserSettings) {
+    override fun showData(userSettings: RealmSettings) {
         offlineModeSwitch.isChecked = userSettings.offlineModeEnabled
         setOfflinePasswordVisibility(userSettings.offlineModeEnabled)
 

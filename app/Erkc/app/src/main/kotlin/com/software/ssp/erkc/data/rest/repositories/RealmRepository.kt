@@ -49,7 +49,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return realm.where(RealmStreet::class.java).count() > 0
     }
 
-    fun updateOfflineSettings(userSettings: OfflineUserSettings): Observable<Boolean> {
+    fun updateOfflineSettings(userSettings: RealmSettings): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
             realm.executeTransactionAsync(
                     { it.copyToRealmOrUpdate(userSettings) },
@@ -79,7 +79,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 user.login,
                                 user.email,
                                 user.name,
-                                settings = OfflineUserSettings(user.login)))
+                                settings = RealmSettings(
+                                        login = user.login,
+                                        pushEnabled = true,
+                                        paymentNotificationEnabled = true,
+                                        operationStatusNotificationEnabled = true,
+                                        ipuNotificationEnabled = true,
+                                        newsNotificationEnabled = true)
+                        )
+                        )
                     } else {
                         Observable.just(realm.copyFromRealm(firstResult))
                     }
@@ -141,6 +149,26 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
+    }
+
+    fun updateSettings(settings: Settings): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    currentUser.settings?.apply {
+                        operationStatusNotificationEnabled = if(settings.operationsNotificationStatus == 1) true else false
+                        newsNotificationEnabled = if(settings.newsNotificationStatus == 1) true else false
+                        paymentNotificationEnabled = if(settings.paymentRemindStatus == 1) true else false
+                        ipuNotificationEnabled = if(settings.ipuRemindStatus == 1) true else false
+
+                        pushEnabled = operationStatusNotificationEnabled
+                                || newsNotificationEnabled
+                                || paymentNotificationEnabled
+                                || ipuNotificationEnabled
+                    }
+
+                    updateUser(currentUser)
+                }
     }
 
     fun saveReceipt(receipt: Receipt): Observable<Boolean> {

@@ -3,7 +3,7 @@ package com.software.ssp.erkc.modules.settings.offlinepassword
 import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -17,7 +17,7 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     @Inject lateinit var activeSession: ActiveSession
 
     private lateinit var password: String
-    private lateinit var offlineUserSettings: OfflineUserSettings
+    private lateinit var offlineUserSettings: RealmSettings
 
     override fun onViewAttached() {
         fetchData()

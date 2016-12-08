@@ -2,7 +2,7 @@ package com.software.ssp.erkc.modules.settings
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.realm.models.OfflineUserSettings
+import com.software.ssp.erkc.data.realm.models.RealmSettings
 
 
 interface ISettingsView : IView {
@@ -17,7 +17,7 @@ interface ISettingsView : IView {
 
     fun setOfflinePasswordVisibility(visible: Boolean)
     fun navigateToOfflinePasswordScreen()
-    fun showData(userSettings: OfflineUserSettings)
+    fun showData(userSettings: RealmSettings)
 }
 
 interface ISettingsPresenter : IPresenter<ISettingsView> {
