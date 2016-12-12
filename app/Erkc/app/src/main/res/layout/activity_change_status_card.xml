@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <WebView
-        android:id="@+id/confirmByUrlWebView"
+        android:id="@+id/changeStatusCardWebView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/confirmByUrlDoneButtonWrapper"
+        android:id="@+id/changeStatusCardDoneButtonWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -27,7 +27,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
-            android:id="@+id/confirmByUrlDoneButton"
+            android:id="@+id/changeStatusCardDoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"

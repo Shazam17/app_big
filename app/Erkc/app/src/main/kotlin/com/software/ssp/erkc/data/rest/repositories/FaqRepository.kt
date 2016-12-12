@@ -9,14 +9,12 @@ import javax.inject.Inject
 
 class FaqRepository @Inject constructor(private val faqDataSource: FaqDataSource) : Repository() {
 
-    fun sendMessage(token: String,
-                    name: String,
+    fun sendMessage(name: String,
                     login: String,
                     email: String,
                     text: String,
                     subject: String): Observable<Response<ResponseBody>> {
         return faqDataSource.sendMessage(mapOf(
-                "token" to token,
                 "name" to name,
                 "login" to login,
                 "email" to email,
@@ -24,5 +22,4 @@ class FaqRepository @Inject constructor(private val faqDataSource: FaqDataSource
                 "subject" to subject)
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
-
 }

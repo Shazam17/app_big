@@ -10,6 +10,9 @@ import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.ipuValuesFormat
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import rx.Observable
+import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,6 +27,11 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var ipuRepository: IpuRepository
     var receipt: RealmReceipt? = null
+
+    override var currentFilter: HistoryFilterModel = HistoryFilterModel()
+        set(value) {
+            field = value
+        }
 
     override fun onViewAttached(receiptId: String) {
         view?.setLoadingVisible(true)
@@ -51,10 +59,17 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                     realmRepository.saveIpusByBarсode(ipus, receipt!!)
                 }
                 .concatMap {
-                    realmRepository.fetchIpuValuesList(receipt!!) //todo проставить даты из фильтра
+                    realmRepository.fetchIpuValuesList(receipt!!)
                 }
                 .subscribe({
                     ipuValues ->
+                    if (currentFilter.periodFrom != null && currentFilter.periodTo != null) {
+                        val list = ipuValues.filter {
+                            it.date!!.after(currentFilter.periodFrom) && it.date!!.before(currentFilter.periodTo)
+                        }
+                        view?.showData(list)
+                        fillData(list)
+                    }
                     view?.showData(ipuValues)
                     fillData(ipuValues)
                     view?.setLoadingVisible(false)
@@ -81,8 +96,8 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
             val ipu = it.value
             val serviceName = it.key
             val diffValue = ipu.last().value - ipu.first().value
-            val average = if (diffValue != 0) diffValue / diffMonth else ipu.first().value
-            val total = if (diffValue != 0) diffValue else ipu.first().value
+            val average = if (diffValue != 0 && diffMonth != 0) diffValue / diffMonth else ipu.first().value
+            val total = if (diffValue != 0 && diffMonth != 0) diffValue else ipu.first().value
             val unit: Int
             val drawable: Int
             when {

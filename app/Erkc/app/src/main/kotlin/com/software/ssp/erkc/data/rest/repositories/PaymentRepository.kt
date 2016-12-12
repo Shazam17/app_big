@@ -2,18 +2,19 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.PaymentDataSource
 import com.software.ssp.erkc.data.rest.models.Payment
+import com.software.ssp.erkc.data.rest.models.PaymentCheck
+import com.software.ssp.erkc.data.rest.models.PaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentInit
 import rx.Observable
 import javax.inject.Inject
 
 class PaymentRepository @Inject constructor(private val paymentDataSource: PaymentDataSource) : Repository() {
 
-    fun init(token: String, code: String, method: Int, summ: String, email: String, cardId: String?): Observable<PaymentInit> {
+    fun init(code: String, method: Int, sum: String, email: String, cardId: String?): Observable<PaymentInit> {
         val params = hashMapOf(
-                "token" to token,
                 "code" to code,
                 "method_id" to method.toString(),
-                "summ" to summ,
+                "summ" to sum,
                 "email" to email
         )
         if (cardId != null) {
@@ -22,9 +23,21 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
-    fun fetchPayments(token: String): Observable<List<Payment>> {
+    fun fetchPayments(): Observable<List<Payment>> {
         return paymentDataSource
-                .getByUser(token)
+                .getByUser()
                 .compose(this.applySchedulers<List<Payment>>())
+    }
+
+    fun fetchCheck(id: String): Observable<PaymentCheck> {
+        return paymentDataSource
+                .getCheck(id)
+                .compose(this.applySchedulers<PaymentCheck>())
+    }
+
+    fun fetchPaymentInfo(id: String): Observable<PaymentInfo> {
+        return paymentDataSource
+                .getByPaymentId(id)
+                .compose(this.applySchedulers<PaymentInfo>())
     }
 }

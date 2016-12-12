@@ -22,7 +22,7 @@
     <color name="colorLightInput">#8F8F8F</color>
     <color name="colorLightInputDisabled">#508F8F8F</color>
 
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
 
     <color name="colorWhite60">#99FFFFFF</color>
@@ -40,6 +40,8 @@
     <color name="colorGreen">#76b33a</color>
 
     <color name="colorBaseText">#212121</color>
+
+    <color name="colorFilterChip">#DCDCDC</color>
 
     <!-- card list item -->
     <color name="colorCardDividerActivated">#3b78de</color>
@@ -72,5 +74,10 @@
     <color name="colorHistoryValueBackground">#dfe1e2</color>
     <color name="colorHistoryValueDivider">#b5949494</color>
 
+    <!-- paymentInfo info -->
+    <color name="colorPaymentInfoStatusSuccessBackground">#8bc34a</color>
+    <color name="colorPaymentInfoStatusErrorBackground">@color/colorRed</color>
+    <color name="colorPaymentInfoDivider">#c6c6c5</color>
+    <color name="colorPaymentInfoCurrencyTextColor">#009688</color>
 
 </resources>

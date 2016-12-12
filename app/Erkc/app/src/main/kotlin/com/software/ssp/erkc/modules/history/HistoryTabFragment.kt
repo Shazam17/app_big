@@ -6,11 +6,14 @@ import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentStatePagerAdapter
 import android.view.*
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.PaymentHistoryList.PaymentHistoryListFragment
 import com.software.ssp.erkc.modules.history.ValuesHistoryList.ValuesHistoryListFragment
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.fragment_history_tab.*
+import org.jetbrains.anko.withArguments
 import javax.inject.Inject
 
 
@@ -22,6 +25,8 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
         PAYMENTS_HISTORY(R.string.history_payments_tab_title),
         VALUES_HISTORY(R.string.history_values_tab_title)
     }
+
+    private val historyFilter: HistoryFilterModel by args(defaultValue = HistoryFilterModel())
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerHistoryTabComponent.builder()
@@ -65,7 +70,7 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
     }
 
     override fun navigateToFilter() {
-        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).navigateToFilter()
+        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).onFilterClick()
     }
 
     private fun initViews() {
@@ -92,8 +97,8 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
 
             override fun getItem(position: Int): Fragment {
                 return when (TabItem.values()[position]) {
-                    TabItem.PAYMENTS_HISTORY -> PaymentHistoryListFragment()
-                    TabItem.VALUES_HISTORY -> ValuesHistoryListFragment()
+                    TabItem.PAYMENTS_HISTORY -> PaymentHistoryListFragment().withArguments("historyFilter" to historyFilter)
+                    TabItem.VALUES_HISTORY -> ValuesHistoryListFragment().withArguments("historyFilter" to historyFilter)
                 }
             }
         }

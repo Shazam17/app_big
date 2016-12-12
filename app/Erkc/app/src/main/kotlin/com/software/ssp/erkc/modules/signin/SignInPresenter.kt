@@ -59,11 +59,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
-                .authenticate(activeSession.appToken!!, login, password)
+                .authenticate(login, password)
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-                    accountRepository.fetchUserInfo(activeSession.accessToken!!)
+                    accountRepository.fetchUserInfo()
                 }
                 .concatMap {
                     user ->
@@ -74,14 +74,14 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmRepository.setCurrentUser(realmUser)
                 }
                 .concatMap {
-                    cardsRepository.fetchCards(activeSession.accessToken!!)
+                    cardsRepository.fetchCards()
                 }
                 .concatMap {
                     cards ->
                     realmRepository.saveCardsList(cards ?: emptyList())
                 }
                 .concatMap {
-                    receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+                    receiptsRepository.fetchReceipts()
                 }
                 .concatMap {
                     receipts ->
@@ -96,6 +96,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
+                            activeSession.clear()
                             view?.showMessage(error.parsedMessage())
                         }
                 )

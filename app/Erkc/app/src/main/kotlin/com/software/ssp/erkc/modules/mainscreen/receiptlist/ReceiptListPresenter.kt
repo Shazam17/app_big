@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.mainscreen.receiptlist
 
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.OpenHistoryWithReceiptEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
@@ -17,6 +19,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var eventBus: Relay<Any, Any>
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -29,7 +32,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .concatMap {
                     receipts ->
                     realmRepository.saveReceiptsList(receipts)
@@ -55,7 +58,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onHistoryButtonClick(receipt: RealmReceipt) {
-        view?.navigateToHistoryScreen(receipt.id)
+        eventBus.call(OpenHistoryWithReceiptEvent(receipt.barcode))
     }
 
     override fun onAutoPaymentButtonClick(receipt: RealmReceipt) {
@@ -67,7 +70,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onReceiptDeleted(receipt: RealmReceipt) {
-        subscriptions += receiptsRepository.deleteReceipt(activeSession.accessToken!!, receipt.id)
+        subscriptions += receiptsRepository.deleteReceipt(receipt.id)
                 .concatMap {
                     view?.receiptDeleted(receipt)
                     view?.showMessage(R.string.receipts_deleted)

@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.di
 
+import android.content.Context
 import com.google.gson.Gson
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.datasource.*
@@ -15,6 +17,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, NetworkModule::class))
 interface AppComponent {
     fun proivdeGson(): Gson
+    fun provideEventBus(): Relay<Any, Any>
     fun provideHttpClient(): OkHttpClient
     fun provideAuthProvider(): AuthProvider
     fun provideAuthDataSource(): AuthDataSource
@@ -26,5 +29,7 @@ interface AppComponent {
     fun provideCardsDataSource(): CardsDataSource
     fun provideActiveSession(): ActiveSession
     fun providerPaymentDataSource() : PaymentDataSource
+    fun providerSettingsDataSource() : SettingsDataSource
     fun provideRealm(): Realm
+    fun provideContext(): Context
 }

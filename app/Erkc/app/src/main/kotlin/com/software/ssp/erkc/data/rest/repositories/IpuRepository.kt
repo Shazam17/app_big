@@ -10,14 +10,13 @@ import javax.inject.Inject
 
 class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource) : Repository() {
 
-    fun sendParameters(token: String, code: String, values: HashMap<String, String>): Observable<ResponseBody> {
-        values.put("token", token)
+    fun sendParameters(code: String, values: HashMap<String, String>): Observable<ResponseBody> {
         values.put("code", code)
         return ipuDataSource.sendParameters(values).compose(this.applySchedulers<ResponseBody>())
     }
 
-    fun getByReceipt(token: String, code: String): Observable<List<Ipu>> {
-        return ipuDataSource.getByReceipt(token, code).compose(this.applySchedulers<List<Ipu>>())
+    fun getByReceipt(code: String): Observable<List<Ipu>> {
+        return ipuDataSource.getByReceipt(code).compose(this.applySchedulers<List<Ipu>>())
     }
 
     fun getHistoryByReceipt(token: String, code: String): Observable<List<Ipu>> {

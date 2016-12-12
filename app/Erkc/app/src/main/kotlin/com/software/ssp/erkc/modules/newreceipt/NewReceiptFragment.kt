@@ -14,8 +14,6 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
-import com.software.ssp.erkc.modules.drawer.DrawerActivity
-import com.software.ssp.erkc.modules.drawer.DrawerItem
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import kotlinx.android.synthetic.main.fragment_new_receipt.*
@@ -59,9 +57,6 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
-            Constants.REQUEST_CODE_PAYMENT -> {
-                (activity as DrawerActivity).navigateToDrawerItem(data?.getSerializableExtra(Constants.KEY_DRAWER_ITEM_FOR_SELECT) as DrawerItem)
-            }
             BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE -> presenter.onBarCodeScanned(data!!.getStringExtra(BarcodeScannerActivity.BARCODE_SCANNED_RESULT_KEY))
             SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE -> presenter.onAddressSelected(data!!.getStringExtra(SearchAddressActivity.SEARCH_ADDRESS_RESULT_KEY))
         }
@@ -89,12 +84,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {
-        startActivityForResult<PaymentActivity>(Constants.REQUEST_CODE_PAYMENT, Constants.KEY_RECEIPT to receipt)
+        startActivity<PaymentActivity>("receipt" to receipt)
     }
 
     override fun navigateToPayScreen(receiptId: String) {
-        // todo
-        toast("navigateToPayScreen")
+        startActivity<PaymentActivity>("receiptId" to receiptId)
     }
 
     override fun showBarcodeError(errorStringResId: Int) {

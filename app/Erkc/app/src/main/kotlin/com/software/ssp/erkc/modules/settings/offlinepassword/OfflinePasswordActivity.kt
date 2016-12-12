@@ -63,6 +63,7 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         supportActionBar?.elevation = 0f
 
         firstEditText.textChangedListener {

@@ -2,6 +2,7 @@ package com.software.ssp.erkc.di.modules
 
 import com.google.gson.Gson
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
 import com.software.ssp.erkc.data.rest.datasource.*
@@ -34,8 +35,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesErkcInterceptor(gson: Gson): ErkcInterceptor {
-        return ErkcInterceptor(gson)
+    fun providesErkcInterceptor(gson: Gson, activeSession: ActiveSession): ErkcInterceptor {
+        return ErkcInterceptor(gson, activeSession)
     }
 
     @Provides
@@ -103,5 +104,11 @@ class NetworkModule {
     @Singleton
     fun providePaymentDataSource(retrofit: Retrofit): PaymentDataSource {
         return retrofit.create(PaymentDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsDataSource(retrofit: Retrofit): SettingsDataSource {
+        return retrofit.create(SettingsDataSource::class.java)
     }
 }

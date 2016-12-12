@@ -12,6 +12,7 @@ import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.BaseListActivity
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.activity_value_history.*
 import kotlinx.android.synthetic.main.item_value_history_ipu.view.*
 import java.text.SimpleDateFormat
@@ -26,6 +27,7 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
     @Inject lateinit var presenter: IValueHistoryPresenter
 
     private var receiptId: String by extras(Constants.KEY_RECEIPT)
+    private var historyFilter: HistoryFilterModel by extras(Constants.KEY_HISTORY_FILTER)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -45,6 +47,7 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_value_history)
         initViews()
+        presenter.currentFilter = historyFilter
         presenter.onViewAttached(receiptId)
     }
 

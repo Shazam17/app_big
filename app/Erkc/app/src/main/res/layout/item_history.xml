@@ -9,7 +9,6 @@
         android:id="@+id/addressHeaderText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_default_margin"
         android:maxLines="1"
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
@@ -19,6 +18,7 @@
         tools:text="ул. Усова 25/1, кв 7" />
 
     <LinearLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"

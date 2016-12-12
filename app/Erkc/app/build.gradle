@@ -10,11 +10,12 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.software.ssp.erkc"
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion 17
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     applicationVariants.all { variant ->
@@ -42,6 +43,15 @@ android {
     dexOptions {
         jumboMode = true
     }
+
+    productFlavors {
+        post21 {
+            minSdkVersion 21
+        }
+        pre21 {
+            minSdkVersion 17
+        }
+    }
 }
 
 kapt {
@@ -57,12 +67,14 @@ dependencies {
     compile "com.android.support:support-v13:$support_version"
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
+    compile 'com.android.support:multidex:1.0.1'
+
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
-    compile 'com.google.android.gms:play-services-maps:10.0.0'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.jetbrains.anko:anko-sdk19:0.9'
+    compile 'org.jetbrains.anko:anko-sdk15:0.9'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9'
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -75,6 +87,7 @@ dependencies {
     compile 'io.reactivex:rxkotlin:0.60.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
 
     compile 'com.google.dagger:dagger:2.5'
     kapt 'com.google.dagger:dagger-compiler:2.5'
@@ -91,6 +104,13 @@ dependencies {
     compile 'com.chibatching:kotpref:1.5.0'
 
     compile 'ru.rambler.android:swipe-layout:1.0.14'
+
+    //pdf
+    compile 'com.github.barteksc:android-pdf-viewer:2.1.0'
+
+    compile 'com.wdullaer:materialdatetimepicker:3.0.0'
+    compile 'com.github.Plumillon:ChipView:1.2.0'
+    compile 'com.redmadrobot:inputmask:1.1.0'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'

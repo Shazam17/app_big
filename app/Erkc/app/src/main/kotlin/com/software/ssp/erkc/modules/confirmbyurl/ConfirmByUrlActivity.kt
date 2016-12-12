@@ -1,9 +1,5 @@
 package com.software.ssp.erkc.modules.confirmbyurl
 
-
-import android.app.Activity
-import android.content.Intent
-import android.net.UrlQuerySanitizer
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,15 +14,12 @@ import kotlinx.android.synthetic.main.activity_change_status_card.*
 import org.jetbrains.anko.onClick
 import javax.inject.Inject
 
-
 /**
  * @author Alexander Popov on 01/11/2016.
  */
 class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
 
     @Inject lateinit var presenter: IConfirmByUrlPresenter
-    private var successUrl: String? = null
-    private var failUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +44,7 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
     }
 
     override fun showDoneButton() {
-        confirmByUrlDoneButtonWrapper.visibility = View.VISIBLE
+        changeStatusCardDoneButtonWrapper.visibility = View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -75,50 +68,31 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
             supportActionBar?.setTitle(title)
         }
         setupWebView()
-        confirmByUrlDoneButton.onClick {
+        changeStatusCardDoneButton.onClick {
             presenter.onDoneClick()
         }
-        val url = intent.getStringExtra(Constants.KEY_URL)
-        val sanitizer = UrlQuerySanitizer(url)
-        if (sanitizer.hasParameter("back_url_s") && sanitizer.hasParameter("back_url_f")) {
-            successUrl = sanitizer.getValue("back_url_s")
-            failUrl = sanitizer.getValue("back_url_f")
-        }
-        confirmByUrlWebView.loadUrl(url)
-
+        changeStatusCardWebView.loadUrl(intent.getStringExtra(Constants.KEY_URL))
     }
 
     private fun setupWebView() {
-        confirmByUrlWebView.settings.useWideViewPort = true
-        confirmByUrlWebView.settings.loadWithOverviewMode = true
-        confirmByUrlWebView.settings.javaScriptEnabled = true
-        confirmByUrlWebView.settings.builtInZoomControls = true
-        confirmByUrlWebView.settings.displayZoomControls = false
-        confirmByUrlWebView.setWebViewClient(object : WebViewClient() {
+        changeStatusCardWebView.settings.useWideViewPort = true
+        changeStatusCardWebView.settings.loadWithOverviewMode = true
+        changeStatusCardWebView.settings.javaScriptEnabled = true
+        changeStatusCardWebView.settings.builtInZoomControls = true
+        changeStatusCardWebView.settings.displayZoomControls = false
+        changeStatusCardWebView.setWebViewClient(object : WebViewClient() {
+            var startLoading = false
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                when {
-                    url.contains("gazprombank.ru") -> {
-                        view.loadUrl(url)
-                    }
-                    url == successUrl -> {
-                        val intent = Intent()
-                        intent.putExtra(Constants.KEY_URL_RESULT, true)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
-                    }
-                    url == failUrl -> {
-                        val intent = Intent()
-                        intent.putExtra(Constants.KEY_URL_RESULT, false)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
-                    }
+                if (url.contains("pps.gazprombank.ru")) { //для проверки что не ушли на левую страницу (клик по лэйблу "газпромбанк" например)
+                    view.loadUrl(url)
+                    startLoading = true
                 }
                 return true
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                if (url != null && url.contains("payment-params")) {
+                if (startLoading) {
                     presenter.onBankConfirm()
                 }
             }

@@ -26,12 +26,21 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             val paymentText: String
 
-            if (receiptViewModel.receipt.amount > 0) {
-                paymentText = "-" + receiptViewModel.receipt.amount.toString()
-                receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
-            } else {
-                paymentText = receiptViewModel.receipt.amount.toString()
-                receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
+            when {
+                receiptViewModel.receipt.amount > 0 -> {
+                    paymentText = "-" + receiptViewModel.receipt.amount.toString()
+                    receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
+                }
+
+                receiptViewModel.receipt.amount < 0 -> {
+                    paymentText = receiptViewModel.receipt.amount.toString()
+                    receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
+                }
+
+                else -> {
+                    paymentText = receiptViewModel.receipt.amount.toString()
+                    receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
+                }
             }
 
             receiptAmountText.text = String.format("%s %s", paymentText, context.getString(R.string.receipts_currency))

@@ -9,15 +9,14 @@ import javax.inject.Inject
 
 class AccountRepository @Inject constructor(private val accountDataSource: AccountDataSource) : Repository(){
 
-    fun fetchUserInfo(token: String): Observable<User> {
+    fun fetchUserInfo(): Observable<User> {
         return accountDataSource
-                .fetchUserInfo(token)
+                .fetchUserInfo()
                 .compose(this.applySchedulers<User>())
     }
 
-    fun updateUserInfo(token: String, name: String, email: String, password: String, rePassword: String): Observable<ApiResponse> {
+    fun updateUserInfo(name: String, email: String, password: String, rePassword: String): Observable<ApiResponse> {
         val params = hashMapOf(
-                "token" to token,
                 "name" to name,
                 "email" to email)
 

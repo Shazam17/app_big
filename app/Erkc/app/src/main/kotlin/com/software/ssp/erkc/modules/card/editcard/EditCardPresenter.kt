@@ -22,9 +22,9 @@ class EditCardPresenter @Inject constructor(view: IEditCardView) : RxPresenter<I
 
     override fun onSaveClick(card: Card, cardName: String) {
         view?.setPending(true)
-        subscriptions += cardsRepository.updateCard(activeSession.accessToken!!, card.id, cardName)
+        subscriptions += cardsRepository.updateCard(card.id, cardName)
                 .concatMap {
-                    cardsRepository.fetchCard(activeSession.accessToken!!, card.id)
+                    cardsRepository.fetchCard(card.id)
                 }
                 .concatMap {
                     card ->

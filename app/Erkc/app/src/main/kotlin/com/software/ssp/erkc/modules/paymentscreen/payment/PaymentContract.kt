@@ -2,33 +2,54 @@ package com.software.ssp.erkc.modules.paymentscreen.payment
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.rest.models.Card
+import com.software.ssp.erkc.data.realm.models.RealmCard
+import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.models.Receipt
-import com.software.ssp.erkc.data.rest.models.User
 
 /**
  * @author Alexander Popov on 10/11/2016.
  */
 interface IPaymentView : IView {
-    fun close()
-    fun navigateToResult(url: String)
-    fun showConfirmDialog(commission: String, amount: String, email: String)
-    fun showNotificationsDialog()
-    fun fillAmountAndCommission(commission: String, sum: String)
-    fun fillData(user: User?, cards: List<Card>)
+
+    fun setProgressVisibility(isVisible: Boolean)
+
+    fun showReceiptInfo(receipt: Receipt)
+    fun showReceiptInfo(receipt: RealmReceipt)
+
+    fun showSelectedCard(card: RealmCard?)
+
+    fun showUserInfo(user: RealmUser)
+
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
-    fun setProgressVisibility(isVisible: Boolean)
-    fun showResult(result: Boolean, textRes: Int)
+    fun showResult(result: Boolean)
+
+    fun fillAmountAndCommission(commission: Double, sum: Double)
+
+    fun showPaymentConfirmDialog(receipt: RealmReceipt, card: RealmCard, commission: Double, sum: Double, email: String)
+    fun showCardSelectDialog(cardsViewModels: List<PaymentCardViewModel>)
+    fun showNavigateToCardsDialog()
+
+    fun navigateToResult(url: String)
+    fun close()
 }
 
 interface IPaymentPresenter : IPresenter<IPaymentView> {
+
+    var receipt: Receipt
+    var receiptId: String?
+
     fun onChooseCardClick()
-    fun onChooseBankClick()
-    fun onChooseNotificationClick()
-    fun onConfirmClick(receipt: Receipt, card: Card?, sum: String, email: String)
-    fun onNextClick(receipt: Receipt, userCard: Card?, sum: String, email: String)
-    fun onSumChange(payment: String)
-    fun onViewAttached(receipt: Receipt)
-    fun onPaymentResult(result: Boolean)
+    fun onNextClick(email: String)
+    fun onPaymentConfirmClick(email: String)
+
+    fun onSumTextChange(sum: String)
+
+    fun onDoneClick()
+
+    fun onCardSelected(card: RealmCard?)
+
+    fun onNavigateToCardsConfirmClick()
 }
+

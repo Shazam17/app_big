@@ -16,35 +16,39 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     @Inject lateinit var activeSession: ActiveSession
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
-        if (validFields(barcode, street, house, apartment, isWithAddress)) {
-            view?.showProgressVisible(true)
-            subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, barcode, street, house, apartment)
-                    .subscribe(
-                            { receipt ->
-                                view?.showProgressVisible(false)
-
-                                if (isSendValue) {
-                                    view?.navigateToSendValuesScreen(receipt)
-                                } else {
-                                    view?.navigateToPaymentScreen(receipt)
-                                }
-                            },
-                            { error ->
-                                view?.showProgressVisible(false)
-
-                                if (error is ApiException) {
-                                    when (error.errorCode) {
-                                        ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
-                                        ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
-                                        else -> view?.showMessage(error.parsedMessage())
-                                    }
-                                } else {
-                                    view?.showMessage(error.parsedMessage())
-                                }
-                            }
-                    )
+        if (!validFields(barcode, street, house, apartment, isWithAddress)) {
+            return
         }
+
+        view?.showProgressVisible(true)
+
+        subscriptions += receiptsRepository.fetchReceiptInfo(barcode, street, house, apartment)
+                .subscribe(
+                        { receipt ->
+                            view?.showProgressVisible(false)
+
+                            if (isSendValue) {
+                                view?.navigateToSendValuesScreen(receipt)
+                            } else {
+                                view?.navigateToPaymentScreen(receipt)
+                            }
+                        },
+                        { error ->
+                            view?.showProgressVisible(false)
+
+                            if (error is ApiException) {
+                                when (error.errorCode) {
+                                    ApiErrorType.UNKNOWN_BARCODE -> view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)
+                                    ApiErrorType.INVALID_REQUEST -> view?.showMessage(R.string.api_error_invalid_request)
+                                    else -> view?.showMessage(error.parsedMessage())
+                                }
+                            } else {
+                                view?.showMessage(error.parsedMessage())
+                            }
+                        }
+                )
     }
+
 
     override fun onSignInClick() {
         view?.navigateToSignInScreen()
@@ -56,7 +60,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     override fun onBarCodeScanned(code: String) {
         view?.showProgressVisible(true)
-        subscriptions += receiptsRepository.fetchReceiptInfo(activeSession.appToken!!, code)
+        subscriptions += receiptsRepository.fetchReceiptInfo(code)
                 .subscribe(
                         { receipt ->
                             view?.showProgressVisible(false)
@@ -82,7 +86,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     }
 
     private fun validFields(barcode: String, street: String, house: String, apartment: String, isWithAddress: Boolean): Boolean {
-        when{
+        when {
             barcode.isNullOrBlank() -> {
                 view?.showErrorBarcodeMessage(R.string.error_empty_field)
                 return false

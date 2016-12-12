@@ -79,7 +79,7 @@
     <string name="contacts_phone_number"><a href="tel:+73822908870">+7 (3822) 90–88–70</a></string>
     <string name="contacts_message_hint">Вы можете отправить нам сообщение</string>
     <string name="contacts_send_button_text">Отправить</string>
-    <string name="contacts_map_marker_title">улица Герцена, 52</string>
+    <string name="contacts_map_marker_title">улица Герцена, 52а</string>
     <string name="contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
     <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
     <string name="contacts_snack_bar_action_text">Ок</string>
@@ -170,28 +170,52 @@
     <string name="send_values_title">Ввод показаний ИПУ</string>
     <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
 
+    <!-- Payment Info -->
+    <string name="payment_info_title">Информация о платеже</string>
+    <string name="payment_info_status_success">Платеж произведен успешно</string>
+    <string name="payment_info_status_error">Платеж не произведен</string>
+    <string name="payment_info_barcode_subtitle">Штрих-код (Вид платежа)</string>
+    <string name="payment_info_sum">Сумма к зачислению</string>
+    <string name="payment_info_commission">Комиссия</string>
+    <string name="payment_info_result">Итого к оплате</string>
+    <string name="payment_info_operation_no">Операция №</string>
+    <string name="payment_info_payment_type">Способ оплаты</string>
+    <string name="payment_info_retry">Повторить</string>
+    <string name="payment_info_check">Получить чек</string>
+    <string name="payment_info_currency">%,.2f р.</string>
+    <string name="payment_info_type_default">Стандартная оплата</string>
+    <string name="payment_info_type_one_click">Оплата в один клик</string>
+    <string name="payment_info_type_auto">Автоплатеж</string>
+    <string name="payment_info_commission_format">%1$,.2f р. (%2$,.2f%%)</string>
+
     <!-- Payment screen -->
     <string name="payment_debts_des">Текущая задолженность</string>
     <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="payment_title">Оплата</string>
-    <string name="payment_continue_button">ПРОДОЛЖИТЬ</string>
+    <string name="payment_continue_button">Продолжить</string>
     <string name="payment_amount_title">Итого к оплате:</string>
     <string name="payment_sum_title">Сумма к зачислению</string>
-    <string name="payment_dialog_ok">OK</string>
-    <string name="payment_dialog_cancel">ЗАКРЫТЬ</string>
+    <string name="payment_dialog_ok">Oк</string>
+    <string name="payment_dialog_cancel">Закрыть</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>
-    <string name="payment_commission">Комиссия 10%</string>
     <string name="payment_email">Email</string>
     <string name="payment_pay_by_card">Оплатить картой</string>
-    <string name="payment_add_card">ДОБАВИТЬ</string>
+    <string name="payment_add_card">Добавить</string>
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
-    <string name="payment_result_oneclick_success">Процедура оплаты начата и будет завершена автоматически.</string>
-    <string name="payment_result_oneclick_error">Операция не произведена.</string>
-    <string name="payment_result_default_success">Платеж произведен успешно.</string>
-    <string name="payment_result_default_error">Платеж не произведен.</string>
+    <string name="payment_result_success">Процедура оплаты начата\nи будет завершена автоматически.</string>
+    <string name="payment_result_error">Операция не произведена.</string>
     <string name="payment_done">Готово</string>
+    <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>
+    <string name="payment_commission_sum" formatted="false">(%.2f р.)</string>
+    <string name="payment_commission_percent" formatted="false">Комиссия %.2f%%</string>
+    <string name="payment_sum" formatted="false">%.2f р.</string>
+    <string name="payment_currency_symbol"> р.</string>
+    <string name="payment_non_selected_card">Не выбрана</string>
+    <string name="payment_navigate_to_cards_dialog_text">На вашей учетной записи отсуствуют активированные карты.\nПерейти к добавлению/активации карты?</string>
+    <string name="payment_navigate_to_cards_dialog_positive">Перейти</string>
+    <string name="payment_navigate_to_cards_dialog_negative">Отмена</string>
 
     <!-- AutoPaymentsScreen -->
     <string name="auto_payments_autopay_tab_title">Автоплатежи</string>
@@ -220,9 +244,7 @@
     <string name="autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %,.2f%%</string>
     <string name="autopayment_screen_dialog_button_ok">Ок</string>
     <string name="autopayment_screen_dialog_button_close">Закрыть</string>
-
     <string name="autopayment_screen_error_receipt_id_notfound">Квитанция по ID не найдена</string>
-
     <string name="autopayment_screen_error_agreement_must_have">Необходимо согласие на оплату комиссии</string>
     <string name="autopayment_screen_error_card_must_have">Необходимо указать платежную карту</string>
     <string name="autopayment_screen_error_receipt_must_have">Необходимо указать квитанцию</string>
@@ -243,5 +265,51 @@
     <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>
     <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
     <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
+    <!-- PaymentCheck -->
+    <string name="payment_check_title">Чек</string>
+    <string name="payment_check_permission_denied">Для корректной работы приложения необходим доступ к загрузке файлов</string>
+    <string name="payment_check_error">Дождитесь загрузки файла</string>
+    <string name="payment_check_success_save">Файл успешно сохранен в папке "Загрузки"</string>
+
+    <!-- History Filter Screen -->
+    <string name="history_filter_title">Фильтр</string>
+    <string name="history_filter_apply_button">Применить</string>
+    <string name="history_filter_not_selected">Не выбран</string>
+    <string name="history_filter_payment_sum_hint">Сумма платежа</string>
+    <string name="history_filter_payment_type_caption">Вид платежа</string>
+    <string name="history_filter_payment_period_caption">Период платежа</string>
+    <string name="history_filter_payment_method_caption">Способ оплаты</string>
+    <string name="history_filter_install_place_caption">Место установки прибора</string>
+    <string name="history_filter_device_number_caption">Номер прибора</string>
+    <string name="history_filter_transfer_value_period_caption">Период передачи показаний</string>
+    <string name="history_filter_date_from_dialog_title">Период ОТ</string>
+    <string name="history_filter_date_to_dialog_title">Период от %s до…</string>
+    <string name="history_filter_dialog_ok">Ок</string>
+    <string name="history_filter_dialog_cancel">Отмена</string>
+
+    <!-- Receipt Types -->
+    <string name="receipt_gku">ЖКУ</string>
+    <string name="receipt_rent">Наем</string>
+    <string name="receipt_water">Водосчетчики</string>
+    <string name="receipt_water_private">Частный сектор</string>
+    <string name="receipt_water_city">Муниципальный сектор</string>
+    <string name="receipt_antenna">Антенна</string>
+    <string name="receipt_domofon">Обслуживание домофона</string>
+    <string name="receipt_other">Прочие услуги</string>
+    <string name="receipt_heat">Отопление и ГВС</string>
+    <string name="receipt_uk_other">УК за прочие услуги</string>
+    <string name="receipt_heat_fine">Пени за отопление и ГВС</string>
+    <string name="receipt_gku_other">ЖКУ прочие</string>
+    <string name="receipt_gku_erkc">ЖКУ ЕРКЦ</string>
+    <string name="receipt_overhaul">КапРемонт</string>
+    <string name="receipt_overhaul_village">КапРемонтДеревни</string>
+    <string name="receipt_overhaul_fine">КапРемПеня</string>
+    <string name="receipt_gku_fine">ЖКУ Пени</string>
+    <string name="receipt_test">Тест</string>
+
+    <!-- Payment Methods -->
+    <string name="payment_default">Стандартная оплата</string>
+    <string name="payment_one_click">Оплата в 1 клик</string>
+    <string name="payment_auto">Автоплатеж</string>
 
 </resources>

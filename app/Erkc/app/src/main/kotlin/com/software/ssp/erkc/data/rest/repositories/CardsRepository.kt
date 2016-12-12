@@ -14,31 +14,36 @@ import javax.inject.Inject
 
 class CardsRepository @Inject constructor(private val cardsDataSource: CardsDataSource) : Repository() {
 
-    fun fetchCards(token: String): Observable<List<Card>> {
-        return cardsDataSource.fetchCards(token).compose(this.applySchedulers<List<Card>>())
+    fun fetchCards(): Observable<List<Card>> {
+        return cardsDataSource.fetchCards().compose(this.applySchedulers<List<Card>>())
     }
 
-    fun fetchCard(token: String, id: String): Observable<Card> {
-        return cardsDataSource.fetchCard(token, id).compose(this.applySchedulers<Card>())
+    fun fetchCard(id: String): Observable<Card> {
+        return cardsDataSource.fetchCard(id).compose(this.applySchedulers<Card>())
     }
 
-    fun addCard(token: String, name: String): Observable<Card> {
-        return cardsDataSource.add(token, name).compose(this.applySchedulers<Card>())
+    fun addCard(name: String): Observable<Card> {
+        return cardsDataSource.add(name).compose(this.applySchedulers<Card>())
     }
 
-    fun registrateCard(token: String, id: String): Observable<CardRegistration> {
-        return cardsDataSource.registration(token, id).compose(this.applySchedulers<CardRegistration>())
+    fun registerCard(id: String): Observable<CardRegistration> {
+        return cardsDataSource.registration(id).compose(this.applySchedulers<CardRegistration>())
     }
 
-    fun activateCard(token: String, id: String): Observable<CardActivation> {
-        return cardsDataSource.activation(token, id).compose(this.applySchedulers<CardActivation>())
+    fun activateCard(id: String): Observable<CardActivation> {
+        return cardsDataSource.activation(id).compose(this.applySchedulers<CardActivation>())
     }
 
-    fun deleteCard(token: String, id: String): Observable<ResponseBody> {
-        return cardsDataSource.deleteCard(token, id).compose(this.applySchedulers<ResponseBody>())
+    fun deleteCard(id: String): Observable<ResponseBody> {
+        return cardsDataSource.deleteCard(id).compose(this.applySchedulers<ResponseBody>())
     }
 
-    fun updateCard(token: String, id: String, name: String) : Observable<ResponseBody> {
-        return cardsDataSource.updateCard(mapOf("token" to token, "id" to id, "name" to name)).compose(this.applySchedulers<ResponseBody>())
+    fun updateCard(id: String, name: String): Observable<ResponseBody> {
+        return cardsDataSource.updateCard(
+                mapOf(
+                        "id" to id,
+                        "name" to name
+                )
+        ).compose(this.applySchedulers<ResponseBody>())
     }
 }

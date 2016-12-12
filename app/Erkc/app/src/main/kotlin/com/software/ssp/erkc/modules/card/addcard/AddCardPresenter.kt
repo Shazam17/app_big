@@ -25,10 +25,10 @@ class AddCardPresenter @Inject constructor(view: IAddCardView) : RxPresenter<IAd
     override fun onCreateCardClick(name: String) {
         view?.setPending(true)
         subscriptions += cardsRepository
-                .addCard(activeSession.accessToken!!, name)
+                .addCard(name)
                 .concatMap {
                     card ->
-                    cardsRepository.fetchCard(activeSession.accessToken!!, card!!.id)
+                    cardsRepository.fetchCard(card!!.id)
                 }
                 .concatMap {
                     card ->
@@ -36,7 +36,7 @@ class AddCardPresenter @Inject constructor(view: IAddCardView) : RxPresenter<IAd
                     realmRepository.saveCard(card)
                 }
                 .concatMap {
-                    cardsRepository.registrateCard(activeSession.accessToken!!, cardId)
+                    cardsRepository.registerCard(cardId)
                 }
                 .subscribe({
                     cardReg ->

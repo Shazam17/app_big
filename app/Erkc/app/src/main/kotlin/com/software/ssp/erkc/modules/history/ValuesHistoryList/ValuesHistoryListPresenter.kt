@@ -6,8 +6,10 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
+import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.lang.kotlin.plusAssign
-import java.util.*
+import rx.lang.kotlin.toObservable
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -18,9 +20,12 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
 
-    override fun onViewAttached() {
-        showReceiptsList()
-    }
+    override var currentFilter: HistoryFilterModel = HistoryFilterModel()
+        set(value) {
+            field = value
+            view?.showCurrentFilter(value)
+            showReceiptsList()
+        }
 
     override fun onViewDetached() {
         realmRepository.close()
@@ -28,7 +33,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts(activeSession.accessToken!!)
+        subscriptions += receiptsRepository.fetchReceipts()
                 .concatMap {
                     receipts ->
                     realmRepository.saveReceiptsList(receipts)
@@ -48,18 +53,62 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
         view?.navigateToIpuValueInfo(receipt)
     }
 
+    override fun onFilterDeleted(filterField: HistoryFilterField) {
+        when (filterField) {
+            HistoryFilterField.BARCODE -> currentFilter.barcode = ""
+            HistoryFilterField.STREET -> currentFilter.street = ""
+            HistoryFilterField.HOUSE -> currentFilter.house = ""
+            HistoryFilterField.APARTMENT -> currentFilter.apartment = ""
+            HistoryFilterField.PERIOD -> {
+                currentFilter.periodFrom = null
+                currentFilter.periodTo = null
+            }
+            HistoryFilterField.DEVICE_NUMBER -> currentFilter.deviceNumber = ""
+            HistoryFilterField.DEVICE_PLACE -> currentFilter.deviceInstallPlace = ""
+            else -> return
+        }
+        showReceiptsList()
+    }
+
+    override fun onFilterClick() {
+        view?.navigateToFilter(currentFilter)
+    }
+
     private fun showReceiptsList() {
         subscriptions += realmRepository.fetchReceiptsList()
+                .flatMap {
+                    receipts ->
+                    receipts.toObservable()
+                }
+                .filter {
+                    receipt ->
+                    when {
+                        receipt.lastIpuTransferDate == null -> return@filter false
+                        !currentFilter.barcode.isNullOrBlank() && receipt.barcode != currentFilter.barcode -> return@filter false
+                        !currentFilter.street.isNullOrBlank() && receipt.street != currentFilter.street -> return@filter false
+                        !currentFilter.house.isNullOrBlank() && !receipt.house.equals(currentFilter.house, true) -> return@filter false
+                        !currentFilter.apartment.isNullOrBlank() && receipt.apart != currentFilter.apartment -> return@filter false
+                    }
+
+                    currentFilter.periodFrom?.let {
+                        if (receipt.lastIpuTransferDate != null && (receipt.lastIpuTransferDate!! < it || receipt.lastIpuTransferDate!! > currentFilter.periodTo!!)) {
+                            return@filter false
+                        }
+                    }
+
+                    //TODO filter with deviceNumber and deviceInstallPlace
+
+                    return@filter true
+                }
+                .toList()
                 .subscribe(
                         {
                             receipts ->
-                            view?.showData(receipts
-                                    .filter { it.lastIpuTransferDate != null }
-                                    .sortedWith(compareBy({ it.address }, { it.lastIpuTransferDate }))
-                            )
+                            view?.showData(receipts.sortedWith(compareBy({ it.address }, { it.lastIpuTransferDate })))
                         },
                         {
                             error ->
+                            view?.setLoadingVisible(false)
                             view?.showMessage(error.parsedMessage())
                         })
     }

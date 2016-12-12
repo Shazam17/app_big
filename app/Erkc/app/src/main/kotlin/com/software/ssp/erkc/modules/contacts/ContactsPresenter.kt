@@ -9,6 +9,7 @@ import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
+
 class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<IContactsView>(view), IContactsPresenter {
 
     @Inject lateinit var activeSession: ActiveSession
@@ -33,7 +34,13 @@ class ContactsPresenter @Inject constructor(view: IContactsView) : RxPresenter<I
         subscriptions += realmRepository.fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    faqRepository.sendMessage(activeSession.accessToken!!, currentUser.name, currentUser.login, currentUser.email, message, subjectPrefix + message.subSequence(0, Math.min(message.length, 60)))
+                    faqRepository.sendMessage(
+                            currentUser.name,
+                            currentUser.login,
+                            currentUser.email,
+                            message,
+                            subjectPrefix + message.subSequence(0, Math.min(message.length, 60))
+                    )
                 }
                 .subscribe(
                         { response ->

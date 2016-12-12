@@ -10,8 +10,10 @@ interface IDrawerView : IView {
     fun clearUserInfo()
     fun setAuthedMenuVisible(isVisible: Boolean)
     fun updateCurrentScreen()
+    fun navigateToDrawerItem(drawerItem: DrawerItem)
     fun navigateToMainScreen()
     fun navigateToUserProfile()
+    fun navigateToHistory(receiptCode: String)
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {

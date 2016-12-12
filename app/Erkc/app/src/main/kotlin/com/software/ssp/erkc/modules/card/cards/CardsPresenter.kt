@@ -53,7 +53,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
         when (CardStatus.values()[card.statusId]) {
             CardStatus.NOT_REGISTERED -> {
                 subscriptions += cardsRepository
-                        .registrateCard(activeSession.accessToken!!, card.id)
+                        .registerCard(card.id)
                         .subscribe({
                             response ->
                             isCardRequestPending = false
@@ -68,7 +68,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
             }
             CardStatus.REGISTERED -> {
                 subscriptions += cardsRepository
-                        .activateCard(activeSession.accessToken!!, card.id)
+                        .activateCard(card.id)
                         .subscribe({
                             response ->
                             isCardRequestPending = false
@@ -90,7 +90,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
 
     override fun onDeleteClick(card: RealmCard) {
         subscriptions += cardsRepository
-                .deleteCard(activeSession.accessToken!!, card.id)
+                .deleteCard(card.id)
                 .concatMap {
                     realmRepository.removeCard(card)
                 }
@@ -105,7 +105,7 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
 
     override fun onSwipeToRefresh() {
         subscriptions += cardsRepository
-                .fetchCards(activeSession.accessToken!!)
+                .fetchCards()
                 .concatMap {
                     cards ->
                     realmRepository.saveCardsList(cards ?: emptyList())

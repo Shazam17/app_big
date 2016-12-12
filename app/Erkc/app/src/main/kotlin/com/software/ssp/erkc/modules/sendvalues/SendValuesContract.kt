@@ -9,7 +9,7 @@ import java.util.*
  * @author Alexander Popov on 26/10/2016.
  */
 interface ISendValuesView : IView {
-    fun navigateToDrawer()
+    fun close()
     fun fillData(data: List<Ipu>)
     fun setProgressVisibility(isVisible: Boolean)
 }

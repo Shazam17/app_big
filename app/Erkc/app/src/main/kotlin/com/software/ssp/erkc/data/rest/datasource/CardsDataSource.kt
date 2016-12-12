@@ -13,29 +13,28 @@ import rx.Observable
 interface CardsDataSource {
 
     @GET("?method=cards.get")
-    fun fetchCards(@Query("token") token: String): Observable<List<Card>>
+    fun fetchCards(): Observable<List<Card>>
 
     @GET("?method=cards.get")
-    fun fetchCard(@Query("token") token: String, @Query("id") id: String): Observable<Card>
+    fun fetchCard(@Query("id") id: String): Observable<Card>
 
     @POST("?method=cards.delete")
     @FormUrlEncoded
-    fun deleteCard(@Field("token") token: String, @Field("id") id: String): Observable<ResponseBody>
+    fun deleteCard(@Field("id") id: String): Observable<ResponseBody>
 
     @POST("?method=cards.activation")
     @FormUrlEncoded
-    fun activation(@Field("token") token: String, @Field("id") id: String): Observable<CardActivation>
+    fun activation(@Field("id") id: String): Observable<CardActivation>
 
     @POST("?method=cards.registration")
     @FormUrlEncoded
-    fun registration(@Field("token") token: String, @Field("id") id: String): Observable<CardRegistration>
+    fun registration(@Field("id") id: String): Observable<CardRegistration>
 
     @POST("?method=cards.add")
     @FormUrlEncoded
-    fun add(@Field("token") token: String, @Field("name") name: String): Observable<Card>
+    fun add(@Field("name") name: String): Observable<Card>
 
     @POST("?method=cards.update")
     @FormUrlEncoded
     fun updateCard(@FieldMap map: Map<String, String>): Observable<ResponseBody>
-
 }
