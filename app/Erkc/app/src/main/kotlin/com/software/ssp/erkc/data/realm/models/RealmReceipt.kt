@@ -80,8 +80,3 @@ enum class AutoPaymentMode {
     ONE_CLICK,
     AUTO
 }
-
-data class ReceiptForHistoryValuesList(
-        val title: String,
-        val receipts: List<RealmReceipt>
-)

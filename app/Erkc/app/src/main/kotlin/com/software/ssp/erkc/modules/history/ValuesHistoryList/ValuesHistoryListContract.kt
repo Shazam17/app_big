@@ -7,7 +7,7 @@ import java.util.*
 
 
 interface IValuesHistoryListView : IListView<RealmReceipt> {
-    fun navigateToIpuValueInfo(receipt: RealmReceipt, dateFrom: Date, dateTo: Date)
+    fun navigateToIpuValueInfo(receipt: RealmReceipt)
 }
 
 interface IValuesHistoryListPresenter : IListPresenter<RealmReceipt, IValuesHistoryListView> {

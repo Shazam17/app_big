@@ -63,7 +63,7 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
         valueHistoryIpuContainer.addView(view)
     }
 
-    override fun fillData(dateFrom: String, dateTo: String) {
+    override fun fillDateRange(dateFrom: String, dateTo: String) {
         valueHistoryTotalTextView.text = getString(R.string.history_value_total).format(dateFrom, dateTo)
     }
 
@@ -83,6 +83,7 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
         super.initViews()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
+        swipeToRefreshEnabled = false
     }
 
     override fun onSwipeToRefresh() {

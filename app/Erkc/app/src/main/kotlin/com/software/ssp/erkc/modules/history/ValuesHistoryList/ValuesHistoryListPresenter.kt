@@ -45,9 +45,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onReceiptClick(receipt: RealmReceipt) {
-        //todo change date from filter
-        val time = Date().time
-        view?.navigateToIpuValueInfo(receipt, Date(time - 60000 * 60 * 24 * 7), Date(time + 60000 * 60 * 24))
+        view?.navigateToIpuValueInfo(receipt)
     }
 
     private fun showReceiptsList() {

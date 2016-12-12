@@ -8,6 +8,7 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.ipuValuesFormat
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import java.text.SimpleDateFormat
@@ -20,13 +21,13 @@ import javax.inject.Inject
 class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPresenter<IValueHistoryView>(view), IValueHistoryPresenter {
 
     @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var realmRepo: RealmRepository
-    @Inject lateinit var ipuProvider: IpuRepository
+    @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var ipuRepository: IpuRepository
     var receipt: RealmReceipt? = null
 
     override fun onViewAttached(receiptId: String) {
         view?.setLoadingVisible(true)
-        subscriptions += realmRepo.fetchReceiptsById(receiptId)
+        subscriptions += realmRepository.fetchReceiptsById(receiptId)
                 .subscribe({
                     receipt ->
                     this.receipt = receipt
@@ -40,18 +41,17 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     }
 
     override fun onSwipeToRefresh() {
-        fetchData()
     }
 
     private fun fetchData() {
         view?.setLoadingVisible(true)
-        subscriptions += ipuProvider.getHistoryByReceipt(activeSession.accessToken!!, receipt!!.barcode)
+        subscriptions += ipuRepository.getHistoryByReceipt(activeSession.accessToken!!, receipt!!.barcode)
                 .concatMap {
                     ipus ->
-                    realmRepo.saveIpusByBarсode(ipus, receipt!!)
+                    realmRepository.saveIpusByBarсode(ipus, receipt!!)
                 }
                 .concatMap {
-                    realmRepo.fetchIpuValuesListByRange(null, null, receipt!!) //todo проставить даты из фильтра
+                    realmRepository.fetchIpuValuesList(receipt!!) //todo проставить даты из фильтра
                 }
                 .subscribe({
                     ipuValues ->
@@ -66,7 +66,6 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     }
 
     private fun fillData(ipus: List<RealmIpuValue>) {
-        val dateFormat = SimpleDateFormat(Constants.VALUES_DATE_FORMAT, Locale("RU"))
         val startCalendar = GregorianCalendar()
         val dateFrom = ipus.first().date
         startCalendar.time = dateFrom
@@ -77,7 +76,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         val diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR)
         val diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH)
         val map = ipus.groupBy { it.serviceName }
-        view?.fillData(dateFormat.format(dateFrom), dateFormat.format(dateTo))
+        view?.fillDateRange(dateFrom!!.ipuValuesFormat, dateTo!!.ipuValuesFormat)
         map.forEach {
             val ipu = it.value
             val serviceName = it.key
@@ -86,17 +85,26 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
             val total = if (diffValue != 0) diffValue else ipu.first().value
             val unit: Int
             val drawable: Int
-            if (serviceName.contains(Constants.HOT_WATER)) {
-                unit = R.string.history_value_water_unit
-                drawable = R.drawable.pic_hot_water
-            } else if (serviceName.contains(Constants.COLD_WATER)) {
-                unit = R.string.history_value_water_unit
-                drawable = R.drawable.pic_cold_water
-            } else {
-                unit = R.string.history_value_electro_unit
-                drawable = R.drawable.pic_electro
+            when {
+                serviceName.contains(Constants.HOT_WATER) -> {
+                    unit = R.string.history_value_water_unit
+                    drawable = R.drawable.pic_hot_water
+                }
+                serviceName.contains(Constants.COLD_WATER) -> {
+                    unit = R.string.history_value_water_unit
+                    drawable = R.drawable.pic_cold_water
+                }
+                else -> {
+                    unit = R.string.history_value_electro_unit
+                    drawable = R.drawable.pic_electro
+                }
             }
             view?.fillData(it.key, total.toString(), average.toString(), unit, drawable)
         }
+    }
+
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
     }
 }

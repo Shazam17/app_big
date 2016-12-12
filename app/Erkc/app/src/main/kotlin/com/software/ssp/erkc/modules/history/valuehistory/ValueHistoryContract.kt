@@ -12,7 +12,7 @@ import java.util.*
  */
 interface IValueHistoryView : IListView<RealmIpuValue> {
     fun fillData(name: String, total: String, average: String, @StringRes unit: Int, @DrawableRes drawable: Int)
-    fun fillData(dateFrom: String, dateTo: String)
+    fun fillDateRange(dateFrom: String, dateTo: String)
 }
 
 interface IValueHistoryPresenter : IListPresenter<RealmIpuValue, IValueHistoryView> {

@@ -53,7 +53,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
         presenter.onSwipeToRefresh()
     }
 
-    override fun navigateToIpuValueInfo(receipt: RealmReceipt, dateFrom: Date, dateTo: Date) {
+    override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
         startActivity<ValueHistoryActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 
