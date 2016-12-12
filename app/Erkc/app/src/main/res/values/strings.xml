@@ -204,7 +204,7 @@
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
     <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
     <string name="payment_confirm_dialog">Подтвердите оплату</string>
-    <string name="payment_result_success">Процедура оплаты начата и будет завершена автоматически.</string>
+    <string name="payment_result_success">Процедура оплаты начата\nи будет завершена автоматически.</string>
     <string name="payment_result_error">Операция не произведена.</string>
     <string name="payment_done">Готово</string>
     <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>

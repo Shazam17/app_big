@@ -80,7 +80,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity" />
+        <activity
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"
@@ -104,7 +106,7 @@
             android:label="@string/payment_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.paymentsinfo.PaymentInfoActivity"
@@ -123,7 +125,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
 
-        <activity android:name=".modules.history.filter.HistoryFilterActivity"
+        <activity
+            android:name=".modules.history.filter.HistoryFilterActivity"
             android:label="@string/history_filter_title" />
 
         <provider

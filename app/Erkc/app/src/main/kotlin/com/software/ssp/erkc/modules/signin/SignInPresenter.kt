@@ -96,6 +96,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
+                            activeSession.clear()
                             view?.showMessage(error.parsedMessage())
                         }
                 )
