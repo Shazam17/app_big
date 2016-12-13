@@ -14,13 +14,13 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
         val params = hashMapOf(
                 "code" to code,
                 "method_id" to method.toString(),
-                "sum" to sum,
+                "summ" to sum,
                 "email" to email
         )
         if (cardId != null) {
             params.put("user_card_id", cardId)
         }
-        return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
+         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
     fun fetchPayments(): Observable<List<Payment>> {

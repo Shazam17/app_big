@@ -12,14 +12,13 @@ import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentStatus
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.extensions.type
 import com.software.ssp.erkc.modules.paymentcheck.PaymentCheckActivity
 import kotlinx.android.synthetic.main.activity_payment_info.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -54,12 +53,15 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         }
         paymentInfoBarcode.text = "${paymentInfo.barcode} (${payment.receipt?.name})"
         paymentInfoAddress.text = paymentInfo.address
-        paymentInfoStatusDateAndTime.text = SimpleDateFormat(Constants.DATE_TIME_FORMAT_PAYMENTS_UI, Locale("ru")).format(payment.date)
-        paymentInfoSum.text = getString(R.string.payment_info_currency).format(paymentInfo.amount)
+        paymentInfoStatusDateAndTime.text = paymentInfo.date?.toString(Constants.DATE_TIME_FORMAT_PAYMENTS_UI)
+
+        val paymentWithoutCommission = paymentInfo.sum * 100 / (paymentInfo.receipt!!.percent + 100)
+        paymentInfoSum.text = getString(R.string.payment_info_currency).format(paymentWithoutCommission)
+        paymentInfoCommission.text = getString(R.string.payment_info_commission_format).format(paymentInfo.sum - paymentWithoutCommission, paymentInfo.receipt?.percent)
         paymentInfoResult.text = getString(R.string.payment_info_currency).format(paymentInfo.sum)
-        paymentInfoCommission.text = getString(R.string.payment_info_commission_format).format(payment.amount * payment.receipt!!.percent / 100, payment.receipt!!.percent)
-        paymentInfoOperationNo.text = payment.operationId
-        paymentInfoPaymentType.setText(payment.type())
+
+        paymentInfoOperationNo.text = paymentInfo.operationId
+        paymentInfoPaymentType.setText(paymentInfo.type())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

@@ -52,7 +52,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         }
 
     private var commission: Double = 0.0
-        get() = paymentValue * if (receiptId == null) receipt.percent else realmReceipt.percent / 100
+        get() = paymentValue * (if (receiptId == null) receipt.percent else realmReceipt.percent) / 100
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -76,6 +76,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
                             view?.showReceiptInfo(realmReceipt)
                             view?.showUserInfo(user)
+                            view?.showSelectedCard(currentPayment.paymentCard)
 
                             view?.setProgressVisibility(false)
                         },
@@ -124,27 +125,26 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 method,
                 currentPayment.amount.toStringWithDot(),
                 email,
-                currentPayment.paymentCard?.id
-        ).subscribe(
-                {
-                    response ->
-                    view?.setProgressVisibility(false)
-                    if (currentPayment.paymentCard == null) {
-                        view?.navigateToResult(response.url)
-                    } else {
-                        view?.showResult(true)
-                    }
-                },
-                {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
-                        view?.showResult(false)
-                    }
-                    view?.showMessage(error.parsedMessage())
-                }
-        )
-
+                currentPayment.paymentCard?.id)
+                .subscribe(
+                        {
+                            response ->
+                            view?.setProgressVisibility(false)
+                            if (currentPayment.paymentCard == null) {
+                                view?.navigateToResult(response.url)
+                            } else {
+                                view?.showResult(true)
+                            }
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
+                                view?.showResult(false)
+                            }
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     override fun onNextClick(email: String) {

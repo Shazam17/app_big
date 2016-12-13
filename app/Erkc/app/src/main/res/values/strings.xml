@@ -196,7 +196,7 @@
     <string name="payment_title">Оплата</string>
     <string name="payment_continue_button">Продолжить</string>
     <string name="payment_amount_title">Итого к оплате:</string>
-    <string name="payment_sum_title">Сумма к зачислению</string>
+    <string name="payment_sum_title">Сумма к зачислению (р.)</string>
     <string name="payment_dialog_ok">Oк</string>
     <string name="payment_dialog_cancel">Закрыть</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>

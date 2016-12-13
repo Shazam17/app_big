@@ -2,12 +2,13 @@ package com.software.ssp.erkc.common.receipt
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.getIconResId
-import com.software.ssp.erkc.extensions.receiptFormat
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.textColor
@@ -45,8 +46,8 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             receiptAmountText.text = String.format("%s %s", paymentText, context.getString(R.string.receipts_currency))
 
-            receiptLastPayDateText.text = receiptViewModel.receipt.lastPaymentDate?.receiptFormat ?: context.getString(R.string.receipts_date_never)
-            receiptLastTransferDateText.text = receiptViewModel.receipt.lastIpuTransferDate?.receiptFormat ?: context.getString(R.string.receipts_date_never)
+            receiptLastPayDateText.text = receiptViewModel.receipt.lastPaymentDate?.toString(Constants.RECEIPT_DATE_FORMAT) ?: context.getString(R.string.receipts_date_never)
+            receiptLastTransferDateText.text = receiptViewModel.receipt.lastIpuTransferDate?.toString(Constants.RECEIPT_DATE_FORMAT) ?: context.getString(R.string.receipts_date_never)
 
             when (receiptViewModel.receipt.autoPayMode) {
                 AutoPaymentMode.AUTO.ordinal -> receiptAutoPaymentText.visibility = View.VISIBLE
