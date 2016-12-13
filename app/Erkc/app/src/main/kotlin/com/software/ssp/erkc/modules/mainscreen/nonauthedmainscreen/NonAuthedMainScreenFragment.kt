@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -102,8 +101,8 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         startActivity<PaymentActivity>("receipt" to receipt)
     }
 
-    override fun navigateToSendValuesScreen(data: Receipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to data)
+    override fun navigateToSendValuesScreen(receipt: Receipt) {
+        startActivity<SendValuesActivity>("receipt" to receipt)
     }
 
     override fun showProgressVisible(isVisible: Boolean) {

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.MvpFragment
@@ -75,12 +74,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
+        startActivity<SendValuesActivity>("receipt" to receipt)
     }
 
     override fun navigateToIPUInputScreen(receiptId: String) {
-        // todo
-        toast("navigateToIPUInputScreen")
+        startActivity<SendValuesActivity>("receiptId" to receiptId)
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {

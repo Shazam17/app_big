@@ -168,7 +168,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         lastIpuTransferDate = receipt.lastIpuTransferDate
                         supplierName = receipt.supplierName
                         percent = receipt.percent
-                        linkedCard = if(receipt.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
+                        linkedCard = if (receipt.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -361,47 +361,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun savePayment(payment: Payment): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-
-                    var realmPayment = currentUser.payments.find { it.id == payment.id }
-
-                    if (realmPayment == null) {
-                        realmPayment = RealmPayment(payment.id)
-                        currentUser.payments.add(realmPayment)
-                    }
-
-                    realmPayment.apply {
-                        date = payment.date
-                        amount = payment.amount
-                        checkFile = payment.checkFile ?: ""
-                        status = payment.status
-                        errorDesc = payment.errorDesc
-                        operationId = payment.operationId
-                        modeId = payment.modeId
-                        receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst())
-                    }
-
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(realmPayment)
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                {
-                                    error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
-    }
-
     fun savePaymentInfo(paymentInfo: PaymentInfo): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap {
@@ -509,6 +468,49 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser.payments.filter { it.id == id }.first())
+                }
+    }
+
+    fun fetchIpuByReceiptId(receiptId: String): Observable<RealmIpu> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    var ipu = currentUser.ipus.find { it.receipt!!.id == receiptId }
+
+                    if (ipu == null) {
+                        ipu = RealmIpu(
+                                receiptId = receiptId,
+                                receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", receiptId).findFirst())
+                        )
+                    }
+
+                    Observable.just(ipu)
+                }
+    }
+
+    fun saveIpu(ipu: RealmIpu): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+
+                    if (!currentUser.ipus.contains(ipu)) {
+                        currentUser.ipus.add(ipu)
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(ipu)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
                 }
     }
 }
