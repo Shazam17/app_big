@@ -28,13 +28,13 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
             when {
                 receiptViewModel.receipt.amount > 0 -> {
-                    paymentText = "-" + receiptViewModel.receipt.amount.toString()
+                    paymentText = "-%.2f".format(receiptViewModel.receipt.amount)
                     receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
                 }
 
                 receiptViewModel.receipt.amount < 0 -> {
-                    paymentText = receiptViewModel.receipt.amount.toString()
-                    receiptAmountText.textColor = context.getCompatColor(R.color.colorRed)
+                    paymentText = "%.2f".format(receiptViewModel.receipt.amount).replace("-", "+")
+                    receiptAmountText.textColor = context.getCompatColor(R.color.colorGreen)
                 }
 
                 else -> {

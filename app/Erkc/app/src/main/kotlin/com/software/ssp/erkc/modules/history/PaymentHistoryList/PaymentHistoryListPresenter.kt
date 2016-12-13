@@ -96,7 +96,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                     }
 
                     currentFilter.paymentMethod?.let {
-                        if(payment.methodId != it.ordinal) {
+                        if(payment.modeId != it.ordinal) {
                             return@filter false
                         }
                     }

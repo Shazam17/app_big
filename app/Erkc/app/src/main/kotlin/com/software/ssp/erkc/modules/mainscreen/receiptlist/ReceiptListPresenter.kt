@@ -9,6 +9,7 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
+import com.software.ssp.erkc.extensions.CardStatus
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -62,7 +63,27 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onAutoPaymentButtonClick(receipt: RealmReceipt) {
-        view?.navigateToAutoPaymentSettingScreen(receipt.id)
+        if (receipt.linkedCard != null) {
+            view?.navigateToAutoPaymentSettingScreen(receipt.id)
+            return
+        }
+
+        //check available activated cards for linking
+        subscriptions += realmRepository.fetchCardsList()
+                .subscribe(
+                        {
+                            cards ->
+                            if (cards.count { it.statusId == CardStatus.ACTIVATED.ordinal } == 0) {
+                                view?.showNoActivatedCardsDialog()
+                            } else {
+                                view?.navigateToAutoPaymentSettingScreen(receipt.id)
+                            }
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     override fun onAddReceiptButtonClick() {

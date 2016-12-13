@@ -56,14 +56,10 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         paymentInfoAddress.text = paymentInfo.address
         paymentInfoStatusDateAndTime.text = SimpleDateFormat(Constants.DATE_TIME_FORMAT_PAYMENTS_UI, Locale("ru")).format(payment.date)
         paymentInfoSum.text = getString(R.string.payment_info_currency).format(paymentInfo.amount)
-        paymentInfoResult.text = getString(R.string.payment_info_currency).format(paymentInfo.summ)
+        paymentInfoResult.text = getString(R.string.payment_info_currency).format(paymentInfo.sum)
         paymentInfoCommission.text = getString(R.string.payment_info_commission_format).format(payment.amount * payment.receipt!!.percent / 100, payment.receipt!!.percent)
         paymentInfoOperationNo.text = payment.operationId
-        if (payment.methodId != null) {
-            paymentInfoPaymentType.setText(payment.type()!!)
-        } else {
-            paymentInfoTypeWrapper.visibility = View.GONE
-        }
+        paymentInfoPaymentType.setText(payment.type())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

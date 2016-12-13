@@ -168,7 +168,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         lastIpuTransferDate = receipt.lastIpuTransferDate
                         supplierName = receipt.supplierName
                         percent = receipt.percent
-                        linkedCard = realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
+                        linkedCard = if(receipt.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -376,11 +376,11 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     realmPayment.apply {
                         date = payment.date
                         amount = payment.amount
-                        checkFile = payment.checkFile
+                        checkFile = payment.checkFile ?: ""
                         status = payment.status
                         errorDesc = payment.errorDesc
                         operationId = payment.operationId
-                        methodId = payment.methodId
+                        modeId = payment.modeId
                         receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst())
                     }
 
@@ -421,15 +421,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         street = paymentInfo.street
                         barcode = paymentInfo.barcode
                         operationId = paymentInfo.operationId
-                        summ = paymentInfo.summ
+                        sum = paymentInfo.sum
                         supplierName = paymentInfo.supplierName
                         serviceName = paymentInfo.serviceName
                         amount = paymentInfo.amount
                         text = paymentInfo.text
+                        modeId = paymentInfo.modeId
                         address = paymentInfo.address
                         receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", paymentInfo.receiptId).findFirst())
                         apart = paymentInfo.apart
-
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -459,11 +459,11 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.id,
                                 it.date,
                                 it.amount,
-                                it.checkFile,
+                                it.checkFile ?: "",
                                 it.status,
                                 it.errorDesc,
                                 it.operationId,
-                                it.methodId,
+                                it.modeId,
                                 realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
                         )
                     }

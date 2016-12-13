@@ -3,6 +3,7 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.rest.datasource.ReceiptsDataSource
 import com.software.ssp.erkc.data.rest.models.ApiResponse
 import com.software.ssp.erkc.data.rest.models.Receipt
+import com.software.ssp.erkc.extensions.toStringWithDot
 import rx.Observable
 import javax.inject.Inject
 
@@ -37,17 +38,14 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
 
     fun updateReceipt(receiptId: String,
                       userCardId: String,
-                      maxSum: String,
+                      maxSum: Double,
                       modeId: String): Observable<ApiResponse> {
         val params = hashMapOf(
                 "id" to receiptId,
                 "user_card_id" to userCardId,
-                "mode_id" to modeId
+                "mode_id" to modeId,
+                "maxsumma" to maxSum.toStringWithDot()
         )
-
-        if (!maxSum.isNullOrBlank()) {
-            params.put("maxsumma", maxSum)
-        }
 
         return receiptsDataSource
                 .updateReceipt(params)

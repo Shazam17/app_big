@@ -46,6 +46,8 @@
     <string name="main_screen_non_authed_title" />
     <string name="main_screen_authed_title">Основной экран</string>
     <string name="main_screen_add_receipt">Добавить квитанцию</string>
+    <string name="main_screen_no_cards_dialog_text">Невозможно настроить автоплатеж, так как нет активированных карт.</string>
+    <string name="main_screen_no_cards_dialog_ok_button">Понятно</string>
 
     <!-- Sign in -->
     <string name="sing_in_title">Вход</string>

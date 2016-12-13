@@ -6,6 +6,7 @@ import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmCard
+import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -19,6 +20,7 @@ import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
 import com.software.ssp.erkc.extensions.isEmail
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.extensions.toStringWithDot
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -40,22 +42,14 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     private lateinit var user: RealmUser
     private lateinit var realmReceipt: RealmReceipt
 
-    private var selectedCard: RealmCard? = null
-        set(value) {
-            field = value
-            view?.showSelectedCard(selectedCard)
-        }
+    private val currentPayment = RealmPaymentInfo()
 
     private var paymentValue: Double = 0.0
         set(value) {
             field = value
-            val percent = if (receiptId == null) receipt.percent else realmReceipt.percent
-            val commission = value * percent / 100
+            currentPayment.amount = paymentValue + commission
             view?.fillAmountAndCommission(commission, value + commission)
         }
-
-    private var paymentSum: Double = 0.0
-        get() = paymentValue + commission
 
     private var commission: Double = 0.0
         get() = paymentValue * if (receiptId == null) receipt.percent else realmReceipt.percent / 100
@@ -78,7 +72,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             user = currentUser
                             realmReceipt = user.receipts.find { it.id == receiptId }!!
                             paymentValue = realmReceipt.amount
-                            selectedCard = realmReceipt.linkedCard
+                            currentPayment.paymentCard = realmReceipt.linkedCard
 
                             view?.showReceiptInfo(realmReceipt)
                             view?.showUserInfo(user)
@@ -107,12 +101,13 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         if (filteredCards.isEmpty()) {
             view?.showNavigateToCardsDialog()
         } else {
-            view?.showCardSelectDialog(filteredCards.map { PaymentCardViewModel(it, it.id == selectedCard?.id) })
+            view?.showCardSelectDialog(filteredCards.map { PaymentCardViewModel(it, it.id == currentPayment.paymentCard?.id) })
         }
     }
 
     override fun onCardSelected(card: RealmCard?) {
-        selectedCard = card
+        currentPayment.paymentCard = card
+        view?.showSelectedCard(currentPayment.paymentCard)
     }
 
     override fun onPaymentConfirmClick(email: String) {
@@ -122,19 +117,19 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
         view?.setProgressVisibility(true)
 
-        val method = if (selectedCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
+        val method = if (currentPayment.paymentCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
 
         subscriptions += paymentRepository.init(
                 realmReceipt.barcode,
                 method,
-                String.format("%.2f", paymentSum).replace(',', '.'),
+                currentPayment.amount.toStringWithDot(),
                 email,
-                selectedCard?.id
+                currentPayment.paymentCard?.id
         ).subscribe(
                 {
                     response ->
                     view?.setProgressVisibility(false)
-                    if (selectedCard == null) {
+                    if (currentPayment.paymentCard == null) {
                         view?.navigateToResult(response.url)
                     } else {
                         view?.showResult(true)
@@ -157,21 +152,19 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
             return
         }
 
-        if (selectedCard != null) {
-            val commission = paymentValue * realmReceipt.percent / 100
+        if (currentPayment.paymentCard != null) {
             view?.showPaymentConfirmDialog(
                     realmReceipt,
-                    selectedCard!!,
+                    currentPayment.paymentCard!!,
                     commission,
-                    paymentSum,
+                    currentPayment.amount,
                     email)
         } else {
             view?.setProgressVisibility(true)
-            val amount = "%.2f".format(paymentSum)
             subscriptions += paymentRepository.init(
                     if (receiptId == null) receipt.barcode else realmReceipt.barcode,
                     PaymentMethod.DEFAULT.ordinal,
-                    amount.replace(',', '.'),
+                    currentPayment.amount.toStringWithDot(),
                     email,
                     null
             ).subscribe(

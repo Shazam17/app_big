@@ -14,7 +14,8 @@ import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
-class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
+class
+AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
     : RxPresenter<IAutoPaymentSettingsView>(view), IAutoPaymentSettingsPresenter {
 
     @Inject lateinit var realmRepository: RealmRepository
@@ -62,7 +63,7 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
                 .updateReceipt(
                         selectedReceipt!!.id,
                         selectedCard!!.id,
-                        selectedReceipt!!.maxSum.toString(),
+                        if (autoPaymentMode == AutoPaymentMode.AUTO) selectedReceipt!!.maxSum else 0.0,
                         autoPaymentMode.ordinal.toString()
                 )
                 .subscribe(
@@ -118,20 +119,21 @@ class AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSetting
     }
 
     private fun dataValidation(): Boolean {
-        var isValid = false
-        when {
-            selectedReceipt == null -> view?.showMessage(R.string.autopayment_screen_error_receipt_must_have)
-            selectedCard == null -> view?.showMessage(R.string.autopayment_screen_error_card_must_have)
-            isMaxSumNoValid() -> view?.showMessage(R.string.autopayment_screen_error_maxsum_must_have)
-            else -> isValid = true
+        return when {
+            selectedReceipt == null -> {
+                view?.showMessage(R.string.autopayment_screen_error_receipt_must_have)
+                false
+            }
+            selectedCard == null -> {
+                view?.showMessage(R.string.autopayment_screen_error_card_must_have)
+                false
+            }
+            selectedReceipt!!.autoPayMode != AutoPaymentMode.AUTO.ordinal -> true
+            selectedReceipt!!.maxSum <= 0.0 -> {
+                view?.showMessage(R.string.autopayment_screen_error_maxsum_must_have)
+                false
+            }
+            else -> true
         }
-        return isValid
-    }
-
-    private fun isMaxSumNoValid(): Boolean {
-        val isMaxSumNeeded = selectedReceipt?.autoPayMode == AutoPaymentMode.AUTO.ordinal
-        val isMaxSum = selectedReceipt?.maxSum
-        val isMaxSumNoValid = isMaxSum == null || isMaxSum <= 0
-        return isMaxSumNeeded && isMaxSumNoValid
     }
 }
