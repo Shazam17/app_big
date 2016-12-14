@@ -43,7 +43,7 @@ class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
 
                 typeImage.setImageResource(receiptViewModel.receipt.receiptType.getIconResId())
 
-                linkedCardNameText.text = receiptViewModel.receipt.linkedCard?.name ?: ""
+                transactionItemType.text = receiptViewModel.receipt.linkedCard?.name ?: ""
 
                 editImageButton.onClick { interactionListener?.editClick(receiptViewModel.receipt) }
 

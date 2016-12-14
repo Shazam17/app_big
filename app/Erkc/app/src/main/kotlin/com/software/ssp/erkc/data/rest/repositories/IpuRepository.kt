@@ -12,7 +12,11 @@ class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource
 
     fun sendParameters(code: String, values: HashMap<String, String>): Observable<ResponseBody> {
         values.put("code", code)
-        return ipuDataSource.sendParameters(values).compose(this.applySchedulers<ResponseBody>())
+        val params = HashMap<String, String>()
+        for ((key, value) in values) {
+            params.put("ipu_" + key, value)
+        }
+        return ipuDataSource.sendParameters(params).compose(this.applySchedulers<ResponseBody>())
     }
 
     fun getByReceipt(code: String): Observable<List<Ipu>> {

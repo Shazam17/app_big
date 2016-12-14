@@ -23,6 +23,7 @@ import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
+import com.software.ssp.erkc.modules.transaction.TransactionTabFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -121,6 +122,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.AUTOPAY.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.NOTIFY.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.TRANSACTION.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.SETTINGS.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.EXIT.itemId).isVisible = isVisible
 
@@ -159,6 +161,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.CARDS -> CardsFragment()
             DrawerItem.HISTORY -> HistoryTabFragment()
             DrawerItem.AUTOPAY -> AutoPaymentsTabFragment()
+            DrawerItem.TRANSACTION -> TransactionTabFragment()
             DrawerItem.NOTIFY -> Fragment()
             DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> Fragment()
@@ -201,6 +204,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                     DrawerItem.HISTORY.itemId -> selectedDrawerItem = DrawerItem.HISTORY
                     DrawerItem.AUTOPAY.itemId -> selectedDrawerItem = DrawerItem.AUTOPAY
                     DrawerItem.NOTIFY.itemId -> selectedDrawerItem = DrawerItem.NOTIFY
+                    DrawerItem.TRANSACTION.itemId -> selectedDrawerItem = DrawerItem.TRANSACTION
                     DrawerItem.SETTINGS.itemId -> selectedDrawerItem = DrawerItem.SETTINGS
                     DrawerItem.TUTORIAL.itemId -> selectedDrawerItem = DrawerItem.TUTORIAL
                     DrawerItem.CONTACTS.itemId -> selectedDrawerItem = DrawerItem.CONTACTS

@@ -123,32 +123,43 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         view?.setProgressVisibility(true)
 
         val method = if (selectedCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
-
-        subscriptions += paymentRepository.init(
-                realmReceipt.barcode,
-                method,
-                String.format("%.2f", paymentSum).replace(',', '.'),
-                email,
-                selectedCard?.id
-        ).subscribe(
-                {
-                    response ->
-                    view?.setProgressVisibility(false)
-                    if (selectedCard == null) {
-                        view?.navigateToResult(response.url)
-                    } else {
-                        view?.showResult(true)
+        if (activeSession.accessToken == null) { //todo не забыть убрать после тестирования
+            subscriptions += paymentRepository.init(
+                    realmReceipt.barcode,
+                    method,
+                    String.format("%.2f", paymentSum).replace(',', '.'),
+                    email,
+                    selectedCard?.id
+            ).subscribe(
+                    {
+                        response ->
+                        view?.setProgressVisibility(false)
+                        if (selectedCard == null) {
+                            view?.navigateToResult(response.url)
+                        } else {
+                            view?.showResult(true)
+                        }
+                    },
+                    {
+                        error ->
+                        view?.setProgressVisibility(false)
+                        if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
+                            view?.showResult(false)
+                        }
+                        view?.showMessage(error.parsedMessage())
                     }
-                },
-                {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
-                        view?.showResult(false)
-                    }
-                    view?.showMessage(error.parsedMessage())
-                }
-        )
+            )
+        } else {
+            subscriptions += realmRepository.saveOfflinePayment(realmReceipt, method, paymentSum, email, selectedCard?.id)
+                    .subscribe({
+                        view?.setProgressVisibility(false)
+                        view?.close()
+                    }, {
+                        error ->
+                        view?.setProgressVisibility(false)
+                        view?.showMessage(error.parsedMessage())
+                    })
+        }
 
     }
 
@@ -168,23 +179,39 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         } else {
             view?.setProgressVisibility(true)
             val amount = "%.2f".format(paymentSum)
-            subscriptions += paymentRepository.init(
-                    if (receiptId == null) receipt.barcode else realmReceipt.barcode,
-                    PaymentMethod.DEFAULT.ordinal,
-                    amount.replace(',', '.'),
-                    email,
-                    null
-            ).subscribe(
-                    {
-                        response ->
-                        view?.setProgressVisibility(false)
-                        view?.navigateToResult(response.url)
-                    },
-                    {
-                        error ->
-                        view?.setProgressVisibility(false)
-                        view?.showMessage(error.parsedMessage())
-                    })
+            if (activeSession.accessToken == null) { //todo вернуть обратно после тестирования
+                subscriptions += paymentRepository.init(
+                        if (receiptId == null) receipt.barcode else realmReceipt.barcode,
+                        PaymentMethod.DEFAULT.ordinal,
+                        amount.replace(',', '.'),
+                        email,
+                        null
+                ).subscribe(
+                        {
+                            response ->
+                            view?.setProgressVisibility(false)
+                            view?.navigateToResult(response.url)
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        })
+            } else {
+                subscriptions += realmRepository.saveOfflinePayment(realmReceipt,
+                        PaymentMethod.DEFAULT.ordinal,
+                        paymentSum,
+                        email,
+                        selectedCard?.id)
+                        .subscribe({
+                            view?.setProgressVisibility(false)
+                            view?.close()
+                        }, {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        })
+            }
         }
     }
 

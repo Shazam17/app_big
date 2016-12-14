@@ -33,6 +33,10 @@
             android:id="@+id/menuNotifications"
             android:icon="@drawable/ic_menu_notification"
             android:title="@string/drawer_notifications_text" />
+        <item
+            android:id="@+id/menuTransactions"
+            android:icon="@drawable/ic_menu_history"
+            android:title="@string/drawer_transaction_text" />
     </group>
 
     <group android:id="@+id/menuThirdGroup" android:checkableBehavior="single">

@@ -86,23 +86,15 @@
                     android:layout_marginTop="@dimen/half_default_margin">
 
                     <TextView
-                        android:id="@+id/transactionItemType"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/half_default_margin"
-                        android:drawableStart="@drawable/ic_menu_cards"
+                        android:drawableStart="@drawable/ic_menu_submit"
                         android:gravity="center_vertical"
                         android:textSize="14sp"
-                        tools:text="Зарплатная"
-                        tools:visibility="visible" />
-
-                    <ImageView
-                        android:id="@+id/editImageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:src="@drawable/ic_edit_grey"
+                        android:textColor="@color/colorDarkText"
+                        android:text="@string/transaction_ipu_text"
                         tools:visibility="visible" />
 
                 </LinearLayout>
@@ -127,12 +119,6 @@
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_delete_white" />
-
-                <ProgressBar
-                    android:id="@+id/deleteProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
 
             </FrameLayout>
 

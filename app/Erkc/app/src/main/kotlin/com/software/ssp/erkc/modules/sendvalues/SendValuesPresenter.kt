@@ -2,7 +2,9 @@ package com.software.ssp.erkc.modules.sendvalues
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import java.util.*
@@ -15,6 +17,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     @Inject lateinit var ipuProvider: IpuRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached(code: String) {
         view?.setProgressVisibility(true)
@@ -25,7 +28,6 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                     view?.setProgressVisibility(false)
                 }, {
                     error ->
-                    error.printStackTrace()
                     view?.close()
                     view?.showMessage(error.parsedMessage())
                 })
@@ -33,15 +35,27 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     override fun onSendValuesClick(code: String, values: HashMap<String, String>) {
         view?.setProgressVisibility(true)
-        subscriptions += ipuProvider.sendParameters(code, values)
-                .subscribe({
-                    response ->
-                    view?.setProgressVisibility(false)
-                    view?.close()
-                }, {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(error.message!!)
-                })
+        if (activeSession.accessToken == null) { //todo не забыть убрать после тестирования
+            subscriptions += ipuProvider.sendParameters(code, values)
+                    .subscribe({
+                        response ->
+                        view?.setProgressVisibility(false)
+                        view?.close()
+                    }, {
+                        error ->
+                        view?.setProgressVisibility(false)
+                        view?.showMessage(error.message!!)
+                    })
+        } else {
+            subscriptions += realmRepository.saveOfflineIpu(code, values)
+                    .subscribe({
+                        view?.setProgressVisibility(false)
+                        view?.close()
+                    }, {
+                        error ->
+                        view?.setProgressVisibility(false)
+                        view?.showMessage(error.parsedMessage())
+                    })
+        }
     }
 }

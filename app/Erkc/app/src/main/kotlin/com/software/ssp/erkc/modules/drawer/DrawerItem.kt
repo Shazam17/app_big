@@ -13,6 +13,7 @@ enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
     HISTORY(R.string.drawer_history_text, R.id.menuHistory),
     AUTOPAY(R.string.drawer_auto_payment_text, R.id.menuAutoPayments),
     NOTIFY(R.string.drawer_notifications_text, R.id.menuNotifications),
+    TRANSACTION(R.string.drawer_transaction_text, R.id.menuTransactions),
     SETTINGS(R.string.drawer_settings_text, R.id.menuSettings),
     TUTORIAL(R.string.drawer_instruction_text, R.id.menuInstructions),
     CONTACTS(R.string.drawer_contacts_text, R.id.menuContacts),

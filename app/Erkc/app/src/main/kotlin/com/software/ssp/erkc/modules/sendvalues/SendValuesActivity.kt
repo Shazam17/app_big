@@ -97,7 +97,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                     showMessage(R.string.error_all_fields_required)
                     return@onClick
                 }
-                params.put("ipu_" + it.id, value)
+                params.put(it.id, value)
             }
             presenter.onSendValuesClick(receipt!!.barcode, params)
         }
