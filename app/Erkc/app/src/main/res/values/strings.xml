@@ -4,6 +4,7 @@
 
     <!-- Common -->
     <string name="data_loading">Загрузка данных…</string>
+    <string name="none" />
 
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
@@ -101,8 +102,6 @@
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Введите адрес…</string>
     <string name="search_addresses_title" />
-
-    <string name="none" />
 
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>

@@ -39,7 +39,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
                 }
 
                 else -> {
-                    paymentText = receiptViewModel.receipt.amount.toString()
+                    paymentText = "%.2f".format(receiptViewModel.receipt.amount)
                     receiptAmountText.textColor = context.getCompatColor(R.color.colorLightInput)
                 }
             }
