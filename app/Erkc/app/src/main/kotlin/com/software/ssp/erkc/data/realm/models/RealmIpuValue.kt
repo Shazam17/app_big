@@ -6,7 +6,6 @@ import java.util.*
 
 
 open class RealmIpuValue(
-        @PrimaryKey
         open var id: String = "",
         open var serviceName: String = "",
         open var number: String = "",

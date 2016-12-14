@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_value_history.view.*
-import java.text.SimpleDateFormat
 
 /**
  * @author Alexander Popov on 05/12/2016.
@@ -28,17 +28,16 @@ class ValueHistoryAdapter(val dataList: List<RealmIpuValue>) : RecyclerView.Adap
         holder.bind(dataList[position], if (position != 0) dataList[position - 1] else null)
     }
 
-
     class ViewHolderTitle(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(ipu: RealmIpuValue, ipuPre: RealmIpuValue?) {
-            ipu.apply {
-                itemView.itemValueHistoryDate.text = SimpleDateFormat(Constants.VALUES_DATE_FORMAT).format(date)
-                itemView.itemValueHistoryDateValue.text = value.toString()
-                if (ipuPre == null || number != ipuPre.number) {
-                    itemView.itemValueHistoryTitle.visibility = View.VISIBLE
-                    itemView.itemValueHistoryTitle.text = itemView.context.getString(R.string.history_value_item_title).format(serviceName, number, installPlace)
+            itemView.apply {
+                itemValueHistoryDate.text = ipu.date?.toString(Constants.VALUES_DATE_FORMAT)
+                itemValueHistoryDateValue.text = ipu.value
+                if (ipuPre == null || ipu.number != ipuPre.number) {
+                    itemValueHistoryTitle.visibility = View.VISIBLE
+                    itemValueHistoryTitle.text = itemView.context.getString(R.string.history_value_item_title).format(ipu.serviceName, ipu.number, ipu.installPlace)
                 } else {
-                    itemView.itemValueHistoryTitle.visibility = View.GONE
+                    itemValueHistoryTitle.visibility = View.GONE
                 }
             }
         }

@@ -10,17 +10,19 @@
         android:id="@+id/valueHistoryIpuNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".4"
+        android:layout_weight="2"
         android:drawablePadding="@dimen/quarter_default_margin"
         android:textColor="@color/colorHistoryValueBody"
         android:textSize="14sp"
+        tools:drawableStart="@drawable/ic_menu_cards"
         tools:text="Горячая вода" />
 
     <TextView
         android:id="@+id/valueHistoryIpuAverageTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".25"
+        android:layout_weight="1"
+        android:textAlignment="center"
         android:textColor="@color/colorHistoryValueBody"
         android:textSize="14sp"
         tools:text="234 м\u00B3" />
@@ -29,7 +31,8 @@
         android:id="@+id/valueHistoryIpuTotalTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".25"
+        android:layout_weight="1"
+        android:textAlignment="center"
         android:textColor="@color/colorHistoryValueBody"
         android:textSize="14sp"
         tools:text="2345 м\u00B3" />

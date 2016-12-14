@@ -6,7 +6,6 @@ import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
 import io.realm.RealmList
 import rx.Observable
-import java.util.*
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -45,38 +44,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
-    }
-
-    fun saveIpusByBarсode(ipus: List<Ipu>, receipt: RealmReceipt): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-                    val realmIpu = RealmIpu(ipus.mapTo(RealmList<RealmIpuValue>()) {
-                        RealmIpuValue(it.id,
-                                it.serviceName,
-                                it.number,
-                                it.installPlace,
-                                it.date,
-                                it.value)
-                    }, receipt)
-                    val list = RealmList<RealmIpu>()
-                    list += currentUser.ipus.filter { it.receipt?.id != receipt.id }
-                    list.add(realmIpu)
-                    currentUser.ipus = list
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                { error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
     }
 
     fun streetsLoaded(): Boolean {
@@ -284,16 +251,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser?.receipts?.first { it.id == receiptId })
-                }
-    }
-
-    fun fetchIpuValuesList(receipt: RealmReceipt): Observable<List<RealmIpuValue>> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-                    Observable.just(currentUser?.ipus
-                            ?.first { it.receipt?.id == receipt.id }?.ipuValues
-                            ?.sortedBy { it.number })
                 }
     }
 
@@ -563,6 +520,29 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 }
                         )
                     }
+                }
+    }
+
+    fun saveIpusWithReceipt(ipus: List<Ipu>, receiptId: String): Observable<Boolean> {
+        return fetchIpuByReceiptId(receiptId)
+                .concatMap {
+                    realmIpu ->
+
+                    realmIpu.apply {
+                        ipuValues = ipus.mapTo(RealmList<RealmIpuValue>()) {
+                            RealmIpuValue(
+                                    id = it.id,
+                                    serviceName = it.serviceName,
+                                    number = it.number,
+                                    installPlace = it.installPlace,
+                                    date = it.date,
+                                    value = it.value,
+                                    isSent = true
+                            )
+                        }
+                    }
+
+                    saveIpu(realmIpu)
                 }
     }
 }
