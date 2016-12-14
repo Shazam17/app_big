@@ -15,6 +15,8 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
+import com.software.ssp.erkc.modules.history.valuehistory.ValueHistoryActivity
+import org.jetbrains.anko.startActivity
 import com.software.ssp.erkc.modules.history.filter.FilterChipTag
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterActivity
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
@@ -96,7 +98,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
     }
 
     override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
-        showMessage("TODO") //TODO
+        startActivity<ValueHistoryActivity>(Constants.KEY_HISTORY_FILTER to historyFilter, Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun onFilterClick() {

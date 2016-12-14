@@ -116,8 +116,13 @@
 
         <activity
             android:name="com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity"
-            android:label="@string/autopayment_screen_tab_title"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/autopayment_screen_tab_title"/>
+
+        <activity
+            android:name=".modules.history.valuehistory.ValueHistoryActivity"
+            android:theme="@style/AppTheme.Light"
+            android:label="@string/history_value_title"/>
 
         <activity
             android:name=".modules.paymentcheck.PaymentCheckActivity"
@@ -138,7 +143,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
 
     </application>
 

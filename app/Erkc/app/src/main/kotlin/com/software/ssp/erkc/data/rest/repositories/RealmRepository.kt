@@ -4,7 +4,9 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
+import io.realm.RealmList
 import rx.Observable
+import java.util.*
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -43,6 +45,38 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     }
             )
         }
+    }
+
+    fun saveIpusByBarсode(ipus: List<Ipu>, receipt: RealmReceipt): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    val realmIpu = RealmIpu(ipus.mapTo(RealmList<RealmIpuValue>()) {
+                        RealmIpuValue(it.id,
+                                it.serviceName,
+                                it.number,
+                                it.installPlace,
+                                it.date,
+                                it.value)
+                    }, receipt)
+                    val list = RealmList<RealmIpu>()
+                    list += currentUser.ipus.filter { it.receipt?.id != receipt.id }
+                    list.add(realmIpu)
+                    currentUser.ipus = list
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
     }
 
     fun streetsLoaded(): Boolean {
@@ -242,6 +276,24 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser?.receipts?.sortedBy { it.address })
+                }
+    }
+
+    fun fetchReceiptsById(receiptId: String): Observable<RealmReceipt> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.receipts?.first { it.id == receiptId })
+                }
+    }
+
+    fun fetchIpuValuesList(receipt: RealmReceipt): Observable<List<RealmIpuValue>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.ipus
+                            ?.first { it.receipt?.id == receipt.id }?.ipuValues
+                            ?.sortedBy { it.number })
                 }
     }
 
