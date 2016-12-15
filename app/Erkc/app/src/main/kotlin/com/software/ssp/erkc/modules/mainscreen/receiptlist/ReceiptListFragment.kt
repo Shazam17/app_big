@@ -125,7 +125,7 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
     }
 
     override fun navigateToIPUInputScreen(receipt: RealmReceipt) {
-        startActivity<SendValuesActivity>("receiptId" to receipt.id)
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun navigateToPayScreen(receipt: RealmReceipt) {

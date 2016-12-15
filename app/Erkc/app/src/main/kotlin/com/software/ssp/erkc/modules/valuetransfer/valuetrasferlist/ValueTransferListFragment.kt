@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.valuetransfer.valuetrasferlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
@@ -77,7 +78,7 @@ class ValueTransferListFragment : BaseListFragment<ReceiptViewModel>(), IValueTr
     }
 
     override fun navigateToSendValues(receipt: RealmReceipt) {
-        startActivity<SendValuesActivity>("receiptId" to receipt.id)
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun navigateToAddReceiptScreen() {

@@ -145,7 +145,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         view?.setProgressVisibility(true)
 
         val method = if (currentPayment.paymentCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
-        if (activeSession.accessToken == null) { //todo не забыть убрать после тестирования
+        if (activeSession.accessToken != null) {
             subscriptions += paymentRepository.init(
                     realmReceipt.barcode,
                     method,
@@ -175,6 +175,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
             subscriptions += realmRepository.saveOfflinePayment(realmReceipt, currentPayment.amount, email, currentPayment.paymentCard)
                     .subscribe({
                         view?.setProgressVisibility(false)
+                        view?.showMessage(R.string.transaction_save_to_transaction_help_text)
                         view?.close()
                     }, {
                         error ->
@@ -198,7 +199,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                     email)
         } else {
             view?.setProgressVisibility(true)
-            if (activeSession.accessToken == null) { //todo вернуть обратно после тестирования
+            if (activeSession.accessToken != null) {
                 subscriptions += paymentRepository.init(
                         if (receiptId == null) receipt.barcode else realmReceipt.barcode,
                         PaymentMethod.DEFAULT.ordinal,

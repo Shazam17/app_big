@@ -3,9 +3,12 @@ package com.software.ssp.erkc.modules.transaction.valuestransaction
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -16,7 +19,7 @@ class ValuesTransactionListFragment : BaseListFragment<RealmReceipt>(), IValuesT
     @Inject lateinit var presenter: IValuesTransactionListPresenter
 
     override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt.id, Constants.KEY_FROM_TRANSACTION to true)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {

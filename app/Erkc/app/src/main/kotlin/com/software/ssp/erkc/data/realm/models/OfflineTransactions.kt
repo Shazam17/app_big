@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.data.realm.models
 
+import com.software.ssp.erkc.data.rest.models.Ipu
+import io.realm.RealmList
 import io.realm.RealmObject
 
 /**
@@ -19,3 +21,8 @@ open class RealmOfflineIpu(
         open var ipuId: String = "",
         open var value: String = ""
 ) : RealmObject()
+
+class IpuValueAndIpu(
+        val ipuValues: List<RealmOfflineIpu>,
+        val ipus: List<Ipu>
+)

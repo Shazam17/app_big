@@ -27,7 +27,10 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     @Inject lateinit var presenter: ISendValuesPresenter
 
     private val receipt: Receipt? by extras()
-    private val receiptId: String? by extras()
+    private val receiptId: String? by extras(Constants.KEY_RECEIPT)
+
+    // для возобновления передачи показаний из журнала транзакций
+    private var fromTransaction: Boolean by extras(Constants.KEY_FROM_TRANSACTION, defaultValue = false)
 
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerSendValuesComponent.builder()
@@ -42,6 +45,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         setContentView(R.layout.activity_send_values)
         initViews()
 
+        presenter.fromTransaction = fromTransaction
         presenter.receipt = receipt
         presenter.receiptId = receiptId
 
@@ -67,6 +71,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                     it.value = text.toString()
                 }
             }
+            ipuLayout.ipuValue.setText(it.value)
             parametersContainer.addView(ipuLayout)
         }
     }
