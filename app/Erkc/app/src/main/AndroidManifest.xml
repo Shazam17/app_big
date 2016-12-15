@@ -80,7 +80,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity" />
+        <activity
+            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.userprofile.UserProfileActivity"
@@ -103,7 +105,8 @@
             android:name=".modules.paymentscreen.payment.PaymentActivity"
             android:label="@string/payment_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Light" />
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.paymentsinfo.PaymentInfoActivity"
@@ -114,6 +117,13 @@
         <activity
             android:name="com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity"
             android:label="@string/autopayment_screen_tab_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
+
+        <activity
+            android:name=".modules.history.valuehistory.ValueHistoryActivity"
+            android:label="@string/history_value_title"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
 
         <activity
@@ -122,8 +132,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
 
-        <activity android:name=".modules.history.filter.HistoryFilterActivity"
-            android:label="@string/history_filter_title" />
+        <activity
+            android:name=".modules.history.filter.HistoryFilterActivity"
+            android:label="@string/history_filter_title"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -134,7 +146,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
 
     </application>
 

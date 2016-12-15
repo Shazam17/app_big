@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorWhite"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorHistoryValueBackground"
+        android:padding="@dimen/half_default_margin"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <TextView
+            android:id="@+id/valueHistoryAverageTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:textAlignment="center"
+            android:textColor="@color/colorHistoryValueHeader"
+            android:textSize="12sp"
+            tools:text="@string/history_value_average_title"/>
+
+        <TextView
+            android:id="@+id/valueHistoryTotalTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/colorHistoryValueHeader"
+            android:textSize="12sp"
+            tools:text="Общий расход за период 01.01.2016 - 12.09.2016" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorHistoryValueDivider" />
+
+    <LinearLayout
+        android:id="@+id/valueHistoryIpuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorHistoryValueBackground"
+        android:padding="@dimen/half_default_margin"/>
+
+    <include layout="@layout/layout_recycler_view" />
+</LinearLayout>

@@ -2,7 +2,6 @@ package com.software.ssp.erkc.modules.history.filter
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import java.util.*
 
@@ -18,7 +17,7 @@ interface IHistoryFilterView : IView {
     fun showSelectPeriodToDialog(date: Date)
 
     fun showSelectedPeriod(dateFrom: Date, dateTo: Date)
-    fun showSelectedPaymentType(paymentType: ReceiptType)
+    fun showSelectedPaymentType(paymentType: String)
     fun showSelectedPaymentMethod(paymentMethod: PaymentMethod)
     fun showSelectedDeviceNumber(deviceNumber: String)
     fun showSelectedDevicePlace(devicePlace: String)

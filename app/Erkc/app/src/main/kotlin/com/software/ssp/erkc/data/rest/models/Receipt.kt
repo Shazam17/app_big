@@ -54,7 +54,7 @@ class Receipt(
         val supplierName: String,
 
         @SerializedName("percent_q")
-        val persent: Double,
+        val percent: Double,
 
         @SerializedName("user_card_id")
         val linkedCardId: String?) : PaperParcelable {

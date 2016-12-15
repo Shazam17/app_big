@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.history.filter
 
-import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import nz.bradcampbell.paperparcel.PaperParcel
 import nz.bradcampbell.paperparcel.PaperParcelable
@@ -16,7 +15,7 @@ data class HistoryFilterModel(
         var periodTo: Date? = null,
 
         var paymentSum: Double? = null,
-        var paymentType: ReceiptType? = null,
+        var paymentType: String = "",
         var paymentMethod: PaymentMethod? = null,
 
         var deviceNumber: String = "",

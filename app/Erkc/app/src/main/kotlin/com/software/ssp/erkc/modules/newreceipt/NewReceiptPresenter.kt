@@ -71,9 +71,9 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
                     if (activeSession.accessToken != null) {
                         if (isSendValue) {
-                            view?.navigateToIPUInputScreen(receipt)
+                            view?.navigateToIPUInputScreen(receipt.id!!)
                         } else {
-                            view?.navigateToPayScreen(receipt)
+                            view?.navigateToPayScreen(receipt.id!!)
                         }
 
                         realmRepository.saveReceipt(receipt)

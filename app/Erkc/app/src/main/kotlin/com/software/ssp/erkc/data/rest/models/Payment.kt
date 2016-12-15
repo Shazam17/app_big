@@ -39,7 +39,7 @@ data class Payment(
         @SerializedName("amount")
         var amount: Double,
         @SerializedName("pdffile")
-        var checkFile: String,
+        var checkFile: String?,
         @SerializedName("status")
         var status: Int,
         @SerializedName("erdesc")
@@ -47,7 +47,7 @@ data class Payment(
         @SerializedName("receipt_id")
         var receiptId: String,
         @SerializedName("mode_id")
-        var methodId: Int?,
+        var modeId: Int,
         @SerializedName("operation_id")
         var operationId: String)
 
@@ -71,7 +71,7 @@ data class PaymentInfo(
         @SerializedName("operation_id")
         var operationId: String,
         @SerializedName("summ")
-        var summ: Double,
+        var sum: Double,
         @SerializedName("supplier_name")
         var supplierName: String,
         @SerializedName("service_name")
@@ -82,6 +82,8 @@ data class PaymentInfo(
         var text: String,
         @SerializedName("id")
         var id: String,
+        @SerializedName("mode_id")
+        var modeId: Int,
         @SerializedName("address")
         var address: String,
         @SerializedName("receipt_id")

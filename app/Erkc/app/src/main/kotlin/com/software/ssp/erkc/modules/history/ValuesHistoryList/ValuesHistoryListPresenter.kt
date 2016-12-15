@@ -33,20 +33,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += receiptsRepository.fetchReceipts()
-                .concatMap {
-                    receipts ->
-                    realmRepository.saveReceiptsList(receipts)
-                }
-                .subscribe(
-                        {
-                            showReceiptsList()
-                        },
-                        {
-                            error ->
-                            view?.showMessage(error.parsedMessage())
-                            view?.setLoadingVisible(false)
-                        })
+        //TODO fetch ipus from API
     }
 
     override fun onReceiptClick(receipt: RealmReceipt) {
@@ -75,36 +62,36 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     private fun showReceiptsList() {
-        subscriptions += realmRepository.fetchReceiptsList()
+        subscriptions += realmRepository.fetchIpuList()
                 .flatMap {
-                    receipts ->
-                    receipts.toObservable()
+                    ipuList ->
+                    ipuList.toObservable()
                 }
                 .filter {
-                    receipt ->
+                    ipu ->
                     when {
-                        receipt.lastIpuTransferDate == null -> return@filter false
-                        !currentFilter.barcode.isNullOrBlank() && receipt.barcode != currentFilter.barcode -> return@filter false
-                        !currentFilter.street.isNullOrBlank() && receipt.street != currentFilter.street -> return@filter false
-                        !currentFilter.house.isNullOrBlank() && !receipt.house.equals(currentFilter.house, true) -> return@filter false
-                        !currentFilter.apartment.isNullOrBlank() && receipt.apart != currentFilter.apartment -> return@filter false
+                        !currentFilter.barcode.isNullOrBlank() && ipu.receipt!!.barcode != currentFilter.barcode -> return@filter false
+                        !currentFilter.street.isNullOrBlank() && ipu.receipt!!.street != currentFilter.street -> return@filter false
+                        !currentFilter.house.isNullOrBlank() && !ipu.receipt!!.house.equals(currentFilter.house, true) -> return@filter false
+                        !currentFilter.apartment.isNullOrBlank() && ipu.receipt!!.apart != currentFilter.apartment -> return@filter false
                     }
 
-                    currentFilter.periodFrom?.let {
-                        if (receipt.lastIpuTransferDate != null && (receipt.lastIpuTransferDate!! < it || receipt.lastIpuTransferDate!! > currentFilter.periodTo!!)) {
-                            return@filter false
+                    ipu.ipuValues.forEach {
+                        if ((currentFilter.deviceNumber.isNullOrBlank() || it.number == currentFilter.deviceNumber)
+                                && (currentFilter.deviceInstallPlace.isNullOrBlank() || it.installPlace == currentFilter.deviceInstallPlace)
+                                && (currentFilter.periodFrom == null || it.date != null && it.date!! >= currentFilter.periodFrom)
+                                && (currentFilter.periodTo == null || it.date != null && it.date!! <= currentFilter.periodTo)) {
+                            return@filter true
                         }
                     }
 
-                    //TODO filter with deviceNumber and deviceInstallPlace
-
-                    return@filter true
+                    return@filter false
                 }
                 .toList()
                 .subscribe(
                         {
-                            receipts ->
-                            view?.showData(receipts.sortedWith(compareBy({ it.address }, { it.lastIpuTransferDate })))
+                            filteredIpus ->
+                            view?.showData(filteredIpus.map { it.receipt!! }.sortedWith(compareBy({ it.address }, { it.lastIpuTransferDate })))
                         },
                         {
                             error ->

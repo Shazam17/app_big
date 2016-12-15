@@ -8,16 +8,16 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.getStringResId
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.extensions.materialDialog
-import com.software.ssp.erkc.extensions.receiptFormat
+import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -86,7 +86,7 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
     }
 
     override fun showCurrentFilter(currentFilter: HistoryFilterModel) {
-        with(currentFilter){
+        with(currentFilter) {
             barcodeEditText.setText(barcode)
             streetEditText.setText(street)
             houseEditText.setText(house)
@@ -100,12 +100,20 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
                 showSelectedPeriod(it, periodTo!!)
             }
 
-            paymentType?.let {
-                showSelectedPaymentType(it)
-            }
-
             paymentMethod?.let {
                 showSelectedPaymentMethod(it)
+            }
+
+            if (paymentType.isNotBlank()) {
+                showSelectedPaymentType(paymentType)
+            }
+
+            if (deviceNumber.isNotBlank()) {
+                showSelectedDeviceNumber(deviceNumber)
+            }
+
+            if (deviceInstallPlace.isNotBlank()) {
+                showSelectedDevicePlace(deviceInstallPlace)
             }
         }
     }
@@ -177,20 +185,20 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         )
 
         dialog.minDate = fromDate
-        dialog.setTitle(getString(R.string.history_filter_date_to_dialog_title).format(date.receiptFormat))
+        dialog.setTitle(getString(R.string.history_filter_date_to_dialog_title).format(date.toString(Constants.RECEIPT_DATE_FORMAT)))
         dialog.show(fragmentManager, DATE_PICKER_DIALOG_TAG)
     }
 
     override fun showSelectedPeriod(dateFrom: Date, dateTo: Date) {
-        periodText.text = "%s - %s".format(dateFrom.receiptFormat, dateTo.receiptFormat)
+        periodText.text = "%s - %s".format(dateFrom.toString(Constants.RECEIPT_DATE_FORMAT), dateTo.toString(Constants.RECEIPT_DATE_FORMAT))
     }
 
     override fun showSelectedPaymentMethod(paymentMethod: PaymentMethod) {
         paymentProcessText.setText(paymentMethod.getStringResId())
     }
 
-    override fun showSelectedPaymentType(paymentType: ReceiptType) {
-        paymentTypeText.setText(paymentType.getStringResId())
+    override fun showSelectedPaymentType(paymentType: String) {
+        paymentTypeText.text = paymentType
     }
 
     override fun showSelectedDeviceNumber(deviceNumber: String) {
@@ -244,13 +252,6 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             }
         }
 
-        streetEditText.onFocusChange { view, isFocus ->
-            if(isFocus) {
-                presenter.onAddressClick()
-                rootLayout.requestFocus()
-            }
-        }
-
         houseEditText.textChangedListener {
             afterTextChanged { house ->
                 presenter.onHouseTextChanged(house.toString())
@@ -278,7 +279,7 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
                 false,
                 paymentSumEditText,
                 null,
-                object : MaskedTextChangedListener.ValueListener{
+                object : MaskedTextChangedListener.ValueListener {
                     override fun onExtracted(value: String) {
                         presenter.onPaymentSumTextChanged(value)
                     }
@@ -307,7 +308,7 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         paymentTypeText.onClick { presenter.onSelectPaymentTypeClick() }
         paymentProcessText.onClick { presenter.onSelectPaymentProcessClick() }
 
-        if(!isPaymentFilter) {
+        if (!isPaymentFilter) {
             paymentSumInputLayout.visibility = View.GONE
             paymentTypeText.visibility = View.GONE
             paymentTypeCaption.visibility = View.GONE

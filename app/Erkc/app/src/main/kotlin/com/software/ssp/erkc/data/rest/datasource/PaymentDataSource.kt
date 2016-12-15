@@ -4,7 +4,10 @@ import com.software.ssp.erkc.data.rest.models.Payment
 import com.software.ssp.erkc.data.rest.models.PaymentCheck
 import com.software.ssp.erkc.data.rest.models.PaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentInit
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import rx.Observable
 
 /**
@@ -12,9 +15,8 @@ import rx.Observable
  */
 interface PaymentDataSource {
 
-    @FormUrlEncoded
     @POST("?method=payments.init")
-    fun init(@FieldMap params: Map<String, String>): Observable<PaymentInit>
+    fun init(@QueryMap params: Map<String, String>): Observable<PaymentInit>
 
     @GET("?method=payments.get")
     fun getByPaymentId(@Query("id") id: String): Observable<PaymentInfo>

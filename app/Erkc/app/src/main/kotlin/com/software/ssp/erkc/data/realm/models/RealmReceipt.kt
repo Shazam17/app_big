@@ -75,7 +75,7 @@ enum class ReceiptType() {
     TEST; //TODO REMOVE TEST;
 }
 
-enum class AutoPaymentMode{
+enum class AutoPaymentMode {
     OFF,
     ONE_CLICK,
     AUTO

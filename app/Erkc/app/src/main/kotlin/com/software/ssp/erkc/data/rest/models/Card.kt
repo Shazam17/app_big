@@ -33,9 +33,16 @@ data class CardRegistration(
         @SerializedName("url")
         var url: String
 )
+
 data class CardActivation(
         @SerializedName("id")
         var id: String,
         @SerializedName("url")
         var url: String
 )
+
+enum class CardStatus {
+    UNREGISTERED,
+    REGISTERED,
+    ACTIVATED
+}

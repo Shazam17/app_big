@@ -7,18 +7,21 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.extensions.receiptFormat
+import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
 import com.software.ssp.erkc.modules.history.filter.FilterChipTag
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterActivity
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import com.software.ssp.erkc.modules.history.valuehistory.ValueHistoryActivity
 import kotlinx.android.synthetic.main.fragment_history_list.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
@@ -88,14 +91,14 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
         checkAndAddFilterTag(currentFilter.deviceInstallPlace, HistoryFilterField.DEVICE_PLACE)
 
         currentFilter.periodFrom?.let {
-            checkAndAddFilterTag("%s - %s".format(it.receiptFormat, currentFilter.periodTo!!.receiptFormat), HistoryFilterField.PERIOD)
+            checkAndAddFilterTag("%s - %s".format(it.toString(Constants.RECEIPT_DATE_FORMAT), currentFilter.periodTo!!.toString(Constants.RECEIPT_DATE_FORMAT)), HistoryFilterField.PERIOD)
         }
 
         filterChipView.refresh()
     }
 
     override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
-        showMessage("TODO") //TODO
+        startActivity<ValueHistoryActivity>(Constants.KEY_HISTORY_FILTER to historyFilter, Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun onFilterClick() {
@@ -119,6 +122,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
             presenter.onFilterDeleted((chip as FilterChipTag).field)
             filterChipView.remove(chip)
         }
+        swipeToRefreshEnabled = false
     }
 
     private fun checkAndAddFilterTag(text: String?, field: HistoryFilterField) {

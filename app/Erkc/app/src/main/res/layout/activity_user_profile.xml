@@ -33,11 +33,10 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/emailInputLayout"
-        android:layout_width="328dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:hint="@string/user_profile_email_hint"
         app:errorEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:hint="@string/user_profile_password_hint"
         app:errorEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -83,7 +81,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:hint="@string/user_profile_re_password_hint"
         app:errorEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"

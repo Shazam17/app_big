@@ -14,7 +14,7 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.getStringResId
-import com.software.ssp.erkc.extensions.receiptFormat
+import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
 import com.software.ssp.erkc.modules.history.filter.FilterChipTag
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterActivity
@@ -88,17 +88,14 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         checkAndAddFilterTag(currentFilter.street, HistoryFilterField.STREET)
         checkAndAddFilterTag(currentFilter.house, HistoryFilterField.HOUSE)
         checkAndAddFilterTag(currentFilter.apartment, HistoryFilterField.APARTMENT)
+        checkAndAddFilterTag(currentFilter.paymentType, HistoryFilterField.PAYMENT_TYPE)
 
         currentFilter.paymentSum?.let {
             checkAndAddFilterTag(String.format("%.2f", it), HistoryFilterField.MAX_SUM)
         }
 
         currentFilter.periodFrom?.let {
-            checkAndAddFilterTag("%s - %s".format(it.receiptFormat, currentFilter.periodTo!!.receiptFormat), HistoryFilterField.PERIOD)
-        }
-
-        currentFilter.paymentType?.let {
-            checkAndAddFilterTag(getString(it.getStringResId()), HistoryFilterField.PAYMENT_TYPE)
+            checkAndAddFilterTag("%s - %s".format(it.toString(Constants.RECEIPT_DATE_FORMAT), currentFilter.periodTo!!.toString(Constants.RECEIPT_DATE_FORMAT)), HistoryFilterField.PERIOD)
         }
 
         currentFilter.paymentMethod?.let {

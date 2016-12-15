@@ -4,13 +4,12 @@ package com.software.ssp.erkc.modules.mainscreen.receiptlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.extensions.toReceipt
+import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
@@ -104,6 +103,13 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
                 })
     }
 
+    override fun showNoActivatedCardsDialog() {
+        activity.materialDialog {
+            content(R.string.main_screen_no_cards_dialog_text)
+            positiveText(R.string.main_screen_no_cards_dialog_ok_button)
+        }.show()
+    }
+
     override fun navigateToAddReceiptScreen() {
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
@@ -118,11 +124,11 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
     }
 
     override fun navigateToIPUInputScreen(receipt: RealmReceipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt.toReceipt())
+        startActivity<SendValuesActivity>("receiptId" to receipt.id)
     }
 
     override fun navigateToPayScreen(receipt: RealmReceipt) {
-        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt.toReceipt())
+        startActivity<PaymentActivity>("receiptId" to receipt.id)
     }
 
     override fun navigateToAutoPaymentSettingScreen(receiptId: String) {
