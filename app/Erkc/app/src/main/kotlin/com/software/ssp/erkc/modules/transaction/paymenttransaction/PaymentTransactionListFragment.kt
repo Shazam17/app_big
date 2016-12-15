@@ -3,9 +3,12 @@ package com.software.ssp.erkc.modules.transaction.paymenttransaction
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -16,6 +19,7 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
     @Inject lateinit var presenter: IPaymentTransactionListPresenter
 
     override fun navigateToPaymentInfo(payment: RealmOfflinePayment) {
+        startActivity<PaymentActivity>(Constants.KEY_FROM_TRANSACTION to true, Constants.KEY_RECEIPT to payment.receipt.id)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {

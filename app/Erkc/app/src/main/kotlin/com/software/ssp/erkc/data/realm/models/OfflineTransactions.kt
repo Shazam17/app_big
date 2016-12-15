@@ -8,10 +8,9 @@ import io.realm.RealmObject
 open class RealmOfflinePayment(
         open var login: String = "",
         open var receipt: RealmReceipt = RealmReceipt(),
-        open var method: Int = 0,
         open var paymentSum: Double = 0.0,
         open var email: String = "",
-        open var cardId: String? = ""
+        open var card: RealmCard? = RealmCard()
 ) : RealmObject()
 
 open class RealmOfflineIpu(

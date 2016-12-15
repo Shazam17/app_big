@@ -122,7 +122,7 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
     }
 
     override fun navigateToPayScreen(receipt: RealmReceipt) {
-        startActivity<PaymentActivity>("receiptId" to receipt.id)
+        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 
     override fun navigateToAutoPaymentSettingScreen(receiptId: String) {

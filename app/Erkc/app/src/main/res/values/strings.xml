@@ -310,7 +310,9 @@
     <string name="payment_default">Стандартная оплата</string>
     <string name="payment_one_click">Оплата в 1 клик</string>
     <string name="payment_auto">Автоплатеж</string>
+
+    <!-- Transactions -->
     <string name="transaction_ipu_text">Передать показания</string>
     <string name="transaction_payment_text">Оплатить</string>
-
+    <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
 </resources>

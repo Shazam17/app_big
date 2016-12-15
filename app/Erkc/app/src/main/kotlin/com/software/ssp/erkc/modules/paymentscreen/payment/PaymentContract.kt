@@ -13,20 +13,14 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 interface IPaymentView : IView {
 
     fun setProgressVisibility(isVisible: Boolean)
-
     fun showReceiptInfo(receipt: Receipt)
     fun showReceiptInfo(receipt: RealmReceipt)
-
     fun showSelectedCard(card: RealmCard?)
-
-    fun showUserInfo(user: RealmUser)
-
+    fun showEmail(email: String)
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)
     fun showResult(result: Boolean)
-
     fun fillAmountAndCommission(commission: Double, sum: Double)
-
     fun showPaymentConfirmDialog(receipt: RealmReceipt, card: RealmCard, commission: Double, sum: Double, email: String)
     fun showCardSelectDialog(cardsViewModels: List<PaymentCardViewModel>)
     fun showNavigateToCardsDialog()
@@ -39,6 +33,7 @@ interface IPaymentPresenter : IPresenter<IPaymentView> {
 
     var receipt: Receipt
     var receiptId: String?
+    var fromTransaction: Boolean
 
     fun onChooseCardClick()
     fun onNextClick(email: String)

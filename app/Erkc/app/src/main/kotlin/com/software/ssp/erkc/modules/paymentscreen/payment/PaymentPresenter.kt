@@ -36,6 +36,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override lateinit var receipt: Receipt
     override var receiptId: String? = null
+    override var fromTransaction: Boolean = false
 
     private lateinit var user: RealmUser
     private lateinit var realmReceipt: RealmReceipt
@@ -70,27 +71,53 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         }
 
         view?.setProgressVisibility(true)
-        subscriptions += realmRepository
-                .fetchCurrentUser()
-                .subscribe(
-                        {
-                            currentUser ->
-                            user = currentUser
-                            realmReceipt = user.receipts.find { it.id == receiptId }!!
-                            paymentValue = realmReceipt.amount
-                            selectedCard = realmReceipt.linkedCard
+        if (!fromTransaction) {
+            subscriptions += realmRepository
+                    .fetchCurrentUser()
+                    .subscribe(
+                            {
+                                currentUser ->
+                                user = currentUser
+                                realmReceipt = user.receipts.find { it.id == receiptId }!!
+                                paymentValue = realmReceipt.amount
+                                selectedCard = realmReceipt.linkedCard
 
-                            view?.showReceiptInfo(realmReceipt)
-                            view?.showUserInfo(user)
+                                view?.showReceiptInfo(realmReceipt)
+                                view?.showEmail(user.email)
 
-                            view?.setProgressVisibility(false)
-                        },
-                        {
-                            error ->
-                            view?.showMessage(error.parsedMessage())
-                            view?.setProgressVisibility(false)
-                        }
-                )
+                                view?.setProgressVisibility(false)
+                            },
+                            {
+                                error ->
+                                view?.showMessage(error.parsedMessage())
+                                view?.setProgressVisibility(false)
+                            }
+                    )
+        } else {
+            subscriptions += realmRepository.fetchCurrentUser()
+                    .concatMap {
+                        currentUser ->
+                        user = currentUser
+                        realmRepository.fetchOfflinePaymentsByReceiptId(user.login, receiptId!!)
+                    }
+                    .subscribe(
+                            {
+                                offlinePayment ->
+                                realmReceipt = offlinePayment.receipt
+                                paymentValue = offlinePayment.paymentSum
+                                selectedCard = offlinePayment.card
+                                realmReceipt.amount = paymentValue
+                                view?.showReceiptInfo(realmReceipt)
+                                view?.showEmail(offlinePayment.email)
+
+                                view?.setProgressVisibility(false)
+                            },
+                            {
+                                error ->
+                                view?.showMessage(error.parsedMessage())
+                                view?.setProgressVisibility(false)
+                            })
+        }
     }
 
     override fun onViewDetached() {
@@ -150,7 +177,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                     }
             )
         } else {
-            subscriptions += realmRepository.saveOfflinePayment(realmReceipt, method, paymentSum, email, selectedCard?.id)
+            subscriptions += realmRepository.saveOfflinePayment(realmReceipt, paymentSum, email, selectedCard)
                     .subscribe({
                         view?.setProgressVisibility(false)
                         view?.close()
@@ -199,12 +226,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                         })
             } else {
                 subscriptions += realmRepository.saveOfflinePayment(realmReceipt,
-                        PaymentMethod.DEFAULT.ordinal,
                         paymentSum,
                         email,
-                        selectedCard?.id)
+                        selectedCard)
                         .subscribe({
                             view?.setProgressVisibility(false)
+                            view?.showMessage(R.string.transaction_save_to_transaction_help_text)
                             view?.close()
                         }, {
                             error ->

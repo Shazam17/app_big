@@ -26,4 +26,5 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
     const val KEY_PAYMENT = "KEY_PAYMENT"
+    const val KEY_FROM_TRANSACTION = "KEY_FROM_TRANSACTION"
 }

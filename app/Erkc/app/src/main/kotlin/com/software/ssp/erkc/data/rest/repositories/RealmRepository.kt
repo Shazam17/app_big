@@ -101,6 +101,24 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
+    fun fetchOfflinePaymentsByReceiptId(login: String, receiptId: String): Observable<RealmOfflinePayment> {
+        return realm.where(RealmOfflinePayment::class.java)
+                .equalTo("login", login)
+                .equalTo("receipt.id", receiptId)
+                .findAll()
+                .asObservable()
+                .first()
+                .flatMap {
+                    result ->
+                    val firstResult = result.firstOrNull()
+                    if (firstResult == null) {
+                        Observable.just(null)
+                    } else {
+                        Observable.just(realm.copyFromRealm(firstResult))
+                    }
+                }
+    }
+
     fun fetchOfflineIpu(): Observable<List<RealmOfflineIpu>> {
         return fetchCurrentUser().concatMap {
             currentUser ->
@@ -541,19 +559,23 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun saveOfflinePayment(realmReceipt: RealmReceipt, method: Int, paymentSum: Double, email: String, cardId: String?): Observable<Boolean> {
+    fun saveOfflinePayment(realmReceipt: RealmReceipt, paymentSum: Double, email: String, card: RealmCard?): Observable<Boolean> {
         return fetchCurrentUser().concatMap {
             currentUser ->
             Observable.create<Boolean> { sub ->
                 realm.executeTransactionAsync(
                         {
+                            val realmOfflinePayment = it.where(RealmOfflinePayment::class.java)
+                                    .equalTo("receipt.id", realmReceipt.id)
+                                    .equalTo("login", currentUser.login)
+                                    .findFirst()
+                            realmOfflinePayment?.deleteFromRealm()
                             it.copyToRealm(RealmOfflinePayment(currentUser.login,
                                     it.where(RealmReceipt::class.java).equalTo("barcode",
                                             realmReceipt.barcode).findFirst(),
-                                    method,
                                     paymentSum,
                                     email,
-                                    cardId))
+                                    it.where(RealmCard::class.java).equalTo("id", card?.id).findFirst()))
                         },
                         {
                             sub.onNext(true)

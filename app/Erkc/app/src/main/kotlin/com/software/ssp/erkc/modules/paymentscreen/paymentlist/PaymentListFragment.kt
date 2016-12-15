@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.paymentscreen.paymentlist
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
@@ -103,6 +104,6 @@ class PaymentListFragment : BaseListFragment<ReceiptViewModel>(), IPaymentListVi
     }
 
     override fun navigateToPayScreen(receipt: RealmReceipt) {
-        startActivity<PaymentActivity>("receiptId" to receipt.id)
+        startActivity<PaymentActivity>(Constants.KEY_RECEIPT to receipt.id)
     }
 }
