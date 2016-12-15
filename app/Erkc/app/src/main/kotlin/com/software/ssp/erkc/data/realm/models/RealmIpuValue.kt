@@ -6,10 +6,11 @@ import java.util.*
 
 
 open class RealmIpuValue(
-        @PrimaryKey
         open var id: String = "",
         open var serviceName: String = "",
         open var number: String = "",
         open var installPlace: String = "",
         open var date: Date? = null,
-        open var value: Int = 0) : RealmObject()
+        open var period: Date? = null,
+        open var isSent: Boolean = false,
+        open var value: String = "") : RealmObject()

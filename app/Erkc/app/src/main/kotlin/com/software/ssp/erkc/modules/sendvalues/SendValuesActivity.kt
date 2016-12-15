@@ -2,22 +2,21 @@ package com.software.ssp.erkc.modules.sendvalues
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.rest.models.Ipu
+import com.software.ssp.erkc.data.realm.models.RealmIpu
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.activity_send_values.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
-import java.text.SimpleDateFormat
-import java.util.*
+import org.jetbrains.anko.textChangedListener
 import javax.inject.Inject
 
 /**
@@ -26,25 +25,48 @@ import javax.inject.Inject
 class SendValuesActivity : MvpActivity(), ISendValuesView {
 
     @Inject lateinit var presenter: ISendValuesPresenter
-    private var receipt: Receipt? = null
-    private var ipus: List<Ipu>? = null
+
+    private val receipt: Receipt? by extras()
+    private val receiptId: String? by extras()
+
+    override fun resolveDependencies(appComponent: AppComponent) {
+        DaggerSendValuesComponent.builder()
+                .appComponent(appComponent)
+                .sendValuesModule(SendValuesModule(this))
+                .build()
+                .inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_values)
-        receipt = intent.getParcelableExtra<Receipt>(Constants.KEY_RECEIPT)
         initViews()
-        presenter.onViewAttached(receipt?.barcode!!)
+
+        presenter.receipt = receipt
+        presenter.receiptId = receiptId
+
+        presenter.onViewAttached()
     }
 
-    override fun fillData(data: List<Ipu>) {
-        ipus = data
-        sendValuesDebts.text = "${receipt?.amount} р.(${SimpleDateFormat(Constants.PERIOD_DATE_FORMAT_UI, Locale("ru")).format(data.first().period)})"
-        data.forEach {
-            val layoutInflater = LayoutInflater.from(this)
+    override fun beforeDestroy() {
+        presenter.dropView()
+    }
+
+    override fun showIpu(ipu: RealmIpu) {
+        sendValuesBarcode.text = ipu.receipt?.barcode
+        sendValuesAddress.text = ipu.receipt?.address
+        sendValuesDebts.text = "${ipu.receipt?.amount} р. (${ipu.ipuValues.last().period?.toString(Constants.PERIOD_DATE_FORMAT_UI)})"
+        val layoutInflater = LayoutInflater.from(this)
+        ipu.ipuValues.filter { !it.isSent }.forEach {
             val ipuLayout = layoutInflater.inflate(R.layout.sendparameters_ipu_layout, parametersContainer, false)
             ipuLayout.ipuLocation.text = it.installPlace
-            ipuLayout.ipuValue.tag = it.id
             ipuLayout.ipuValueWrapper.hint = "%s (%s)".format(it.serviceName, it.number)
+            ipuLayout.ipuValue.textChangedListener {
+                afterTextChanged {
+                    text ->
+                    it.value = text.toString()
+                }
+            }
             parametersContainer.addView(ipuLayout)
         }
     }
@@ -57,51 +79,19 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return true
-    }
-
-    override fun resolveDependencies(appComponent: AppComponent) {
-        DaggerSendValuesComponent.builder()
-                .appComponent(appComponent)
-                .sendValuesModule(SendValuesModule(this))
-                .build()
-                .inject(this)
-    }
-
-    override fun beforeDestroy() {
-        presenter.dropView()
-    }
-
     override fun close() {
         finish()
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
-        ipus?.forEach {
-            parametersContainer.findViewWithTag(it.id).isEnabled = !isVisible
-        }
         sendValuesButton.enabled = !isVisible
         sendValuesProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun initViews() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
-        sendValuesButton.onClick {
-            val params = HashMap<String, String>()
-            ipus?.forEach {
-                val value = (parametersContainer.findViewWithTag(it.id) as EditText).text.toString()
-                if (value.isBlank()) {
-                    showMessage(R.string.error_all_fields_required)
-                    return@onClick
-                }
-                params.put(it.id, value)
-            }
-            presenter.onSendValuesClick(receipt!!.barcode, params)
-        }
-        sendValuesBarcode.text = receipt?.barcode
-        sendValuesAddress.text = receipt?.address
+        sendValuesButton.onClick { presenter.onSendValuesClick() }
     }
 }

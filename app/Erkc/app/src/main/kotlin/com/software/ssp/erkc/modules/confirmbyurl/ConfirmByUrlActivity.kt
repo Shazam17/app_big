@@ -83,7 +83,7 @@ class ConfirmByUrlActivity : MvpActivity(), IConfirmByUrlView {
         changeStatusCardWebView.setWebViewClient(object : WebViewClient() {
             var startLoading = false
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                if (url.contains("pps.gazprombank.ru")) { //для проверки что не ушли на левую страницу (клик по лэйблу "газпромбанк" например)
+                if (!url.contains("www.gazprombank.ru")) { //для проверки что не ушли на левую страницу (клик по лэйблу "газпромбанк" например)
                     view.loadUrl(url)
                     startLoading = true
                 }

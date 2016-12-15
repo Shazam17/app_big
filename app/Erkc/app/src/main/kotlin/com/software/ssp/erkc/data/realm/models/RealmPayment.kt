@@ -13,26 +13,28 @@ open class RealmPayment(
         open var status: Int = 0,
         open var errorDesc: String? = null,
         open var operationId: String = "",
-        open var methodId: Int? = null,
+        open var modeId: Int = 0,
         open var receipt: RealmReceipt? = null) : RealmObject()
 
 open class RealmPaymentInfo(
         @PrimaryKey
-        var id: String = "",
-        var date: Date? = null,
-        var house: String = "",
-        var status: Int = 0,
-        var street: String = "",
-        var barcode: String = "",
-        var operationId: String = "",
-        var summ: Double = 0.0,
-        var supplierName: String = "",
-        var serviceName: String = "",
-        var amount: Double = 0.0,
-        var text: String = "",
-        var address: String = "",
+        open var id: String = "",
+        open var date: Date? = null,
+        open var house: String = "",
+        open var status: Int = 0,
+        open var street: String = "",
+        open var barcode: String = "",
+        open var operationId: String = "",
+        open var modeId: Int = 0,
+        open var sum: Double = 0.0,
+        open var supplierName: String = "",
+        open var serviceName: String = "",
+        open var amount: Double = 0.0,
+        open var text: String = "",
+        open var address: String = "",
+        open var apart: String = "",
         open var receipt: RealmReceipt? = null,
-        var apart: String = "") : RealmObject()
+        open var paymentCard: RealmCard? = null) : RealmObject()
 
 class PaymentAndPaymentInfo(
         val payment: RealmPayment,

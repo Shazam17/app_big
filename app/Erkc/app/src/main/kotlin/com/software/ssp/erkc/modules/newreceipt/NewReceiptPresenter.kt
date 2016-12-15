@@ -71,7 +71,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
                     if (activeSession.accessToken != null) {
                         if (isSendValue) {
-                            view?.navigateToIPUInputScreen(receipt) //TODO send id
+                            view?.navigateToIPUInputScreen(receipt.id!!)
                         } else {
                             view?.navigateToPayScreen(receipt.id!!)
                         }

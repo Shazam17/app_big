@@ -4,6 +4,7 @@
 
     <!-- Common -->
     <string name="data_loading">Загрузка данных…</string>
+    <string name="none" />
 
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
@@ -47,6 +48,8 @@
     <string name="main_screen_non_authed_title" />
     <string name="main_screen_authed_title">Основной экран</string>
     <string name="main_screen_add_receipt">Добавить квитанцию</string>
+    <string name="main_screen_no_cards_dialog_text">Невозможно настроить автоплатеж, так как нет активированных карт.</string>
+    <string name="main_screen_no_cards_dialog_ok_button">Понятно</string>
 
     <!-- Sign in -->
     <string name="sing_in_title">Вход</string>
@@ -100,8 +103,6 @@
     <!-- Address search Screen -->
     <string name="search_addresses_hint">Введите адрес…</string>
     <string name="search_addresses_title" />
-
-    <string name="none" />
 
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
@@ -195,7 +196,7 @@
     <string name="payment_title">Оплата</string>
     <string name="payment_continue_button">Продолжить</string>
     <string name="payment_amount_title">Итого к оплате:</string>
-    <string name="payment_sum_title">Сумма к зачислению</string>
+    <string name="payment_sum_title">Сумма к зачислению (р.)</string>
     <string name="payment_dialog_ok">Oк</string>
     <string name="payment_dialog_cancel">Закрыть</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>
@@ -263,6 +264,17 @@
     <string name="transaction_values_tab_title">Показания счетчиков</string>
     <string name="transaction_money_format">%,.2f р.</string>
     <string name="transaction_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+
+    <!-- History Value -->
+    <string name="history_value_title">Показания</string>
+    <string name="history_value_average_title">Средний\nрасход</string>
+    <string name="history_value_total" formatted="false">Общий расход за период %s - %s</string>
+    <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>
+    <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
+    <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
+    <string name="history_value_menu_info">Справка</string>
+    <string name="history_value_info_dialog_content">Данные о среднем и общем расходе ресурса за период рассчитаны на основании показаний переданных через приложение, имеют информационный характер и могут быть уточнены у поставщика услуги.</string>
+    <string name="history_value_info_dialog_positive">Понятно</string>
 
     <!-- PaymentCheck -->
     <string name="payment_check_title">Чек</string>

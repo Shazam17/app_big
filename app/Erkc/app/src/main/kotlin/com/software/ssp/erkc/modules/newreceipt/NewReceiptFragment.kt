@@ -75,12 +75,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
     }
 
     override fun navigateToIPUInputScreen(receipt: Receipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt)
+        startActivity<SendValuesActivity>("receipt" to receipt)
     }
 
     override fun navigateToIPUInputScreen(receiptId: String) {
-        // todo
-        toast("navigateToIPUInputScreen")
+        startActivity<SendValuesActivity>("receiptId" to receiptId)
     }
 
     override fun navigateToPayScreen(receipt: Receipt) {

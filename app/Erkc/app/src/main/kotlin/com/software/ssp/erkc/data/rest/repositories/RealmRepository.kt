@@ -4,6 +4,7 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
+import io.realm.RealmList
 import rx.Observable
 import java.util.*
 import javax.inject.Inject
@@ -215,7 +216,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         lastIpuTransferDate = receipt.lastIpuTransferDate
                         supplierName = receipt.supplierName
                         percent = receipt.percent
-                        linkedCard = realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
+                        linkedCard = if (receipt.linkedCardId == null) null else realm.copyFromRealm(realm.where(RealmCard::class.java).equalTo("id", receipt.linkedCardId).findFirst())
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -289,6 +290,14 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     Observable.just(currentUser?.receipts?.sortedBy { it.address })
+                }
+    }
+
+    fun fetchReceiptsById(receiptId: String): Observable<RealmReceipt> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.receipts?.first { it.id == receiptId })
                 }
     }
 
@@ -408,47 +417,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
-    fun savePayment(payment: Payment): Observable<Boolean> {
-        return fetchCurrentUser()
-                .concatMap {
-                    currentUser ->
-
-                    var realmPayment = currentUser.payments.find { it.id == payment.id }
-
-                    if (realmPayment == null) {
-                        realmPayment = RealmPayment(payment.id)
-                        currentUser.payments.add(realmPayment)
-                    }
-
-                    realmPayment.apply {
-                        date = payment.date
-                        amount = payment.amount
-                        checkFile = payment.checkFile
-                        status = payment.status
-                        errorDesc = payment.errorDesc
-                        operationId = payment.operationId
-                        methodId = payment.methodId
-                        receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", payment.receiptId).findFirst())
-                    }
-
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(realmPayment)
-                                    it.copyToRealmOrUpdate(currentUser)
-                                },
-                                {
-                                    sub.onNext(true)
-                                },
-                                {
-                                    error ->
-                                    sub.onError(error)
-                                }
-                        )
-                    }
-                }
-    }
-
     fun savePaymentInfo(paymentInfo: PaymentInfo): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap {
@@ -468,15 +436,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         street = paymentInfo.street
                         barcode = paymentInfo.barcode
                         operationId = paymentInfo.operationId
-                        summ = paymentInfo.summ
+                        sum = paymentInfo.sum
                         supplierName = paymentInfo.supplierName
                         serviceName = paymentInfo.serviceName
                         amount = paymentInfo.amount
                         text = paymentInfo.text
+                        modeId = paymentInfo.modeId
                         address = paymentInfo.address
                         receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", paymentInfo.receiptId).findFirst())
                         apart = paymentInfo.apart
-
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -506,11 +474,11 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.id,
                                 it.date,
                                 it.amount,
-                                it.checkFile,
+                                it.checkFile ?: "",
                                 it.status,
                                 it.errorDesc,
                                 it.operationId,
-                                it.methodId,
+                                it.modeId,
                                 realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
                         )
                     }
@@ -610,5 +578,71 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 )
             }
         }
+    }
+
+    fun fetchIpuByReceiptId(receiptId: String): Observable<RealmIpu> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    var ipu = currentUser.ipus.find { it.receipt!!.id == receiptId }
+
+                    if (ipu == null) {
+                        ipu = RealmIpu(
+                                receiptId = receiptId,
+                                receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", receiptId).findFirst())
+                        )
+                    }
+
+                    Observable.just(ipu)
+                }
+    }
+
+    fun saveIpu(ipu: RealmIpu): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+
+                    if (!currentUser.ipus.contains(ipu)) {
+                        currentUser.ipus.add(ipu)
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(ipu)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun saveIpusWithReceipt(ipus: List<Ipu>, receiptId: String): Observable<Boolean> {
+        return fetchIpuByReceiptId(receiptId)
+                .concatMap {
+                    realmIpu ->
+
+                    realmIpu.apply {
+                        ipuValues = ipus.mapTo(RealmList<RealmIpuValue>()) {
+                            RealmIpuValue(
+                                    id = it.id,
+                                    serviceName = it.serviceName,
+                                    number = it.number,
+                                    installPlace = it.installPlace,
+                                    date = it.date,
+                                    value = it.value,
+                                    isSent = true
+                            )
+                        }
+                    }
+
+                    saveIpu(realmIpu)
+                }
     }
 }

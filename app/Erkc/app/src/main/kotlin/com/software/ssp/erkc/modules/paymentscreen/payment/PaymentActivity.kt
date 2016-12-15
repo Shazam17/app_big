@@ -109,6 +109,10 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentCardChooseContainer.visibility = View.VISIBLE
     }
 
+    override fun showPaymentSum(sum: Double) {
+        paymentSum.setText(sum.toString())
+    }
+
     override fun showSelectedCard(card: RealmCard?) {
         if (card != null) {
             paymentCardAdd.visibility = View.GONE

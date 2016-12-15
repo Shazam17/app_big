@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -17,7 +18,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.getStringResId
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.extensions.materialDialog
-import com.software.ssp.erkc.extensions.receiptFormat
+import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -177,12 +178,12 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
         )
 
         dialog.minDate = fromDate
-        dialog.setTitle(getString(R.string.history_filter_date_to_dialog_title).format(date.receiptFormat))
+        dialog.setTitle(getString(R.string.history_filter_date_to_dialog_title).format(date.toString(Constants.RECEIPT_DATE_FORMAT)))
         dialog.show(fragmentManager, DATE_PICKER_DIALOG_TAG)
     }
 
     override fun showSelectedPeriod(dateFrom: Date, dateTo: Date) {
-        periodText.text = "%s - %s".format(dateFrom.receiptFormat, dateTo.receiptFormat)
+        periodText.text = "%s - %s".format(dateFrom.toString(Constants.RECEIPT_DATE_FORMAT), dateTo.toString(Constants.RECEIPT_DATE_FORMAT))
     }
 
     override fun showSelectedPaymentMethod(paymentMethod: PaymentMethod) {
@@ -241,13 +242,6 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
                     false
                 }
                 else -> true
-            }
-        }
-
-        streetEditText.onFocusChange { view, isFocus ->
-            if(isFocus) {
-                presenter.onAddressClick()
-                rootLayout.requestFocus()
             }
         }
 

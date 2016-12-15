@@ -24,7 +24,7 @@ interface IPaymentView : IView {
     fun showPaymentConfirmDialog(receipt: RealmReceipt, card: RealmCard, commission: Double, sum: Double, email: String)
     fun showCardSelectDialog(cardsViewModels: List<PaymentCardViewModel>)
     fun showNavigateToCardsDialog()
-
+    fun showPaymentSum(sum: Double)
     fun navigateToResult(url: String)
     fun close()
 }

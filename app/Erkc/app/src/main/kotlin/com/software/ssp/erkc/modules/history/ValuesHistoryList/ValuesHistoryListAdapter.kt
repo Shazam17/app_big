@@ -4,9 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.extensions.historyFormat
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_history.view.*
 
 
@@ -36,7 +37,7 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
         fun bindReceipt(receipt: RealmReceipt) {
             itemView.apply {
                 addressHeaderText.text = receipt.address
-                dateText.text = receipt.lastIpuTransferDate?.historyFormat
+                dateText.text = receipt.lastIpuTransferDate?.toString(Constants.HISTORY_DATE_FORMAT)
                 nameText.text = receipt.name
                 barcodeText.text = receipt.barcode
 

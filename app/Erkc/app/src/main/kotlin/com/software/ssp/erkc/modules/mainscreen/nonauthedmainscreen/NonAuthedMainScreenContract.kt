@@ -11,7 +11,7 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToSignInScreen()
     fun navigateToSignUpScreen()
     fun navigateToPaymentScreen(receipt: Receipt)
-    fun navigateToSendValuesScreen(data: Receipt)
+    fun navigateToSendValuesScreen(receipt: Receipt)
     fun showProgressVisible(isVisible: Boolean)
     fun setStreetField(street: String)
     fun navigateToStreetSelectScreen()

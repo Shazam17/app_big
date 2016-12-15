@@ -16,6 +16,8 @@ interface IReceiptListView : IListView<ReceiptViewModel> {
 
     fun receiptDidNotDeleted(receipt: RealmReceipt)
     fun receiptDeleted(receipt: RealmReceipt)
+
+    fun showNoActivatedCardsDialog()
 }
 
 interface IReceiptListPresenter : IListPresenter<ReceiptViewModel, IReceiptListView> {

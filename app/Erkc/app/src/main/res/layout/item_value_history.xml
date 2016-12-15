@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemValueHistoryTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/half_default_margin"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ХВ (1334546, сан.узел)" />
+
+    <TextView
+        android:id="@+id/itemValueHistoryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:textColor="@color/colorHistoryValueBody"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemValueHistoryTitle"
+        tools:text="20.08.2016" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginEnd="@dimen/half_default_margin"
+        android:layout_marginStart="@dimen/half_default_margin"
+        android:layout_weight="1"
+        android:hardwareAccelerated="false"
+        android:layerType="software"
+        android:src="@drawable/line_dots"
+        app:layout_constraintBottom_toBottomOf="@+id/itemValueHistoryDate"
+        app:layout_constraintLeft_toRightOf="@+id/itemValueHistoryDate"
+        app:layout_constraintRight_toLeftOf="@+id/itemValueHistoryDateValue"
+        app:layout_constraintTop_toTopOf="@+id/itemValueHistoryDate"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/itemValueHistoryDateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:textColor="@color/colorHistoryValueBody"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/itemValueHistoryDate"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemValueHistoryTitle"
+        tools:text="00000,263" />
+
+</android.support.constraint.ConstraintLayout>
