@@ -65,7 +65,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                 currentFilter.periodTo = null
             }
             HistoryFilterField.MAX_SUM -> currentFilter.paymentSum = null
-            HistoryFilterField.PAYMENT_TYPE -> currentFilter.paymentType = null
+            HistoryFilterField.PAYMENT_TYPE -> currentFilter.paymentType = ""
             HistoryFilterField.PAYMENT_METHOD -> currentFilter.paymentMethod = null
             else -> return
         }
@@ -90,25 +90,25 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                             !currentFilter.street.isNullOrBlank() && it.street != currentFilter.street -> return@filter false
                             !currentFilter.house.isNullOrBlank() && !it.house.equals(currentFilter.house, true) -> return@filter false
                             !currentFilter.apartment.isNullOrBlank() && it.apart != currentFilter.apartment -> return@filter false
-                            currentFilter.paymentType != null && it.receiptType != currentFilter.paymentType -> return@filter false
+                            !currentFilter.paymentType.isNullOrBlank() && it.name != currentFilter.paymentType -> return@filter false
                             else -> {}
                         }
                     }
 
                     currentFilter.paymentMethod?.let {
-                        if(payment.modeId != it.ordinal) {
+                        if (payment.modeId != it.ordinal) {
                             return@filter false
                         }
                     }
 
                     currentFilter.periodFrom?.let {
-                        if(payment.date != null && (payment.date!! < it || payment.date!! > currentFilter.periodTo!!)) {
+                        if (payment.date != null && (payment.date!! < it || payment.date!! > currentFilter.periodTo!!)) {
                             return@filter false
                         }
                     }
 
                     currentFilter.paymentSum?.let {
-                        if(it != payment.amount) {
+                        if (it != payment.amount) {
                             return@filter false
                         }
                     }

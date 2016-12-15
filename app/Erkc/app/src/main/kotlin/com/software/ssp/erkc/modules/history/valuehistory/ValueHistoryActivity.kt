@@ -89,6 +89,7 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
     }
 
     override fun showPeriod(dateFrom: String, dateTo: String) {
+        valueHistoryAverageTextView.setText(R.string.history_value_average_title)
         valueHistoryTotalTextView.text = getString(R.string.history_value_total).format(dateFrom, dateTo)
     }
 
@@ -107,6 +108,6 @@ class ValueHistoryActivity : BaseListActivity<RealmIpuValue>(), IValueHistoryVie
         materialDialog {
             content(R.string.history_value_info_dialog_content)
             positiveText(R.string.history_value_info_dialog_positive)
-        }
+        }.show()
     }
 }

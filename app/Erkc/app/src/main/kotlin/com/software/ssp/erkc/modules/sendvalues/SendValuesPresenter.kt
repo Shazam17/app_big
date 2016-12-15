@@ -86,6 +86,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             ipuData ->
                             ipuData.forEach {
                                 currentIpu.ipuValues.add(
+                                        0,
                                         RealmIpuValue(
                                                 id = it.id,
                                                 serviceName = it.serviceName,

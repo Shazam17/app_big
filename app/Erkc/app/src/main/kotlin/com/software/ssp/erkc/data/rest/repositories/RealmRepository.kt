@@ -4,7 +4,6 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
-import io.realm.RealmList
 import rx.Observable
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
@@ -484,7 +483,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    var ipu = currentUser.ipus.find { it.receipt!!.id == receiptId }
+                    var ipu = currentUser.ipus.find { it.receiptId == receiptId }
 
                     if (ipu == null) {
                         ipu = RealmIpu(
@@ -497,12 +496,20 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
+    fun fetchIpuList(): Observable<List<RealmIpu>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser.ipus)
+                }
+    }
+
     fun saveIpu(ipu: RealmIpu): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
 
-                    if (!currentUser.ipus.contains(ipu)) {
+                    if (currentUser.ipus.find { it.receiptId == ipu.receiptId } == null) {
                         currentUser.ipus.add(ipu)
                     }
 
@@ -529,7 +536,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     realmIpu ->
 
                     realmIpu.apply {
-                        ipuValues = ipus.mapTo(RealmList<RealmIpuValue>()) {
+                        ipuValues.clear()
+                        ipuValues.addAll(ipus.map({
                             RealmIpuValue(
                                     id = it.id,
                                     serviceName = it.serviceName,
@@ -539,7 +547,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                     value = it.value,
                                     isSent = true
                             )
-                        }
+                        }))
                     }
 
                     saveIpu(realmIpu)

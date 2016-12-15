@@ -19,14 +19,15 @@
             android:layout_weight="2" />
 
         <TextView
+            android:id="@+id/valueHistoryAverageTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="bottom"
             android:textAlignment="center"
-            android:text="@string/history_value_average_title"
             android:textColor="@color/colorHistoryValueHeader"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="@string/history_value_average_title"/>
 
         <TextView
             android:id="@+id/valueHistoryTotalTextView"

@@ -15,13 +15,13 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.IHistoryListDelegate
-import com.software.ssp.erkc.modules.history.valuehistory.ValueHistoryActivity
-import org.jetbrains.anko.startActivity
 import com.software.ssp.erkc.modules.history.filter.FilterChipTag
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterActivity
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import com.software.ssp.erkc.modules.history.valuehistory.ValueHistoryActivity
 import kotlinx.android.synthetic.main.fragment_history_list.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
@@ -122,6 +122,7 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
             presenter.onFilterDeleted((chip as FilterChipTag).field)
             filterChipView.remove(chip)
         }
+        swipeToRefreshEnabled = false
     }
 
     private fun checkAndAddFilterTag(text: String?, field: HistoryFilterField) {

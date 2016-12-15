@@ -56,15 +56,11 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                                     .filter {
                                         ipuValue ->
 
-                                        currentFilter.periodFrom?.let {
-                                            if (ipuValue.date != null && (ipuValue.date!! < it || ipuValue.date!! > currentFilter.periodTo!!)) {
-                                                return@filter false
-                                            }
-                                        }
-
                                         when {
                                             !currentFilter.deviceNumber.isNullOrBlank() && ipuValue.number != currentFilter.deviceNumber -> return@filter false
                                             !currentFilter.deviceInstallPlace.isNullOrBlank() && ipuValue.installPlace != currentFilter.deviceInstallPlace -> return@filter false
+                                            currentFilter.periodFrom != null && ipuValue.date != null && ipuValue.date!! < currentFilter.periodFrom -> return@filter false
+                                            currentFilter.periodTo != null && ipuValue.date != null && ipuValue.date!! > currentFilter.periodTo -> return@filter false
                                         }
 
                                         return@filter true
@@ -111,24 +107,24 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
             val serviceName = it.key
 
-            val unit: Int
-            val drawable: Int
+            val unitResId: Int
+            val picRecId: Int
             when {
                 serviceName.contains(Constants.HOT_WATER) -> {
-                    unit = R.string.history_value_water_unit
-                    drawable = R.drawable.pic_hot_water
+                    unitResId = R.string.history_value_water_unit
+                    picRecId = R.drawable.pic_hot_water
                 }
                 serviceName.contains(Constants.COLD_WATER) -> {
-                    unit = R.string.history_value_water_unit
-                    drawable = R.drawable.pic_cold_water
+                    unitResId = R.string.history_value_water_unit
+                    picRecId = R.drawable.pic_cold_water
                 }
                 else -> {
-                    unit = R.string.history_value_electro_unit
-                    drawable = R.drawable.pic_electro
+                    unitResId = R.string.history_value_electro_unit
+                    picRecId = R.drawable.pic_electro
                 }
             }
 
-            view?.fillData(it.key, total.toString(), average.toString(), unit, drawable)
+            view?.fillData(it.key, total.toString(), average.toString(), unitResId, picRecId)
         }
     }
 

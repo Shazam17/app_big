@@ -2,9 +2,10 @@ package com.software.ssp.erkc.modules.history.filter
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.ReceiptType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.parsedMessage
+import rx.lang.kotlin.plusAssign
 import java.util.*
 import javax.inject.Inject
 
@@ -15,10 +16,14 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
 
     override lateinit var currentFilter: HistoryFilterModel
 
+    private val paymentTypes = ArrayList<String>()
+    private val deviceNumbers = ArrayList<String>()
+    private val deviceInstallPlaces = ArrayList<String>()
+
     override fun onViewAttached() {
         super.onViewAttached()
 
-        view?.showCurrentFilter(currentFilter)
+        fetchCurrentUser()
     }
 
     override fun onViewDetached() {
@@ -43,7 +48,7 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
                 R.string.history_filter_payment_method_caption,
                 R.array.payment_methods,
                 currentFilter.paymentMethod?.ordinal ?: -1,
-                {index ->
+                { index ->
                     currentFilter.paymentMethod = PaymentMethod.values()[index]
                     view?.showSelectedPaymentMethod(currentFilter.paymentMethod!!)
                 })
@@ -51,12 +56,13 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
 
     override fun onSelectPaymentTypeClick() {
         view?.showListSelectDialog(
-                R.string.history_filter_payment_type_caption,
-                R.array.receipt_types,
-                currentFilter.paymentType?.ordinal ?: -1,
-                {index ->
-                    currentFilter.paymentType = ReceiptType.values()[index]
-                    view?.showSelectedPaymentType(currentFilter.paymentType!!)
+                R.string.history_filter_device_number_caption,
+                paymentTypes,
+                currentFilter.paymentType,
+                {
+                    paymentType ->
+                    currentFilter.paymentType = paymentType
+                    view?.showSelectedPaymentType(paymentType)
                 })
     }
 
@@ -81,7 +87,7 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onPaymentSumTextChanged(paymentSum: String) {
-        if(paymentSum.isNullOrBlank()) {
+        if (paymentSum.isNullOrBlank()) {
             currentFilter.paymentSum = null
         } else {
             currentFilter.paymentSum = paymentSum.toDouble()
@@ -99,30 +105,57 @@ class HistoryFilterPresenter @Inject constructor(view: IHistoryFilterView) : RxP
     }
 
     override fun onSelectDeviceNumberClick() {
-        //TODO device numbers list from realmRepository
-        view?.showMessage("Not implemented")
-//        view?.showListSelectDialog(
-//                R.string.history_filter_device_number_caption,
-//                listOf("asd", "asd2", "asd3"),
-//                currentFilter.deviceNumber,
-//                {
-//                    deviceNumber ->
-//                    currentFilter.deviceNumber = deviceNumber
-//                    view?.showSelectedDeviceNumber(deviceNumber)
-//                })
+        view?.showListSelectDialog(
+                R.string.history_filter_device_number_caption,
+                deviceNumbers,
+                currentFilter.deviceNumber,
+                {
+                    deviceNumber ->
+                    currentFilter.deviceNumber = deviceNumber
+                    view?.showSelectedDeviceNumber(deviceNumber)
+                })
     }
 
     override fun onSelectInstallPlaceClick() {
-        //TODO device places list from realmRepository
-        view?.showMessage("Not implemented")
-//        view?.showListSelectDialog(
-//                R.string.history_filter_install_place_caption,
-//                listOf("фыв", "фыв2", "фыв3"),
-//                currentFilter.deviceInstallPlace,
-//                {
-//                    devicePlace ->
-//                    currentFilter.deviceInstallPlace = devicePlace
-//                    view?.showSelectedDevicePlace(devicePlace)
-//                })
+        view?.showListSelectDialog(
+                R.string.history_filter_install_place_caption,
+                deviceInstallPlaces,
+                currentFilter.deviceInstallPlace,
+                {
+                    devicePlace ->
+                    currentFilter.deviceInstallPlace = devicePlace
+                    view?.showSelectedDevicePlace(devicePlace)
+                })
+    }
+
+    private fun fetchCurrentUser() {
+        subscriptions += realmRepository
+                .fetchCurrentUser()
+                .subscribe(
+                        {
+                            currentUser ->
+
+                            currentUser.receipts
+                                    .distinctBy { it.name }
+                                    .mapTo(paymentTypes, { it.name })
+
+                            val numbers = ArrayList<String>()
+                            val places = ArrayList<String>()
+
+                            currentUser.ipus.forEach {
+                                numbers.addAll(it.ipuValues.map { it.number })
+                                places.addAll(it.ipuValues.map { it.installPlace })
+                            }
+
+                            deviceNumbers.addAll(numbers.distinct())
+                            deviceInstallPlaces.addAll(places.distinct())
+
+                            view?.showCurrentFilter(currentFilter)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 }

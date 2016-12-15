@@ -88,6 +88,7 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         checkAndAddFilterTag(currentFilter.street, HistoryFilterField.STREET)
         checkAndAddFilterTag(currentFilter.house, HistoryFilterField.HOUSE)
         checkAndAddFilterTag(currentFilter.apartment, HistoryFilterField.APARTMENT)
+        checkAndAddFilterTag(currentFilter.paymentType, HistoryFilterField.PAYMENT_TYPE)
 
         currentFilter.paymentSum?.let {
             checkAndAddFilterTag(String.format("%.2f", it), HistoryFilterField.MAX_SUM)
@@ -95,10 +96,6 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
 
         currentFilter.periodFrom?.let {
             checkAndAddFilterTag("%s - %s".format(it.toString(Constants.RECEIPT_DATE_FORMAT), currentFilter.periodTo!!.toString(Constants.RECEIPT_DATE_FORMAT)), HistoryFilterField.PERIOD)
-        }
-
-        currentFilter.paymentType?.let {
-            checkAndAddFilterTag(getString(it.getStringResId()), HistoryFilterField.PAYMENT_TYPE)
         }
 
         currentFilter.paymentMethod?.let {
