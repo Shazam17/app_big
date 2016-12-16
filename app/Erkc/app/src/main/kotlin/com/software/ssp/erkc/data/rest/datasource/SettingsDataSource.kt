@@ -1,6 +1,6 @@
 package com.software.ssp.erkc.data.rest.datasource
 
-import com.software.ssp.erkc.data.rest.models.Settings
+import com.software.ssp.erkc.data.rest.models.Setting
 import okhttp3.ResponseBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -18,5 +18,5 @@ interface SettingsDataSource {
     fun setSettings(@Field("param") param: String, @Field("value") value: Int): Observable<ResponseBody>
 
     @GET("?method=settings.get")
-    fun getSettings(): Observable<Settings>
+    fun getSettings(): Observable<List<Setting>>
 }

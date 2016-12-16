@@ -25,7 +25,7 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
 
     fun fetchPayments(): Observable<List<Payment>> {
         return paymentDataSource
-                .getByUser()
+                .getUserPayments()
                 .compose(this.applySchedulers<List<Payment>>())
     }
 
@@ -37,7 +37,7 @@ class PaymentRepository @Inject constructor(private val paymentDataSource: Payme
 
     fun fetchPaymentInfo(id: String): Observable<PaymentInfo> {
         return paymentDataSource
-                .getByPaymentId(id)
+                .getPaymentsById(id)
                 .compose(this.applySchedulers<PaymentInfo>())
     }
 }

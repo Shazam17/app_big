@@ -11,15 +11,15 @@ import dagger.Provides
 @ActivityScope
 @Component(modules = arrayOf(PasswordRecoveryModule::class), dependencies = arrayOf(AppComponent::class))
 interface PasswordRecoveryComponent {
-    fun inject(signInActivity: PasswordRecoveryActivity)
+    fun inject(passwordRecoveryActivity: PasswordRecoveryActivity)
 }
 
 @Module(includes = arrayOf(PasswordRecoveryModule.Declarations::class))
-class PasswordRecoveryModule(val signInView: IPasswordRecoveryView) {
+class PasswordRecoveryModule(val passwordRecoveryView: IPasswordRecoveryView) {
 
     @Provides
     fun provideSignInView(): IPasswordRecoveryView {
-        return signInView
+        return passwordRecoveryView
     }
 
     @Module
@@ -27,6 +27,6 @@ class PasswordRecoveryModule(val signInView: IPasswordRecoveryView) {
 
         @Binds
         @ActivityScope
-        fun bindSignInPresenter(signInPresenter: SignInPresenter): IPasswordRecoveryPresenter
+        fun bindPasswordRecoveryPresenter(passwordRecoveryPresenter: PasswordRecoveryPresenter): IPasswordRecoveryPresenter
     }
 }

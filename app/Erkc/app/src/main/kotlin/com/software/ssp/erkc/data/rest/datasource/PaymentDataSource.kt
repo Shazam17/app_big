@@ -19,10 +19,10 @@ interface PaymentDataSource {
     fun init(@QueryMap params: Map<String, String>): Observable<PaymentInit>
 
     @GET("?method=payments.get")
-    fun getByPaymentId(@Query("id") id: String): Observable<PaymentInfo>
+    fun getPaymentsById(@Query("id") id: String): Observable<PaymentInfo>
 
     @GET("?method=payments.getbyuser")
-    fun getByUser(): Observable<List<Payment>>
+    fun getUserPayments(): Observable<List<Payment>>
 
     @GET("?method=payments.getcheck")
     fun getCheck(@Query("id") id: String): Observable<PaymentCheck>

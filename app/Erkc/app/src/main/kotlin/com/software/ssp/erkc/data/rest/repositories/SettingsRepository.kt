@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.datasource.SettingsDataSource
+import com.software.ssp.erkc.data.rest.models.Setting
 import com.software.ssp.erkc.data.rest.models.Settings
 import okhttp3.ResponseBody
 import rx.Observable
@@ -30,7 +31,17 @@ class SettingsRepository @Inject constructor(private val settingsDataSource: Set
     fun getSettings(): Observable<Settings> {
         return settingsDataSource
                 .getSettings()
-                .compose(this.applySchedulers<Settings>())
+                .compose(this.applySchedulers<List<Setting>>())
+                .flatMap {
+                    settings ->
+                    Observable.just(
+                            Settings(
+                                    operationsNotificationStatus = settings.find { it.param == "statusoperations" }?.value ?: 0,
+                                    newsNotificationStatus = settings.find { it.param == "getnews" }?.value ?: 0,
+                                    paymentRemindStatus = settings.find { it.param == "needtopay" }?.value ?: 0,
+                                    ipuRemindStatus = settings.find { it.param == "needtosendmeters" }?.value ?: 0
+                            )
+                    )
+                }
     }
-
 }

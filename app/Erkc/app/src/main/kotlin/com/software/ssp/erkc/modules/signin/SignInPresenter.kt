@@ -74,11 +74,13 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmUser ->
                     realmRepository.setCurrentUser(realmUser)
                 }
-//                .concatMap { settingsRepository.getSettings() } TODO uncomment when worked
-//                .concatMap {
-//                    settings ->
-//                    realmRepository.updateSettings(settings)
-//                }
+                .concatMap {
+                    settingsRepository.getSettings()
+                }
+                .concatMap {
+                    settings ->
+                    realmRepository.updateSettings(settings)
+                }
                 .concatMap {
                     cardsRepository.fetchCards()
                 }
