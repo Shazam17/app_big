@@ -47,7 +47,7 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
                 swipeLayout.reset()
 
                 payTextView.onClick {
-                    interactionListener.itemClick(payment)
+                    interactionListener.onPayClick(payment)
                 }
 
                 deleteButton.onClick {
@@ -59,7 +59,7 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
     }
 
     interface InteractionListener {
-        fun itemClick(payment: RealmOfflinePayment)
+        fun onPayClick(payment: RealmOfflinePayment)
         fun deleteClick(payment: RealmOfflinePayment)
     }
 }

@@ -45,7 +45,7 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return PaymentTransactionListAdapter(dataset, object : PaymentTransactionListAdapter.InteractionListener {
-            override fun itemClick(payment: RealmOfflinePayment) {
+            override fun onPayClick(payment: RealmOfflinePayment) {
                 presenter.onPaymentClick(payment)
             }
 

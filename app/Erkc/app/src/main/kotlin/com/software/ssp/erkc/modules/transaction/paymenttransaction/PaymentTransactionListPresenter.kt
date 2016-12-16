@@ -23,7 +23,7 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
     override fun onDeleteClick(payment: RealmOfflinePayment) {
         subscriptions += realmRepository.deleteOfflineIpu(payment.receipt.id)
                 .subscribe({
-                    showPaymentsList()
+                    view?.notifyItemRemoved(payment)
                 }, {
                     error ->
                     view?.showMessage(error.parsedMessage())

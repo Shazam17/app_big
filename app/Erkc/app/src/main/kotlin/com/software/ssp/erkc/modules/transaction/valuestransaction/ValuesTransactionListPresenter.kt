@@ -29,7 +29,7 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
     override fun onDeleteClick(receipt: RealmReceipt) {
         subscriptions += realmRepository.deleteOfflineIpu(receipt.id)
                 .subscribe({
-                    showReceiptsList()
+                    view?.notifyItemRemoved(receipt)
                 }, {
                     error ->
                     view?.showMessage(error.parsedMessage())

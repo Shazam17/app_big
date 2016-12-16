@@ -54,6 +54,10 @@ abstract class BaseListFragment<M> : MvpFragment(), IListView<M> {
         adapter?.notifyDataSetChanged()
     }
 
+    override fun notifyItemRemoved(item: M) {
+        adapter?.notifyItemRemoved(dataset.indexOf(item))
+    }
+
     abstract protected fun onSwipeToRefresh()
 
     protected open fun setEmptyViewVisible(visible: Boolean) {

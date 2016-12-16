@@ -44,6 +44,10 @@ abstract class BaseListActivity<M> : MvpActivity(), IListView<M> {
         adapter?.notifyDataSetChanged()
     }
 
+    override fun notifyItemRemoved(item: M) {
+        adapter?.notifyItemRemoved(dataset.indexOf(item))
+    }
+
     open protected fun onSwipeToRefresh() {
     }
 

@@ -11,6 +11,7 @@ interface IView {
 interface IListView<M> : IView {
     fun setLoadingVisible(isVisible: Boolean)
     fun showData(dataset: List<M>)
+    fun notifyItemRemoved(item: M)
 }
 
 interface IPresenter<in V : IView> {

@@ -40,7 +40,7 @@ class ValuesTransactionListAdapter(val dataList: List<RealmReceipt>,
                 swipeLayout.reset()
 
                 sendValuesTextView.onClick {
-                    interactionListener.itemClick(receipt)
+                    interactionListener.onSendValuesClick(receipt)
                 }
 
                 deleteButton.onClick {
@@ -52,7 +52,7 @@ class ValuesTransactionListAdapter(val dataList: List<RealmReceipt>,
     }
 
     interface InteractionListener {
-        fun itemClick(ipu: RealmReceipt)
+        fun onSendValuesClick(ipu: RealmReceipt)
         fun deleteClick(ipu: RealmReceipt)
     }
 }

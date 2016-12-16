@@ -45,7 +45,7 @@ class ValuesTransactionListFragment : BaseListFragment<RealmReceipt>(), IValuesT
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ValuesTransactionListAdapter(dataset, object : ValuesTransactionListAdapter.InteractionListener {
-            override fun itemClick(receipt: RealmReceipt) {
+            override fun onSendValuesClick(receipt: RealmReceipt) {
                 presenter.onIpuClick(receipt)
             }
 
