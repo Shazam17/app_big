@@ -27,7 +27,13 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
     }
 
     override fun onDeleteClick(receipt: RealmReceipt) {
-        showReceiptsList()
+        subscriptions += realmRepository.deleteOfflineIpu(receipt.id)
+                .subscribe({
+                    showReceiptsList()
+                }, {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
     }
 
     override fun onViewAttached() {

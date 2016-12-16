@@ -86,6 +86,7 @@
                     android:layout_marginTop="@dimen/half_default_margin">
 
                     <TextView
+                        android:id="@+id/payTextView"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

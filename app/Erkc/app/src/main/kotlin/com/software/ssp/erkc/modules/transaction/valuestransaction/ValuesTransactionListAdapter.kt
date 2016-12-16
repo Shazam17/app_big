@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.extensions.getIconResId
-import kotlinx.android.synthetic.main.item_transaction_payment.view.*
+import kotlinx.android.synthetic.main.item_transaction_ipu.view.*
 import org.jetbrains.anko.onClick
 
 /**
@@ -39,7 +39,7 @@ class ValuesTransactionListAdapter(val dataList: List<RealmReceipt>,
 
                 swipeLayout.reset()
 
-                onClick {
+                sendValuesTextView.onClick {
                     interactionListener.itemClick(receipt)
                 }
 

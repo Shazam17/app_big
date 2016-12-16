@@ -35,7 +35,7 @@
             android:title="@string/drawer_notifications_text" />
         <item
             android:id="@+id/menuTransactions"
-            android:icon="@drawable/ic_menu_history"
+            android:icon="@drawable/ic_menu_tranzaction"
             android:title="@string/drawer_transaction_text" />
     </group>
 

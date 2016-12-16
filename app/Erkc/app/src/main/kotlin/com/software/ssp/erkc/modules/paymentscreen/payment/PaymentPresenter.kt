@@ -66,52 +66,60 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
         view?.setProgressVisibility(true)
         if (!fromTransaction) {
-            subscriptions += realmRepository
-                    .fetchCurrentUser()
-                    .subscribe(
-                            {
-                                currentUser ->
-                                user = currentUser
-                                realmReceipt = user.receipts.find { it.id == receiptId }!!
-                                paymentValue = realmReceipt.amount
-                                currentPayment.paymentCard = realmReceipt.linkedCard
-
-                                view?.showReceiptInfo(realmReceipt)
-                                view?.showEmail(user.email)
-                                view?.showSelectedCard(currentPayment.paymentCard)
-                                view?.setProgressVisibility(false)
-                            },
-                            {
-                                error ->
-                                view?.showMessage(error.parsedMessage())
-                                view?.setProgressVisibility(false)
-                            }
-                    )
+            fetchPaymentInfo()
         } else {
-            subscriptions += realmRepository.fetchCurrentUser()
-                    .concatMap {
-                        currentUser ->
-                        user = currentUser
-                        realmRepository.fetchOfflinePaymentsByReceiptId(user.login, receiptId!!)
-                    }
-                    .subscribe(
-                            {
-                                offlinePayment ->
-                                realmReceipt = offlinePayment.receipt
-                                currentPayment.paymentCard = offlinePayment.card
-                                view?.showReceiptInfo(realmReceipt)
-                                view?.showEmail(offlinePayment.email)
-                                view?.showSelectedCard(currentPayment.paymentCard)
-                                paymentValue = offlinePayment.paymentSum
-                                view?.showPaymentSum(paymentValue)
-                                view?.setProgressVisibility(false)
-                            },
-                            {
-                                error ->
-                                view?.showMessage(error.parsedMessage())
-                                view?.setProgressVisibility(false)
-                            })
+            fetchPaymentInfoFromTransaction()
         }
+    }
+
+    private fun fetchPaymentInfoFromTransaction() {
+        subscriptions += realmRepository.fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    user = currentUser
+                    realmRepository.fetchOfflinePaymentsByReceiptId(user.login, receiptId!!)
+                }
+                .subscribe(
+                        {
+                            offlinePayment ->
+                            realmReceipt = offlinePayment.receipt
+                            currentPayment.paymentCard = offlinePayment.card
+                            view?.showReceiptInfo(realmReceipt)
+                            view?.showEmail(offlinePayment.email)
+                            view?.showSelectedCard(currentPayment.paymentCard)
+                            paymentValue = offlinePayment.paymentSum
+                            view?.showPaymentSum(paymentValue)
+                            view?.setProgressVisibility(false)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setProgressVisibility(false)
+                        })
+    }
+
+    private fun fetchPaymentInfo() {
+        subscriptions += realmRepository
+                .fetchCurrentUser()
+                .subscribe(
+                        {
+                            currentUser ->
+                            user = currentUser
+                            realmReceipt = user.receipts.find { it.id == receiptId }!!
+                            paymentValue = realmReceipt.amount
+                            currentPayment.paymentCard = realmReceipt.linkedCard
+
+                            view?.showReceiptInfo(realmReceipt)
+                            view?.showEmail(user.email)
+                            view?.showSelectedCard(currentPayment.paymentCard)
+                            view?.setProgressVisibility(false)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setProgressVisibility(false)
+                        }
+                )
     }
 
     override fun onViewDetached() {

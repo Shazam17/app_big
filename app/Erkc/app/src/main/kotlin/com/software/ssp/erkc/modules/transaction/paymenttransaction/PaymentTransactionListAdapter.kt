@@ -46,7 +46,7 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
 
                 swipeLayout.reset()
 
-                onClick {
+                payTextView.onClick {
                     interactionListener.itemClick(payment)
                 }
 

@@ -596,6 +596,48 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
+    fun deleteOfflineIpu(receiptId: String): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            it.where(RealmOfflineIpu::class.java)
+                                    .equalTo("receipt.id", receiptId)
+                                    .equalTo("login", currentUser.login).findAll().deleteAllFromRealm()
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
+    }
+
+    fun deleteOfflinePayment(receiptId: String): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            it.where(RealmOfflinePayment::class.java)
+                                    .equalTo("receipt.id", receiptId)
+                                    .equalTo("login", currentUser.login).findAll().deleteAllFromRealm()
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
+    }
+
     fun fetchIpuByReceiptId(receiptId: String): Observable<RealmIpu> {
         return fetchCurrentUser()
                 .concatMap {
