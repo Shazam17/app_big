@@ -23,11 +23,13 @@ import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
+import com.software.ssp.erkc.modules.splash.SplashActivity
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.drawer_header_layout.view.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
@@ -94,7 +96,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode != Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return
         }
         when (requestCode) {
@@ -141,6 +143,11 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         startActivityForResult<UserProfileActivity>(UserProfileActivity.USER_PROFILE_REQUEST_CODE)
     }
 
+    override fun navigateToSplashScreen() {
+        finish()
+        startActivity<SplashActivity>()
+    }
+
     override fun navigateToHistory(receiptCode: String) {
         //Untypical navigation to history screen with args
         selectedDrawerItem = DrawerItem.HISTORY
@@ -152,7 +159,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
-        val fragment : Fragment = when (drawerItem) {
+        val fragment: Fragment = when (drawerItem) {
             DrawerItem.MAIN -> MainScreenFragment()
             DrawerItem.PAYMENT -> PaymentScreenFragment()
             DrawerItem.VALUES -> ValueTransferFragment()

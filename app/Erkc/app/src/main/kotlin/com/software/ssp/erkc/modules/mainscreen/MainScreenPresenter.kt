@@ -13,6 +13,11 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
     @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
+        if(activeSession.isOfflineSession) {
+            view?.showReceiptListScreen()
+            return
+        }
+
         if(activeSession.accessToken == null){
             view?.showNonAuthedScreen()
             return

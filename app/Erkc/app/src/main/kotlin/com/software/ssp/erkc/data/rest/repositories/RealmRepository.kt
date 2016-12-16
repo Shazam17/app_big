@@ -94,6 +94,24 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
+    fun fetchUser(userLogin: String): Observable<RealmUser> {
+        return realm
+                .where(RealmUser::class.java)
+                .equalTo("login", userLogin)
+                .findAll()
+                .asObservable()
+                .filter { it.isLoaded }
+                .first()
+                .flatMap { results ->
+                    val firstResult = results.firstOrNull()
+                    if (firstResult == null) {
+                        Observable.just(null)
+                    } else {
+                        Observable.just(realm.copyFromRealm(firstResult))
+                    }
+                }
+    }
+
     fun fetchCurrentUser(): Observable<RealmUser> {
         return realm
                 .where(RealmUser::class.java)
@@ -156,10 +174,10 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     currentUser.settings?.apply {
-                        operationStatusNotificationEnabled = if(settings.operationsNotificationStatus == 1) true else false
-                        newsNotificationEnabled = if(settings.newsNotificationStatus == 1) true else false
-                        paymentNotificationEnabled = if(settings.paymentRemindStatus == 1) true else false
-                        ipuNotificationEnabled = if(settings.ipuRemindStatus == 1) true else false
+                        operationStatusNotificationEnabled = if (settings.operationsNotificationStatus == 1) true else false
+                        newsNotificationEnabled = if (settings.newsNotificationStatus == 1) true else false
+                        paymentNotificationEnabled = if (settings.paymentRemindStatus == 1) true else false
+                        ipuNotificationEnabled = if (settings.ipuRemindStatus == 1) true else false
 
                         pushEnabled = operationStatusNotificationEnabled
                                 || newsNotificationEnabled

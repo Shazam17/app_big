@@ -6,8 +6,10 @@ import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
@@ -18,6 +20,8 @@ import javax.inject.Inject
 class SignInActivity : MvpActivity(), ISignInView {
 
     @Inject lateinit var presenter: ISignInPresenter
+
+    private val isOfflineSignIn: Boolean by extras(defaultValue = false)
 
     companion object {
         val SIGN_IN_REQUEST_CODE = 24512
@@ -50,6 +54,10 @@ class SignInActivity : MvpActivity(), ISignInView {
         signInPasswordTextInputLayout.error = message
     }
 
+    override fun showMessage(messageResId: Int) {
+        signInPasswordTextInputLayout.error = getString(messageResId)
+    }
+
     override fun setProgressVisibility(isVisible: Boolean) {
         signInLoginEditText.isEnabled = !isVisible
         signInPasswordEditText.isEnabled = !isVisible
@@ -62,9 +70,19 @@ class SignInActivity : MvpActivity(), ISignInView {
         startActivity<PasswordRecoveryActivity>()
     }
 
-    override fun navigateToMainScreen() {
+    override fun setResultOk() {
         setResult(Activity.RESULT_OK)
+    }
+
+    override fun close() {
         finish()
+    }
+
+    override fun showInfoDialog(stringResId: Int) {
+        materialDialog {
+            content(stringResId)
+            positiveText(R.string.sign_in_offline_info_positive)
+        }.show()
     }
 
     override fun showLoginFieldError(errorResId: Int) {
@@ -81,6 +99,8 @@ class SignInActivity : MvpActivity(), ISignInView {
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(if (isOfflineSignIn) R.string.sing_in_offline_title else R.string.sign_in_title)
+        signInForgotPasswordView.visibility = if (isOfflineSignIn) View.GONE else View.VISIBLE
 
         signInLoginEditText.textChangedListener {
             onTextChanged { charSequence, i, j, k -> signInLoginTextInputLayout.error = null }

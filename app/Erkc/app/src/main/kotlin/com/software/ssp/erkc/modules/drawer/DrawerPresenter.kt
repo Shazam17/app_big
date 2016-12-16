@@ -36,7 +36,12 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         activeSession.clear()
         view?.clearUserInfo()
         view?.setAuthedMenuVisible(false)
-        view?.navigateToMainScreen()
+
+        if (activeSession.isOfflineSession) {
+            view?.navigateToSplashScreen()
+        } else {
+            view?.navigateToMainScreen()
+        }
     }
 
     override fun onUserProfileClick() {
@@ -48,7 +53,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     }
 
     private fun showCurrentUser() {
-        if (activeSession.accessToken == null) {
+        if (!activeSession.isOfflineSession && activeSession.accessToken == null) {
             view?.setAuthedMenuVisible(false)
             view?.navigateToMainScreen()
             return

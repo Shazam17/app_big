@@ -42,7 +42,7 @@
 
         <activity
             android:name=".modules.signin.SignInActivity"
-            android:label="@string/sing_in_title"
+            android:label="@string/sign_in_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
 

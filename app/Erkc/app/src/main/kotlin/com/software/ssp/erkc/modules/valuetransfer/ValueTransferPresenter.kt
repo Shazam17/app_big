@@ -13,6 +13,11 @@ class ValueTransferPresenter @Inject constructor(view: IValueTransferView) : RxP
     @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
+        if(activeSession.isOfflineSession) {
+            view?.navigateToValueTransferListScreen()
+            return
+        }
+
         if(activeSession.accessToken == null){
             view?.navigateToAddReceiptScreen()
             return

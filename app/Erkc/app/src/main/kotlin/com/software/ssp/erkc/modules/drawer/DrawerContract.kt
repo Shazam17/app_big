@@ -12,6 +12,7 @@ interface IDrawerView : IView {
     fun updateCurrentScreen()
     fun navigateToDrawerItem(drawerItem: DrawerItem)
     fun navigateToMainScreen()
+    fun navigateToSplashScreen()
     fun navigateToUserProfile()
     fun navigateToHistory(receiptCode: String)
 }

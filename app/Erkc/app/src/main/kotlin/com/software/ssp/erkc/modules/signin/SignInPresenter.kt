@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -27,7 +28,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     override fun onLoginButtonClick(login: String, password: String) {
         if (validateFields(login, password)) {
-            login(login, password)
+            if (activeSession.appToken == null) {
+                offlineLogin(login, password)
+            } else {
+                login(login, password)
+            }
         }
     }
 
@@ -98,13 +103,56 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .subscribe(
                         {
                             view?.setProgressVisibility(false)
-                            view?.navigateToMainScreen()
+                            view?.setResultOk()
+                            view?.close()
                         },
                         {
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
                             activeSession.clear()
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
+    }
+
+    private fun offlineLogin(login: String, password: String) {
+        view?.setProgressVisibility(true)
+        subscriptions += realmRepository.fetchUser(login)
+                .concatMap {
+                    user ->
+                    if (user == null) {
+                        view?.showMessage(R.string.sign_in_offline_login_not_exist)
+                    } else {
+                        with(user.settings!!) {
+                            if (offlineModeEnabled) {
+                                if (checkPassword(password)) {
+                                    return@concatMap realmRepository.setCurrentUser(user)
+                                } else {
+                                    view?.showMessage(R.string.sign_in_error_incorrect_login_or_password_text)
+                                }
+                            } else {
+                                view?.showInfoDialog(R.string.sign_in_offline_disabled)
+                            }
+                        }
+                    }
+
+                    return@concatMap Observable.just(false)
+                }
+                .subscribe(
+                        {
+                            result ->
+                            view?.setProgressVisibility(false)
+                            if (result) {
+                                activeSession.isOfflineSession = true
+                                view?.setResultOk()
+                                view?.close()
+                            }
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            error.printStackTrace()
                             view?.showMessage(error.parsedMessage())
                         }
                 )

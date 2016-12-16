@@ -9,8 +9,11 @@ import com.software.ssp.erkc.common.mvp.IView
 interface ISplashView : IView {
     fun navigateToDrawer()
     fun showTryAgainSnack(message: String)
+    fun showOfflineLoginDialog()
+    fun navigateToOfflineSignIn()
 }
 
 interface ISplashPresenter : IPresenter<ISplashView> {
     fun onTryAgainClicked()
+    fun onConfirmOfflineLogin()
 }

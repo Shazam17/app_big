@@ -13,6 +13,11 @@ class PaymentScreenPresenter @Inject constructor(view: IPaymentScreenView) : RxP
     @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
+        if(activeSession.isOfflineSession) {
+            view?.navigateToPaymentsList()
+            return
+        }
+
         if(activeSession.accessToken == null){
             view?.navigateToAddReceiptScreen()
             return

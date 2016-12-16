@@ -10,6 +10,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 
@@ -28,8 +29,14 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         authenticateApp()
     }
 
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
+
     private fun authenticateApp() {
-        subscriptions += authRepository.authenticateApp()
+        subscriptions += authRepository
+                .authenticateApp()
                 .concatMap {
                     response ->
                     val authPage = response.string()
@@ -55,25 +62,32 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         Observable.just(false)
                     }
                 }
-                .subscribe({
-                    isCashed ->
-                    if (isCashed) {
-                        AppPrefs.lastCashingDate = Date().time
-                    }
-                    view?.navigateToDrawer()
-                }, {
-                    error ->
-                    view?.showTryAgainSnack(error.parsedMessage())
-                    error.printStackTrace()
-                })
+                .subscribe(
+                        {
+                            isCashed ->
+                            if (isCashed) {
+                                AppPrefs.lastCashingDate = Date().time
+                            }
+                            view?.navigateToDrawer()
+                        },
+                        {
+                            error ->
+
+                            if (error is UnknownHostException) {
+                                view?.showOfflineLoginDialog()
+                            }
+
+                            view?.showTryAgainSnack(error.parsedMessage())
+                            error.printStackTrace()
+                        }
+                )
     }
 
     override fun onTryAgainClicked() {
         authenticateApp()
     }
 
-    override fun onViewDetached() {
-        realmRepository.close()
-        super.onViewDetached()
+    override fun onConfirmOfflineLogin() {
+        view?.navigateToOfflineSignIn()
     }
 }
