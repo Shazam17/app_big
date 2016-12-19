@@ -42,6 +42,8 @@ abstract class BaseListFragment<M> : MvpFragment(), IListView<M> {
     override fun setLoadingVisible(isVisible: Boolean) {
         if (!swipeRefreshLayout.isRefreshing) {
             progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        } else {
+            swipeRefreshLayout.isRefreshing = isVisible
         }
     }
 

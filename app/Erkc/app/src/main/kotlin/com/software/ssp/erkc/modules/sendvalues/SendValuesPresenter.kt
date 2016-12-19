@@ -68,7 +68,6 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                 .subscribe(
                         {
                             view?.setProgressVisibility(false)
-                            view?.close()
                         },
                         {
                             error ->
@@ -102,7 +101,6 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         {
                             error ->
                             error.printStackTrace()
-                            view?.close()
                             view?.showMessage(error.parsedMessage())
                         }
                 )
