@@ -8,6 +8,7 @@ interface IOfflinePasswordView : IView {
     fun showSecondPasswordNormalState()
     fun enableSendButton(enabled: Boolean)
     fun dismiss()
+    fun didSavedOfflinePassword()
 }
 
 interface IOfflinePasswordPresenter : IPresenter<IOfflinePasswordView> {

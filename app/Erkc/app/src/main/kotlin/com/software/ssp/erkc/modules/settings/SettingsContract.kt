@@ -6,7 +6,7 @@ import com.software.ssp.erkc.data.realm.models.RealmSettings
 
 
 interface ISettingsView : IView {
-    fun setupInitialState()
+    fun setupInitialState(isEnable: Boolean)
 
     fun setOfflineModeSwitch(checked: Boolean)
     fun setPushSwitch(checked: Boolean)
@@ -28,6 +28,4 @@ interface ISettingsPresenter : IPresenter<ISettingsView> {
     fun onNewsSwitch(checked: Boolean)
     fun onPaymentSwitch(checked: Boolean)
     fun onIpuSwitch(checked: Boolean)
-    fun saveSettings()
-
 }

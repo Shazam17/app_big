@@ -11,8 +11,8 @@ import javax.inject.Inject
 class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource) : Repository() {
 
     fun sendParameters(code: String, values: HashMap<String, String>): Observable<ResponseBody> {
-        values.put("code", code)
         val params = HashMap<String, String>()
+        params.put("code", code)
         for ((key, value) in values) {
             params.put("ipu_" + key, value)
         }

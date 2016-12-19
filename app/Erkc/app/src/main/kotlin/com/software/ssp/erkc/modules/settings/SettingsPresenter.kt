@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.settings
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -24,6 +25,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     }
 
     override fun onViewDetached() {
+        saveSettings()
         realmRepository.close()
         super.onViewDetached()
     }
@@ -69,7 +71,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
         updateData()
     }
 
-    override fun saveSettings() {
+    private fun saveSettings() {
         offlineUserSettings.apply {
             subscriptions += Observable.zip(
                     settingsRepository.setStatusOperations(operationStatusNotificationEnabled),
@@ -83,6 +85,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
                     .subscribe(
                             {
                                 result ->
+                                view?.showMessage(R.string.settings_saved_message)
                             },
                             {
                                 error ->
@@ -98,7 +101,7 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
                             currentUser ->
                             offlineUserSettings = currentUser.settings!!
                             view?.showData(offlineUserSettings)
-                            view?.setupInitialState()
+                            view?.setupInitialState(!activeSession.isOfflineSession)
                         },
                         {
                             error ->

@@ -12,6 +12,7 @@ interface ISendValuesView : IView {
     fun close()
     fun showIpu(ipu: RealmIpu)
     fun setProgressVisibility(isVisible: Boolean)
+    fun showInfoDialog(resId: Int)
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {

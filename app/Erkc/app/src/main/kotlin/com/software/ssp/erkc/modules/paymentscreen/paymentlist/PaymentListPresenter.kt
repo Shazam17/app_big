@@ -50,7 +50,11 @@ class PaymentListPresenter @Inject constructor(view: IPaymentListView) : RxPrese
     }
 
     override fun onAddReceiptButtonClick() {
-        view?.navigateToAddReceiptScreen()
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+        } else {
+            view?.navigateToAddReceiptScreen()
+        }
     }
 
     override fun onReceiptDeleted(receipt: RealmReceipt) {

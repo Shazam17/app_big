@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.card.cards
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -33,11 +34,19 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
     }
 
     override fun onEditClick(card: RealmCard) {
-        view?.navigateToEditCard(card.toCard())
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+        } else {
+            view?.navigateToEditCard(card.toCard())
+        }
     }
 
     override fun onAddClick() {
-        view?.navigateToAddCard()
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+        } else {
+            view?.navigateToAddCard()
+        }
     }
 
     override fun onHelpClick() {

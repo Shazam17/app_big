@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.transaction.paymenttransaction
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -16,12 +17,25 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
 
+    override fun onViewAttached() {
+        super.onViewAttached()
+        showPaymentsList()
+    }
+
+    override fun onViewDetached() {
+        realmRepository.close()
+    }
+
     override fun onPaymentClick(payment: RealmOfflinePayment) {
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
         view?.navigateToPaymentInfo(payment)
     }
 
     override fun onDeleteClick(payment: RealmOfflinePayment) {
-        subscriptions += realmRepository.deleteOfflineIpu(payment.receipt.id)
+        subscriptions += realmRepository.deleteOfflinePayment(payment)
                 .subscribe({
                     view?.notifyItemRemoved(payment)
                 }, {
@@ -32,15 +46,6 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
 
     override fun onSwipeToRefresh() {
 
-    }
-
-    override fun onViewAttached() {
-        super.onViewAttached()
-        showPaymentsList()
-    }
-
-    override fun onViewDetached() {
-        realmRepository.close()
     }
 
     private fun showPaymentsList() {

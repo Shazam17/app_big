@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:paddingTop="@dimen/half_default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin"
         android:textAllCaps="false"
         android:textColor="@color/colorLightInput"
         android:textStyle="normal|bold"
@@ -80,25 +80,19 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/sendValuesTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_default_margin">
-
-                    <TextView
-                        android:id="@+id/sendValuesTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="@dimen/half_default_margin"
-                        android:drawableStart="@drawable/ic_menu_submit"
-                        android:gravity="center_vertical"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorDarkText"
-                        android:text="@string/transaction_ipu_text"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/half_default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="@dimen/half_default_margin"
+                    android:drawableStart="@drawable/ic_menu_submit"
+                    android:gravity="center_vertical"
+                    android:text="@string/transaction_ipu_text"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="14sp"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 

@@ -63,6 +63,11 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onAutoPaymentButtonClick(receipt: RealmReceipt) {
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         if (receipt.linkedCard != null) {
             view?.navigateToAutoPaymentSettingScreen(receipt.id)
             return
@@ -87,7 +92,11 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
     }
 
     override fun onAddReceiptButtonClick() {
-        view?.navigateToAddReceiptScreen()
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+        } else {
+            view?.navigateToAddReceiptScreen()
+        }
     }
 
     override fun onReceiptDeleted(receipt: RealmReceipt) {

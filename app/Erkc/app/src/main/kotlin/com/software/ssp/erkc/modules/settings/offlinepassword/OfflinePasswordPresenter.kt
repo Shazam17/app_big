@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.settings.offlinepassword
 
-import android.util.Log
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmSettings
@@ -47,6 +46,7 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
         subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
                 .subscribe(
                 {
+                    view?.didSavedOfflinePassword()
                     view?.dismiss()
                 },
                 {
@@ -66,10 +66,6 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
                         {
                             currentUser ->
                             offlineUserSettings = currentUser.settings!!
-
-                            // todo delete after testing
-                            Log.d("---", "offlineUserSettings password: ${offlineUserSettings.password} ")
-                            Log.d("---", "offlineUserSettings passwordHash: ${offlineUserSettings.passwordHash} ")
                         },
                         {
                             error ->

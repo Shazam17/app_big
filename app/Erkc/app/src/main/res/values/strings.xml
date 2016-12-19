@@ -5,7 +5,9 @@
     <!-- Common -->
     <string name="data_loading">Загрузка данных…</string>
     <string name="none" />
-
+    <string name="offline_mode_error">Данное действие недоступно в офлайн режиме.</string>
+    <string name="error_no_connection">Не удалось установить связь c сервером</string>
+    
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
@@ -63,7 +65,7 @@
     <string name="sign_in_error_fill_login_text">Введите логин</string>
     <string name="sign_in_error_fill_password_text">Введите пароль</string>
     <string name="sign_in_error_incorrect_login_or_password_text">Неверный логин или пароль</string>
-    <string name="sing_in_offline_title">Вход (offline)</string>
+    <string name="sing_in_offline_title">Вход (офлайн)</string>
     <string name="sign_in_offline_login_not_exist">Учетная запись с таким логином отсуствует на данном устройстве</string>
     <string name="sign_in_offline_password_not_set">Для данной учетной записи офлайн пароль не установлен</string>
     <string name="sign_in_offline_disabled">Для данной учетной записи отключен офлайн режим</string>
@@ -133,9 +135,9 @@
 
     <!-- Settings Screen -->
     <string name="settings_title">Настройки</string>
-    <string name="settings_offline_header">Off-line режим</string>
+    <string name="settings_offline_header">Офлайн режим</string>
     <string name="settings_offline_description">Доступ к истории операций, настройки автоплатежа и чтение уведомлений без подключения к интернету</string>
-    <string name="settings_offline_password_header">Off-line пароль</string>
+    <string name="settings_offline_password_header">Офлайн пароль</string>
     <string name="settings_offline_password_button_text">Установить</string>
     <string name="settings_notification_header">Уведомления</string>
     <string name="settings_push_label">PUSH сообщения</string>
@@ -143,11 +145,14 @@
     <string name="settings_news_label">Новости</string>
     <string name="settings_pay_notes_label">Напоминания об оплате</string>
     <string name="settings_ipu_notes_label">Напоминания о передаче\nпоказаний ИПУ</string>
+    <string name="settings_saved_message">Настройки сохранены</string>
+    <string name="settings_offline_password_install">Установить</string>
+    <string name="settings_offline_password_change">Изменить</string>
 
     <!-- Offline password Screen -->
-    <string name="offline_password_title">Off-line пароль</string>
-    <string name="offline_password_first_hint">Off-line пароль</string>
-    <string name="offline_password_second_hint">Повторите Off-line пароль</string>
+    <string name="offline_password_title">Офлайн пароль</string>
+    <string name="offline_password_first_hint">Офлайн пароль</string>
+    <string name="offline_password_second_hint">Повторите офлайн пароль</string>
     <string name="offline_password_second_error">Пароли не совпадают</string>
     <string name="offline_password_save_button_text">Сохранить</string>
 
@@ -179,6 +184,8 @@
     <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="send_values_title">Ввод показаний ИПУ</string>
     <string name="send_parameters_button">ПЕРЕДАТЬ ПОКАЗАНИЯ</string>
+    <string name="send_values_no_cached_ipu_error">Для данной квитанции нет сохраненных ИПУ. Необходимо как минимум 1 раз передать показания, чтобы они сохранились.</string>
+    <string name="send_values_dialog_button">Закрыть</string>
 
     <!-- Payment Info -->
     <string name="payment_info_title">Информация о платеже</string>
@@ -335,4 +342,5 @@
     <string name="transaction_ipu_text">Передать показания</string>
     <string name="transaction_payment_text">Оплатить</string>
     <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
+
 </resources>

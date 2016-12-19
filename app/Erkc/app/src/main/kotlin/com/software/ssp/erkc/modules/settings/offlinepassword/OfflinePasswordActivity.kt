@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.settings.offlinepassword
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import com.software.ssp.erkc.R
@@ -14,6 +15,10 @@ import javax.inject.Inject
 class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
 
     @Inject lateinit var presenter: IOfflinePasswordPresenter
+
+    companion object {
+        const val REQUEST_CODE = 4431
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,10 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun didSavedOfflinePassword() {
+        setResult(Activity.RESULT_OK)
     }
 
     override fun dismiss() {

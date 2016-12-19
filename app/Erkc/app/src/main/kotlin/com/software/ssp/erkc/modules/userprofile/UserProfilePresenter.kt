@@ -25,9 +25,15 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
     }
 
     override fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String) {
+        if(activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         if (!validData(name, email, password, rePassword)) {
             return
         }
+
         view?.setProgressVisibility(true)
 
         subscriptions += accountRepository.updateUserInfo(name, email, password, rePassword)

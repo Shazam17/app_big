@@ -21,8 +21,13 @@ class AutoPaymentsTabPresenter @Inject constructor(view: IAutoPaymentsTabView) :
     }
 
     override fun onAddNewAutoPaymentClick() {
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         subscriptions += realmRepository.fetchCurrentUser()
-                .subscribe (
+                .subscribe(
                         {
                             currentUser ->
                             when {

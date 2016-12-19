@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.di.modules
 
+import android.content.Context
 import com.google.gson.Gson
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -35,8 +36,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesErkcInterceptor(gson: Gson, activeSession: ActiveSession): ErkcInterceptor {
-        return ErkcInterceptor(gson, activeSession)
+    fun providesErkcInterceptor(gson: Gson, activeSession: ActiveSession, context: Context): ErkcInterceptor {
+        return ErkcInterceptor(gson, activeSession, context)
     }
 
     @Provides

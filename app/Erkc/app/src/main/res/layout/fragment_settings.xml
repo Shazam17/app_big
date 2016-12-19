@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/settingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/default_margin"
-    android:id="@+id/settingsLayout"
-    >
+    android:orientation="vertical"
+    android:padding="@dimen/default_margin">
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/offlineModeSwitch"
@@ -15,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="@string/settings_offline_header"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
+        android:textSize="@dimen/google_subhead_text_size" />
 
     <TextView
         android:id="@+id/offlineDescrTextView"
@@ -26,8 +23,7 @@
         android:layout_below="@+id/offlineModeSwitch"
         android:layout_marginRight="@dimen/settings_offline_description_margin_right"
         android:text="@string/settings_offline_description"
-        android:textSize="@dimen/google_caption_text_size"
-        />
+        android:textSize="@dimen/google_caption_text_size" />
 
     <TextView
         android:id="@+id/passwordHeaderTextView"
@@ -35,15 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/offlineDescrTextView"
-        android:layout_toLeftOf="@+id/passwordButtonTextView"
-        android:layout_marginTop="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_toLeftOf="@+id/passwordButtonTextView"
         android:text="@string/settings_offline_password_header"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/google_subhead_text_size"
         android:visibility="invisible"
-        tools:visibility="invisible"
-        />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/passwordButtonTextView"
@@ -55,8 +50,7 @@
         android:text="@string/settings_offline_password_header"
         android:textColor="@color/colorPrimary"
         android:visibility="invisible"
-        tools:visibility="invisible"
-        />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/notificationHeaderTextView"
@@ -64,12 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/passwordHeaderTextView"
-        android:layout_marginTop="@dimen/double_default_margin"
         android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginTop="@dimen/double_default_margin"
         android:text="@string/settings_notification_header"
-        android:textSize="@dimen/google_caption_text_size"
         android:textColor="@color/colorLightInput"
-        />
+        android:textSize="@dimen/google_caption_text_size" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/pushSwitch"
@@ -78,8 +71,7 @@
         android:layout_below="@+id/notificationHeaderTextView"
         android:layout_marginTop="@dimen/settings_switch_margin_top"
         android:text="@string/settings_push_label"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
+        android:textSize="@dimen/google_subhead_text_size" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/operationStatusSwitch"
@@ -88,8 +80,7 @@
         android:layout_below="@+id/pushSwitch"
         android:layout_marginTop="@dimen/settings_switch_margin_top"
         android:text="@string/settings_operation_status_label"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
+        android:textSize="@dimen/google_subhead_text_size" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/newsSwitch"
@@ -98,8 +89,7 @@
         android:layout_below="@+id/operationStatusSwitch"
         android:layout_marginTop="@dimen/settings_switch_margin_top"
         android:text="@string/settings_news_label"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
+        android:textSize="@dimen/google_subhead_text_size" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/payNotesSwitch"
@@ -108,30 +98,15 @@
         android:layout_below="@+id/newsSwitch"
         android:layout_marginTop="@dimen/settings_switch_margin_top"
         android:text="@string/settings_pay_notes_label"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
+        android:textSize="@dimen/google_subhead_text_size" />
 
-    <TextView
-        android:id="@+id/ipuNotesSwitchLabel"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/ipuNotesSwitch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/payNotesSwitch"
         android:layout_marginTop="@dimen/settings_switch_margin_top"
         android:text="@string/settings_ipu_notes_label"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/google_subhead_text_size"
-        />
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/ipuNotesSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/payNotesSwitch"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/settings_switch_margin_top"
-        android:text=""
-        />
-
-
+        android:textSize="@dimen/google_subhead_text_size" />
 
 </RelativeLayout>

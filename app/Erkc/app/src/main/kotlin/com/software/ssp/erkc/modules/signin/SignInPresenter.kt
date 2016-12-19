@@ -122,7 +122,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     user ->
                     if (user == null) {
-                        view?.showMessage(R.string.sign_in_offline_login_not_exist)
+                        view?.showInfoDialog(R.string.sign_in_offline_login_not_exist)
                     } else {
                         with(user.settings!!) {
                             if (offlineModeEnabled) {

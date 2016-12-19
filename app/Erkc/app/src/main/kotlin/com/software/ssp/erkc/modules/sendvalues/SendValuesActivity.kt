@@ -11,6 +11,7 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmIpu
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.activity_send_values.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
@@ -74,6 +75,16 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
             ipuLayout.ipuValue.setText(it.value)
             parametersContainer.addView(ipuLayout)
         }
+    }
+
+    override fun showInfoDialog(resId: Int) {
+        materialDialog {
+            content(resId)
+            positiveText(R.string.send_values_dialog_button)
+            onPositive { materialDialog, dialogAction ->
+                close()
+            }
+        }.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

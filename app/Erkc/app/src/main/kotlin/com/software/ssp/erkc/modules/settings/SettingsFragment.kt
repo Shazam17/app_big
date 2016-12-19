@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.settings
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import com.software.ssp.erkc.R
@@ -8,9 +10,10 @@ import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.settings.offlinepassword.OfflinePasswordActivity
 import kotlinx.android.synthetic.main.fragment_settings.*
+import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onCheckedChange
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 class SettingsFragment : MvpFragment(), ISettingsView {
@@ -44,18 +47,24 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when(requestCode) {
+            OfflinePasswordActivity.REQUEST_CODE -> passwordButtonTextView.setText(R.string.settings_offline_password_change)
+        }
+    }
+
     override fun setOfflinePasswordVisibility(visible: Boolean) {
-        passwordButtonTextView.visibility = if(visible) View.VISIBLE else View.INVISIBLE
-        passwordHeaderTextView.visibility = if(visible) View.VISIBLE else View.INVISIBLE
+        passwordButtonTextView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        passwordHeaderTextView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun setOfflineModeSwitch(checked: Boolean) {
         offlineModeSwitch.isChecked = checked
-    }
-
-    override fun onPause() {
-        presenter.saveSettings()
-        super.onPause()
     }
 
     override fun setPushSwitch(checked: Boolean) {
@@ -79,12 +88,14 @@ class SettingsFragment : MvpFragment(), ISettingsView {
     }
 
     override fun navigateToOfflinePasswordScreen() {
-        startActivity<OfflinePasswordActivity>()
+        startActivityForResult<OfflinePasswordActivity>(OfflinePasswordActivity.REQUEST_CODE)
     }
 
     override fun showData(userSettings: RealmSettings) {
         offlineModeSwitch.isChecked = userSettings.offlineModeEnabled
+
         setOfflinePasswordVisibility(userSettings.offlineModeEnabled)
+        passwordButtonTextView.setText(if (userSettings.passwordHash == "".hashCode()) R.string.settings_offline_password_install else R.string.settings_offline_password_change)
 
         pushSwitch.isChecked = userSettings.pushEnabled
         operationStatusSwitch.isChecked = userSettings.operationStatusNotificationEnabled
@@ -93,13 +104,21 @@ class SettingsFragment : MvpFragment(), ISettingsView {
         ipuNotesSwitch.isChecked = userSettings.ipuNotificationEnabled
     }
 
-    override fun setupInitialState() {
-        offlineModeSwitch.onCheckedChange { compoundButton, checked -> presenter.onOfflineModeSwitch(checked)  }
+    override fun setupInitialState(isEnable: Boolean) {
+        offlineModeSwitch.enabled = isEnable
+        passwordButtonTextView.enabled = isEnable
+        pushSwitch.enabled = isEnable
+        operationStatusSwitch.enabled = isEnable
+        newsSwitch.enabled = isEnable
+        payNotesSwitch.enabled = isEnable
+        ipuNotesSwitch.enabled = isEnable
+
+        offlineModeSwitch.onCheckedChange { compoundButton, checked -> presenter.onOfflineModeSwitch(checked) }
         passwordButtonTextView.onClick { presenter.onPasswordButtonClick() }
-        pushSwitch.onCheckedChange { compoundButton, checked -> presenter.onPushSwitch(checked)  }
-        operationStatusSwitch.onCheckedChange { compoundButton, checked -> presenter.onOperationStatusSwitch(checked)  }
-        newsSwitch.onCheckedChange { compoundButton, checked -> presenter.onNewsSwitch(checked)  }
-        payNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onPaymentSwitch(checked)  }
-        ipuNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onIpuSwitch(checked)  }
+        pushSwitch.onCheckedChange { compoundButton, checked -> presenter.onPushSwitch(checked) }
+        operationStatusSwitch.onCheckedChange { compoundButton, checked -> presenter.onOperationStatusSwitch(checked) }
+        newsSwitch.onCheckedChange { compoundButton, checked -> presenter.onNewsSwitch(checked) }
+        payNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onPaymentSwitch(checked) }
+        ipuNotesSwitch.onCheckedChange { compoundButton, checked -> presenter.onIpuSwitch(checked) }
     }
 }

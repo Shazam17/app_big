@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.transaction.valuestransaction
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -18,24 +19,6 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
 
-    override fun onIpuClick(receipt: RealmReceipt) {
-        view?.navigateToIpuValueInfo(receipt)
-    }
-
-    override fun onSwipeToRefresh() {
-
-    }
-
-    override fun onDeleteClick(receipt: RealmReceipt) {
-        subscriptions += realmRepository.deleteOfflineIpu(receipt.id)
-                .subscribe({
-                    view?.notifyItemRemoved(receipt)
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                })
-    }
-
     override fun onViewAttached() {
         super.onViewAttached()
         showReceiptsList()
@@ -45,12 +28,37 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
         realmRepository.close()
     }
 
+    override fun onIpuClick(receipt: RealmReceipt) {
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+        view?.navigateToIpuValueInfo(receipt)
+    }
+
+    override fun onSwipeToRefresh() {
+
+    }
+
+    override fun onDeleteClick(receipt: RealmReceipt) {
+        subscriptions += realmRepository.deleteOfflineIpu(receipt.id)
+                .subscribe(
+                        {
+                            view?.notifyItemRemoved(receipt)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
+    }
+
     private fun showReceiptsList() {
         subscriptions += realmRepository.fetchOfflineIpu()
                 .subscribe(
                         {
-                            paymentsInfo ->
-                            view?.showData(paymentsInfo.groupBy { it.receipt }.keys.toList())
+                            receipt ->
+                            view?.showData(receipt.groupBy { it.receipt }.keys.toList())
                         },
                         {
                             error ->
@@ -59,5 +67,4 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
                         }
                 )
     }
-
 }

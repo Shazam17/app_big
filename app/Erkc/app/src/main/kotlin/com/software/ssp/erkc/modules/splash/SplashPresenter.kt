@@ -26,6 +26,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
     override fun onViewAttached() {
         super.onViewAttached()
+        activeSession.clear()
         authenticateApp()
     }
 

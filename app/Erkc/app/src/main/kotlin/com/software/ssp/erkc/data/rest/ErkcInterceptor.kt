@@ -1,10 +1,12 @@
 package com.software.ssp.erkc.data.rest
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.data.rest.models.ApiResponse
 import com.software.ssp.erkc.extensions.getParameters
@@ -14,8 +16,13 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 
 
-class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession) : Interceptor {
+class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response {
+
+        if (activeSession.isOfflineSession) {
+            throw IOException(context.getString(R.string.offline_mode_error))
+        }
+
         try {
             val originalRequest = chain!!.request()
             val originalBody = originalRequest.body()
@@ -65,7 +72,7 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession) : Interc
             return response.newBuilder().body(body).build()
 
         } catch(e: SocketTimeoutException) {
-            throw IOException("Не получилось установить связь c сервером", e)
+            throw IOException(context.getString(R.string.error_no_connection), e)
         }
     }
 

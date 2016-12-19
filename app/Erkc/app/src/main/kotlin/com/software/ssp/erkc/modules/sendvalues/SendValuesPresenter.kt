@@ -57,40 +57,10 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             values.put(it.id, it.value)
         }
 
-        view?.setProgressVisibility(true)
-        if (activeSession.accessToken != null) {
-            subscriptions += ipuRepository.sendParameters(currentIpu.receipt!!.barcode, values)
-                    .concatMap {
-                        response ->
-                        val now = Calendar.getInstance().time
-                        currentIpu.ipuValues.filter { !it.isSent }.forEach {
-                            it.isSent = true
-                            it.date = now
-                        }
-                        realmRepository.saveIpu(currentIpu)
-                    }
-                    .subscribe(
-                            {
-                                view?.setProgressVisibility(false)
-                                view?.close()
-                            },
-                            {
-                                error ->
-                                view?.setProgressVisibility(false)
-                                view?.showMessage(error.parsedMessage())
-                            }
-                    )
+        if (activeSession.isOfflineSession) {
+            saveValuesToTransactions(values)
         } else {
-            subscriptions += realmRepository.saveOfflineIpu(currentIpu.receipt!!.barcode, values)
-                    .subscribe({
-                        view?.setProgressVisibility(false)
-                        view?.showMessage(R.string.transaction_save_to_transaction_help_text)
-                        view?.close()
-                    }, {
-                        error ->
-                        view?.setProgressVisibility(false)
-                        view?.showMessage(error.parsedMessage())
-                    })
+            sendValues(values)
         }
     }
 
@@ -149,8 +119,46 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         view?.showMessage(error.parsedMessage())
                     }
             )
-
         }
+    }
+
+    private fun sendValues(values: HashMap<String, String>) {
+        view?.setProgressVisibility(true)
+        subscriptions += ipuRepository.sendParameters(currentIpu.receipt!!.barcode, values)
+                .concatMap {
+                    response ->
+                    val now = Calendar.getInstance().time
+                    currentIpu.ipuValues.filter { !it.isSent }.forEach {
+                        it.isSent = true
+                        it.date = now
+                    }
+                    realmRepository.saveIpu(currentIpu)
+                }
+                .subscribe(
+                        {
+                            view?.setProgressVisibility(false)
+                            view?.close()
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
+    }
+
+    private fun saveValuesToTransactions(values: HashMap<String, String>) {
+        view?.setProgressVisibility(true)
+        subscriptions += realmRepository.saveOfflineIpu(currentIpu.receipt!!.barcode, values)
+                .subscribe({
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(R.string.transaction_save_to_transaction_help_text)
+                    view?.close()
+                }, {
+                    error ->
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(error.parsedMessage())
+                })
     }
 
     private fun getRealmIpu(receiptId: String) {
@@ -159,14 +167,44 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         {
                             realmIpu ->
                             currentIpu = realmIpu
-                            fetchIpus(currentIpu.receipt!!.barcode)
+
+                            if (activeSession.isOfflineSession) {
+
+                                if (currentIpu.ipuValues.isEmpty()) {
+                                    view?.showInfoDialog(R.string.send_values_no_cached_ipu_error)
+                                    return@subscribe
+                                }
+
+                                val ipus = currentIpu.ipuValues.distinctBy { it.number }
+                                val now = Calendar.getInstance().time
+
+                                ipus.forEach {
+                                    currentIpu.ipuValues.add(0,
+                                            RealmIpuValue(
+                                                    it.id,
+                                                    it.serviceName,
+                                                    it.number,
+                                                    it.installPlace,
+                                                    null,
+                                                    now,
+                                                    false,
+                                                    ""
+                                            )
+                                    )
+                                }
+
+                                view?.showIpu(currentIpu)
+                                view?.setProgressVisibility(false)
+
+                            } else {
+                                fetchIpus(currentIpu.receipt!!.barcode)
+                            }
                         },
                         {
                             error ->
                             view?.showMessage(error.parsedMessage())
                         }
                 )
-
     }
 
     private fun validateData(): Boolean {

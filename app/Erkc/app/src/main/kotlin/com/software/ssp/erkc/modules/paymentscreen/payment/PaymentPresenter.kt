@@ -72,6 +72,117 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         }
     }
 
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
+    }
+
+    override fun onSumTextChange(sum: String) {
+        paymentValue = if (sum.isNullOrBlank()) 0.0 else sum.toDouble()
+    }
+
+    override fun onChooseCardClick() {
+        val filteredCards = user.cards.filter { CardStatus.values()[it.statusId] == CardStatus.ACTIVATED }
+        if (filteredCards.isEmpty()) {
+            view?.showNavigateToCardsDialog()
+        } else {
+            view?.showCardSelectDialog(filteredCards.map { PaymentCardViewModel(it, it.id == currentPayment.paymentCard?.id) })
+        }
+    }
+
+    override fun onCardSelected(card: RealmCard?) {
+        currentPayment.paymentCard = card
+        view?.showSelectedCard(currentPayment.paymentCard)
+    }
+
+    override fun onNextClick(email: String) {
+        if (!validateData(email)) {
+            return
+        }
+
+        currentPayment.paymentCard?.let {
+            view?.showPaymentConfirmDialog(
+                    realmReceipt,
+                    it,
+                    commission,
+                    currentPayment.amount,
+                    email
+            )
+            return
+        }
+
+        onPaymentConfirmClick(email)
+    }
+
+    override fun onPaymentConfirmClick(email: String) {
+        if (!validateData(email)) {
+            return
+        }
+
+        if (activeSession.isOfflineSession) {
+            saveToTransactions(email)
+        } else {
+            initPayment(email)
+        }
+    }
+
+    override fun onNavigateToCardsConfirmClick() {
+        eventBus.call(OpenCardsEvent())
+        view?.close()
+    }
+
+    override fun onDoneClick() {
+        view?.close()
+    }
+
+    private fun initPayment(userEmail: String) {
+        view?.setProgressVisibility(true)
+
+        subscriptions += paymentRepository.init(
+                code = if (receiptId == null) receipt.barcode else realmReceipt.barcode,
+                method = if (currentPayment.paymentCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal,
+                sum = currentPayment.amount.toStringWithDot(),
+                email = userEmail,
+                cardId = currentPayment.paymentCard?.id
+        ).subscribe(
+                {
+                    response ->
+                    view?.setProgressVisibility(false)
+                    if (currentPayment.paymentCard == null) {
+                        view?.navigateToResult(response.url)
+                    } else {
+                        view?.showResult(true)
+                    }
+                },
+                {
+                    error ->
+                    view?.setProgressVisibility(false)
+                    if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
+                        view?.showResult(false)
+                    }
+                    view?.showMessage(error.parsedMessage())
+                }
+        )
+    }
+
+    private fun saveToTransactions(userEmail: String) {
+        view?.setProgressVisibility(true)
+
+        subscriptions += realmRepository.saveOfflinePayment(realmReceipt,
+                currentPayment.amount,
+                userEmail,
+                currentPayment.paymentCard)
+                .subscribe({
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(R.string.transaction_save_to_transaction_help_text)
+                    view?.close()
+                }, {
+                    error ->
+                    view?.setProgressVisibility(false)
+                    view?.showMessage(error.parsedMessage())
+                })
+    }
+
     private fun fetchPaymentInfoFromTransaction() {
         subscriptions += realmRepository.fetchCurrentUser()
                 .concatMap {
@@ -120,136 +231,6 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.setProgressVisibility(false)
                         }
                 )
-    }
-
-    override fun onViewDetached() {
-        realmRepository.close()
-        super.onViewDetached()
-    }
-
-    override fun onSumTextChange(sum: String) {
-        paymentValue = if (sum.isNullOrBlank()) 0.0 else sum.toDouble()
-    }
-
-    override fun onChooseCardClick() {
-        val filteredCards = user.cards.filter { CardStatus.values()[it.statusId] == CardStatus.ACTIVATED }
-        if (filteredCards.isEmpty()) {
-            view?.showNavigateToCardsDialog()
-        } else {
-            view?.showCardSelectDialog(filteredCards.map { PaymentCardViewModel(it, it.id == currentPayment.paymentCard?.id) })
-        }
-    }
-
-    override fun onCardSelected(card: RealmCard?) {
-        currentPayment.paymentCard = card
-        view?.showSelectedCard(currentPayment.paymentCard)
-    }
-
-    override fun onPaymentConfirmClick(email: String) {
-        if (!validateData(email)) {
-            return
-        }
-
-        view?.setProgressVisibility(true)
-
-        val method = if (currentPayment.paymentCard == null) PaymentMethod.DEFAULT.ordinal else PaymentMethod.ONE_CLICK.ordinal
-        if (activeSession.accessToken != null) {
-            subscriptions += paymentRepository.init(
-                    realmReceipt.barcode,
-                    method,
-                    currentPayment.amount.toStringWithDot(),
-                    email,
-                    currentPayment.paymentCard?.id
-            ).subscribe(
-                    {
-                        response ->
-                        view?.setProgressVisibility(false)
-                        if (currentPayment.paymentCard == null) {
-                            view?.navigateToResult(response.url)
-                        } else {
-                            view?.showResult(true)
-                        }
-                    },
-                    {
-                        error ->
-                        view?.setProgressVisibility(false)
-                        if (error is ApiException && error.errorCode == ApiErrorType.PAYMENT_ERROR) {
-                            view?.showResult(false)
-                        }
-                        view?.showMessage(error.parsedMessage())
-                    }
-            )
-        } else {
-            subscriptions += realmRepository.saveOfflinePayment(realmReceipt, currentPayment.amount, email, currentPayment.paymentCard)
-                    .subscribe({
-                        view?.setProgressVisibility(false)
-                        view?.showMessage(R.string.transaction_save_to_transaction_help_text)
-                        view?.close()
-                    }, {
-                        error ->
-                        view?.setProgressVisibility(false)
-                        view?.showMessage(error.parsedMessage())
-                    })
-        }
-    }
-
-    override fun onNextClick(email: String) {
-        if (!validateData(email)) {
-            return
-        }
-
-        if (currentPayment.paymentCard != null) {
-            view?.showPaymentConfirmDialog(
-                    realmReceipt,
-                    currentPayment.paymentCard!!,
-                    commission,
-                    currentPayment.amount,
-                    email)
-        } else {
-            view?.setProgressVisibility(true)
-            if (activeSession.accessToken != null) {
-                subscriptions += paymentRepository.init(
-                        if (receiptId == null) receipt.barcode else realmReceipt.barcode,
-                        PaymentMethod.DEFAULT.ordinal,
-                        currentPayment.amount.toStringWithDot(),
-                        email,
-                        null
-                ).subscribe(
-                        {
-                            response ->
-                            view?.setProgressVisibility(false)
-                            view?.navigateToResult(response.url)
-                        },
-                        {
-                            error ->
-                            view?.setProgressVisibility(false)
-                            view?.showMessage(error.parsedMessage())
-                        })
-            } else {
-                subscriptions += realmRepository.saveOfflinePayment(realmReceipt,
-                        currentPayment.amount,
-                        email,
-                        null)
-                        .subscribe({
-                            view?.setProgressVisibility(false)
-                            view?.showMessage(R.string.transaction_save_to_transaction_help_text)
-                            view?.close()
-                        }, {
-                            error ->
-                            view?.setProgressVisibility(false)
-                            view?.showMessage(error.parsedMessage())
-                        })
-            }
-        }
-    }
-
-    override fun onNavigateToCardsConfirmClick() {
-        eventBus.call(OpenCardsEvent())
-        view?.close()
-    }
-
-    override fun onDoneClick() {
-        view?.close()
     }
 
     private fun validateData(email: String): Boolean {
