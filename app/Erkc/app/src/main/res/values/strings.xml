@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Erkc</string>
-    <string name="default_empty_list_message_text">Empty list</string>
+    <string name="default_empty_list_message_text">Список пуст</string>
 
     <!-- Common -->
     <string name="data_loading">Загрузка данных…</string>
@@ -30,6 +30,7 @@
     <string name="drawer_history_text">История операций</string>
     <string name="drawer_auto_payment_text">Автоплатежи</string>
     <string name="drawer_notifications_text">Уведомления</string>
+    <string name="drawer_transaction_text">Журнал транзакций</string>
     <string name="drawer_settings_text">Настройки</string>
     <string name="drawer_instruction_text">Инструкция</string>
     <string name="drawer_contacts_text">Контакты</string>
@@ -265,6 +266,12 @@
     <string name="history_filter_menu_item">Применить фильтр</string>
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+    
+    <!-- Transaction -->
+    <string name="transaction_payments_tab_title">Платежи</string>
+    <string name="transaction_values_tab_title">Показания счетчиков</string>
+    <string name="transaction_money_format">%,.2f р.</string>
+    <string name="transaction_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
     <!-- History Value -->
     <string name="history_value_title">Показания</string>
@@ -324,4 +331,8 @@
     <string name="payment_one_click">Оплата в 1 клик</string>
     <string name="payment_auto">Автоплатеж</string>
 
+    <!-- Transactions -->
+    <string name="transaction_ipu_text">Передать показания</string>
+    <string name="transaction_payment_text">Оплатить</string>
+    <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
 </resources>

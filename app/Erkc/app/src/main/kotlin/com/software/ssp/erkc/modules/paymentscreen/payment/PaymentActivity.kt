@@ -36,7 +36,10 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? by extras()
-    private var receiptId: String? by extras()
+    private var receiptId: String? by extras(Constants.KEY_RECEIPT)
+
+    // для возобновления оплаты из журнала транзакций
+    private var fromTransaction: Boolean by extras(Constants.KEY_FROM_TRANSACTION, defaultValue = false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +48,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         receipt?.let {
             presenter.receipt = receipt!!
         }
-
+        presenter.fromTransaction = fromTransaction
         presenter.receiptId = receiptId
 
         initViews()
@@ -106,6 +109,10 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentCardChooseContainer.visibility = View.VISIBLE
     }
 
+    override fun showPaymentSum(sum: Double) {
+        paymentSum.setText(sum.toString())
+    }
+
     override fun showSelectedCard(card: RealmCard?) {
         if (card != null) {
             paymentCardAdd.visibility = View.GONE
@@ -118,8 +125,8 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         }
     }
 
-    override fun showUserInfo(user: RealmUser) {
-        paymentEmail.setText(user.email)
+    override fun showEmail(email: String) {
+        paymentEmail.setText(email)
     }
 
     override fun showPaymentConfirmDialog(receipt: RealmReceipt, card: RealmCard, commission: Double, sum: Double, email: String) {

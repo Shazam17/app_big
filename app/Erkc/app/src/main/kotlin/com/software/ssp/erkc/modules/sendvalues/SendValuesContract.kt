@@ -15,10 +15,8 @@ interface ISendValuesView : IView {
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
-
     var receiptId : String?
     var receipt : Receipt?
-
+    var fromTransaction: Boolean
     fun onSendValuesClick()
-
 }

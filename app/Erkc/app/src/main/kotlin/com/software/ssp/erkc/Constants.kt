@@ -33,4 +33,5 @@ object Constants {
     const val HOT_WATER = "Горяч"
     const val COLD_WATER = "Холод"
     const val KEY_PAYMENT = "KEY_PAYMENT"
+    const val KEY_FROM_TRANSACTION = "KEY_FROM_TRANSACTION"
 }

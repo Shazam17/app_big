@@ -5,6 +5,7 @@ import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import io.realm.Realm
 import rx.Observable
+import java.util.*
 import javax.inject.Inject
 import kotlin.comparisons.compareBy
 
@@ -110,6 +111,67 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         Observable.just(realm.copyFromRealm(firstResult))
                     }
                 }
+    }
+
+    fun fetchOfflinePayments(): Observable<List<RealmOfflinePayment>> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            realm
+                    .where(RealmOfflinePayment::class.java)
+                    .equalTo("login", currentUser.login)
+                    .findAll()
+                    .asObservable()
+                    .flatMap {
+                        Observable.just(realm.copyFromRealm(it))
+                    }
+        }
+    }
+
+    fun fetchOfflinePaymentsByReceiptId(login: String, receiptId: String): Observable<RealmOfflinePayment> {
+        return realm.where(RealmOfflinePayment::class.java)
+                .equalTo("login", login)
+                .equalTo("receipt.id", receiptId)
+                .findAll()
+                .asObservable()
+                .first()
+                .flatMap {
+                    result ->
+                    val firstResult = result.firstOrNull()
+                    if (firstResult == null) {
+                        Observable.just(null)
+                    } else {
+                        Observable.just(realm.copyFromRealm(firstResult))
+                    }
+                }
+    }
+
+    fun fetchOfflineIpuByReceiptId(receiptId: String): Observable<List<RealmOfflineIpu>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    realm.where(RealmOfflineIpu::class.java)
+                            .equalTo("login", currentUser.login)
+                            .equalTo("receipt.id", receiptId)
+                            .findAll()
+                            .asObservable()
+                            .flatMap {
+                                Observable.just(realm.copyFromRealm(it))
+                            }
+                }
+    }
+
+    fun fetchOfflineIpu(): Observable<List<RealmOfflineIpu>> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            realm
+                    .where(RealmOfflineIpu::class.java)
+                    .equalTo("login", currentUser.login)
+                    .findAll()
+                    .asObservable()
+                    .flatMap {
+                        Observable.just(realm.copyFromRealm(it))
+                    }
+        }
     }
 
     fun fetchCurrentUser(): Observable<RealmUser> {
@@ -523,6 +585,102 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     currentUser ->
                     Observable.just(currentUser.payments.filter { it.id == id }.first())
                 }
+    }
+
+    fun saveOfflinePayment(realmReceipt: RealmReceipt, paymentSum: Double, email: String, card: RealmCard?): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            val realmOfflinePayment = it.where(RealmOfflinePayment::class.java)
+                                    .equalTo("receipt.id", realmReceipt.id)
+                                    .equalTo("login", currentUser.login)
+                                    .findFirst()
+                            realmOfflinePayment?.deleteFromRealm()
+                            it.copyToRealm(RealmOfflinePayment(currentUser.login,
+                                    it.where(RealmReceipt::class.java).equalTo("barcode",
+                                            realmReceipt.barcode).findFirst(),
+                                    paymentSum,
+                                    email,
+                                    it.where(RealmCard::class.java).equalTo("id", card?.id).findFirst()))
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
+    }
+
+    fun saveOfflineIpu(code: String, params: HashMap<String, String>): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            it.where(RealmOfflineIpu::class.java).equalTo("receipt.barcode", code).findAll().deleteAllFromRealm()
+                            for ((key, value) in params) {
+                                it.copyToRealm(RealmOfflineIpu(currentUser.login,
+                                        it.where(RealmReceipt::class.java).equalTo("barcode", code).findFirst(),
+                                        key,
+                                        value))
+                            }
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
+    }
+
+    fun deleteOfflineIpu(receiptId: String): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            it.where(RealmOfflineIpu::class.java)
+                                    .equalTo("receipt.id", receiptId)
+                                    .equalTo("login", currentUser.login).findAll().deleteAllFromRealm()
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
+    }
+
+    fun deleteOfflinePayment(receiptId: String): Observable<Boolean> {
+        return fetchCurrentUser().concatMap {
+            currentUser ->
+            Observable.create<Boolean> { sub ->
+                realm.executeTransactionAsync(
+                        {
+                            it.where(RealmOfflinePayment::class.java)
+                                    .equalTo("receipt.id", receiptId)
+                                    .equalTo("login", currentUser.login).findAll().deleteAllFromRealm()
+                        },
+                        {
+                            sub.onNext(true)
+                        },
+                        { error ->
+                            sub.onError(error)
+                        }
+                )
+            }
+        }
     }
 
     fun fetchIpuByReceiptId(receiptId: String): Observable<RealmIpu> {
