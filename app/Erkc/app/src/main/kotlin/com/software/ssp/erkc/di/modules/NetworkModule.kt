@@ -7,6 +7,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
 import com.software.ssp.erkc.data.rest.datasource.*
+import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -111,5 +112,11 @@ class NetworkModule {
     @Singleton
     fun provideSettingsDataSource(retrofit: Retrofit): SettingsDataSource {
         return retrofit.create(SettingsDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(settingsDataSource: SettingsDataSource): SettingsRepository {
+        return SettingsRepository(settingsDataSource)
     }
 }

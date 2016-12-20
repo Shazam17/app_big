@@ -155,9 +155,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         finish()
     }
 
-    override fun setPendingVisible(isPending: Boolean) {
-        progressBar.visibility = if (isPending) View.VISIBLE else View.GONE
-        continueButton.enabled = agreementCheckBox.isChecked && !isPending
+    override fun setProgressVisibility(isVisible: Boolean) {
+        progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        continueButton.enabled = agreementCheckBox.isChecked && !isVisible
     }
 
     private fun initViews() {

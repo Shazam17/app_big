@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import org.jetbrains.anko.startActivity
@@ -14,12 +14,13 @@ import javax.inject.Inject
 /**
  * @author Alexander Popov on 14/12/2016.
  */
-class ValuesTransactionListFragment : BaseListFragment<RealmReceipt>(), IValuesTransactionListView {
+class ValuesTransactionListFragment : BaseListFragment<RealmOfflineIpu>(), IValuesTransactionListView, ValuesTransactionListAdapter.InteractionListener {
 
     @Inject lateinit var presenter: IValuesTransactionListPresenter
 
-    override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
-        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to receipt.id, Constants.KEY_FROM_TRANSACTION to true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.onViewAttached()
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -35,30 +36,27 @@ class ValuesTransactionListFragment : BaseListFragment<RealmReceipt>(), IValuesT
     }
 
     override fun onSwipeToRefresh() {
-
+        //disabled
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.onViewAttached()
+    override fun onSendValuesClick(offlineIpu: RealmOfflineIpu) {
+        presenter.onIpuClick(offlineIpu)
+    }
+
+    override fun onDeleteOfflineIpuClick(offlineIpu: RealmOfflineIpu) {
+        presenter.onDeleteClick(offlineIpu)
     }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        return ValuesTransactionListAdapter(dataset, object : ValuesTransactionListAdapter.InteractionListener {
-            override fun onSendValuesClick(receipt: RealmReceipt) {
-                presenter.onIpuClick(receipt)
-            }
+        return ValuesTransactionListAdapter(dataset, this)
+    }
 
-            override fun deleteClick(receipt: RealmReceipt) {
-                presenter.onDeleteClick(receipt)
-            }
-
-        })
+    override fun navigateToIpuValueInfo(realmOfflineIpu: RealmOfflineIpu) {
+        startActivity<SendValuesActivity>(Constants.KEY_RECEIPT to realmOfflineIpu.receipt.id, Constants.KEY_FROM_TRANSACTION to true)
     }
 
     override fun initViews() {
         super.initViews()
         swipeToRefreshEnabled = false
     }
-
 }

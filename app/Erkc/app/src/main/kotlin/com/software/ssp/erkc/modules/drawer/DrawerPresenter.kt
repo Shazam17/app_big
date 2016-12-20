@@ -7,6 +7,7 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var eventBus: Relay<Any, Any>
+    @Inject lateinit var notificationServiceManager: NotificationServiceManager
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -40,6 +42,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
             view?.clearUserInfo()
             view?.setAuthedMenuVisible(false)
             view?.navigateToMainScreen()
+            notificationServiceManager.stopPushService()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.autopayments.autopaymentslist
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
@@ -41,10 +42,20 @@ class AutoPaymentsListPresenter @Inject constructor(view: IAutoPaymentsListView)
     }
 
     override fun onDeleteButtonClick(receipt: RealmReceipt) {
+        if(activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         view?.showConfirmDeleteDialog(receipt)
     }
 
     override fun onEditButtonClick(receipt: RealmReceipt) {
+        if(activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         view?.navigateToEditAutoPayment(receipt)
     }
 

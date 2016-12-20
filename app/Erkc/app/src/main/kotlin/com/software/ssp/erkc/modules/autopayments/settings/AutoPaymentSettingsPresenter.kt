@@ -58,7 +58,9 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
         if (!dataValidation()) {
             return
         }
-        view?.setPendingVisible(true)
+
+        view?.setProgressVisibility(true)
+
         subscriptions += receiptsRepository
                 .updateReceipt(
                         selectedReceipt!!.id,
@@ -66,15 +68,18 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                         if (autoPaymentMode == AutoPaymentMode.AUTO) selectedReceipt!!.maxSum else 0.0,
                         autoPaymentMode.ordinal.toString()
                 )
+                .concatMap {
+                    realmRepository.updateReceipt(selectedReceipt!!)
+                }
                 .subscribe(
                         {
                             response ->
-                            view?.setPendingVisible(false)
+                            view?.setProgressVisibility(false)
                             view?.close()
                         },
                         {
                             error ->
-                            view?.setPendingVisible(false)
+                            view?.setProgressVisibility(false)
                             view?.showMessage(error.parsedMessage())
                         }
                 )
@@ -95,7 +100,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
     }
 
     private fun fetchData(fetchedReceiptId: String = "") {
-        view?.setPendingVisible(true)
+        view?.setProgressVisibility(true)
         subscriptions += realmRepository.fetchCurrentUser()
                 .subscribe(
                         {
@@ -108,11 +113,11 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                             view?.showAutoPaymentMode(autoPaymentMode)
                             view?.showReceiptDetails(selectedReceipt)
                             view?.showCardDetails(selectedCard)
-                            view?.setPendingVisible(false)
+                            view?.setProgressVisibility(false)
                         },
                         {
                             error ->
-                            view?.setPendingVisible(false)
+                            view?.setProgressVisibility(false)
                             view?.showMessage(error.parsedMessage())
                         }
                 )

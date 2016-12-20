@@ -12,7 +12,7 @@ interface AuthDataSource {
 
     @FormUrlEncoded
     @POST("?method=users.authorization")
-    fun authenticate(@Field("login") login: String, @Field("password") password: String): Observable<AuthData>
+    fun authenticate(@FieldMap params: Map<String, String>): Observable<AuthData>
 
     @GET
     fun authenticateApp(@Url url: String, @Query("response_type") responseType: String, @Query("client_id") clientId: String): Observable<ResponseBody>

@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.rxrelay.PublishRelay
 import com.jakewharton.rxrelay.Relay
+import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.data.rest.ActiveSession
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,12 @@ import io.realm.RealmConfiguration
 import javax.inject.Singleton
 
 @Module
-class AppModule(val application: Application) {
+class AppModule(val application: ErkcApplication) {
+
+    @Provides
+    fun provideApplication(): Application {
+        return application
+    }
 
     @Provides
     @Singleton

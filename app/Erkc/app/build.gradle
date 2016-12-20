@@ -71,6 +71,9 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
+
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.android.gms:play-services-maps:10.0.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -126,3 +129,5 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
 }
+
+apply plugin: 'com.google.gms.google-services'

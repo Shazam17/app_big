@@ -34,4 +34,6 @@ object Constants {
     const val COLD_WATER = "Холод"
     const val KEY_PAYMENT = "KEY_PAYMENT"
     const val KEY_FROM_TRANSACTION = "KEY_FROM_TRANSACTION"
+
+    const val NOTIFICATION_ACTION_CLICK = "notificationClicked"
 }

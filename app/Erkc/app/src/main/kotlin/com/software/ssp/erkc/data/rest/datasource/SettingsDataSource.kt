@@ -2,10 +2,7 @@ package com.software.ssp.erkc.data.rest.datasource
 
 import com.software.ssp.erkc.data.rest.models.Setting
 import okhttp3.ResponseBody
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 import rx.Observable
 
 /**
@@ -19,4 +16,7 @@ interface SettingsDataSource {
 
     @GET("?method=settings.get")
     fun getSettings(): Observable<List<Setting>>
+
+    @POST("?method=settings.registerfbtoken")
+    fun registerFbToken(@QueryMap params: Map<String, String>): Observable<ResponseBody>
 }

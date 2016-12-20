@@ -16,7 +16,7 @@ interface IAutoPaymentSettingsView : IView {
     fun showCardDetails(card: RealmCard?)
     fun showCommissionPercent(percent: Double)
 
-    fun setPendingVisible(isPending: Boolean)
+    fun setProgressVisibility(isVisible: Boolean)
 
     fun close()
 }

@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
 import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_transaction_ipu.view.*
-import org.jetbrains.anko.onClick
 
 /**
  * @author Alexander Popov on 14/12/2016.
  */
-class ValuesTransactionListAdapter(val dataList: List<RealmReceipt>,
-                                   val interactionListener: InteractionListener) : RecyclerView.Adapter<ValuesTransactionListAdapter.ViewHolder>() {
+class ValuesTransactionListAdapter(val dataList: List<RealmOfflineIpu>,
+                                   val interactionListener: InteractionListener? = null) : RecyclerView.Adapter<ValuesTransactionListAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataList[position], interactionListener)
+        holder.bind(dataList[position])
     }
 
     override fun getItemCount(): Int {
@@ -25,34 +24,33 @@ class ValuesTransactionListAdapter(val dataList: List<RealmReceipt>,
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_transaction_ipu, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, interactionListener)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(receipt: RealmReceipt, interactionListener: InteractionListener) {
+    class ViewHolder(view: View, val interactionListener: InteractionListener?) : RecyclerView.ViewHolder(view) {
+        fun bind(offlineIpu: RealmOfflineIpu) {
             itemView.apply {
-                addressHeaderText.text = receipt.address
-                nameText.text = receipt.name
-                barcodeText.text = receipt.barcode
+                addressHeaderText.text = offlineIpu.receipt.address
+                nameText.text = offlineIpu.receipt.name
+                barcodeText.text = offlineIpu.receipt.barcode
 
-                typeImage.setImageResource(receipt.receiptType.getIconResId())
+                typeImage.setImageResource(offlineIpu.receipt.receiptType.getIconResId())
 
                 swipeLayout.reset()
 
-                sendValuesTextView.onClick {
-                    interactionListener.onSendValuesClick(receipt)
+                sendValuesTextView.setOnClickListener {
+                    interactionListener?.onSendValuesClick(offlineIpu)
                 }
 
-                deleteButton.onClick {
-                    deleteButton.isEnabled = false
-                    interactionListener.deleteClick(receipt)
+                deleteButton.setOnClickListener {
+                    interactionListener?.onDeleteOfflineIpuClick(offlineIpu)
                 }
             }
         }
     }
 
     interface InteractionListener {
-        fun onSendValuesClick(ipu: RealmReceipt)
-        fun deleteClick(ipu: RealmReceipt)
+        fun onSendValuesClick(offlineIpu: RealmOfflineIpu)
+        fun onDeleteOfflineIpuClick(offlineIpu: RealmOfflineIpu)
     }
 }

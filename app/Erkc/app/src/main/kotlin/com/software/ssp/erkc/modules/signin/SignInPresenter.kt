@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
@@ -21,6 +22,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var cardsRepository: CardsRepository
     @Inject lateinit var settingsRepository: SettingsRepository
+    @Inject lateinit var notificationServiceManager: NotificationServiceManager
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -69,6 +71,14 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
+
+                    notificationServiceManager.fcmToken?.let {
+                        return@concatMap settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
+                    }
+
+                    Observable.just(null)
+                }
+                .concatMap {
                     accountRepository.fetchUserInfo()
                 }
                 .concatMap {
@@ -102,6 +112,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 }
                 .subscribe(
                         {
+                            notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
                             view?.setResultOk()
                             view?.close()

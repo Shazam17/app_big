@@ -44,4 +44,14 @@ class SettingsRepository @Inject constructor(private val settingsDataSource: Set
                     )
                 }
     }
+
+    fun registerFbToken(deviceId: String, fbToken: String): Observable<ResponseBody> {
+        return settingsDataSource
+                .registerFbToken(mapOf("deviceid" to deviceId, "fbtoken" to fbToken))
+                .compose(this.applySchedulers<ResponseBody>())
+    }
+
+    fun unregisterFbToken(deviceId: String): Observable<ResponseBody> {
+        return registerFbToken(deviceId, "0")
+    }
 }

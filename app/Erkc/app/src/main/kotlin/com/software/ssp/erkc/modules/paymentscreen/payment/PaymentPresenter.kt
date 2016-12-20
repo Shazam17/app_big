@@ -5,10 +5,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.RealmCard
-import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.realm.models.RealmUser
+import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
@@ -22,6 +19,7 @@ import com.software.ssp.erkc.extensions.isEmail
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.toStringWithDot
 import rx.lang.kotlin.plusAssign
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -168,19 +166,28 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
     private fun saveToTransactions(userEmail: String) {
         view?.setProgressVisibility(true)
 
-        subscriptions += realmRepository.saveOfflinePayment(realmReceipt,
-                currentPayment.amount,
-                userEmail,
-                currentPayment.paymentCard)
-                .subscribe({
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(R.string.transaction_save_to_transaction_help_text)
-                    view?.close()
-                }, {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(error.parsedMessage())
-                })
+        val offlinePayment = RealmOfflinePayment(
+                login = user.login,
+                receipt = realmReceipt,
+                paymentSum = paymentValue,
+                email = userEmail,
+                card = currentPayment.paymentCard,
+                createDate = Calendar.getInstance().time
+        )
+
+        subscriptions += realmRepository.saveOfflinePayment(offlinePayment)
+                .subscribe(
+                        {
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(R.string.transaction_save_to_transaction_help_text)
+                            view?.close()
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     private fun fetchPaymentInfoFromTransaction() {
@@ -188,18 +195,19 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 .concatMap {
                     currentUser ->
                     user = currentUser
-                    realmRepository.fetchOfflinePaymentsByReceiptId(user.login, receiptId!!)
+                    realmRepository.fetchOfflinePaymentByReceiptId(user.login, receiptId!!)
                 }
                 .subscribe(
                         {
                             offlinePayment ->
                             realmReceipt = offlinePayment.receipt
                             currentPayment.paymentCard = offlinePayment.card
+
+                            view?.showPaymentSum(offlinePayment.paymentSum)
                             view?.showReceiptInfo(realmReceipt)
                             view?.showEmail(offlinePayment.email)
                             view?.showSelectedCard(currentPayment.paymentCard)
-                            paymentValue = offlinePayment.paymentSum
-                            view?.showPaymentSum(paymentValue)
+
                             view?.setProgressVisibility(false)
                         },
                         {

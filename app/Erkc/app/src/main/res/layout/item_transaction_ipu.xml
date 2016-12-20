@@ -90,6 +90,7 @@
                     android:drawableStart="@drawable/ic_menu_submit"
                     android:gravity="center_vertical"
                     android:text="@string/transaction_ipu_text"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorDarkText"
                     android:textSize="14sp"
                     tools:visibility="visible" />

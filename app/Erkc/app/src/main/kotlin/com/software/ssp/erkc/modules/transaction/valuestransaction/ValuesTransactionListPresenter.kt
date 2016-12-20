@@ -2,7 +2,7 @@ package com.software.ssp.erkc.modules.transaction.valuestransaction
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
@@ -28,23 +28,22 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
         realmRepository.close()
     }
 
-    override fun onIpuClick(receipt: RealmReceipt) {
+    override fun onIpuClick(realmOfflineIpu: RealmOfflineIpu) {
         if (activeSession.isOfflineSession) {
             view?.showMessage(R.string.offline_mode_error)
             return
         }
-        view?.navigateToIpuValueInfo(receipt)
+        view?.navigateToIpuValueInfo(realmOfflineIpu)
     }
 
     override fun onSwipeToRefresh() {
-
     }
 
-    override fun onDeleteClick(receipt: RealmReceipt) {
-        subscriptions += realmRepository.deleteOfflineIpu(receipt.id)
+    override fun onDeleteClick(realmOfflineIpu: RealmOfflineIpu) {
+        subscriptions += realmRepository.deleteOfflineIpu(realmOfflineIpu)
                 .subscribe(
                         {
-                            view?.notifyItemRemoved(receipt)
+                            view?.notifyItemRemoved(realmOfflineIpu)
                         },
                         {
                             error ->
@@ -54,11 +53,11 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
     }
 
     private fun showReceiptsList() {
-        subscriptions += realmRepository.fetchOfflineIpu()
+        subscriptions += realmRepository.fetchOfflineIpus()
                 .subscribe(
                         {
-                            receipt ->
-                            view?.showData(receipt.groupBy { it.receipt }.keys.toList())
+                            offlineIpus ->
+                            view?.showData(offlineIpus.sortedBy { it.receipt.address })
                         },
                         {
                             error ->

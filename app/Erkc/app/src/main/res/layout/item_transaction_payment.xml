@@ -90,6 +90,7 @@
                     android:drawableStart="@drawable/ic_menu_pay"
                     android:gravity="center_vertical"
                     android:text="@string/transaction_payment_text"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorDarkText"
                     android:textSize="14sp"
                     tools:visibility="visible" />

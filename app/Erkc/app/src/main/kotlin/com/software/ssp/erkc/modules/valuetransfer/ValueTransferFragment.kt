@@ -18,7 +18,7 @@ class ValueTransferFragment : MvpFragment(), IValueTransferView {
     @Inject lateinit var presenter: IValueTransferPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_with_container, container, false)  // todo change
+        return inflater!!.inflate(R.layout.fragment_with_container, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {

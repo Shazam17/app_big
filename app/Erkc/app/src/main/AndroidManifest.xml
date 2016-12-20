@@ -53,12 +53,12 @@
             android:theme="@style/AppTheme.Dark" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.card.addcard.AddCardActivity"
+            android:name=".modules.card.addcard.AddCardActivity"
             android:label="@string/add_card_title"
             android:theme="@style/AppTheme.Light" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.card.editcard.EditCardActivity"
+            android:name=".modules.card.editcard.EditCardActivity"
             android:label="@string/edit_card_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
@@ -82,7 +82,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity"
+            android:name=".modules.confirmbyurl.ConfirmByUrlActivity"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
@@ -116,7 +116,7 @@
             android:theme="@style/AppTheme.Light" />
 
         <activity
-            android:name="com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity"
+            android:name=".modules.autopayments.settings.AutoPaymentSettingsActivity"
             android:label="@string/autopayment_screen_tab_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
@@ -147,6 +147,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <!-- Push Notifications -->
+
+        <service android:name=".modules.pushnotifications.ErkcFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".modules.pushnotifications.ErkcMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
     </application>
 

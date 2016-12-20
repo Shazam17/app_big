@@ -7,6 +7,8 @@ import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.isEmail
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -22,6 +24,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var settingsRepository: SettingsRepository
+    @Inject lateinit var notificationServiceManager: NotificationServiceManager
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -79,6 +82,13 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                     settingsRepository.setNeedToSendMeters(true)
                 }
                 .concatMap {
+                    notificationServiceManager.fcmToken?.let {
+                        settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
+                    }
+
+                    Observable.just(null)
+                }
+                .concatMap {
                     accountRepository.fetchUserInfo()
                 }
                 .concatMap {
@@ -98,6 +108,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 }
                 .subscribe(
                         {
+                            notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
                             view?.navigateToMainScreen()
                         },
@@ -113,12 +124,15 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     private fun fetchCaptcha() {
         subscriptions += authRepository.
                 getCaptcha()
-                .subscribe({
-                    captcha ->
-                    view?.showCaptcha(captcha.image)
-                }, {
-                    error ->
-                    view?.showMessage(error.message!!)
-                })
+                .subscribe(
+                        {
+                            captcha ->
+                            view?.showCaptcha(captcha.image)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 }

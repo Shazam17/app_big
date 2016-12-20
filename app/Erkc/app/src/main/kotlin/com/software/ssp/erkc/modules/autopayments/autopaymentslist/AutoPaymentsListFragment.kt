@@ -11,14 +11,14 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
-class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaymentsListView {
+class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaymentsListView, AutoPaymentsListAdapter.InteractionListener {
 
     @Inject lateinit var presenter: IAutoPaymentsListPresenter
 
@@ -47,16 +47,16 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
         presenter.dropView()
     }
 
-    override fun createAdapter(): RecyclerView.Adapter<*> {
-        return AutoPaymentsListAdapter(dataset, object : AutoPaymentsListAdapter.InteractionListener {
-            override fun editClick(receipt: RealmReceipt) {
-                presenter.onEditButtonClick(receipt)
-            }
+    override fun onAutoPaymentEditClick(receipt: RealmReceipt) {
+        presenter.onEditButtonClick(receipt)
+    }
 
-            override fun deleteClick(receipt: RealmReceipt) {
-                presenter.onDeleteButtonClick(receipt)
-            }
-        })
+    override fun onAutoPaymentDeleteClick(receipt: RealmReceipt) {
+        presenter.onDeleteButtonClick(receipt)
+    }
+
+    override fun createAdapter(): RecyclerView.Adapter<*> {
+        return AutoPaymentsListAdapter(dataset, this)
     }
 
     override fun onSwipeToRefresh() {
@@ -67,14 +67,18 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
         emptyView.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    override fun navigateToEditAutoPayment(receipt: RealmReceipt) {
-        startActivity<AutoPaymentSettingsActivity>("receiptId" to receipt.id)
-    }
-
     override fun showConfirmDeleteDialog(receipt: RealmReceipt) {
-        alert(R.string.auto_payments_delete_autopay_dialog_description, R.string.auto_payments_delete_dialog_title) {
-            okButton { presenter.onConfirmDelete(receipt) }
-            cancelButton { autoPaymentDidNotDeleted(receipt) }
+        activity.materialDialog {
+            title(R.string.auto_payments_delete_dialog_title)
+            content(if (autoPaymentMode == 1) R.string.auto_payments_delete_one_click_dialog_description else R.string.auto_payments_delete_autopay_dialog_description)
+            positiveText(R.string.auto_payments_delete_positive_button)
+            onPositive { materialDialog, dialogAction ->
+                presenter.onConfirmDelete(receipt)
+            }
+            negativeText(R.string.auto_payments_delete_negative_button)
+            onNegative { materialDialog, dialogAction ->
+                autoPaymentDidNotDeleted(receipt)
+            }
         }.show()
     }
 
@@ -91,5 +95,9 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
         if (dataset.count() == 0) {
             setEmptyViewVisible(true)
         }
+    }
+
+    override fun navigateToEditAutoPayment(receipt: RealmReceipt) {
+        startActivity<AutoPaymentSettingsActivity>("receiptId" to receipt.id)
     }
 }

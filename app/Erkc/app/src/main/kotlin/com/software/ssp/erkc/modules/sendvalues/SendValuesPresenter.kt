@@ -2,10 +2,7 @@ package com.software.ssp.erkc.modules.sendvalues
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.IpuValueAndIpu
-import com.software.ssp.erkc.data.realm.models.RealmIpu
-import com.software.ssp.erkc.data.realm.models.RealmIpuValue
-import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
@@ -96,6 +93,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             subscriptions += Observable.zip(realmRepository.fetchOfflineIpuByReceiptId(receiptId!!), ipuRepository.getByReceipt(code), ::IpuValueAndIpu).subscribe(
                     {
                         ipuData ->
+
                         ipuData.ipus.forEach {
                             ipu ->
                             currentIpu.ipuValues.add(
@@ -105,7 +103,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                             number = ipu.number,
                                             installPlace = ipu.installPlace,
                                             period = ipu.period,
-                                            value = ipuData.ipuValues.first { it.ipuId == ipu.id }.value
+                                            value = ipuData.offlineIpu.values.first { it.ipuId == ipu.id }.value
                                     )
                             )
                         }
@@ -149,16 +147,25 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     private fun saveValuesToTransactions(values: HashMap<String, String>) {
         view?.setProgressVisibility(true)
-        subscriptions += realmRepository.saveOfflineIpu(currentIpu.receipt!!.barcode, values)
-                .subscribe({
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(R.string.transaction_save_to_transaction_help_text)
-                    view?.close()
-                }, {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(error.parsedMessage())
-                })
+
+        val offlineIpus = RealmOfflineIpu(
+                receipt = currentIpu.receipt!!)
+
+        offlineIpus.values.addAll(values.map { RealmOfflineIpuValue(it.key, it.value) })
+
+        subscriptions += realmRepository.saveOfflineIpu(offlineIpus)
+                .subscribe(
+                        {
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(R.string.transaction_save_to_transaction_help_text)
+                            view?.close()
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     private fun getRealmIpu(receiptId: String) {

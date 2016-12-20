@@ -45,14 +45,14 @@ class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
 
                 linkedCardNameText.text = receiptViewModel.receipt.linkedCard?.name ?: ""
 
-                editImageButton.onClick { interactionListener?.editClick(receiptViewModel.receipt) }
+                editImageButton.onClick { interactionListener?.onAutoPaymentEditClick(receiptViewModel.receipt) }
 
                 deleteButton.onClick {
                     deleteProgressBar.visibility = View.VISIBLE
                     deleteButton.isEnabled = false
                     editImageButton.isEnabled = false
                     receiptViewModel.isRemovePending = true
-                    interactionListener?.deleteClick(receiptViewModel.receipt)
+                    interactionListener?.onAutoPaymentDeleteClick(receiptViewModel.receipt)
                 }
 
                 deleteProgressBar.visibility = if (receiptViewModel.isRemovePending) View.VISIBLE else View.GONE
@@ -72,7 +72,7 @@ class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
     }
 
     interface InteractionListener {
-        fun editClick(receipt: RealmReceipt)
-        fun deleteClick(receipt: RealmReceipt)
+        fun onAutoPaymentEditClick(receipt: RealmReceipt)
+        fun onAutoPaymentDeleteClick(receipt: RealmReceipt)
     }
 }

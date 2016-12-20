@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "74301118512",
+    "firebase_url": "https://erkc-5c4fe.firebaseio.com",
+    "project_id": "erkc-5c4fe",
+    "storage_bucket": "erkc-5c4fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74301118512:android:92b0e672e36b8681",
+        "android_client_info": {
+          "package_name": "com.software.ssp.erkc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74301118512-jutcum81mf11amq9jeudrabeg7cbt447.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAghxtCuIEX-DERT8iGXQHxT6S04tKcHGI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

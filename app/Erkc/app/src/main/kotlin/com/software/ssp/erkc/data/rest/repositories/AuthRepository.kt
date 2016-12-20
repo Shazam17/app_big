@@ -18,7 +18,7 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
 
     fun authenticate(login: String, password: String): Observable<AuthData> {
         return authDataSource
-                .authenticate(login, password)
+                .authenticate(mapOf("login" to login, "password" to password))
                 .compose(this.applySchedulers<AuthData>())
     }
 
