@@ -18,6 +18,7 @@ import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
@@ -171,7 +172,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.TRANSACTION -> TransactionTabFragment()
             DrawerItem.NOTIFY -> Fragment()
             DrawerItem.SETTINGS -> SettingsFragment()
-            DrawerItem.TUTORIAL -> Fragment()
+            DrawerItem.TUTORIAL -> InstructionsListFragment()
             DrawerItem.CONTACTS -> ContactsFragment()
             DrawerItem.EXIT -> {
                 presenter.onLogoutClick()

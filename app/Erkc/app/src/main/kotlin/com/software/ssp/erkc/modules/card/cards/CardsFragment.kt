@@ -12,6 +12,8 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.card.addcard.AddCardActivity
 import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
+import com.software.ssp.erkc.modules.instructions.InstructionType
+import com.software.ssp.erkc.modules.instructions.instructiondetails.InstructionActivity
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -123,7 +125,7 @@ class CardsFragment : BaseListFragment<CardViewModel>(), ICardsView {
     }
 
     override fun navigateToHelp() {
-        showMessage("not implemented")
+        startActivity<InstructionActivity>("instructionType" to InstructionType.CARDS)
     }
 
     override fun navigateToBankSite(url: String) {

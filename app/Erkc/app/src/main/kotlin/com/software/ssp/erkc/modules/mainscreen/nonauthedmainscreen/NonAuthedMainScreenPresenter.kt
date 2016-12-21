@@ -1,7 +1,9 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
+import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
+import com.software.ssp.erkc.common.OpenInstructionsList
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.ApiErrorType
@@ -14,6 +16,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     @Inject lateinit var receiptsRepository: ReceiptsRepository
     @Inject lateinit var activeSession: ActiveSession
+    @Inject lateinit var eventBus: Relay<Any, Any>
 
     override fun onContinueClick(barcode: String, street: String, house: String, apartment: String, isSendValue: Boolean, isWithAddress: Boolean) {
         if (!validFields(barcode, street, house, apartment, isWithAddress)) {
@@ -56,6 +59,10 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     override fun onSignUpClick() {
         view?.navigateToSignUpScreen()
+    }
+
+    override fun onInfoClick() {
+        eventBus.call(OpenInstructionsList())
     }
 
     override fun onBarCodeScanned(code: String) {

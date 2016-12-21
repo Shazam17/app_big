@@ -7,7 +7,7 @@
     <string name="none" />
     <string name="offline_mode_error">Данное действие недоступно в офлайн режиме.</string>
     <string name="error_no_connection">Не удалось установить связь c сервером</string>
-    
+
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
     <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
@@ -282,7 +282,7 @@
     <string name="history_filter_menu_refresh">Обновить список</string>
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
-    
+
     <!-- Transaction -->
     <string name="transaction_payments_tab_title">Платежи</string>
     <string name="transaction_values_tab_title">Показания счетчиков</string>
@@ -353,5 +353,101 @@
     <string name="transaction_ipu_text">Передать показания</string>
     <string name="transaction_payment_text">Оплатить</string>
     <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
+
+    <!-- Instructions -->
+    <string name="instruction_send_values_non_auth_title">Отправка показаний неавторизованным пользователем</string>
+    <string name="instruction_send_values_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name="instruction_send_values_non_auth_content_2">2. Если Вы желаете передать показания по введенному ранее штрих-коду, то проставьте галочку «Передать показания ИПУ» и нажмите кнопку «Продолжить».</string>
+    <string name="instruction_send_values_non_auth_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания».</string>
+
+    <string name="instruction_payment_non_auth_title">Оплата квитанций неавторизованным пользователем</string>
+    <string name="instruction_payment_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name="instruction_payment_non_auth_content_2">2. Если Вы желаете оплатить квитанцию по введенному ранее штрих-коду, то нажмите кнопку «Продолжить».</string>
+    <string name="instruction_payment_non_auth_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
+    <string name="instruction_payment_non_auth_content_4">4. Укажите адрес Вашего email – на него придёт уведомление о зачислении платежа.</string>
+    <string name="instruction_payment_non_auth_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
+    <string name="instruction_payment_non_auth_content_6">6. Вы перешли на сайт эквайринговой компании</string>
+    <string name="instruction_payment_non_auth_content_7">7. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
+    <string name="instruction_payment_non_auth_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name="instruction_payment_non_auth_content_9">9. Оплата отправлена на обработку</string>
+
+    <string name="instruction_payment_add_receipt_title">Добавление квитанции авторизованным пользователем через оплату</string>
+
+    <string name="instruction_send_values_add_receipt_title">Добавление квитанции авторизованным пользователем через отправку показаний</string>
+
+    <string name="instruction_send_values_title">Отправка показаний авторизованным пользователем</string>
+    <string name="instruction_send_values_content_1">1. На основном экране и экране "Передача показаний ИПУ" в списке добавленных квитанций найдите по штрих-коду карточку своей квитанции</string>
+    <string name="instruction_send_values_content_2">2. Нажмите кнопку "Передать показания"</string>
+    <string name="instruction_send_values_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
+    <string name="instruction_send_values_content_4">4. Чтобы добавить новую квитанции нажмите "+"</string>
+    <string name="instruction_send_values_content_5">5. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+
+    <string name="instruction_payment_title">Оплата квитанций авторизованным пользователем</string>
+    <string name="instruction_payment_content_1">1. На основном экране и экране "Оплата" в списке добавленных квитанций найдите по штрих-коду карточку своей квитанции</string>
+    <string name="instruction_payment_content_2">2. Нажмите кнопку "Оплатить"</string>
+    <string name="instruction_payment_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
+    <string name="instruction_payment_content_4">4. Укажите адрес Вашего email – на него придёт уведомление о зачислении платежа.</string>
+    <string name="instruction_payment_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
+    <string name="instruction_payment_content_6">6. Вы перешли на сайт эквайринговой компании</string>
+    <string name="instruction_payment_content_7">7. Введите требуемые  данные Вашей банковской карты и нажмите «Оплатить»</string>
+    <string name="instruction_payment_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name="instruction_payment_content_9">9. Оплата отправлена на обработку</string>
+    <string name="instruction_payment_content_10">10. Чтобы добавить новую квитанции нажмите "+"</string>
+    <string name="instruction_payment_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+
+    <string name="instruction_payments_with_cards_title">Оплата квитанций авторизованным пользователем при наличии активированной банковской карты</string>
+    <string name="instruction_payments_with_cards_content_1">1. На основном экране и экране "Оплата" в списке квитанций по штрих-коду найдите карточку своей квитанции</string>
+    <string name="instruction_payments_with_cards_content_2">2. Нажмите кнопку "Оплатить"</string>
+    <string name="instruction_payments_with_cards_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
+    <string name="instruction_payments_with_cards_content_4">4. Укажите адрес Вашего email – на него придёт уведомление о зачислении платежа.</string>
+    <string name="instruction_payments_with_cards_content_5">5. Выберите карту, которой Вы будете выполнять платёж</string>
+    <string name="instruction_payments_with_cards_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
+    <string name="instruction_payments_with_cards_content_7">7. В окне подтверждения оплаты нажмите «ОК»</string>
+    <string name="instruction_payments_with_cards_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name="instruction_payments_with_cards_content_9">9. Оплата отправлена на обработку</string>
+    <string name="instruction_payments_with_cards_content_10">10. Чтобы добавить новую квитанции нажмите "+"</string>
+    <string name="instruction_payments_with_cards_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+
+    <string name="instruction_cards_title">Работа с банковской картой</string>
+    <string name="instruction_cards_content_1">1. Для добавления новой карты нажмите "+"</string>
+    <string name="instruction_cards_content_2">2. Задайте наименование Вашей карте</string>
+    <string name="instruction_cards_content_3">3. Вы перешли на сайт эквайринговой компании для регистрации Вашей банковской карты в системе "Рекуррентный платеж"</string>
+    <string name="instruction_cards_content_4">4. Введите требуемые  данные Вашей банковской карты и нажмите «Подтвердить»</string>
+    <string name="instruction_cards_content_5">5. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name="instruction_cards_content_6">6. Если регистрация прошла успешно, то нажмите на Вашей карте на кнопку "Активировать"\nЕсли регистрация не удалась, проверьте правильность введенных данных или попробуйте повторить попытку позже</string>
+    <string name="instruction_cards_content_7">7. Вы перешли на сайт эквайринговой компании для активации Вашей банковской карты</string>
+    <string name="instruction_cards_content_8">8. Введите требуемые  данные Вашей банковской карты и нажмите «Подтвердить»</string>
+    <string name="instruction_cards_content_9">9. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name="instruction_cards_content_10">10. Ваша банковская карта активирована.</string>
+    <string name="instruction_cards_content_11">11. Чтобы удалить карту из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+
+    <string name="instruction_auto_payments_title">Настройка автоплатежа</string>
+    <string name="instruction_auto_payments_content_1">1. Для добавления опции платежа к квитанции нажмите "+"</string>
+    <string name="instruction_auto_payments_content_2">2. В открывшемся экране выберите тип платежа  "Автоплатеж" или "Оплата в 1 клик".\nАвтоплатеж позволяет выполнять оплату услуг без Вашего участия\nОплата в 1 клик позволяет связать выбранную квитанцию с выбранной банковской картой</string>
+    <string name="instruction_auto_payments_content_3">3. Выберите квитанцию, к которой Вы хотите применить выбранную опцию. Выбрать можно только из тех квитанций, по которым ранее проводились операции через приложение и к которым еще не был применен ни автоплатеж, ни оплата в 1 клик.</string>
+    <string name="instruction_auto_payments_content_4">4. Выберите банковскую карту, с которой можно выполнять списание средств. Карта должна быть активирована в приложении</string>
+    <string name="instruction_auto_payments_content_5">5. Для автоплатежа укажите максимальную сумму платежа, которую можно будет списать с указанной банковской карты</string>
+    <string name="instruction_auto_payments_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
+    <string name="instruction_auto_payments_content_7">7. К выбранной Вами квитанции добавлена опция платежа.</string>
+    <string name="instruction_auto_payments_content_8">8. Чтобы удалить опцию платежа у квитанции, передвиньте карточку автоплатежа или оплаты в 1 клик влево и нажмите на красную кнопку</string>
+
+    <string name="instruction_history_payment_title">История платежей</string>
+    <string name="instruction_history_payment_content_1">1. На вкладке "Платежи" отображаются  все платежи, совершенные пользователем в авторизованном режиме работы. Список сгруппирован по адресу и дате совершения платежа</string>
+    <string name="instruction_history_payment_content_2">2. Чтобы ознакомиться с платежом подробнее, нажмите на любую совершенную операцию из списка</string>
+    <string name="instruction_history_payment_content_3">3. На открывшемся экране платежа отображается подробная информация о совершенном платеже</string>
+    <string name="instruction_history_payment_content_4">4. Чтобы повторно выполнить платеж, нажмите на кнопку "Повторить"</string>
+    <string name="instruction_history_payment_content_5">5. Чтобы посмотреть чек совершенного платежа, нажмите на кнопку "Получить чек". Полученный файл можно сохранить себе на устройство или поделиться им, доступными способами.</string>
+    <string name="instruction_history_payment_content_6">6. Чтобы выйти из экрана платежа, нажмите крестик в верхнем левом углу.</string>
+    <string name="instruction_history_payment_content_7">7. Для поиска по платежам можно воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку "Применить".</string>
+
+    <string name="instruction_history_send_value_title">История передачи показаний</string>
+    <string name="instruction_history_send_value_content_1">1. На вкладке "Показания счетчиков" отображаются  все переданные показания, отправленные пользователем в авторизованном режиме работы. Список сгруппирован по адресу и дате отправки показаний.</string>
+    <string name="instruction_history_send_value_content_2">2. Чтобы ознакомиться с переданными показаниями подробнее, нажмите на любую совершенную операцию из списка.</string>
+    <string name="instruction_history_send_value_content_3">3. На открывшемся экране показаний отображается подробная информация о переданных показаниях по используемой услуге, средний расход в месяц, общий расход</string>
+    <string name="instruction_history_send_value_content_4">4. Чтобы посмотреть статистику за определенный период, по прибору учёта или месту установки прибора учета, Вы можете воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку "Применить".</string>
+
+    <string name="instruction_notifications_title">Уведомления</string>
+    <string name="instruction_notifications_content_1">1. На данном экране доступны для чтения все полученные уведомления в обратном хронологическом порядке</string>
+    <string name="instruction_notifications_content_2">2. Чтобы ознакомиться с полученным уведомлением подробнее, нажмите на любое уведомление из списка</string>
 
 </resources>

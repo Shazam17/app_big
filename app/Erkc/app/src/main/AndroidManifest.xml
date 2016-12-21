@@ -138,6 +138,8 @@
             android:label="@string/history_filter_title"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".modules.instructions.instructiondetails.InstructionActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"

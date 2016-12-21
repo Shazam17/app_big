@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.drawer
 import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.OpenHistoryWithReceiptEvent
+import com.software.ssp.erkc.common.OpenInstructionsList
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -26,6 +27,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
         subscribeToOpenCardsEvent()
         subscribeToOpenHistoryWithReceipt()
+        subscribeToOpenInstructionsEvent()
 
         view?.navigateToMainScreen()
         showCurrentUser()
@@ -100,6 +102,14 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                 .subscribe {
                     event ->
                     view?.navigateToHistory(event.receiptCode)
+                }
+    }
+
+    private fun subscribeToOpenInstructionsEvent() {
+        subscriptions += eventBus.ofType(OpenInstructionsList::class.java)
+                .subscribe {
+                    event ->
+                    view?.navigateToDrawerItem(DrawerItem.TUTORIAL)
                 }
     }
 }

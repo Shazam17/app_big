@@ -74,6 +74,8 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
 
         paymentInfoOperationNo.text = paymentInfo.operationId
         paymentInfoPaymentType.setText(paymentInfo.type())
+
+        paymentInfoShowCheckButton.enabled = !payment.checkFile.isNullOrBlank()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

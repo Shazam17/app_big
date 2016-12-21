@@ -26,4 +26,5 @@ interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {
     fun onBarCodeScanned(code: String)
     fun onStreetSelected(address: String)
     fun onAddressClick()
+    fun onInfoClick()
 }

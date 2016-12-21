@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_info"
+        android:title="@string/cards_instruction_menu_text"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_add"
         android:title="@string/auto_payments_add_menu_text"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="ifRoom" />
+
 </menu>

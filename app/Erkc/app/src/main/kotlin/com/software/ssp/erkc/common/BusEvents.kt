@@ -6,3 +6,5 @@ package com.software.ssp.erkc.common
 class OpenCardsEvent()
 
 class OpenHistoryWithReceiptEvent(val receiptCode: String)
+
+class OpenInstructionsList()

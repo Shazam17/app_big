@@ -10,6 +10,8 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.autopaymentslist.AutoPaymentsListFragment
 import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
+import com.software.ssp.erkc.modules.instructions.InstructionType
+import com.software.ssp.erkc.modules.instructions.instructiondetails.InstructionActivity
 import kotlinx.android.synthetic.main.fragment_auto_payments_tab.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.withArguments
@@ -62,12 +64,19 @@ class AutoPaymentsTabFragment : MvpFragment(), IAutoPaymentsTabView {
                 presenter.onAddNewAutoPaymentClick()
                 return true
             }
+            R.id.menu_help -> {
+                presenter.onInfoClick()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun navigateToNewAutoPayment() {
         startActivity<AutoPaymentSettingsActivity>()
+    }
+
+    override fun navigateToInstruction() {
+        startActivity<InstructionActivity>("instructionType" to InstructionType.AUTO_PAYMENTS)
     }
 
     private fun initViews() {

@@ -198,6 +198,8 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
             startActivityForResult<BarcodeScannerActivity>(BarcodeScannerActivity.BARCODE_SCANNER_REQUEST_CODE)
         }
 
+        infoTextView.onClick { presenter.onInfoClick() }
+
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
     }

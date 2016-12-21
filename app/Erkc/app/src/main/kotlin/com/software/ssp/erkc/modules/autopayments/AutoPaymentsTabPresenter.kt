@@ -46,4 +46,8 @@ class AutoPaymentsTabPresenter @Inject constructor(view: IAutoPaymentsTabView) :
                         }
                 )
     }
+
+    override fun onInfoClick() {
+        view?.navigateToInstruction()
+    }
 }
