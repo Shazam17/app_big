@@ -604,7 +604,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    Observable.just(currentUser.paymentsInfo.filter { it.id == id }.first())
+                    Observable.just(currentUser.paymentsInfo.filter { it.id == id }.firstOrNull())
                 }
     }
 
@@ -764,6 +764,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 },
                                 {
                                     sub.onNext(true)
+                                    sub.onCompleted()
                                 },
                                 { error ->
                                     sub.onError(error)

@@ -6,19 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/addressHeaderText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingTop="@dimen/half_default_margin"
-        android:textAllCaps="false"
-        android:textColor="@color/colorLightInput"
-        android:textStyle="normal|bold"
-        tools:text="ул. Усова 25/1, кв 7" />
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,19 +68,48 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/payTextView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/addressText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_default_margin"
-                    android:background="?attr/selectableItemBackground"
-                    android:drawablePadding="@dimen/half_default_margin"
-                    android:drawableStart="@drawable/ic_menu_pay"
-                    android:gravity="center_vertical"
-                    android:text="@string/transaction_payment_text"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorDarkText"
-                    android:textSize="14sp"
-                    tools:visibility="visible" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/half_default_margin"
+                    android:textColor="@color/colorLightInput"
+                    android:textStyle="normal|bold"
+                    android:textSize="12sp"
+                    tools:text="ул. Усова 25/1, кв 7" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/payButtonTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_default_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/transaction_payment_text"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorDarkText"
+                        android:textSize="12sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:id="@+id/createDateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_default_margin"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/transaction_ipu_text"
+                        android:textAlignment="textEnd"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorDarkText"
+                        android:textSize="12sp"
+                        tools:text="12.12.2016" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

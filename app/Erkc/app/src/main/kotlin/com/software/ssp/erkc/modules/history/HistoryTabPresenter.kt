@@ -19,4 +19,8 @@ class HistoryTabPresenter @Inject constructor(view: IHistoryTabView) : RxPresent
     override fun onFilterClick() {
         view?.navigateToFilter()
     }
+
+    override fun onRefreshClick() {
+        view?.refreshCurrentList()
+    }
 }

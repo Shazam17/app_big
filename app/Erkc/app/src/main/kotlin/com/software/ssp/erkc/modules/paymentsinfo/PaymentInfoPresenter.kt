@@ -1,7 +1,7 @@
 package com.software.ssp.erkc.modules.paymentsinfo
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.PaymentAndPaymentInfo
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -24,33 +24,57 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
     }
 
     override fun onGetCheckClick() {
+        if (activeSession.isOfflineSession) {
+            view?.showMessage(R.string.offline_mode_error)
+            return
+        }
+
         view?.navigateToCheck()
     }
 
     override fun onViewAttached(id: String) {
         view?.setProgressVisibility(true)
-        subscriptions += paymentRepository.fetchPaymentInfo(id)
+
+        subscriptions += Observable.just(activeSession.isOfflineSession)
                 .concatMap {
-                    paymentInfo ->
-                    realmRepository.savePaymentInfo(paymentInfo)
+                    isOfflineSession ->
+                    if (isOfflineSession) {
+                        Observable.just(null)
+                    } else {
+                        updatePaymentInfo(id)
+                    }
                 }
                 .concatMap {
                     Observable.zip(realmRepository.fetchPaymentInfoById(id), realmRepository.fetchPaymentById(id),
                             {
                                 paymentInfo, payment ->
-                                PaymentAndPaymentInfo(payment, paymentInfo)
+
+                                if (paymentInfo == null) {
+                                    view?.showMessage(R.string.payment_info_no_cached_payment_dialog_content)
+                                    view?.close()
+                                    return@zip
+                                }
+
+                                view?.fillData(paymentInfo, payment)
                             })
                 }
-                .subscribe({
-                    result ->
-                    view?.fillData(result.paymentInfo, result.payment)
-                    view?.setProgressVisibility(false)
-                }, {
-                    error ->
-                    view?.setProgressVisibility(false)
-                    view?.showMessage(error.parsedMessage())
-                })
+                .subscribe(
+                        {
+                            view?.setProgressVisibility(false)
+                        },
+                        {
+                            error ->
+                            view?.setProgressVisibility(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
-
+    private fun updatePaymentInfo(paymentId: String): Observable<Boolean> {
+        return paymentRepository.fetchPaymentInfo(paymentId)
+                .concatMap {
+                    paymentInfo ->
+                    realmRepository.savePaymentInfo(paymentInfo)
+                }
+    }
 }

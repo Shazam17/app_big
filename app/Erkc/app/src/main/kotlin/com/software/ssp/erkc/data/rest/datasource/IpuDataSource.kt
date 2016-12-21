@@ -16,5 +16,5 @@ interface IpuDataSource {
     fun getByReceipt(@Query("code") code: String): Observable<List<Ipu>>
 
     @GET("?method=ipu.gethistorybyreceipt")
-    fun getHistoryByReceipt(@Query("token") token: String, @Query("code") code: String): Observable<List<Ipu>>
+    fun getHistoryByReceipt(@Query("code") code: String): Observable<List<Ipu>>
 }

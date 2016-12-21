@@ -95,6 +95,8 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
         }
 
         filterChipView.refresh()
+
+        filterChipView.visibility = if (filterChipView.chipList.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun navigateToIpuValueInfo(receipt: RealmReceipt) {
@@ -103,6 +105,10 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
 
     override fun onFilterClick() {
         presenter.onFilterClick()
+    }
+
+    override fun onRefreshClick() {
+        presenter.onRefreshClick()
     }
 
     override fun navigateToFilter(currentFilter: HistoryFilterModel) {
@@ -116,13 +122,17 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
     override fun initViews() {
         super.initViews()
         emptyMessageText = ""
+        swipeToRefreshEnabled = false
         filterChipView.chipLayoutRes = R.layout.layout_history_chip
         filterChipView.setOnChipClickListener {
             chip ->
             presenter.onFilterDeleted((chip as FilterChipTag).field)
             filterChipView.remove(chip)
+
+            if (filterChipView.chipList.isEmpty()) {
+                filterChipView.visibility = View.GONE
+            }
         }
-        swipeToRefreshEnabled = false
     }
 
     private fun checkAndAddFilterTag(text: String?, field: HistoryFilterField) {

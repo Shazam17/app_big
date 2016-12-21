@@ -28,6 +28,9 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
 
     private val historyFilter: HistoryFilterModel by args(defaultValue = HistoryFilterModel())
 
+    private val currentTabHistoryList: IHistoryListDelegate
+        get() = tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate
+
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerHistoryTabComponent.builder()
                 .appComponent(appComponent)
@@ -65,12 +68,20 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
                 presenter.onFilterClick()
                 return true
             }
+            R.id.menu_refresh -> {
+                presenter.onRefreshClick()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun refreshCurrentList() {
+        currentTabHistoryList.onRefreshClick()
+    }
+
     override fun navigateToFilter() {
-        (tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate).onFilterClick()
+        currentTabHistoryList.onFilterClick()
     }
 
     private fun initViews() {

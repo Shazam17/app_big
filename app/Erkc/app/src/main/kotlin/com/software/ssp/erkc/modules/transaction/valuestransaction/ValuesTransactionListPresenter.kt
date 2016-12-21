@@ -57,7 +57,7 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
                 .subscribe(
                         {
                             offlineIpus ->
-                            view?.showData(offlineIpus.sortedBy { it.receipt.address })
+                            view?.showData(offlineIpus.sortedByDescending { it.createDate })
                         },
                         {
                             error ->

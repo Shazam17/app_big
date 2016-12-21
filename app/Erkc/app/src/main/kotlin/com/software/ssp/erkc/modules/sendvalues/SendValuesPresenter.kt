@@ -90,33 +90,37 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             }
                     )
         } else {
-            subscriptions += Observable.zip(realmRepository.fetchOfflineIpuByReceiptId(receiptId!!), ipuRepository.getByReceipt(code), ::IpuValueAndIpu).subscribe(
-                    {
-                        ipuData ->
+            subscriptions += Observable.zip(
+                    realmRepository.fetchOfflineIpuByReceiptId(receiptId!!),
+                    ipuRepository.getByReceipt(code),
+                    ::IpuValueAndIpu)
+                    .subscribe(
+                            {
+                                ipuData ->
 
-                        ipuData.ipus.forEach {
-                            ipu ->
-                            currentIpu.ipuValues.add(
-                                    RealmIpuValue(
-                                            id = ipu.id,
-                                            serviceName = ipu.serviceName,
-                                            number = ipu.number,
-                                            installPlace = ipu.installPlace,
-                                            period = ipu.period,
-                                            value = ipuData.offlineIpu.values.first { it.ipuId == ipu.id }.value
+                                ipuData.ipus.forEach {
+                                    ipu ->
+                                    currentIpu.ipuValues.add(
+                                            RealmIpuValue(
+                                                    id = ipu.id,
+                                                    serviceName = ipu.serviceName,
+                                                    number = ipu.number,
+                                                    installPlace = ipu.installPlace,
+                                                    period = ipu.period,
+                                                    value = ipuData.offlineIpu.values.first { it.ipuId == ipu.id }.value
+                                            )
                                     )
-                            )
-                        }
-                        view?.showIpu(currentIpu)
-                        view?.setProgressVisibility(false)
-                    },
-                    {
-                        error ->
-                        error.printStackTrace()
-                        view?.close()
-                        view?.showMessage(error.parsedMessage())
-                    }
-            )
+                                }
+                                view?.showIpu(currentIpu)
+                                view?.setProgressVisibility(false)
+                            },
+                            {
+                                error ->
+                                error.printStackTrace()
+                                view?.close()
+                                view?.showMessage(error.parsedMessage())
+                            }
+                    )
         }
     }
 
@@ -149,6 +153,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         view?.setProgressVisibility(true)
 
         val offlineIpus = RealmOfflineIpu(
+                createDate = Calendar.getInstance().time,
                 receipt = currentIpu.receipt!!)
 
         offlineIpus.values.addAll(values.map { RealmOfflineIpuValue(it.key, it.value) })

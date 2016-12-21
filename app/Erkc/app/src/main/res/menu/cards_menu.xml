@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:icon="@drawable/ic_info"
+
+    <item
         android:id="@+id/card_menu_help"
-        app:showAsAction="always"
-        android:title="" />
-    <item android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_info"
+        android:title="@string/cards_instruction_menu_text"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/card_menu_add"
-        app:showAsAction="always"
-        android:title="" />
+        android:icon="@drawable/ic_add"
+        android:title="@string/cards_add_menu_text"
+        app:showAsAction="ifRoom" />
+
 </menu>

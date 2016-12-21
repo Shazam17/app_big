@@ -4,7 +4,7 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_searche_white"
-        android:title="@string/abc_search_hint"
+        android:icon="@drawable/ic_search_white"
+        android:title="@string/search_addresses_menu_text"
         app:showAsAction="always" />
 </menu>

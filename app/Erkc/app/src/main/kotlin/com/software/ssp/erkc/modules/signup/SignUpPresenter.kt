@@ -70,18 +70,6 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                     authData ->
                     activeSession.accessToken = authData.access_token
 
-                    settingsRepository.setStatusOperations(true)
-                }
-                .concatMap {
-                    settingsRepository.setGetNews(true)
-                }
-                .concatMap {
-                    settingsRepository.setNeedToPay(true)
-                }
-                .concatMap {
-                    settingsRepository.setNeedToSendMeters(true)
-                }
-                .concatMap {
                     notificationServiceManager.fcmToken?.let {
                         settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
                     }

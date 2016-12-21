@@ -18,4 +18,5 @@ interface IValuesHistoryListPresenter : IListPresenter<RealmReceipt, IValuesHist
     fun onReceiptClick(receipt: RealmReceipt)
     fun onFilterDeleted(filterField: HistoryFilterField)
     fun onFilterClick()
+    fun onRefreshClick()
 }

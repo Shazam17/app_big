@@ -10,6 +10,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import java.util.*
 import javax.inject.Inject
@@ -40,11 +41,19 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         subscriptions += realmRepository.fetchReceiptsById(receiptId)
                 .concatMap {
                     receipt ->
-                    ipuRepository.getHistoryByReceipt(activeSession.accessToken!!, receipt!!.barcode)
+                    if (activeSession.isOfflineSession) {
+                        Observable.just(null)
+                    } else {
+                        ipuRepository.getHistoryByReceipt(receipt!!.barcode)
+                    }
                 }
                 .concatMap {
                     ipus ->
-                    realmRepository.saveIpusWithReceipt(ipus, receiptId)
+                    if (ipus == null) {
+                        Observable.just(null)
+                    } else {
+                        realmRepository.saveIpusWithReceipt(ipus, receiptId)
+                    }
                 }
                 .concatMap {
                     realmRepository.fetchIpuByReceiptId(receiptId)

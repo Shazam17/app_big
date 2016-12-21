@@ -36,6 +36,18 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         presenter.onViewAttached(paymentId)
     }
 
+    override fun resolveDependencies(appComponent: AppComponent) {
+        DaggerPaymentInfoComponent.builder()
+                .appComponent(appComponent)
+                .paymentInfoModule(PaymentInfoModule(this))
+                .build()
+                .inject(this)
+    }
+
+    override fun beforeDestroy() {
+        presenter.dropView()
+    }
+
     override fun close() {
         finish()
     }
@@ -84,18 +96,6 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
         paymentInfoRetryButton.enabled = !isVisible
         paymentInfoShowCheckButton.enabled = !isVisible
         paymentInfoProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    override fun resolveDependencies(appComponent: AppComponent) {
-        DaggerPaymentInfoComponent.builder()
-                .appComponent(appComponent)
-                .paymentInfoModule(PaymentInfoModule(this))
-                .build()
-                .inject(this)
-    }
-
-    override fun beforeDestroy() {
-        presenter.dropView()
     }
 
     private fun initViews() {

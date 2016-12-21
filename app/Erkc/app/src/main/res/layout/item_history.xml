@@ -12,6 +12,7 @@
         android:maxLines="1"
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin"
         android:textAllCaps="false"
         android:textColor="@color/colorLightInput"
         android:textStyle="normal|bold"

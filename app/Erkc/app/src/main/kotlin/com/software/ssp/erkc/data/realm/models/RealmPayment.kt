@@ -36,11 +36,6 @@ open class RealmPaymentInfo(
         open var receipt: RealmReceipt? = null,
         open var paymentCard: RealmCard? = null) : RealmObject()
 
-class PaymentAndPaymentInfo(
-        val payment: RealmPayment,
-        val paymentInfo: RealmPaymentInfo
-)
-
 class PaymentCheckFile(
         val name: String,
         val data: String

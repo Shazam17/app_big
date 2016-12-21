@@ -103,10 +103,16 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         }
 
         filterChipView.refresh()
+
+        filterChipView.visibility = if (filterChipView.chipList.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun navigateToPaymentInfo(payment: RealmPayment) {
         startActivity<PaymentInfoActivity>(Constants.KEY_PAYMENT to payment.id)
+    }
+
+    override fun onRefreshClick() {
+        presenter.onRefreshClick()
     }
 
     override fun onFilterClick() {
@@ -124,11 +130,16 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
     override fun initViews() {
         super.initViews()
         emptyMessageText = ""
+        swipeToRefreshEnabled = false
         filterChipView.chipLayoutRes = R.layout.layout_history_chip
         filterChipView.setOnChipClickListener {
             chip ->
             presenter.onFilterDeleted((chip as FilterChipTag).field)
             filterChipView.remove(chip)
+
+            if (filterChipView.chipList.isEmpty()) {
+                filterChipView.visibility = View.GONE
+            }
         }
     }
 

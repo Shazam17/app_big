@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_info"
-        android:icon="@drawable/ic_info"
+        android:icon="@drawable/ic_info_big"
         android:title="@string/history_value_menu_info"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

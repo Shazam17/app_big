@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
 import com.software.ssp.erkc.extensions.getIconResId
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_transaction_payment.view.*
 import org.jetbrains.anko.onClick
 
@@ -36,9 +38,11 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
                  interactionListener: InteractionListener) {
             itemView.apply {
 
+                createDateText.text = payment.createDate?.toString(Constants.VALUES_DATE_FORMAT)
+
                 val receipt = payment.receipt
 
-                addressHeaderText.text = receipt.address
+                addressText.text = receipt.address
                 nameText.text = receipt.name
                 barcodeText.text = receipt.barcode
 
@@ -46,7 +50,7 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
 
                 swipeLayout.reset()
 
-                payTextView.onClick {
+                payButtonTextView.onClick {
                     interactionListener.onPayClick(payment)
                 }
 

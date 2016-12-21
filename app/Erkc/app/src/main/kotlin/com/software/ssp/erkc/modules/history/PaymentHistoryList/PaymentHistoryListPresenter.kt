@@ -10,6 +10,7 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
+import java.util.*
 import javax.inject.Inject
 
 
@@ -32,22 +33,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
     }
 
     override fun onSwipeToRefresh() {
-        subscriptions += paymentRepository
-                .fetchPayments()
-                .concatMap {
-                    payments ->
-                    realmRepository.savePaymentsList(payments)
-                }
-                .subscribe(
-                        {
-                            showPaymentsList()
-                        },
-                        {
-                            error ->
-                            view?.setLoadingVisible(false)
-                            view?.showMessage(error.parsedMessage())
-                        }
-                )
+        //disabled
     }
 
     override fun onPaymentClick(payment: RealmPayment) {
@@ -76,6 +62,27 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
         view?.navigateToFilter(currentFilter)
     }
 
+    override fun onRefreshClick() {
+        view?.setLoadingVisible(true)
+
+        subscriptions += paymentRepository
+                .fetchPayments()
+                .concatMap {
+                    payments ->
+                    realmRepository.savePaymentsList(payments)
+                }
+                .subscribe(
+                        {
+                            showPaymentsList()
+                        },
+                        {
+                            error ->
+                            view?.setLoadingVisible(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
+    }
+
     private fun showPaymentsList() {
         subscriptions += realmRepository.fetchPayments()
                 .flatMap {
@@ -91,7 +98,8 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                             !currentFilter.house.isNullOrBlank() && !it.house.equals(currentFilter.house, true) -> return@filter false
                             !currentFilter.apartment.isNullOrBlank() && it.apart != currentFilter.apartment -> return@filter false
                             !currentFilter.paymentType.isNullOrBlank() && it.name != currentFilter.paymentType -> return@filter false
-                            else -> {}
+                            else -> {
+                            }
                         }
                     }
 
@@ -119,7 +127,13 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                 .subscribe(
                         {
                             payments ->
-                            view?.showData(payments)
+
+                            val sortedPayments = ArrayList<RealmPayment>()
+
+                            val groupedPayments = payments.sortedByDescending { it.date }.groupBy { it.receipt!!.address }
+                            groupedPayments.forEach { sortedPayments.addAll(it.value) }
+
+                            view?.showData(sortedPayments)
                         },
                         {
                             error ->

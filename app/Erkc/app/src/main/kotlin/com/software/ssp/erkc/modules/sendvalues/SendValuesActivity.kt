@@ -29,17 +29,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
 
     private val receipt: Receipt? by extras()
     private val receiptId: String? by extras(Constants.KEY_RECEIPT)
-
-    // для возобновления передачи показаний из журнала транзакций
     private var fromTransaction: Boolean by extras(Constants.KEY_FROM_TRANSACTION, defaultValue = false)
-
-    override fun resolveDependencies(appComponent: AppComponent) {
-        DaggerSendValuesComponent.builder()
-                .appComponent(appComponent)
-                .sendValuesModule(SendValuesModule(this))
-                .build()
-                .inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +41,14 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         presenter.receiptId = receiptId
 
         presenter.onViewAttached()
+    }
+
+    override fun resolveDependencies(appComponent: AppComponent) {
+        DaggerSendValuesComponent.builder()
+                .appComponent(appComponent)
+                .sendValuesModule(SendValuesModule(this))
+                .build()
+                .inject(this)
     }
 
     override fun beforeDestroy() {

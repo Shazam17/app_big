@@ -18,4 +18,5 @@ interface IPaymentHistoryListPresenter : IListPresenter<RealmPayment, IPaymentHi
     fun onPaymentClick(payment: RealmPayment)
     fun onFilterDeleted(filterField: HistoryFilterField)
     fun onFilterClick()
+    fun onRefreshClick()
 }

@@ -53,7 +53,7 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
                 .subscribe(
                         {
                             payments ->
-                            view?.showData(payments)
+                            view?.showData(payments.sortedByDescending { it.createDate })
                         },
                         {
                             error ->

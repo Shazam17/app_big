@@ -6,6 +6,7 @@ import com.software.ssp.erkc.common.OpenHistoryWithReceiptEvent
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.lang.kotlin.plusAssign
@@ -16,6 +17,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
+    @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var eventBus: Relay<Any, Any>
     @Inject lateinit var notificationServiceManager: NotificationServiceManager
 
@@ -38,11 +40,21 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         if (activeSession.isOfflineSession) {
             view?.navigateToSplashScreen()
         } else {
-            activeSession.clear()
-            view?.clearUserInfo()
-            view?.setAuthedMenuVisible(false)
-            view?.navigateToMainScreen()
-            notificationServiceManager.stopPushService()
+            subscriptions += settingsRepository
+                    .unregisterFbToken(notificationServiceManager.deviceId)
+                    .subscribe(
+                            {
+                                notificationServiceManager.stopPushService()
+                                activeSession.clear()
+                                view?.clearUserInfo()
+                                view?.setAuthedMenuVisible(false)
+                                view?.navigateToMainScreen()
+                            },
+                            {
+                                error ->
+                                view?.showMessage(error.parsedMessage())
+                            }
+                    )
         }
     }
 

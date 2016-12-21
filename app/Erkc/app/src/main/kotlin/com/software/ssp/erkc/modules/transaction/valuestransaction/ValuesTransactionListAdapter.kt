@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
 import com.software.ssp.erkc.extensions.getIconResId
+import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_transaction_ipu.view.*
 
 /**
@@ -30,9 +32,11 @@ class ValuesTransactionListAdapter(val dataList: List<RealmOfflineIpu>,
     class ViewHolder(view: View, val interactionListener: InteractionListener?) : RecyclerView.ViewHolder(view) {
         fun bind(offlineIpu: RealmOfflineIpu) {
             itemView.apply {
-                addressHeaderText.text = offlineIpu.receipt.address
+                addressText.text = offlineIpu.receipt.address
                 nameText.text = offlineIpu.receipt.name
                 barcodeText.text = offlineIpu.receipt.barcode
+
+                createDateText.text = offlineIpu.createDate?.toString(Constants.VALUES_DATE_FORMAT)
 
                 typeImage.setImageResource(offlineIpu.receipt.receiptType.getIconResId())
 

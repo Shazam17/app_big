@@ -3,11 +3,13 @@ package com.software.ssp.erkc.modules.history.ValuesHistoryList
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
 import javax.inject.Inject
@@ -19,6 +21,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
+    @Inject lateinit var ipuRepository: IpuRepository
 
     override var currentFilter: HistoryFilterModel = HistoryFilterModel()
         set(value) {
@@ -33,7 +36,7 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onSwipeToRefresh() {
-        //TODO fetch ipus from API
+        //disabled
     }
 
     override fun onReceiptClick(receipt: RealmReceipt) {
@@ -59,6 +62,33 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
 
     override fun onFilterClick() {
         view?.navigateToFilter(currentFilter)
+    }
+
+    override fun onRefreshClick() {
+        view?.setLoadingVisible(true)
+
+        subscriptions += realmRepository
+                .fetchReceiptsList()
+                .flatMap {
+                    receipts ->
+                    receipts.toObservable()
+                }
+                .filter { it.lastIpuTransferDate != null }
+                .flatMap {
+                    receipt ->
+                    updateIpusForReceipt(receipt)
+                }
+                .toList()
+                .subscribe(
+                        {
+                            showReceiptsList()
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setLoadingVisible(false)
+                        }
+                )
     }
 
     private fun showReceiptsList() {
@@ -98,5 +128,14 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
                             view?.setLoadingVisible(false)
                             view?.showMessage(error.parsedMessage())
                         })
+    }
+
+    private fun updateIpusForReceipt(receipt: RealmReceipt): Observable<Boolean> {
+        return ipuRepository
+                .getHistoryByReceipt(receipt.barcode)
+                .concatMap {
+                    ipus ->
+                    realmRepository.saveIpusWithReceipt(ipus, receipt.id)
+                }
     }
 }
