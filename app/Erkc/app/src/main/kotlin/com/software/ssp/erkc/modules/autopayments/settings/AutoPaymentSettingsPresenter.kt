@@ -69,6 +69,9 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                         autoPaymentMode.ordinal.toString()
                 )
                 .concatMap {
+                    selectedReceipt!!.linkedCard = selectedCard
+                    selectedReceipt!!.autoPayMode = autoPaymentMode.ordinal
+
                     realmRepository.updateReceipt(selectedReceipt!!)
                 }
                 .subscribe(

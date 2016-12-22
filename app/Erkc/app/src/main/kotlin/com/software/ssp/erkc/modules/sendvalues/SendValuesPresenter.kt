@@ -106,7 +106,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                                     serviceName = ipu.serviceName,
                                                     number = ipu.number,
                                                     installPlace = ipu.installPlace,
-                                                    period = ipu.period,
+                                                    period = ipuData.offlineIpu.createDate,
                                                     value = ipuData.offlineIpu.values.first { it.ipuId == ipu.id }.value
                                             )
                                     )
@@ -191,7 +191,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                 val now = Calendar.getInstance().time
 
                                 ipus.forEach {
-                                    currentIpu.ipuValues.add(0,
+                                    currentIpu.ipuValues.add(
                                             RealmIpuValue(
                                                     it.id,
                                                     it.serviceName,

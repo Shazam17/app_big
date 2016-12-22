@@ -11,7 +11,7 @@ import javax.inject.Inject
  */
 class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxPresenter<ISearchAddressView>(view), ISearchAddressPresenter {
 
-    @Inject lateinit var realmRepo: RealmRepository
+    @Inject lateinit var realmRepository: RealmRepository
 
     override fun onViewAttached() {
         showAllStreets()
@@ -23,15 +23,18 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     }
 
     override fun onQuery(query: String) {
-        subscriptions += realmRepo.fetchStreets(query)
-                .subscribe({
-                    streets ->
-                    view?.showData(streets)
-                })
+        subscriptions += realmRepository
+                .fetchStreets(query)
+                .subscribe(
+                        {
+                            streets ->
+                            view?.showData(streets)
+                        }
+                )
     }
 
     override fun onViewDetached() {
-        realmRepo.close()
+        realmRepository.close()
         super.onViewDetached()
     }
 
@@ -40,10 +43,12 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
     }
 
     private fun showAllStreets() {
-        subscriptions += realmRepo.fetchStreets()
-                .subscribe({
-                    streets ->
-                    view?.showData(streets)
-                })
+        subscriptions += realmRepository.fetchStreets()
+                .subscribe(
+                        {
+                            streets ->
+                            view?.showData(streets)
+                        }
+                )
     }
 }

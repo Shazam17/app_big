@@ -12,6 +12,7 @@ import com.software.ssp.erkc.di.AppComponent
 import kotlinx.android.synthetic.main.activity_search_address.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textChangedListener
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -25,26 +26,16 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         val SEARCH_ADDRESS_RESULT_KEY = "SEARCH_ADDRESS_RESULT_KEY"
     }
 
-    var mSearchAdapter: SearchAddressListAdapter? = null
+    private var adapter: SearchAddressListAdapter? = null
+    private val streetsList: MutableList<RealmStreet> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_address)
+
         initViews()
+
         presenter.onViewAttached()
-    }
-
-    override fun setResult(street: RealmStreet) {
-        val intent = Intent()
-        intent.putExtra(SEARCH_ADDRESS_RESULT_KEY, street.name)
-        setResult(Activity.RESULT_OK, intent)
-    }
-
-    override fun close() {
-        finish()
-    }
-
-    override fun showData(streets: List<RealmStreet>) {
-        mSearchAdapter?.swapData(streets)
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {
@@ -59,7 +50,23 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
         presenter.dropView()
     }
 
-    fun initViews() {
+    override fun showData(streets: List<RealmStreet>) {
+        streetsList.clear()
+        streetsList.addAll(streets)
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun setResult(street: RealmStreet) {
+        val intent = Intent()
+        intent.putExtra(SEARCH_ADDRESS_RESULT_KEY, street.name)
+        setResult(Activity.RESULT_OK, intent)
+    }
+
+    override fun close() {
+        finish()
+    }
+
+    private fun initViews() {
         searchAddressQuery.textChangedListener {
             afterTextChanged { text -> presenter.onQuery(text.toString()) }
         }
@@ -68,13 +75,16 @@ class SearchAddressActivity : MvpActivity(), ISearchAddressView {
             presenter.onBackClick()
         }
 
-        mSearchAdapter = SearchAddressListAdapter({
-            address ->
-            presenter.onItemSelected(address)
+        adapter = SearchAddressListAdapter(
+                streetsList,
+                {
+                    address ->
+                    presenter.onItemSelected(address)
 
-        })
+                }
+        )
 
-        recyclerView.adapter = mSearchAdapter
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

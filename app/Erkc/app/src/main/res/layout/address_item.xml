@@ -1,6 +1,25 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/addressTextView"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
-    android:textAppearance="@style/Base.TextAppearance.AppCompat.SearchResult.Title" />
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/addressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/half_default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.SearchResult.Title"
+        tools:text="asdasdasdadasdaksjhdkjashdkas" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorHistoryValueDivider" />
+
+</LinearLayout>

@@ -23,9 +23,6 @@ class SplashActivity : MvpActivity(), ISplashView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // для использования 2-й версии splash скрина раскоменатрить тут и убрать из стиля windowBackground
-        //setContentView(R.layout.activity_splash)
-
         presenter.onViewAttached()
     }
 

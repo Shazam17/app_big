@@ -58,9 +58,10 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     override fun showIpu(ipu: RealmIpu) {
         sendValuesBarcode.text = ipu.receipt?.barcode
         sendValuesAddress.text = ipu.receipt?.address
-        sendValuesDebts.text = "${ipu.receipt?.amount} р. (${ipu.ipuValues.last().period?.toString(Constants.PERIOD_DATE_FORMAT_UI)})"
+        val newIpus = ipu.ipuValues.filter { !it.isSent }
+        sendValuesDebts.text = "${ipu.receipt?.amount} р. (${newIpus.first().period?.toString(Constants.PERIOD_DATE_FORMAT_UI)})"
         val layoutInflater = LayoutInflater.from(this)
-        ipu.ipuValues.filter { !it.isSent }.forEach {
+        newIpus.forEach {
             val ipuLayout = layoutInflater.inflate(R.layout.sendparameters_ipu_layout, parametersContainer, false)
             ipuLayout.ipuLocation.text = it.installPlace
             ipuLayout.ipuValueWrapper.hint = "%s (%s)".format(it.serviceName, it.number)

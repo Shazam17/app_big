@@ -12,7 +12,7 @@ object Constants {
 
     //DateTime formats
     const val PERIOD_DATE_FORMAT_API = "yyyyMM"
-    const val PERIOD_DATE_FORMAT_UI = "MMMM yyyy"
+    const val PERIOD_DATE_FORMAT_UI = "MMM yyyy"
     const val DATE_TIME_FORMAT_PAYMENTS_UI = "dd MMM yyyy, HH:mm"
     const val DATE_TIME_FORMAT_API = "yyyy-MM-dd HH:mm:ss"
     const val DATE_TIME_FORMAT_API_PAYMENTS = "dd.MM.yyyy HH:mm"
@@ -27,13 +27,12 @@ object Constants {
     const val KEY_RECEIPT = "KEY_RECEIPT"
     const val KEY_HISTORY_FILTER = "KEY_HISTORY_FILTER"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
-    const val KEY_DRAWER_ITEM_FOR_SELECT = "drawner_item_for_select_key"
+    const val KEY_PAYMENT = "KEY_PAYMENT"
+    const val KEY_FROM_TRANSACTION = "KEY_FROM_TRANSACTION"
 
     // Т.к. нет у АПИ кодов для определения горячая вода / холодная вода / эл-во приняли решение привязаться в названию
     const val HOT_WATER = "Горяч"
     const val COLD_WATER = "Холод"
-    const val KEY_PAYMENT = "KEY_PAYMENT"
-    const val KEY_FROM_TRANSACTION = "KEY_FROM_TRANSACTION"
 
     const val NOTIFICATION_ACTION_CLICK = "notificationClicked"
 }

@@ -1,36 +1,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
 
-        <ImageView
-            android:id="@+id/searchAddressBack"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:paddingRight="@dimen/half_default_margin"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_back_black" />
+            android:layout_margin="@dimen/half_default_margin"
+            android:background="@color/colorWhite"
+            android:elevation="5dp"
+            android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/searchAddressQuery"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:hint="@string/search_addresses_hint" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/searchAddressBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/half_default_margin"
+                android:paddingRight="@dimen/half_default_margin"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back_black" />
+
+            <EditText
+                android:id="@+id/searchAddressQuery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_addresses_hint" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_filter"
+            android:drawableTop="@drawable/ic_filter_black"
             android:paddingTop="@dimen/default_margin"
             android:textAlignment="center"
             android:textSize="12sp"

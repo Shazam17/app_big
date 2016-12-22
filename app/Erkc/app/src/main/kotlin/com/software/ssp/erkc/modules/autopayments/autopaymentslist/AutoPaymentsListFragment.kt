@@ -40,6 +40,10 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.autoPaymentMode = autoPaymentMode
+    }
+
+    override fun onResume() {
+        super.onResume()
         presenter.onViewAttached()
     }
 
