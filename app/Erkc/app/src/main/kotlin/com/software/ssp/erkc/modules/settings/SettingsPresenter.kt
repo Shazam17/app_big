@@ -1,13 +1,11 @@
 package com.software.ssp.erkc.modules.settings
 
-import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmSettings
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
-import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -20,12 +18,22 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
 
     private lateinit var offlineUserSettings: RealmSettings
 
+    private var isChanged = false
+
     override fun onViewAttached() {
         fetchData()
     }
 
+    override fun dropView() {
+        view = null
+        if (isChanged) {
+            saveSettings()
+        } else {
+            onViewDetached()
+        }
+    }
+
     override fun onViewDetached() {
-        saveSettings()
         realmRepository.close()
         super.onViewDetached()
     }
@@ -54,42 +62,47 @@ class SettingsPresenter @Inject constructor(view: ISettingsView) : RxPresenter<I
     override fun onOperationStatusSwitch(checked: Boolean) {
         offlineUserSettings.operationStatusNotificationEnabled = checked
         updateData()
+        isChanged = true
     }
 
     override fun onNewsSwitch(checked: Boolean) {
         offlineUserSettings.newsNotificationEnabled = checked
         updateData()
+        isChanged = true
     }
 
     override fun onPaymentSwitch(checked: Boolean) {
         offlineUserSettings.paymentNotificationEnabled = checked
         updateData()
+        isChanged = true
     }
 
     override fun onIpuSwitch(checked: Boolean) {
         offlineUserSettings.ipuNotificationEnabled = checked
         updateData()
+        isChanged = true
     }
 
     private fun saveSettings() {
         offlineUserSettings.apply {
-            subscriptions += Observable.zip(
-                    settingsRepository.setStatusOperations(operationStatusNotificationEnabled),
-                    settingsRepository.setGetNews(newsNotificationEnabled),
-                    settingsRepository.setNeedToPay(paymentNotificationEnabled),
-                    settingsRepository.setNeedToSendMeters(ipuNotificationEnabled),
-                    {
-                        statusOperation, getNews, needToPay, needToSendMeters ->
-                        Observable.just(null)
-                    })
+            subscriptions += settingsRepository.setStatusOperations(operationStatusNotificationEnabled)
+                    .concatMap {
+                        settingsRepository.setGetNews(newsNotificationEnabled)
+                    }
+                    .concatMap {
+                        settingsRepository.setNeedToPay(paymentNotificationEnabled)
+                    }
+                    .concatMap {
+                        settingsRepository.setNeedToSendMeters(ipuNotificationEnabled)
+                    }
                     .subscribe(
                             {
                                 result ->
-                                view?.showMessage(R.string.settings_saved_message)
+                                onViewDetached()
                             },
                             {
                                 error ->
-                                view?.showMessage(error.parsedMessage())
+                                onViewDetached()
                             })
         }
     }

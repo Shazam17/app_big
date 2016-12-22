@@ -14,6 +14,7 @@
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
         android:paddingTop="@dimen/half_default_margin"
+        android:textSize="@dimen/google_subhead_text_size"
         tools:text="Инструкция 1" />
 
     <View

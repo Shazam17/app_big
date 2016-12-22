@@ -329,11 +329,14 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap { currentUser ->
                     val cachedReceipts = arrayListOf<RealmReceipt>()
+
                     receipts.mapTo(cachedReceipts) {
+
                         var linkedCard: RealmCard? = null
                         if (it.linkedCardId != null) {
                             linkedCard = realm.where(RealmCard::class.java).equalTo("id", it.linkedCardId).findFirst()
                         }
+
                         RealmReceipt(
                                 it.id!!,
                                 it.street,
@@ -360,8 +363,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     Observable.create<Boolean> { sub ->
                         realm.executeTransactionAsync(
                                 {
-                                    it.copyToRealmOrUpdate(cachedReceipts)
                                     it.copyToRealmOrUpdate(currentUser)
+                                    it.copyToRealmOrUpdate(cachedReceipts)
                                 },
                                 {
                                     sub.onNext(true)

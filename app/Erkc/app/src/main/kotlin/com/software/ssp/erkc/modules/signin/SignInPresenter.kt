@@ -30,7 +30,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     override fun onLoginButtonClick(login: String, password: String) {
         if (validateFields(login, password)) {
-            if (activeSession.appToken == null) {
+            if (activeSession.isOfflineSession) {
                 offlineLogin(login, password)
             } else {
                 login(login, password)
@@ -155,7 +155,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             result ->
                             view?.setProgressVisibility(false)
                             if (result) {
-                                activeSession.isOfflineSession = true
                                 view?.setResultOk()
                                 view?.close()
                             }

@@ -49,7 +49,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:hint="@string/main_screen_street_hint"
-        app:layout_constraintHorizontal_bias="0.78"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barcodeInputLayout">
@@ -59,8 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
+            android:maxLines="2" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -103,7 +101,7 @@
                 android:id="@+id/apartmentEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="textWebEditText"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>

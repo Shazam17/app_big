@@ -15,7 +15,6 @@ import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
@@ -97,7 +96,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
         paymentAddress.text = receipt.address
         paymentCommissionPercents.text = getString(R.string.payment_commission_percent).format(receipt.percent)
-        paymentSum.setText(receipt.amount.toString())
+        paymentSum.setText(if (receipt.amount < 0) "0.0" else receipt.amount.toString())
     }
 
     override fun showReceiptInfo(receipt: RealmReceipt) {
@@ -105,7 +104,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
         paymentAddress.text = receipt.address
         paymentCommissionPercents.text = getString(R.string.payment_commission_percent).format(receipt.percent)
-        paymentSum.setText(receipt.amount.toString())
+        paymentSum.setText(if (receipt.amount < 0) "0.0" else receipt.amount.toString())
         paymentCardChooseContainer.visibility = View.VISIBLE
     }
 

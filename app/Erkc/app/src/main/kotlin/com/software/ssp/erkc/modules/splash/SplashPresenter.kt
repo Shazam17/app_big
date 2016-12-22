@@ -12,6 +12,7 @@ import rx.Observable
 import rx.lang.kotlin.plusAssign
 import java.net.UnknownHostException
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -24,10 +25,17 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
 
+    private val TIMER_SECONDS = 3L
+
     override fun onViewAttached() {
         super.onViewAttached()
         activeSession.clear()
-        authenticateApp()
+
+        //Needed 5 second splash showing (3 sec timer + requests time)
+        subscriptions += Observable.timer(TIMER_SECONDS, TimeUnit.SECONDS)
+                .subscribe {
+                    authenticateApp()
+                }
     }
 
     override fun onViewDetached() {
@@ -49,7 +57,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) && !realmRepository.streetsLoaded()) {
+                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) || !realmRepository.streetsLoaded()) {
                         dictionaryRepository.fetchStreets()
                     } else {
                         Observable.just(null)
@@ -85,10 +93,12 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     }
 
     override fun onTryAgainClicked() {
+        activeSession.isOfflineSession = false
         authenticateApp()
     }
 
     override fun onConfirmOfflineLogin() {
+        activeSession.isOfflineSession = true
         view?.navigateToOfflineSignIn()
     }
 }

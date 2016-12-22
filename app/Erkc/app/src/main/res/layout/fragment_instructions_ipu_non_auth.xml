@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/instruction_send_values_add_receipt_content_1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_scan_black"
+            android:paddingTop="@dimen/default_margin"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:text="@string/instructions_scan_icon_text"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/instruction_send_values_add_receipt_content_2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/instruction_send_values_add_receipt_content_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/instruction_send_values_add_receipt_content_4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_margin"
+            android:text="@string/instruction_send_values_add_receipt_content_5" />
+
+    </LinearLayout>
+
+</ScrollView>

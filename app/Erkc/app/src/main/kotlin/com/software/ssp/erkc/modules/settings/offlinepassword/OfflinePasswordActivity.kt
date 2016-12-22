@@ -54,20 +54,16 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
         setResult(Activity.RESULT_OK)
     }
 
-    override fun dismiss() {
+    override fun close() {
         finish()
     }
 
-    override fun showSecondPasswordError(errorResId: Int) {
-        offlinePassSecondInputLayout.error = getString(errorResId)
+    override fun showPasswordError(errorResId: Int) {
+        offlinePasswordInputLayout.error = getString(errorResId)
     }
 
-    override fun showSecondPasswordNormalState() {
-        offlinePassSecondInputLayout.error = null
-    }
-
-    override fun enableSendButton(enabled: Boolean) {
-        offlinePassSaveButton.isEnabled = enabled
+    override fun showRePasswordError(errorResId: Int) {
+        offlineRePasswordInputLayout.error = getString(errorResId)
     }
 
     private fun initViews() {
@@ -75,16 +71,20 @@ class OfflinePasswordActivity : MvpActivity(), IOfflinePasswordView {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         supportActionBar?.elevation = 0f
 
-        firstEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k -> presenter.onPasswordChange(charSequence.toString()) }
+        offlinePasswordEditText.textChangedListener {
+            onTextChanged { charSequence, i, j, k ->
+                offlinePasswordInputLayout.error = ""
+                presenter.onPasswordChange(charSequence.toString())
+            }
         }
 
-        secondEditText.textChangedListener {
-            onTextChanged { charSequence, i, j, k -> presenter.onConfirmPasswordChange(charSequence.toString()) }
+        offlineRePasswordEditText.textChangedListener {
+            onTextChanged { charSequence, i, j, k ->
+                offlineRePasswordInputLayout.error = ""
+                presenter.onConfirmPasswordChange(charSequence.toString())
+            }
         }
 
-        offlinePassSaveButton.onClick { presenter.onSaveButtonClick() }
-
+        offlinePasswordSaveButton.onClick { presenter.onSaveButtonClick() }
     }
-
 }

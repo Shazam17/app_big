@@ -8,62 +8,74 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 
 
-class Instructions1Fragment : Fragment() {
+class InstructionsIpuNonAuthFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_1, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_ipu_non_auth, container, false)
     }
 }
 
-class Instructions2Fragment : Fragment() {
+class InstructionsPaymentNonAuthFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_2, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_payment_non_auth, container, false)
     }
 }
 
-class Instructions3Fragment : Fragment() {
+class InstructionsIpuAddReceiptFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_3, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_ipu_add_receipt, container, false)
     }
 }
 
-class Instructions4Fragment : Fragment() {
+class InstructionsPaymentAddReceiptFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_4, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_payment_add_receipt, container, false)
     }
 }
 
-class Instructions5Fragment : Fragment() {
+class InstructionsIpuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_5, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_ipu, container, false)
     }
 }
 
-class Instructions6Fragment : Fragment() {
+class InstructionsPaymentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_6, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_payment, container, false)
     }
 }
 
-class Instructions7Fragment : Fragment() {
+class InstructionsPaymentCardFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_7, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_payment_card, container, false)
     }
 }
 
-class Instructions8Fragment : Fragment() {
+class InstructionsCardsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_8, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_cards, container, false)
     }
 }
 
-class Instructions9Fragment : Fragment() {
+class InstructionsAutoPaymentsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_9, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_auto_payments, container, false)
     }
 }
 
-class Instructions10Fragment : Fragment() {
+class InstructionsHistoryPaymentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instructions_10, container, false)
+        return inflater.inflate(R.layout.fragment_instructions_history_payment, container, false)
+    }
+}
+
+class InstructionsHistoryIpuFragment : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_instructions_history_ipu, container, false)
+    }
+}
+
+class InstructionsNotificationsFragment : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_instructions_notifications, container, false)
     }
 }

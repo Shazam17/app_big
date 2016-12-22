@@ -15,8 +15,10 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var activeSession: ActiveSession
 
-    private lateinit var password: String
     private lateinit var offlineUserSettings: RealmSettings
+
+    private var password: String = ""
+    private var rePassword: String = ""
 
     override fun onViewAttached() {
         fetchData()
@@ -32,32 +34,27 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
     }
 
     override fun onConfirmPasswordChange(text: String) {
-        if (validate(text)) {
-            view?.enableSendButton(true)
-            view?.showSecondPasswordNormalState()
-        } else {
-            view?.enableSendButton(false)
-            view?.showSecondPasswordError(R.string.offline_password_second_error)
-        }
+        rePassword = text
     }
 
     override fun onSaveButtonClick() {
+        if (!validateData()) {
+            return
+        }
+
         offlineUserSettings.password = password
+
         subscriptions += realmRepository.updateOfflineSettings(offlineUserSettings)
                 .subscribe(
-                {
-                    view?.didSavedOfflinePassword()
-                    view?.dismiss()
-                },
-                {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                    view?.dismiss()
-                })
-    }
-
-    private fun validate(secondPassword: String): Boolean {
-        return password == secondPassword
+                        {
+                            view?.didSavedOfflinePassword()
+                            view?.close()
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.close()
+                        })
     }
 
     private fun fetchData() {
@@ -72,5 +69,26 @@ class OfflinePasswordPresenter @Inject constructor(view: IOfflinePasswordView) :
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun validateData(): Boolean {
+        return when {
+            password.isNullOrBlank() -> {
+                view?.showPasswordError(R.string.error_empty_field)
+                false
+            }
+
+            rePassword.isNullOrBlank() -> {
+                view?.showRePasswordError(R.string.error_empty_field)
+                false
+            }
+
+            password != rePassword -> {
+                view?.showRePasswordError(R.string.password_not_equals)
+                false
+            }
+
+            else -> true
+        }
     }
 }

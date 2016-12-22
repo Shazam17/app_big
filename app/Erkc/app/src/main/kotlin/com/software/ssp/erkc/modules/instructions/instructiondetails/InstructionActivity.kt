@@ -39,18 +39,18 @@ class InstructionActivity : AppCompatActivity() {
         supportActionBar?.setTitle(instructionType.titleId)
 
         when (instructionType) {
-            InstructionType.NON_AUTH_SEND_VALUES -> showFragment(Instructions1Fragment())
-            InstructionType.NON_AUTH_TITLE -> showFragment(Instructions2Fragment())
-            InstructionType.PAYMENT_ADD_RECEIPT -> showFragment(Instructions2Fragment())
-            InstructionType.SEND_VALUES_ADD_RECEIPT -> showFragment(Instructions1Fragment())
-            InstructionType.SEND_VALUES -> showFragment(Instructions3Fragment())
-            InstructionType.PAYMENT -> showFragment(Instructions4Fragment())
-            InstructionType.PAYMENT_WITH_CARD -> showFragment(Instructions5Fragment())
-            InstructionType.CARDS -> showFragment(Instructions6Fragment())
-            InstructionType.AUTO_PAYMENTS -> showFragment(Instructions7Fragment())
-            InstructionType.HISTORY_PAYMENT -> showFragment(Instructions8Fragment())
-            InstructionType.HISTORY_SEND_VALUES -> showFragment(Instructions9Fragment())
-            InstructionType.NOTIFICATIONS -> showFragment(Instructions10Fragment())
+            InstructionType.NON_AUTH_SEND_VALUES -> showFragment(InstructionsIpuNonAuthFragment())
+            InstructionType.NON_AUTH_TITLE -> showFragment(InstructionsPaymentNonAuthFragment())
+            InstructionType.PAYMENT_ADD_RECEIPT -> showFragment(InstructionsPaymentAddReceiptFragment())
+            InstructionType.SEND_VALUES_ADD_RECEIPT -> showFragment(InstructionsIpuAddReceiptFragment())
+            InstructionType.SEND_VALUES -> showFragment(InstructionsIpuFragment())
+            InstructionType.PAYMENT -> showFragment(InstructionsPaymentFragment())
+            InstructionType.PAYMENT_WITH_CARD -> showFragment(InstructionsPaymentCardFragment())
+            InstructionType.CARDS -> showFragment(InstructionsCardsFragment())
+            InstructionType.AUTO_PAYMENTS -> showFragment(InstructionsAutoPaymentsFragment())
+            InstructionType.HISTORY_PAYMENT -> showFragment(InstructionsHistoryPaymentFragment())
+            InstructionType.HISTORY_SEND_VALUES -> showFragment(InstructionsHistoryIpuFragment())
+            InstructionType.NOTIFICATIONS -> showFragment(InstructionsNotificationsFragment())
         }
     }
 }

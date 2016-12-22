@@ -8,18 +8,35 @@
     android:focusableInTouchMode="true">
 
     <TextView
-        android:id="@+id/addressTextView"
+        android:id="@+id/umpTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/contacts_ump"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/companyNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/half_default_margin"
         android:text="@string/contacts_name"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        android:textStyle="normal|italic"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/umpTextView" />
 
     <FrameLayout
         android:id="@+id/mapContainer"
@@ -33,7 +50,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextView">
+        app:layout_constraintTop_toBottomOf="@+id/companyNameTextView"
+        tools:background="@color/colorPrimary">
 
     </FrameLayout>
 
@@ -51,7 +69,7 @@
         android:paddingTop="@dimen/quarter_default_margin"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextView">
+        app:layout_constraintTop_toBottomOf="@+id/companyNameTextView">
 
         <TextView
             android:layout_width="0dp"
@@ -76,13 +94,13 @@
         android:id="@+id/phoneLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/quarter_default_margin"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:background="@color/colorWhite60"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/half_default_margin"
         android:paddingStart="@dimen/half_default_margin"
+        android:paddingTop="@dimen/quarter_default_margin"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addressLayout">

@@ -12,8 +12,8 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
+import java.util.*
 import javax.inject.Inject
-import kotlin.comparisons.compareBy
 
 
 class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListView) : RxPresenter<IValuesHistoryListView>(view), IValuesHistoryListPresenter {
@@ -121,7 +121,13 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
                 .subscribe(
                         {
                             filteredIpus ->
-                            view?.showData(filteredIpus.map { it.receipt!! }.sortedWith(compareBy({ it.address }, { it.lastIpuTransferDate })))
+
+                            val sortedReceipts = ArrayList<RealmReceipt>()
+
+                            val groupedReceipts = filteredIpus.sortedByDescending { it.receipt!!.lastIpuTransferDate }.groupBy { it.receipt!!.address }
+                            groupedReceipts.forEach { sortedReceipts.addAll(it.value.map { it.receipt!! }) }
+
+                            view?.showData(sortedReceipts)
                         },
                         {
                             error ->

@@ -29,7 +29,7 @@ import com.software.ssp.erkc.modules.transaction.TransactionTabFragment
 import com.software.ssp.erkc.modules.userprofile.UserProfileActivity
 import com.software.ssp.erkc.modules.valuetransfer.ValueTransferFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
-import kotlinx.android.synthetic.main.drawer_header_layout.view.*
+import kotlinx.android.synthetic.main.layout_drawer_header.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
