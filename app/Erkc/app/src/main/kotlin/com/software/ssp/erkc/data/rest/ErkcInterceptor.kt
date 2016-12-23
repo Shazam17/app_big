@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.data.rest
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonIOException
@@ -14,6 +15,7 @@ import com.software.ssp.erkc.extensions.md5
 import okhttp3.*
 import java.io.IOException
 import java.net.SocketTimeoutException
+import java.util.*
 
 
 class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
@@ -35,6 +37,9 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
                 originalBody != null && originalBody is FormBody -> getSignedFormBodyRequest(token, app_id, originalRequest)
                 else -> getSignedGetRequest(token, app_id, originalRequest)
             }
+
+            var requestStartMessage = "--> " + authorizedRequest.method() + ' ' + authorizedRequest.url()
+            Log.d("SignedRequest", requestStartMessage)
 
             val response = chain.proceed(authorizedRequest)
 
@@ -79,7 +84,16 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
     private fun getSignedGetRequest(token: String, app_id: String, originalRequest: Request): Request {
         val authorizedRequest: Request
         val originalUrl = originalRequest.url()
-        val params = originalUrl.queryParameterNames().toMutableList()
+        val paramNames = originalUrl.queryParameterNames().toMutableList()
+        val params = ArrayList<String>()
+
+        paramNames.forEach {
+            name ->
+            params.addAll(originalUrl.queryParameterValues(name).map { value -> "$name=$value" })
+        }
+
+        params.add(1, "token=$token")  // order is important here
+        params.add(1, "app_id=$app_id")
         val sig = getSig(token, params)
 
         val authorizedUrl = originalUrl.newBuilder()
@@ -133,5 +147,4 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
         val sig = (tokenValue + params + private_key).md5()
         return sig
     }
-
 }

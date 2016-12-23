@@ -36,16 +36,20 @@ class ErkcMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.push_icon)
+
+        val title = remoteMessage.notification?.title ?: remoteMessage.data["title"] ?: ""
+        val body = remoteMessage.notification?.body ?: remoteMessage.data["body"] ?: ""
+
         val intent = Intent(Constants.NOTIFICATION_ACTION_CLICK)
         val pendingIntent = PendingIntent.getBroadcast(this, System.currentTimeMillis().toInt(), intent, 0)
         val builder = NotificationCompat.Builder(this)
                 .setLargeIcon(iconBitmap)
                 .setSmallIcon(R.drawable.push_icon)
-                .setContentTitle(remoteMessage.notification.title)
-                .setContentText(remoteMessage.notification.body)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setVibrate(longArrayOf(defaultVibrationDuration, defaultVibrationDuration, defaultVibrationDuration, defaultVibrationDuration))
-                .setLights(Color.CYAN, 1, 1)
+                .setLights(Color.CYAN, 500, 1000)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setColor(getCompatColor(R.color.colorPrimary))
                 .setContentIntent(pendingIntent)

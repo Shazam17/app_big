@@ -14,12 +14,14 @@ class FaqRepository @Inject constructor(private val faqDataSource: FaqDataSource
                     email: String,
                     text: String,
                     subject: String): Observable<Response<ResponseBody>> {
-        return faqDataSource.sendMessage(mapOf(
-                "name" to name,
-                "login" to login,
-                "email" to email,
-                "text" to text,
-                "subject" to subject)
+        return faqDataSource.sendMessage(
+                mapOf(
+                        "name" to name,
+                        "login" to login,
+                        "email" to email,
+                        "text" to text,
+                        "subject" to subject
+                )
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
 }

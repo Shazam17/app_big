@@ -36,6 +36,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override lateinit var receipt: Receipt
     override var receiptId: String? = null
+    override var paymentId: String? = null
     override var fromTransaction: Boolean = false
 
     private lateinit var user: RealmUser
@@ -55,6 +56,11 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
     override fun onViewAttached() {
         super.onViewAttached()
+
+        if (paymentId != null) {
+            retryByPaymentId()
+            return
+        }
 
         if (receiptId == null) {
             view?.showReceiptInfo(receipt)
@@ -231,6 +237,40 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.showReceiptInfo(realmReceipt)
                             view?.showEmail(user.email)
                             view?.showSelectedCard(currentPayment.paymentCard)
+                            view?.setProgressVisibility(false)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.setProgressVisibility(false)
+                        }
+                )
+    }
+
+    private fun retryByPaymentId() {
+        view?.setProgressVisibility(true)
+        subscriptions += realmRepository
+                .fetchCurrentUser()
+                .subscribe(
+                        {
+                            currentUser ->
+                            user = currentUser
+
+                            val payment = currentUser.paymentsInfo.first { it.id == paymentId }
+                            realmReceipt = payment.receipt!!
+                            receiptId = realmReceipt.id
+
+                            currentPayment.apply {
+                                paymentCard = payment.paymentCard
+                            }
+
+                            view?.showReceiptInfo(realmReceipt)
+                            view?.showEmail(user.email)
+                            view?.showSelectedCard(currentPayment.paymentCard)
+
+                            val paymentWithoutCommission = payment.sum * 100 / (payment.receipt!!.percent + 100)
+                            view?.showPaymentSum(paymentWithoutCommission)
+
                             view?.setProgressVisibility(false)
                         },
                         {

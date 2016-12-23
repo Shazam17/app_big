@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ReceiptsRepository @Inject constructor(private val receiptsDataSource: ReceiptsDataSource) : Repository() {
 
     fun fetchReceiptInfo(code: String, street: String = "", house: String = "", apart: String = ""): Observable<Receipt> {
-        val params = hashMapOf("code" to code)
+        val params = mutableMapOf("code" to code)
 
         if (!street.isNullOrBlank()) {
             params.put("street", street)
@@ -29,10 +29,8 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
     }
 
     fun deleteReceipt(receiptId: String): Observable<ApiResponse> {
-        val params = hashMapOf("id" to receiptId)
-
         return receiptsDataSource
-                .deleteReceipt(params)
+                .deleteReceipt(receiptId)
                 .compose(this.applySchedulers<ApiResponse>())
     }
 
@@ -40,11 +38,11 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                       userCardId: String,
                       maxSum: Double,
                       modeId: String): Observable<ApiResponse> {
-        val params = hashMapOf(
+        val params = mapOf(
                 "id" to receiptId,
                 "user_card_id" to userCardId,
-                "mode_id" to modeId,
-                "maxsumma" to maxSum.toStringWithDot()
+                "maxsumma" to maxSum.toStringWithDot(),
+                "mode_id" to modeId
         )
 
         return receiptsDataSource

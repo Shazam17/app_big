@@ -11,16 +11,18 @@ import javax.inject.Inject
 class PaymentRepository @Inject constructor(private val paymentDataSource: PaymentDataSource) : Repository() {
 
     fun init(code: String, method: Int, sum: String, email: String, cardId: String?): Observable<PaymentInit> {
-        val params = hashMapOf(
+        val params = mutableMapOf(
                 "code" to code,
-                "method_id" to method.toString(),
                 "summ" to sum,
-                "email" to email
+                "method_id" to method.toString()
         )
         if (cardId != null) {
             params.put("user_card_id", cardId)
         }
-         return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
+
+        params.put("email", email)
+
+        return paymentDataSource.init(params).compose(this.applySchedulers<PaymentInit>())
     }
 
     fun fetchPayments(): Observable<List<Payment>> {

@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.sendvalues
 
+import android.util.ArrayMap
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.*
@@ -49,7 +50,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             return
         }
 
-        val values = HashMap<String, String>()
+        val values = ArrayMap<String, String>()
         currentIpu.ipuValues.filter { !it.isSent }.forEach {
             values.put(it.id, it.value)
         }
@@ -124,7 +125,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         }
     }
 
-    private fun sendValues(values: HashMap<String, String>) {
+    private fun sendValues(values: ArrayMap<String, String>) {
         view?.setProgressVisibility(true)
         subscriptions += ipuRepository.sendParameters(currentIpu.receipt!!.barcode, values)
                 .concatMap {
@@ -149,7 +150,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                 )
     }
 
-    private fun saveValuesToTransactions(values: HashMap<String, String>) {
+    private fun saveValuesToTransactions(values: ArrayMap<String, String>) {
         view?.setProgressVisibility(true)
 
         val offlineIpus = RealmOfflineIpu(

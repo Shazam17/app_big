@@ -36,6 +36,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     @Inject lateinit var presenter: IPaymentPresenter
     private var receipt: Receipt? by extras()
     private var receiptId: String? by extras(Constants.KEY_RECEIPT)
+    private var paymentId: String? by extras()
 
     // для возобновления оплаты из журнала транзакций
     private var fromTransaction: Boolean by extras(Constants.KEY_FROM_TRANSACTION, defaultValue = false)
@@ -49,6 +50,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         }
         presenter.fromTransaction = fromTransaction
         presenter.receiptId = receiptId
+        presenter.paymentId = paymentId
 
         initViews()
         presenter.onViewAttached()

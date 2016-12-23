@@ -16,12 +16,6 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource) : Repository() {
 
-    fun authenticate(login: String, password: String): Observable<AuthData> {
-        return authDataSource
-                .authenticate(mapOf("login" to login, "password" to password))
-                .compose(this.applySchedulers<AuthData>())
-    }
-
     fun authenticateApp(): Observable<ResponseBody> {
         return authDataSource
                 .authenticateApp(Constants.API_OAUTH_URL, Constants.API_OAUTH_RESPONSE_TYPE, Constants.API_OAUTH_CLIENT_ID)
@@ -46,6 +40,17 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                 }
     }
 
+    fun authenticate(login: String, password: String): Observable<AuthData> {
+        return authDataSource
+                .authenticate(
+                        mapOf(
+                                "login" to login,
+                                "password" to password
+                        )
+                )
+                .compose(this.applySchedulers<AuthData>())
+    }
+
     fun recoverPassword(login: String, email: String, number: String): Observable<AuthData> {
         return authDataSource
                 .recoverPassword(login, email, number)
@@ -58,13 +63,15 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                      password: String,
                      repassword: String,
                      turing: String): Observable<Response<ResponseBody>> {
-        return authDataSource.registration(mapOf(
-                "name" to name,
-                "login" to login,
-                "email" to email,
-                "password" to password,
-                "repassword" to repassword,
-                "turing" to turing)
+        return authDataSource.registration(
+                mapOf(
+                        "name" to name,
+                        "login" to login,
+                        "email" to email,
+                        "password" to password,
+                        "repassword" to repassword,
+                        "turing" to turing
+                )
         ).compose(this.applySchedulers<Response<ResponseBody>>())
     }
 

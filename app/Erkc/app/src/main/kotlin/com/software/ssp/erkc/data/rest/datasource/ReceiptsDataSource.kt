@@ -14,7 +14,7 @@ interface ReceiptsDataSource {
     fun fetchReceipts(): Observable<List<Receipt>>
 
     @GET("?method=receipts.deletebyuser")
-    fun deleteReceipt(@QueryMap params: Map<String, String>): Observable<ApiResponse>
+    fun deleteReceipt(@Query("id") receiptId: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("?method=receipts.updatebyuser")

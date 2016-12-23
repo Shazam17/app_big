@@ -13,10 +13,12 @@ interface IPaymentInfoView : IView {
     fun fillData(paymentInfo: RealmPaymentInfo, payment: RealmPayment)
     fun setProgressVisibility(isVisible: Boolean)
     fun navigateToCheck()
+    fun navigateToRetryPayment(paymentId: String)
 }
 
 interface IPaymentInfoPresenter : IPresenter<IPaymentInfoView> {
+    var paymentId: String
+
     fun onRetryClick()
     fun onGetCheckClick()
-    fun onViewAttached(id: String)
 }

@@ -4,7 +4,6 @@ import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
-import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.models.Receipt
 
 /**
@@ -33,6 +32,7 @@ interface IPaymentPresenter : IPresenter<IPaymentView> {
 
     var receipt: Receipt
     var receiptId: String?
+    var paymentId: String?
     var fromTransaction: Boolean
 
     fun onChooseCardClick()

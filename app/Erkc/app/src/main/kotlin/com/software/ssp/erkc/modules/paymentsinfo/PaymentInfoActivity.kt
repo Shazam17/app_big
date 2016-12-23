@@ -15,6 +15,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.extensions.type
 import com.software.ssp.erkc.modules.paymentcheck.PaymentCheckActivity
+import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import kotlinx.android.synthetic.main.activity_payment_info.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
@@ -32,8 +33,12 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_info)
+
+        presenter.paymentId = paymentId
+
         initViews()
-        presenter.onViewAttached(paymentId)
+
+        presenter.onViewAttached()
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {
@@ -92,6 +97,10 @@ class PaymentInfoActivity : MvpActivity(), IPaymentInfoView {
 
     override fun navigateToCheck() {
         startActivity<PaymentCheckActivity>(Constants.KEY_PAYMENT to paymentId)
+    }
+
+    override fun navigateToRetryPayment(paymentId: String) {
+        startActivity<PaymentActivity>("paymentId" to paymentId)
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {

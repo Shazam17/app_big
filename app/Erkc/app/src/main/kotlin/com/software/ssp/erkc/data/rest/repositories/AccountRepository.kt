@@ -7,7 +7,7 @@ import rx.Observable
 import javax.inject.Inject
 
 
-class AccountRepository @Inject constructor(private val accountDataSource: AccountDataSource) : Repository(){
+class AccountRepository @Inject constructor(private val accountDataSource: AccountDataSource) : Repository() {
 
     fun fetchUserInfo(): Observable<User> {
         return accountDataSource
@@ -16,11 +16,12 @@ class AccountRepository @Inject constructor(private val accountDataSource: Accou
     }
 
     fun updateUserInfo(name: String, email: String, password: String, rePassword: String): Observable<ApiResponse> {
-        val params = hashMapOf(
+        val params = mutableMapOf(
                 "name" to name,
-                "email" to email)
+                "email" to email
+        )
 
-        if(!password.isNullOrBlank()){
+        if (!password.isNullOrBlank()) {
             params.put("password", password)
             params.put("repassword", rePassword)
         }

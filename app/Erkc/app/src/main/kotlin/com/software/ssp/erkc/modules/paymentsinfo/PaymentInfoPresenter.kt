@@ -19,8 +19,14 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var paymentRepository: PaymentRepository
 
+    override var paymentId: String = ""
+
+    override fun onViewAttached() {
+        fetchPaymentInfo()
+    }
+
     override fun onRetryClick() {
-        view?.showMessage("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.navigateToRetryPayment(paymentId)
     }
 
     override fun onGetCheckClick() {
@@ -32,20 +38,19 @@ class PaymentInfoPresenter @Inject constructor(view: IPaymentInfoView) : RxPrese
         view?.navigateToCheck()
     }
 
-    override fun onViewAttached(id: String) {
+    private fun fetchPaymentInfo() {
         view?.setProgressVisibility(true)
-
         subscriptions += Observable.just(activeSession.isOfflineSession)
                 .concatMap {
                     isOfflineSession ->
                     if (isOfflineSession) {
                         Observable.just(null)
                     } else {
-                        updatePaymentInfo(id)
+                        updatePaymentInfo(paymentId)
                     }
                 }
                 .concatMap {
-                    Observable.zip(realmRepository.fetchPaymentInfoById(id), realmRepository.fetchPaymentById(id),
+                    Observable.zip(realmRepository.fetchPaymentInfoById(paymentId), realmRepository.fetchPaymentById(paymentId),
                             {
                                 paymentInfo, payment ->
 
