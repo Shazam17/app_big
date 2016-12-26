@@ -4,10 +4,10 @@ object Constants {
 
     const val SERVER_URL = "https://api.vc.tom.ru"
     const val API_MAIN_ENDPOINT_URL = "$SERVER_URL/apps/"
-    const val API_OAUTH_URL = "http://api.vc.tom.ru/oauth/authorize/"
+    const val API_OAUTH_URL = "https://api.vc.tom.ru/oauth/authorize/"
     const val API_OAUTH_CLIENT_ID = "VtqDyaekN"
     const val API_OAUTH_RESPONSE_TYPE = "token"
-    const val API_OAUTH_REDIRECT_URI = "http://api.vc.tom.ru/auth/success.html"
+    const val API_OAUTH_REDIRECT_URI = "https://api.vc.tom.ru/auth/success.html"
     const val API_SIG_PRIVATE_KEY = "21ba15f3410d6fe7fd00b83d18025358"
 
     //DateTime formats

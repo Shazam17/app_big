@@ -65,11 +65,11 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                      turing: String): Observable<Response<ResponseBody>> {
         return authDataSource.registration(
                 mapOf(
-                        "name" to name,
                         "login" to login,
-                        "email" to email,
                         "password" to password,
                         "repassword" to repassword,
+                        "name" to name,
+                        "email" to email,
                         "turing" to turing
                 )
         ).compose(this.applySchedulers<Response<ResponseBody>>())
