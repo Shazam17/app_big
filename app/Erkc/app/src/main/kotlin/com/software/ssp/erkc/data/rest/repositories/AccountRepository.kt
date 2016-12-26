@@ -17,8 +17,8 @@ class AccountRepository @Inject constructor(private val accountDataSource: Accou
 
     fun updateUserInfo(name: String, email: String, password: String, rePassword: String): Observable<ApiResponse> {
         val params = mutableMapOf(
-                "name" to name,
-                "email" to email
+                "email" to email,
+                "name" to name
         )
 
         if (!password.isNullOrBlank()) {
