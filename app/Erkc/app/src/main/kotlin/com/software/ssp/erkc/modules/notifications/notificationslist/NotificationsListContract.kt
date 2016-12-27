@@ -23,4 +23,6 @@ interface INotificationsListPresenter : IListPresenter<RealmNotification, INotif
     fun onFilterClick()
 
     fun onResume()
+
+    fun onSearchSubmit(query: String)
 }

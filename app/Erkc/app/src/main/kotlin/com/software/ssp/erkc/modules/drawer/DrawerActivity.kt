@@ -78,10 +78,10 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        when {
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
+            searchView.isSearchOpen -> searchView.closeSearch()
+            else -> super.onBackPressed()
         }
     }
 

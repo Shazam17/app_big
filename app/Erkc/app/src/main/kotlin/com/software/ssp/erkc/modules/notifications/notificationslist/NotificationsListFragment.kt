@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
@@ -16,7 +17,8 @@ import com.software.ssp.erkc.modules.notifications.filter.NotificationsFilterChi
 import com.software.ssp.erkc.modules.notifications.filter.NotificationsFilterField
 import com.software.ssp.erkc.modules.notifications.filter.NotificationsFilterModel
 import com.software.ssp.erkc.modules.notifications.notificationscreen.NotificationScreenActivity
-import kotlinx.android.synthetic.main.fragment_history_list.*
+import kotlinx.android.synthetic.main.activity_drawer.*
+import kotlinx.android.synthetic.main.fragment_notifications_list.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
@@ -25,6 +27,8 @@ import javax.inject.Inject
 class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotificationsListView, NotificationsListAdapter.InteractionListener {
 
     @Inject lateinit var presenter: INotificationsListPresenter
+
+    private lateinit var searchView: MaterialSearchView
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerNotificationsListComponent.builder()
@@ -36,6 +40,7 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
+        searchView = activity.searchView //TODO
         return inflater?.inflate(R.layout.fragment_notifications_list, container, false)
     }
 
@@ -44,23 +49,26 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
         presenter.onViewAttached()
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.clear()
         inflater?.inflate(R.menu.notifications_menu, menu)
+        searchView.setMenuItem(menu.findItem(R.id.menu_search))
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+        return when (item?.itemId) {
             R.id.menu_filter -> {
                 presenter.onFilterClick()
-                return true
+                true
             }
-            R.id.menu_search -> {
-                return true
-            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun beforeDestroy() {
@@ -94,6 +102,11 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
 
     override fun onSwipeToRefresh() {
         presenter.onSwipeToRefresh()
+    }
+
+    override fun showData(dataset: List<RealmNotification>) {
+        super.showData(dataset)
+        searchView.setSuggestions(dataset.map { it.title }.toTypedArray())
     }
 
     override fun showCurrentFilter(currentFilter: NotificationsFilterModel) {
@@ -138,6 +151,27 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
                 filterChipView.visibility = View.GONE
             }
         }
+
+        searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                presenter.onSearchSubmit(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        searchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewClosed() {
+                filterBlur.visibility = View.GONE
+            }
+
+            override fun onSearchViewShown() {
+                filterBlur.visibility = View.VISIBLE
+            }
+        })
     }
 
     private fun checkAndAddFilterTag(text: String?, field: NotificationsFilterField) {

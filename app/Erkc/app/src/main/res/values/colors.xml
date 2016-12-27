@@ -43,6 +43,8 @@
 
     <color name="colorFilterChip">#DCDCDC</color>
 
+    <color name="colorInactiveBack">#BA000000</color>
+
     <!-- card list item -->
     <color name="colorCardDividerActivated">#3b78de</color>
     <color name="colorCardDividerNotActivated">#e0e0e0</color>

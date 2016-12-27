@@ -35,7 +35,7 @@ class NotificationsListAdapter(val dataList: List<RealmNotification>,
                 dateTimeText.text = notification.deliveredDate?.toString(Constants.NOTIFICATIONS_DATETIME_FORMAT)
                 titleText.text = notification.title
 
-                readImageView.visibility = if (notification.isRead) View.VISIBLE else View.GONE
+                readImageView.visibility = if (notification.isRead) View.VISIBLE else View.INVISIBLE
 
                 deleteImageView.setOnClickListener { interactionListener?.notificationDeleteClick(notification) }
                 setOnClickListener { interactionListener?.notificationClick(notification) }

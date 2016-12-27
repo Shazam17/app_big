@@ -86,6 +86,12 @@ class NotificationsListPresenter @Inject constructor(view: INotificationsListVie
         showNotificationsList()
     }
 
+    override fun onSearchSubmit(query: String) {
+        currentFilter.title = query
+        view?.showCurrentFilter(currentFilter)
+        showNotificationsList()
+    }
+
     override fun onFilterClick() {
         view?.navigateToFilter(currentFilter)
     }

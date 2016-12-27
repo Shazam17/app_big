@@ -67,6 +67,12 @@
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
     </style>
 
+    <style name="MaterialSearchViewStyle">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorLightHint</item>
+        <item name="android:hint">@string/notifications_search_hint</item>
+    </style>
+
     <!-- Buttons style -->
 
     <style name="AppBlueButtonStyle" parent="Widget.AppCompat.Button.Colored">

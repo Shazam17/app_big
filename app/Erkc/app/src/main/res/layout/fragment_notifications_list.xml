@@ -61,4 +61,13 @@
         android:textSize="@dimen/google_subhead_text_size"
         android:visibility="invisible" />
 
+    <View
+        android:id="@+id/filterBlur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:background="@color/colorInactiveBack"
+        tools:visibility="visible"/>
+
 </FrameLayout>
