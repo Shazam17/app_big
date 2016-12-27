@@ -355,6 +355,27 @@
     <string name="transaction_payment_text">Оплатить</string>
     <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
 
+    <!-- Notifications -->
+    <string name="notifications_menu_filter">Применить фильтр</string>
+    <string name="notifications_menu_search">Поиск по теме</string>
+    <string name="notifications_search_hint">Введите тему…</string>
+
+    <!-- Notifications filter -->
+    <string name="notifications_filter_title">Фильтр</string>
+    <string name="notifications_filter_read_status">Прочтено</string>
+    <string name="notifications_filter_title_hint">Тема</string>
+    <string name="notifications_filter_message_hint">Текст</string>
+    <string name="notifications_filter_period_hint">Период уведомления</string>
+    <string name="notifications_filter_apply_button">Применить</string>
+    <string name="notifications_filter_date_from_dialog_title">Период ОТ</string>
+    <string name="notifications_filter_date_to_dialog_title">Период от %s до…</string>
+
+    <!-- Notification Screen -->
+    <string name="notification_screen_title">Уведомление</string>
+    <string name="notification_screen_delivered_caption">Доставлено</string>
+    <string name="notification_screen_read_caption">Прочтено</string>
+    <string name="notification_screen_loading">неизвестно</string>
+
     <!-- Instructions -->
     <string name="instructions_scan_icon_text">сканер штрих-кодов</string>
     <string name="instructions_filter_icon_text">фильтр</string>

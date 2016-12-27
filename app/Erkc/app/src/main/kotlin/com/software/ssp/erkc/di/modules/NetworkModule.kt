@@ -116,6 +116,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideMessagesDataSource(retrofit: Retrofit): MessagesDataSource {
+        return retrofit.create(MessagesDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideSettingsRepository(settingsDataSource: SettingsDataSource): SettingsRepository {
         return SettingsRepository(settingsDataSource)
     }

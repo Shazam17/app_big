@@ -800,4 +800,126 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     saveIpu(realmIpu)
                 }
     }
+
+
+    fun saveNotification(notification: Notification): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    var realmNotification = currentUser.notifications.find { it.id == notification.id }
+
+                    if (realmNotification == null) {
+                        realmNotification = RealmNotification(notification.id)
+                        currentUser.notifications.add(realmNotification)
+                    }
+
+                    realmNotification.apply {
+                        title = notification.title
+                        message = notification.message
+                        isRead = notification.isRead == 1
+                        deliveredDate = notification.date
+                    }
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(realmNotification)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun updateNotification(notification: RealmNotification): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.copyToRealmOrUpdate(notification)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    {
+                        error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun saveNotificationsList(notifications: List<Notification>): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    val cachedNotifications = arrayListOf<RealmNotification>()
+
+                    notifications.mapTo(cachedNotifications) {
+                        RealmNotification(
+                                it.id,
+                                it.isRead == 1,
+                                it.message,
+                                it.title,
+                                it.date
+                        )
+                    }
+
+                    currentUser.notifications.clear()
+                    currentUser.notifications.addAll(cachedNotifications)
+
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    it.copyToRealmOrUpdate(cachedNotifications)
+                                    it.copyToRealmOrUpdate(currentUser)
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
+    fun fetchNotificationsList(): Observable<List<RealmNotification>> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.notifications?.sortedByDescending { it.deliveredDate })
+                }
+    }
+
+    fun fetchNotificationById(notificationId: String): Observable<RealmNotification> {
+        return fetchCurrentUser()
+                .concatMap {
+                    currentUser ->
+                    Observable.just(currentUser?.notifications?.first { it.id == notificationId })
+                }
+    }
+
+    fun removeNotification(notification: RealmNotification): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmNotification::class.java)
+                                .equalTo("id", notification.id)
+                                .findFirst()
+                                .deleteFromRealm()
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
 }

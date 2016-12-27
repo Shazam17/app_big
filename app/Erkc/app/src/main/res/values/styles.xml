@@ -133,46 +133,6 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <!-- Input with primary color bottom line -->
-    <style name="AppStyleInput" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/colorDarkText</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppStyleInput.HintTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorPaymentHintText</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="AppStyleInput.ErrorTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorRed</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <!-- Dark Input for Light background -->
-
-    <style name="AppLightStyleInput" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/colorPrimaryDark</item>
-
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary35</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppLightStyleInput.HintTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="AppLightStyleInput.ErrorTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorRed</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
     <!-- TextView styles -->
     <style name="MainColorTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif</item>

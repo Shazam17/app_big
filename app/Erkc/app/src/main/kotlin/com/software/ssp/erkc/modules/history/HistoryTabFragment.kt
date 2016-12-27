@@ -9,8 +9,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.history.PaymentHistoryList.PaymentHistoryListFragment
-import com.software.ssp.erkc.modules.history.ValuesHistoryList.ValuesHistoryListFragment
+import com.software.ssp.erkc.modules.history.paymenthistorylist.PaymentHistoryListFragment
+import com.software.ssp.erkc.modules.history.valueshistorylist.ValuesHistoryListFragment
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.fragment_history_tab.*
 import org.jetbrains.anko.withArguments

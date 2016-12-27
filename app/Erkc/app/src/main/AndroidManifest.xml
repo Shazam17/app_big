@@ -94,7 +94,7 @@
             android:name=".modules.settings.offlinepassword.OfflinePasswordActivity"
             android:label="@string/offline_password_title"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".modules.sendvalues.SendValuesActivity"
@@ -137,6 +137,16 @@
         <activity
             android:name=".modules.history.filter.HistoryFilterActivity"
             android:label="@string/history_filter_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.notifications.filter.NotificationsFilterActivity"
+            android:label="@string/notifications_filter_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.notifications.notificationscreen.NotificationScreenActivity"
+            android:label="@string/notification_screen_title"
             android:screenOrientation="portrait" />
 
         <activity android:name=".modules.instructions.instructiondetails.InstructionActivity" />

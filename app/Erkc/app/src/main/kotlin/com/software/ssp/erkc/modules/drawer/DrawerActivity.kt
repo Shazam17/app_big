@@ -20,6 +20,7 @@ import com.software.ssp.erkc.modules.history.HistoryTabFragment
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
+import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
@@ -170,7 +171,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.HISTORY -> HistoryTabFragment()
             DrawerItem.AUTOPAY -> AutoPaymentsTabFragment()
             DrawerItem.TRANSACTION -> TransactionTabFragment()
-            DrawerItem.NOTIFY -> Fragment()
+            DrawerItem.NOTIFY -> NotificationsListFragment()
             DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> InstructionsListFragment()
             DrawerItem.CONTACTS -> ContactsFragment()

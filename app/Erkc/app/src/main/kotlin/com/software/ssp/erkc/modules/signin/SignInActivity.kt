@@ -114,10 +114,10 @@ class SignInActivity : MvpActivity(), ISignInView {
         signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }
 
         if (BuildConfig.DEBUG) {
-            signInLoginEditText.setText("dimas19")
-            signInPasswordEditText.setText("dimas19")
-//            signInLoginEditText.setText("ivanov")
-//            signInPasswordEditText.setText("123")
+//            signInLoginEditText.setText("dimas19")
+//            signInPasswordEditText.setText("dimas19")
+            signInLoginEditText.setText("ivanov")
+            signInPasswordEditText.setText("123")
         }
     }
 }

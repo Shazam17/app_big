@@ -19,6 +19,9 @@ object Constants {
     const val HISTORY_DATE_FORMAT = "dd MMM"
     const val RECEIPT_DATE_FORMAT = "dd MMM yyyy"
     const val VALUES_DATE_FORMAT = "dd.MM.yyyy"
+    const val NOTIFICATIONS_FORMAT_API = "dd.MM.yyyy HH:mm:ss"
+    const val NOTIFICATIONS_DATETIME_FORMAT = "dd MMM\nHH:mm"
+    const val NOTIFICATIONS_SCREEN_DATETIME_FORMAT = "dd.MM.yyyy HH.mm"
 
     // Keys
     const val KEY_SELECTED_CARD_ITEM = "selected_card_item_key"

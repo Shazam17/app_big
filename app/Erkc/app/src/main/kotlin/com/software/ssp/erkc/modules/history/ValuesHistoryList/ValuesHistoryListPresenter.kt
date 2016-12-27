@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.history.ValuesHistoryList
+package com.software.ssp.erkc.modules.history.valueshistorylist
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmReceipt

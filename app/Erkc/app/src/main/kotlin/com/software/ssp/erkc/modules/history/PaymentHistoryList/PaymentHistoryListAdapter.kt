@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.history.PaymentHistoryList
+package com.software.ssp.erkc.modules.history.paymenthistorylist
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

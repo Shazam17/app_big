@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.history.ValuesHistoryList
+package com.software.ssp.erkc.modules.history.valueshistorylist
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

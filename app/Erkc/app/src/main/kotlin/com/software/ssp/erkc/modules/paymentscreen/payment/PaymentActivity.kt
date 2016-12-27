@@ -95,7 +95,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     override fun showReceiptInfo(receipt: Receipt) {
         paymentDebts.text = getString(R.string.payment_sum).format(receipt.amount)
-        paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
+        paymentBarcode.text = "${receipt.barcode} (${receipt.name})"
         paymentAddress.text = receipt.address
         paymentCommissionPercents.text = getString(R.string.payment_commission_percent).format(receipt.percent)
         paymentSum.setText(if (receipt.amount < 0) "0.0" else receipt.amount.toString())
@@ -103,7 +103,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
 
     override fun showReceiptInfo(receipt: RealmReceipt) {
         paymentDebts.text = getString(R.string.payment_sum).format(receipt.amount)
-        paymentBarcode.text = "${receipt.barcode} (${receipt?.name})"
+        paymentBarcode.text = "${receipt.barcode} (${receipt.name})"
         paymentAddress.text = receipt.address
         paymentCommissionPercents.text = getString(R.string.payment_commission_percent).format(receipt.percent)
         paymentSum.setText(if (receipt.amount < 0) "0.0" else receipt.amount.toString())

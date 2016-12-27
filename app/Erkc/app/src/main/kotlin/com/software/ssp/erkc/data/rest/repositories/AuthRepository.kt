@@ -32,7 +32,8 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
                     val uri = Uri.parse(it.raw().request().url().toString())
                     var token: String? = null
 
-                    if (uri != null && uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI)) {
+                    //TODO remove third check when fixed on api
+                    if (uri != null && (uri.toString().startsWith(Constants.API_OAUTH_REDIRECT_URI) || uri.toString().startsWith("http://api.vc.tom.ru/auth/success.html"))) {
                         token = uri.getQueryParameter("access_token")
                     }
 

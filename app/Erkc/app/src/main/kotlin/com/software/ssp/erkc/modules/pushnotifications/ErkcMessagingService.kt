@@ -30,7 +30,7 @@ class ErkcMessagingService : FirebaseMessagingService() {
 
         val appComponent = (application as ErkcApplication).appComponent
         activeSession = appComponent.provideActiveSession()
-        gson = appComponent.proivdeGson()
+        gson = appComponent.provideGson()
         eventBus = appComponent.provideEventBus()
     }
 

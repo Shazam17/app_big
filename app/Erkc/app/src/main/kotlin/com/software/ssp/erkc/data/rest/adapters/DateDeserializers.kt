@@ -34,3 +34,11 @@ class DateTimeDeserializerPayments : JsonDeserializer<Date> {
         return authDateFormat.parse(json?.asString)
     }
 }
+
+class DateTimeDeserializerNotifications : JsonDeserializer<Date> {
+    private val notificationDateFormat = SimpleDateFormat(Constants.NOTIFICATIONS_FORMAT_API, Locale.ENGLISH)
+
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date {
+        return notificationDateFormat.parse(json?.asString)
+    }
+}

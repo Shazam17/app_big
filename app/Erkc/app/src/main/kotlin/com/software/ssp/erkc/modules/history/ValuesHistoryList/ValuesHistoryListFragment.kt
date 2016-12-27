@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.history.ValuesHistoryList
+package com.software.ssp.erkc.modules.history.valueshistorylist
 
 import android.app.Activity
 import android.content.Intent

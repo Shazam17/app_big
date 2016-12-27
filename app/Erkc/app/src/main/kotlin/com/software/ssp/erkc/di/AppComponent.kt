@@ -22,7 +22,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun provideApplication(): Application
-    fun proivdeGson(): Gson
+    fun provideGson(): Gson
     fun provideEventBus(): Relay<Any, Any>
     fun provideActiveSession(): ActiveSession
     fun provideRealm(): Realm
@@ -39,6 +39,7 @@ interface AppComponent {
     fun provideCardsDataSource(): CardsDataSource
     fun providerPaymentDataSource(): PaymentDataSource
     fun providerSettingsDataSource(): SettingsDataSource
+    fun provideMessagesDataSource(): MessagesDataSource
 
     fun provideSettingsRepository(): SettingsRepository
 

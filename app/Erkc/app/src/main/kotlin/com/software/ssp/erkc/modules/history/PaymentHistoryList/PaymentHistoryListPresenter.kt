@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.history.PaymentHistoryList
+package com.software.ssp.erkc.modules.history.paymenthistorylist
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmPayment
