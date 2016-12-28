@@ -37,11 +37,13 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         view?.showProgressVisible(true)
         subscriptions += receiptsRepository.fetchReceiptInfo(barcode)
                 .subscribe(
-                        { receipt ->
+                        {
+                            receipt ->
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
-                        { error ->
+                        {
+                            error ->
                             view?.showProgressVisible(false)
                             if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showBarcodeError(R.string.api_error_unknown_barcode)
@@ -63,22 +65,16 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
         }
         view?.showProgressVisible(true)
 
+        var receiptId = ""
+
         subscriptions += receiptsRepository.fetchReceiptInfo(barcode, street, house, apartment)
                 .concatMap {
                     receipt ->
 
-                    view?.showProgressVisible(false)
 
-                    if (activeSession.accessToken != null) {
-                        if (isSendValue) {
-                            view?.navigateToIPUInputScreen(receipt.id!!)
-                        } else {
-                            view?.navigateToPayScreen(receipt.id!!)
-                        }
+                    if (activeSession.accessToken == null) {
 
-                        realmRepository.saveReceipt(receipt)
-
-                    } else {
+                        view?.showProgressVisible(false)
                         if (isSendValue) {
                             view?.navigateToIPUInputScreen(receipt)
                         } else {
@@ -86,10 +82,21 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                         }
 
                         Observable.empty()
+
+                    } else {
+                        receiptId = receipt.id!!
+                        realmRepository.saveReceipt(receipt)
                     }
                 }
                 .subscribe(
-                        { },
+                        {
+                            view?.showProgressVisible(false)
+                            if (isSendValue) {
+                                view?.navigateToIPUInputScreen(receiptId)
+                            } else {
+                                view?.navigateToPayScreen(receiptId)
+                            }
+                        },
                         { error ->
                             view?.showProgressVisible(false)
                             if (error is ApiException) {

@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.notifications.notificationslist
 
+import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +34,14 @@ class NotificationsListAdapter(val dataList: List<RealmNotification>,
 
         fun bindNotification(notification: RealmNotification) {
             itemView.apply {
-                dateTimeText.text = notification.deliveredDate?.toString(Constants.NOTIFICATIONS_DATETIME_FORMAT)
+
+                notification.deliveredDate?.let {
+                    dateTimeText.text = it.toString(if (DateUtils.isToday(it.time)) Constants.NOTIFICATIONS_DATETIME_FORMAT_SIMPLE else Constants.NOTIFICATIONS_DATETIME_FORMAT)
+                }
+
                 titleText.text = notification.title
 
-                readImageView.visibility = if (notification.isRead) View.VISIBLE else View.INVISIBLE
+                titleText.typeface = if (notification.isRead) Typeface.DEFAULT else Typeface.DEFAULT_BOLD
 
                 deleteImageView.setOnClickListener { interactionListener?.notificationDeleteClick(notification) }
                 setOnClickListener { interactionListener?.notificationClick(notification) }

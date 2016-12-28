@@ -39,7 +39,7 @@ class NotificationsListPresenter @Inject constructor(view: INotificationsListVie
                 .fetchMessagesByUser()
                 .concatMap {
                     notifications ->
-                    realmRepository.saveNotificationsList(notifications)
+                    realmRepository.saveNotificationsList(notifications ?: emptyList())
                 }
                 .subscribe(
                         {
@@ -126,6 +126,7 @@ class NotificationsListPresenter @Inject constructor(view: INotificationsListVie
                         {
                             error ->
                             view?.showMessage(error.parsedMessage())
+                            view?.setLoadingVisible(false)
                         }
                 )
     }

@@ -21,6 +21,7 @@ object Constants {
     const val VALUES_DATE_FORMAT = "dd.MM.yyyy"
     const val NOTIFICATIONS_FORMAT_API = "dd.MM.yyyy HH:mm:ss"
     const val NOTIFICATIONS_DATETIME_FORMAT = "dd MMM\nHH:mm"
+    const val NOTIFICATIONS_DATETIME_FORMAT_SIMPLE = "HH:mm"
     const val NOTIFICATIONS_SCREEN_DATETIME_FORMAT = "dd.MM.yyyy HH.mm"
 
     // Keys
