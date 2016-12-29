@@ -54,7 +54,11 @@ class ErkcMessagingService : FirebaseMessagingService() {
                 dataMessage["ext_id"]
         )
 
-        syncNotificationData(pushNotification)
+        if (activeSession.accessToken != null) {
+            syncNotificationData(pushNotification)
+        } else {
+            showNotification(pushNotification)
+        }
     }
 
     private fun syncNotificationData(notification: PushNotificationModel) {
