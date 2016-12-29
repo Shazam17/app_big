@@ -817,6 +817,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         message = notification.message
                         isRead = notification.isRead == 1
                         deliveredDate = notification.date
+                        readDate = notification.readDate
                     }
 
                     Observable.create<Boolean> { sub ->
@@ -864,7 +865,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.isRead == 1,
                                 it.message,
                                 it.title,
-                                it.date
+                                it.date,
+                                it.readDate
                         )
                     }
 

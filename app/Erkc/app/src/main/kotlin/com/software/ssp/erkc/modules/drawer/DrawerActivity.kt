@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
@@ -44,7 +45,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     lateinit private var drawerToggle: ActionBarDrawerToggle
     lateinit private var drawerHeaderView: View
 
-    private var selectedDrawerItem: DrawerItem = DrawerItem.MAIN
+    private var selectedDrawerItem: DrawerItem by extras(Constants.KEY_SELECTED_DRAWER_ITEM, defaultValue = DrawerItem.MAIN)
     private var isSelectedDrawerItemChanged = false
 
     override fun resolveDependencies(appComponent: AppComponent) {

@@ -7,7 +7,7 @@ import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.datasource.*
-import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.di.modules.AppModule
 import com.software.ssp.erkc.di.modules.NetworkModule
 import com.software.ssp.erkc.di.modules.PushNotificationModule
@@ -42,6 +42,10 @@ interface AppComponent {
     fun provideMessagesDataSource(): MessagesDataSource
 
     fun provideSettingsRepository(): SettingsRepository
+    fun provideRealmRepository(): RealmRepository
+    fun provideCardsRepository(): CardsRepository
+    fun provideMessagesRepository(): MessagesRepository
+    fun providePaymentRepository(): PaymentRepository
 
     fun provideNotificationServiceManager(): NotificationServiceManager
 }

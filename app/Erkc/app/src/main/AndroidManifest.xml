@@ -175,6 +175,15 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name=".modules.pushnotifications.NotificationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="notificationClicked" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

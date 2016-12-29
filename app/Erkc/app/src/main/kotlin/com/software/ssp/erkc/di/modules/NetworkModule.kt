@@ -7,9 +7,10 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.ErkcInterceptor
 import com.software.ssp.erkc.data.rest.datasource.*
-import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import dagger.Module
 import dagger.Provides
+import io.realm.Realm
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -124,5 +125,28 @@ class NetworkModule {
     @Singleton
     fun provideSettingsRepository(settingsDataSource: SettingsDataSource): SettingsRepository {
         return SettingsRepository(settingsDataSource)
+    }
+
+    @Provides
+    fun provideRealmRepository(realm: Realm): RealmRepository {
+        return RealmRepository(realm)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardsRepository(cardsDataSource: CardsDataSource): CardsRepository {
+        return CardsRepository(cardsDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMessagesRepository(messagesDataSource: MessagesDataSource): MessagesRepository {
+        return MessagesRepository(messagesDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentRepository(paymentDataSource: PaymentDataSource): PaymentRepository {
+        return PaymentRepository(paymentDataSource)
     }
 }

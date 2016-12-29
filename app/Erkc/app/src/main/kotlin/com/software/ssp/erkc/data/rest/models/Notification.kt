@@ -21,5 +21,9 @@ class Notification(
 
         @JsonAdapter(DateTimeDeserializerNotifications::class)
         @SerializedName("date")
-        val date: Date
+        val date: Date,
+
+        @JsonAdapter(DateTimeDeserializerNotifications::class)
+        @SerializedName("dtisread")
+        val readDate: Date?
 )
