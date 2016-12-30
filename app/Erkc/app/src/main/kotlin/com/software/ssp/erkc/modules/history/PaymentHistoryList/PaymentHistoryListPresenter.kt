@@ -1,7 +1,7 @@
 package com.software.ssp.erkc.modules.history.paymenthistorylist
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.RealmPayment
+import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -36,7 +36,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
         //disabled
     }
 
-    override fun onPaymentClick(payment: RealmPayment) {
+    override fun onPaymentClick(payment: RealmPaymentInfo) {
         view?.navigateToPaymentInfo(payment)
     }
 
@@ -128,7 +128,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                         {
                             payments ->
 
-                            val sortedPayments = ArrayList<RealmPayment>()
+                            val sortedPayments = ArrayList<RealmPaymentInfo>()
 
                             val groupedPayments = payments.sortedByDescending { it.date }.groupBy { it.receipt!!.address }
                             groupedPayments.forEach { sortedPayments.addAll(it.value) }

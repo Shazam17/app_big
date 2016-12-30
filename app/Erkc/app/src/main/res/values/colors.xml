@@ -34,10 +34,10 @@
     <color name="colorError">#FFC5C5</color>
 
     <color name="colorRed">#f44336</color>
+    <color name="colorGreen">#4CAF50</color>
 
     <color name="colorInactive">#444444</color>
     <color name="colorCardView">#dddedd</color>
-    <color name="colorGreen">#76b33a</color>
 
     <color name="colorBaseText">#212121</color>
 

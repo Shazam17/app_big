@@ -4,17 +4,6 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
-open class RealmPayment(
-        @PrimaryKey
-        open var id: String = "",
-        open var date: Date? = null,
-        open var amount: Double = 0.0,
-        open var checkFile: String = "",
-        open var status: Int = 0,
-        open var errorDesc: String? = null,
-        open var operationId: String = "",
-        open var modeId: Int = 0,
-        open var receipt: RealmReceipt? = null) : RealmObject()
 
 open class RealmPaymentInfo(
         @PrimaryKey
@@ -33,10 +22,7 @@ open class RealmPaymentInfo(
         open var text: String = "",
         open var address: String = "",
         open var apart: String = "",
+        open var checkFile: String? = null,
+        open var errorDesc: String? = null,
         open var receipt: RealmReceipt? = null,
         open var paymentCard: RealmCard? = null) : RealmObject()
-
-class PaymentCheckFile(
-        val name: String,
-        val data: String
-)

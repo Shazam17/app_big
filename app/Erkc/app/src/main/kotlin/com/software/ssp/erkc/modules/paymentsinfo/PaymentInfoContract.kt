@@ -2,7 +2,6 @@ package com.software.ssp.erkc.modules.paymentsinfo
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.realm.models.RealmPayment
 import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 
 /**
@@ -10,10 +9,10 @@ import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
  */
 interface IPaymentInfoView : IView {
     fun close()
-    fun fillData(paymentInfo: RealmPaymentInfo, payment: RealmPayment)
+    fun fillData(paymentInfo: RealmPaymentInfo)
     fun setProgressVisibility(isVisible: Boolean)
-    fun navigateToCheck()
-    fun navigateToRetryPayment(paymentId: String)
+    fun navigateToCheck(payment: RealmPaymentInfo)
+    fun navigateToRetryPayment(payment: RealmPaymentInfo)
 }
 
 interface IPaymentInfoPresenter : IPresenter<IPaymentInfoView> {

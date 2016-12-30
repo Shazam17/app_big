@@ -62,8 +62,7 @@ class ErkcMessagingService : FirebaseMessagingService() {
     }
 
     private fun syncNotificationData(notification: PushNotificationModel) {
-        messagesRepository
-                .fetchMessageById(notification.id)
+        messagesRepository.fetchMessageById(notification.id)
                 .concatMap {
                     notification ->
                     realmRepository.saveNotification(notification)
@@ -82,8 +81,8 @@ class ErkcMessagingService : FirebaseMessagingService() {
                         },
                         {
                             error ->
-                            error.printStackTrace()
                             realmRepository.close()
+                            error.printStackTrace()
                             showNotification(notification)
                         }
                 )
@@ -122,6 +121,7 @@ class ErkcMessagingService : FirebaseMessagingService() {
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.push_icon)
         val builder = NotificationCompat.Builder(this)
                 .setLargeIcon(iconBitmap)
+                .setSmallIcon(R.drawable.push_icon)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setTicker(notification.body)

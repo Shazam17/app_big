@@ -54,7 +54,7 @@ open class RealmReceipt(
     }
 }
 
-enum class ReceiptType() {
+enum class ReceiptType {
     GKU,
     RENT,
     WATER,
@@ -72,11 +72,5 @@ enum class ReceiptType() {
     OVERHAUL_VILLAGE,
     OVERHAUL_FINE,
     GKU_FINE,
-    TEST; //TODO REMOVE TEST;
-}
-
-enum class AutoPaymentMode {
-    OFF,
-    ONE_CLICK,
-    AUTO
+    TEST;
 }

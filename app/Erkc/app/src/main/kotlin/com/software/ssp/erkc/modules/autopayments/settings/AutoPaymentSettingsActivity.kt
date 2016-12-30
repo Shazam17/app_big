@@ -11,9 +11,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import kotlinx.android.synthetic.main.activity_autopayment_settings.*
@@ -70,28 +70,28 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showPaymentTypeSelectDialog(autoPaymentMode: AutoPaymentMode) {
+    override fun showPaymentTypeSelectDialog(autoPaymentMode: PaymentMethod) {
         materialDialog {
             title(R.string.autopayment_screen_payment_type_label)
             items(listOf(oneClickModeString, autoPaymentModeString))
             itemsCallbackSingleChoice(autoPaymentMode.ordinal - 1, {
                 dialog, view, which, text ->
-                presenter.onPaymentModeSelect(AutoPaymentMode.values()[which + 1])
+                presenter.onPaymentModeSelect(PaymentMethod.values()[which + 1])
                 true
             })
         }.show()
     }
 
-    override fun showAutoPaymentMode(autoPaymentMode: AutoPaymentMode) {
+    override fun showAutoPaymentMode(autoPaymentMode: PaymentMethod) {
         paymentModeSelectTextView.text = when (autoPaymentMode) {
-            AutoPaymentMode.OFF -> noPaymentModeString
-            AutoPaymentMode.AUTO -> autoPaymentModeString
-            AutoPaymentMode.ONE_CLICK -> oneClickModeString
+            PaymentMethod.DEFAULT -> noPaymentModeString
+            PaymentMethod.AUTO -> autoPaymentModeString
+            PaymentMethod.ONE_CLICK -> oneClickModeString
         }
 
-        maxSumTextInputLayout.visibility = if (autoPaymentMode == AutoPaymentMode.AUTO) View.VISIBLE else View.GONE
-        agreementTextView.visibility = if (autoPaymentMode == AutoPaymentMode.OFF) View.GONE else View.VISIBLE
-        agreementCheckBox.visibility = if (autoPaymentMode == AutoPaymentMode.OFF) View.GONE else View.VISIBLE
+        maxSumTextInputLayout.visibility = if (autoPaymentMode == PaymentMethod.AUTO) View.VISIBLE else View.GONE
+        agreementTextView.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT) View.GONE else View.VISIBLE
+        agreementCheckBox.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT) View.GONE else View.VISIBLE
     }
 
     override fun showReceiptSelectDialog(receipts: List<RealmReceipt>) {

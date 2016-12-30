@@ -7,7 +7,6 @@ import android.support.v4.app.ShareCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -21,13 +20,19 @@ import javax.inject.Inject
  */
 class PaymentCheckActivity : MvpActivity(), IPaymentCheckView {
     @Inject lateinit var presenter: IPaymentCheckPresenter
-    val paymentId: String by extras(Constants.KEY_PAYMENT)
+
+    val checkName: String? by extras()
+    val paymentId: String by extras()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_check)
         initViews()
-        presenter.onViewAttached(paymentId)
+
+        presenter.checkUrl = checkName
+        presenter.paymentId = paymentId
+
+        presenter.onViewAttached()
     }
 
     override fun resolveDependencies(appComponent: AppComponent) {
@@ -69,7 +74,7 @@ class PaymentCheckActivity : MvpActivity(), IPaymentCheckView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.payment_check_menu_download -> presenter.onDownloadClick(paymentId)
+            R.id.payment_check_menu_download -> presenter.onDownloadClick()
             R.id.payment_check_menu_share -> presenter.onShareClick()
             else -> return super.onOptionsItemSelected(item)
         }

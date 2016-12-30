@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/itemValueHistoryTitle"
         tools:text="20.08.2016" />
 
-    <ImageView
+    <View
         android:layout_width="0dp"
         android:layout_height="3dp"
         android:layout_marginEnd="@dimen/half_default_margin"
@@ -37,7 +37,7 @@
         android:layout_weight="1"
         android:hardwareAccelerated="false"
         android:layerType="software"
-        android:src="@drawable/line_dots"
+        android:background="@drawable/line_dots"
         app:layout_constraintBottom_toBottomOf="@+id/itemValueHistoryDate"
         app:layout_constraintLeft_toRightOf="@+id/itemValueHistoryDate"
         app:layout_constraintRight_toLeftOf="@+id/itemValueHistoryDateValue"

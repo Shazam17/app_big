@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.data.rest.datasource
 
-import com.software.ssp.erkc.data.rest.models.Payment
 import com.software.ssp.erkc.data.rest.models.PaymentCheck
 import com.software.ssp.erkc.data.rest.models.PaymentInfo
 import com.software.ssp.erkc.data.rest.models.PaymentInit
@@ -22,7 +21,7 @@ interface PaymentDataSource {
     fun getPaymentsById(@Query("id") id: String): Observable<PaymentInfo>
 
     @GET("?method=payments.getbyuser")
-    fun getUserPayments(): Observable<List<Payment>>
+    fun getUserPayments(): Observable<List<PaymentInfo>>
 
     @GET("?method=payments.getcheck")
     fun getCheck(@Query("id") id: String): Observable<PaymentCheck>

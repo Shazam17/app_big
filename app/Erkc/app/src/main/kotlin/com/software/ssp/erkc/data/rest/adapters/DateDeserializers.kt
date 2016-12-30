@@ -42,3 +42,12 @@ class DateTimeDeserializerNotifications : JsonDeserializer<Date> {
         return notificationDateFormat.parse(json?.asString)
     }
 }
+
+class DateTimeDeserializerReceipts : JsonDeserializer<Date> {
+    private val receiptDateFormat = SimpleDateFormat(Constants.RECEIPT_DATE_API_FORMAT, Locale.ENGLISH)
+
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date {
+        return receiptDateFormat.parse(json?.asString)
+    }
+}
+

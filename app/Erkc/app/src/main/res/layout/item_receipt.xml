@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@id/receiptTypeImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/receiptTypeImage"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/receiptBarcodeText"
                     tools:text="-5690000 р." />

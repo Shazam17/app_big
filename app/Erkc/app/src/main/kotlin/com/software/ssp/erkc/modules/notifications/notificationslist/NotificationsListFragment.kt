@@ -106,7 +106,7 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
 
     override fun showData(dataset: List<RealmNotification>) {
         super.showData(dataset)
-        searchView.setSuggestions(dataset.map { it.title }.toTypedArray())
+        searchView.setSuggestions(dataset.distinctBy { it.title }.map { it.title }.toTypedArray())
     }
 
     override fun showCurrentFilter(currentFilter: NotificationsFilterModel) {

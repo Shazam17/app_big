@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.realm.models.RealmPayment
+import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_history.view.*
 import org.jetbrains.anko.textColor
 
 
-class PaymentHistoryListAdapter(val dataList: List<RealmPayment>,
-                                val onItemClick: ((RealmPayment) -> Unit)? = null) : RecyclerView.Adapter<PaymentHistoryListAdapter.ViewHolder>() {
+class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
+                                val onItemClick: ((RealmPaymentInfo) -> Unit)? = null) : RecyclerView.Adapter<PaymentHistoryListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return dataList.count()
@@ -30,9 +30,9 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPayment>,
         return ViewHolder(view, onItemClick)
     }
 
-    class ViewHolder(view: View, val onItemClick: ((RealmPayment) -> Unit)?) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, val onItemClick: ((RealmPaymentInfo) -> Unit)?) : RecyclerView.ViewHolder(view) {
 
-        fun bindReceipt(payment: RealmPayment) {
+        fun bindReceipt(payment: RealmPaymentInfo) {
             itemView.apply {
                 addressHeaderText.text = payment.receipt?.address
                 nameText.text = payment.receipt?.name
@@ -44,8 +44,9 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPayment>,
                 moneyText.textColor = statusColor
                 commissionText.textColor = statusColor
 
-                moneyText.text = context.getString(R.string.history_money_format).format(payment.amount)
-                commissionText.text = context.getString(R.string.history_commission_format).format(payment.amount * payment.receipt!!.percent / 100, payment.receipt!!.percent)
+                val paymentWithoutCommission = payment.sum * 100 / (payment.receipt!!.percent + 100)
+                moneyText.text = context.getString(R.string.history_money_format).format(paymentWithoutCommission)
+                commissionText.text = context.getString(R.string.history_commission_format).format(payment.sum - paymentWithoutCommission, payment.receipt!!.percent)
 
                 rootLayout.setOnClickListener { onItemClick?.invoke(payment) }
             }

@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.extensions.getCompatColor
 import com.software.ssp.erkc.extensions.getIconResId
@@ -50,7 +50,7 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptLastTransferDateText.text = receiptViewModel.receipt.lastIpuTransferDate?.toString(Constants.RECEIPT_DATE_FORMAT) ?: context.getString(R.string.receipts_date_never)
 
             when (receiptViewModel.receipt.autoPayMode) {
-                AutoPaymentMode.AUTO.ordinal -> receiptAutoPaymentText.visibility = View.VISIBLE
+                PaymentMethod.AUTO.ordinal -> receiptAutoPaymentText.visibility = View.VISIBLE
                 else -> receiptAutoPaymentText.visibility = View.GONE
             }
 

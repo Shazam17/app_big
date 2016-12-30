@@ -14,7 +14,9 @@ interface IPaymentCheckView : IView {
 }
 
 interface IPaymentCheckPresenter : IPresenter<IPaymentCheckView> {
-    fun onViewAttached(id: String)
+    var checkUrl: String?
+    var paymentId: String
+
     fun onShareClick()
-    fun onDownloadClick(paymentId: String)
+    fun onDownloadClick()
 }

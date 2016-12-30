@@ -14,7 +14,6 @@ open class RealmUser(
         open var settings: RealmSettings? = null,
         open var receipts: RealmList<RealmReceipt> = RealmList(),
         open var cards: RealmList<RealmCard> = RealmList(),
-        open var payments: RealmList<RealmPayment> = RealmList(),
         open var paymentsInfo: RealmList<RealmPaymentInfo> = RealmList(),
         open var ipus: RealmList<RealmIpu> = RealmList(),
         open var notifications: RealmList<RealmNotification> = RealmList()) : RealmObject()

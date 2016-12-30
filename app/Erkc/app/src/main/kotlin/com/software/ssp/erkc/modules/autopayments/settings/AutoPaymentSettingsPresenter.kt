@@ -2,11 +2,11 @@ package com.software.ssp.erkc.modules.autopayments.settings
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
-import com.software.ssp.erkc.data.realm.models.AutoPaymentMode
 import com.software.ssp.erkc.data.realm.models.RealmCard
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.models.PaymentMethod
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.CardStatus
@@ -27,7 +27,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
     override var selectedReceipt: RealmReceipt? = null
     override var selectedCard: RealmCard? = null
 
-    private var autoPaymentMode: AutoPaymentMode = AutoPaymentMode.OFF
+    private var autoPaymentMode: PaymentMethod = PaymentMethod.DEFAULT
 
     private lateinit var currentUser: RealmUser
 
@@ -39,13 +39,13 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
         view?.showPaymentTypeSelectDialog(autoPaymentMode)
     }
 
-    override fun onPaymentModeSelect(mode: AutoPaymentMode) {
+    override fun onPaymentModeSelect(mode: PaymentMethod) {
         autoPaymentMode = mode
         view?.showAutoPaymentMode(autoPaymentMode)
     }
 
     override fun onReceiptClick() {
-        val receipts = currentUser.receipts.filter { it.autoPayMode == AutoPaymentMode.OFF.ordinal }
+        val receipts = currentUser.receipts.filter { it.autoPayMode == PaymentMethod.DEFAULT.ordinal }
         view?.showReceiptSelectDialog(receipts)
     }
 
@@ -65,7 +65,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                 .updateReceipt(
                         selectedReceipt!!.id,
                         selectedCard!!.id,
-                        if (autoPaymentMode == AutoPaymentMode.AUTO) selectedReceipt!!.maxSum else 0.0,
+                        if (autoPaymentMode == PaymentMethod.AUTO) selectedReceipt!!.maxSum else 0.0,
                         autoPaymentMode.ordinal.toString()
                 )
                 .concatMap {
@@ -111,7 +111,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                             currentUser = user
                             selectedReceipt = currentUser.receipts.firstOrNull { it.id == fetchedReceiptId }
                             selectedCard = selectedReceipt?.linkedCard
-                            autoPaymentMode = AutoPaymentMode.values()[selectedReceipt?.autoPayMode ?: 0]
+                            autoPaymentMode = PaymentMethod.values()[selectedReceipt?.autoPayMode ?: 0]
 
                             view?.showAutoPaymentMode(autoPaymentMode)
                             view?.showReceiptDetails(selectedReceipt)
@@ -136,7 +136,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                 view?.showMessage(R.string.autopayment_screen_error_card_must_have)
                 false
             }
-            selectedReceipt!!.autoPayMode != AutoPaymentMode.AUTO.ordinal -> true
+            selectedReceipt!!.autoPayMode != PaymentMethod.AUTO.ordinal -> true
             selectedReceipt!!.maxSum <= 0.0 -> {
                 view?.showMessage(R.string.autopayment_screen_error_maxsum_must_have)
                 false

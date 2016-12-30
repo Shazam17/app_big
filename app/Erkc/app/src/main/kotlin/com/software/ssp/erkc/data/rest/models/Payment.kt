@@ -4,8 +4,7 @@ import android.support.annotation.StringRes
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializer
-import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializerPayments
+import com.software.ssp.erkc.data.rest.adapters.DateTimeDeserializerReceipts
 import java.util.*
 
 /**
@@ -30,64 +29,64 @@ enum class PaymentStatus {
     ERROR
 }
 
-data class Payment(
-        @SerializedName("id")
-        var id: String,
-        @JsonAdapter(DateTimeDeserializerPayments::class)
+data class PaymentInfo(
+        @JsonAdapter(DateTimeDeserializerReceipts::class)
         @SerializedName("date_pay")
         var date: Date,
-        @SerializedName("amount")
-        var amount: Double,
-        @SerializedName("pdffile")
-        var checkFile: String?,
+
+        @SerializedName("house")
+        var house: String,
+
         @SerializedName("status")
         var status: Int,
-        @SerializedName("erdesc")
-        var errorDesc: String?,
-        @SerializedName("receipt_id")
-        var receiptId: String,
+
+        @SerializedName("street")
+        var street: String,
+
+        @SerializedName("barcode")
+        var barcode: String,
+
+        @SerializedName("operation_id")
+        var operationId: String,
+
+        @SerializedName("summ")
+        var sum: Double,
+
+        @SerializedName("supplier_name")
+        var supplierName: String,
+
+        @SerializedName("service_name")
+        var serviceName: String,
+
+        @SerializedName("amount")
+        var amount: Double,
+
+        @SerializedName("text")
+        var text: String,
+
+        @SerializedName("id")
+        var id: String,
+
         @SerializedName("mode_id")
         var modeId: Int,
-        @SerializedName("operation_id")
-        var operationId: String)
+
+        @SerializedName("address")
+        var address: String,
+
+        @SerializedName("receipt_id")
+        var receiptId: String,
+
+        @SerializedName("apart")
+        var apart: String,
+
+        @SerializedName("erdesc")
+        var errorDesc: String?,
+
+        @SerializedName("pdffile")
+        var checkFile: String?
+)
 
 data class PaymentCheck(
         @SerializedName("file")
         var fileCheck: String
-)
-
-data class PaymentInfo(
-        @JsonAdapter(DateTimeDeserializer::class)
-        @SerializedName("date_pay")
-        var date: Date,
-        @SerializedName("house")
-        var house: String,
-        @SerializedName("status")
-        var status: Int,
-        @SerializedName("street")
-        var street: String,
-        @SerializedName("barcode")
-        var barcode: String,
-        @SerializedName("operation_id")
-        var operationId: String,
-        @SerializedName("summ")
-        var sum: Double,
-        @SerializedName("supplier_name")
-        var supplierName: String,
-        @SerializedName("service_name")
-        var serviceName: String,
-        @SerializedName("amount")
-        var amount: Double,
-        @SerializedName("text")
-        var text: String,
-        @SerializedName("id")
-        var id: String,
-        @SerializedName("mode_id")
-        var modeId: Int,
-        @SerializedName("address")
-        var address: String,
-        @SerializedName("receipt_id")
-        var receiptId: String,
-        @SerializedName("apart")
-        var apart: String
 )

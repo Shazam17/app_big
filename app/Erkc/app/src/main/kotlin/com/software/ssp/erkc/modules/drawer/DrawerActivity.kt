@@ -62,11 +62,21 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         initViews()
 
-        if (savedInstanceState != null) {
+        if (selectedDrawerItem != DrawerItem.MAIN && savedInstanceState != null) {
             selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
         }
 
         presenter.onViewAttached()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        val drawerItem = intent.getSerializableExtra(Constants.KEY_SELECTED_DRAWER_ITEM) as DrawerItem?
+
+        drawerItem?.let {
+            navigateToDrawerItem(it)
+        }
     }
 
     override fun beforeDestroy() {

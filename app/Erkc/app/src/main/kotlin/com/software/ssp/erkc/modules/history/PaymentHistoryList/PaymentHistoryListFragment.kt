@@ -11,7 +11,7 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.args
 import com.software.ssp.erkc.common.mvp.BaseListFragment
-import com.software.ssp.erkc.data.realm.models.RealmPayment
+import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.getStringResId
 import com.software.ssp.erkc.extensions.toString
@@ -27,7 +27,7 @@ import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 
-class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHistoryListView, IHistoryListDelegate {
+class PaymentHistoryListFragment : BaseListFragment<RealmPaymentInfo>(), IPaymentHistoryListView, IHistoryListDelegate {
 
     @Inject lateinit var presenter: IPaymentHistoryListPresenter
 
@@ -107,7 +107,7 @@ class PaymentHistoryListFragment : BaseListFragment<RealmPayment>(), IPaymentHis
         filterChipView.visibility = if (filterChipView.chipList.isEmpty()) View.GONE else View.VISIBLE
     }
 
-    override fun navigateToPaymentInfo(payment: RealmPayment) {
+    override fun navigateToPaymentInfo(payment: RealmPaymentInfo) {
         startActivity<PaymentInfoActivity>(Constants.KEY_PAYMENT to payment.id)
     }
 

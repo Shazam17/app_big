@@ -25,12 +25,28 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            def File localPropsFile = new File('local.properties')
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(localPropsFile))
+            keyAlias 'SigningKey'
+            storeFile file('../docs/cert/androidSign.jks')
+            storePassword localProps["storePassword"]
+            keyPassword localProps["keyPassword"]
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
 
     buildTypes {
         release {
+            productFlavors.all { flavor ->
+                flavor.signingConfig signingConfigs.release
+            }
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
