@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.os.Bundle
 import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.di.AppComponent
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 
 
@@ -28,11 +29,11 @@ abstract class MvpFragment : Fragment(), IView {
     }
 
     override fun showMessage(message: String) {
-        toast(message)
+        longToast(message)
     }
 
     override fun showMessage(messageResId: Int) {
-        toast(messageResId)
+        longToast(messageResId)
     }
 
 }

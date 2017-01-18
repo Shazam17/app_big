@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.di.AppComponent
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 
 abstract class MvpActivity : AppCompatActivity(), IView {
@@ -27,10 +28,10 @@ abstract class MvpActivity : AppCompatActivity(), IView {
     }
 
     override fun showMessage(message: String) {
-        toast(message)
+        longToast(message)
     }
 
     override fun showMessage(messageResId: Int) {
-        toast(messageResId)
+        longToast(messageResId)
     }
 }
