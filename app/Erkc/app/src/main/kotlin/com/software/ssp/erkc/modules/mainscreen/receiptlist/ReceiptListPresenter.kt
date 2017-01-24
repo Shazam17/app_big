@@ -95,6 +95,7 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
         if (activeSession.isOfflineSession) {
             view?.showMessage(R.string.offline_mode_error)
         } else {
+            onViewDetached()
             view?.navigateToAddReceiptScreen()
         }
     }

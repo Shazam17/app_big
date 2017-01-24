@@ -27,7 +27,7 @@ class NetworkModule {
     fun providesDefaultHTTPClient(erkcInterceptor: ErkcInterceptor): OkHttpClient {
         val client = OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(erkcInterceptor)
                 .followRedirects(true)
