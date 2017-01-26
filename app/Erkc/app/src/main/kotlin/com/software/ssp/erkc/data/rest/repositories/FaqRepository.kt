@@ -16,8 +16,8 @@ class FaqRepository @Inject constructor(private val faqDataSource: FaqDataSource
                     subject: String): Observable<Response<ResponseBody>> {
         return faqDataSource.sendMessage(
                 mapOf(
-                        "name" to name,
                         "login" to login,
+                        "name" to name,
                         "email" to email,
                         "text" to text,
                         "subject" to subject
