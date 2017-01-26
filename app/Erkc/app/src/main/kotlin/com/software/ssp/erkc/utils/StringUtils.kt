@@ -12,10 +12,6 @@ abstract class NaturalOrderComparator<T : Any> : Comparator<T> {
         var ia = 0
         var ib = 0
 
-        // The longest run of digits wins. That aside, the greatest
-        // value wins, but we can't know that it will until we've scanned
-        // both numbers to know that they have the same magnitude, so we
-        // remember it in BIAS.
         while (true) {
             val ca = charAt(a, ia)
             val cb = charAt(b, ib)
@@ -53,19 +49,16 @@ abstract class NaturalOrderComparator<T : Any> : Comparator<T> {
         var result: Int
 
         while (true) {
-            // only count the number of zeroes leading the last number compared
             nzb = 0
             nza = nzb
 
             ca = charAt(a, ia)
             cb = charAt(b, ib)
 
-            // skip over leading spaces or zeros
             while (Character.isSpaceChar(ca) || ca == '0') {
                 if (ca == '0') {
                     nza++
                 } else {
-                    // only count consecutive zeroes
                     nza = 0
                 }
 
@@ -76,14 +69,12 @@ abstract class NaturalOrderComparator<T : Any> : Comparator<T> {
                 if (cb == '0') {
                     nzb++
                 } else {
-                    // only count consecutive zeroes
                     nzb = 0
                 }
 
                 cb = charAt(b, ++ib)
             }
 
-            // process run of digits
             if (Character.isDigit(ca) && Character.isDigit(cb)) {
                 result = compareRight(a.substring(ia), b.substring(ib))
                 if (result != 0) {
@@ -92,8 +83,6 @@ abstract class NaturalOrderComparator<T : Any> : Comparator<T> {
             }
 
             if (ca.toInt() == 0 && cb.toInt() == 0) {
-                // The strings compare the same. Perhaps the caller
-                // will want to call strcmp to break the tie.
                 return nza - nzb
             }
 
@@ -108,12 +97,9 @@ abstract class NaturalOrderComparator<T : Any> : Comparator<T> {
         }
     }
 
-//    protected fun getString(p0: T): String {
-//        return p0.toString()
-//    }
-
-
-    abstract fun getString(p0: T): String
+    protected open fun getString(p0: T): String {
+        return p0.toString()
+    }
 
     fun charAt(s: String, i: Int): Char {
         if (i >= s.length) {
