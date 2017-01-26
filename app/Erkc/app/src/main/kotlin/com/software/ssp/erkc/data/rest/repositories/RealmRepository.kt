@@ -3,6 +3,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
+import com.software.ssp.erkc.utils.NaturalOrderComparator
 import io.realm.Realm
 import rx.Observable
 import javax.inject.Inject
@@ -380,8 +381,12 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    currentUser?.receipts?.toTypedArray()?.sortBy { it.address }
-                    Observable.just(currentUser?.receipts?.reversed())
+                    currentUser?.receipts?.sortWith(object: NaturalOrderComparator<RealmReceipt>() {
+                        override fun getString(p0: RealmReceipt): String {
+                            return p0.address
+                        }
+                    })
+                    Observable.just(currentUser?.receipts)
                 }
     }
 
