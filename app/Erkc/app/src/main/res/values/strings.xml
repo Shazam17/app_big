@@ -21,7 +21,7 @@
     <string name="error_invalid_login">Неверно введен логин</string>
     <string name="error_passwords_not_match">Пароли не совпадают</string>
     <string name="error_field_required">Поле обязательно для заполнения</string>
-    <string name="error_invalid_email">Неверно введен email</string>
+    <string name="error_invalid_email">Неверно введен e-mail</string>
     <string name="error_all_field_required">Все поля обязательны для заполнения</string>
 
     <!-- drawer menu -->
@@ -60,6 +60,7 @@
     <string name="sign_in_title">Вход</string>
     <string name="sign_in_login_hint">Логин</string>
     <string name="sign_in_password_hint">Пароль</string>
+    <string name="sign_in_password_offline_hint">Офлайн пароль</string>
     <string name="sign_in_forgot_password_text">Забыли пароль?</string>
     <string name="sign_in_enter_text">Войти</string>
     <string name="sign_in_error_fill_login_text">Введите логин</string>
@@ -79,7 +80,7 @@
     <string name="sign_up_build_hint">Дом</string>
     <string name="sign_up_street_hint">Улица</string>
     <string name="sign_up_flat_hint">Квартинра</string>
-    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_email_hint">E-mail</string>
     <string name="sign_up_captcha_hint">Код с изображения</string>
     <string name="sign_up_registration">Регистрация</string>
     <string name="captcha_error">Наверно введены символы с картинки</string>
@@ -105,9 +106,9 @@
 
     <!-- password recovery -->
     <string name="pass_recovery_title">Восстановление пароля</string>
-    <string name="pass_recovery_description">Если вы забыли Пароль, введите Логин и Email, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
+    <string name="pass_recovery_description">Если вы забыли Пароль, введите Логин и E-mail, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
     <string name="pass_recovery_login_hint">Логин</string>
-    <string name="pass_recovery_email_hint">Email</string>
+    <string name="pass_recovery_email_hint">E-mail</string>
     <string name="pass_recovery_send_button_text">Отправить пароль</string>
     <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
 
@@ -119,7 +120,7 @@
     <!-- UserProfile Screen -->
     <string name="user_profile_title">Профиль</string>
     <string name="user_profile_first_name_hint">Имя</string>
-    <string name="user_profile_email_hint">Email</string>
+    <string name="user_profile_email_hint">E-mail</string>
     <string name="user_profile_password_hint">Пароль</string>
     <string name="user_profile_re_password_hint">Повторить пароль</string>
     <string name="user_profile_save_button">Сохранить</string>
@@ -222,7 +223,7 @@
     <string name="payment_dialog_ok">Oк</string>
     <string name="payment_dialog_cancel">Закрыть</string>
     <string name="payment_dialog_cards_title">Карта для оплаты</string>
-    <string name="payment_email">Email</string>
+    <string name="payment_email">E-mail</string>
     <string name="payment_pay_by_card">Оплатить картой</string>
     <string name="payment_add_card">Добавить</string>
     <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
@@ -389,7 +390,7 @@
     <string name="instruction_payment_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически</string>
     <string name="instruction_payment_non_auth_content_2">2. Нажмите кнопку «Продолжить».</string>
     <string name="instruction_payment_non_auth_content_3">3. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
-    <string name="instruction_payment_non_auth_content_4">4. Укажите адрес Вашего email – на него придёт уведомление о зачислении платежа</string>
+    <string name="instruction_payment_non_auth_content_4">4. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
     <string name="instruction_payment_non_auth_content_5">5. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
     <string name="instruction_payment_non_auth_content_6">6. Нажмите кнопку «Продолжить»</string>
     <string name="instruction_payment_non_auth_content_7">7. Вы перешли на сайт эквайринговой компании</string>
@@ -402,7 +403,7 @@
     <string name="instruction_payment_add_receipt_content_2">2. Если у Вас уже имеются квитанции, то на основном экране или экране «Оплата» нажмите «+» в правом верхнем углу экрана</string>
     <string name="instruction_payment_add_receipt_content_3">3. Нажмите кнопку «Продолжить».</string>
     <string name="instruction_payment_add_receipt_content_4">4. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
-    <string name="instruction_payment_add_receipt_content_5">5. Укажите адрес Вашего email – на него придёт уведомление о зачислении платежа</string>
+    <string name="instruction_payment_add_receipt_content_5">5. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
     <string name="instruction_payment_add_receipt_content_6">6. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
     <string name="instruction_payment_add_receipt_content_7">7. Нажмите кнопку «Продолжить»</string>
     <string name="instruction_payment_add_receipt_content_8">8. Вы перешли на сайт эквайринговой компании</string>
@@ -428,7 +429,7 @@
     <string name="instruction_payment_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
     <string name="instruction_payment_content_2">2. Нажмите кнопку «Оплатить»</string>
     <string name="instruction_payment_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
-    <string name="instruction_payment_content_4">4. Проверьте адрес Вашего email – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего email</string>
+    <string name="instruction_payment_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего email</string>
     <string name="instruction_payment_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
     <string name="instruction_payment_content_6">6. Вы перешли на сайт эквайринговой компании</string>
     <string name="instruction_payment_content_7">7. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
@@ -441,7 +442,7 @@
     <string name="instruction_payments_with_cards_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
     <string name="instruction_payments_with_cards_content_2">2. Нажмите кнопку «Оплатить»</string>
     <string name="instruction_payments_with_cards_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
-    <string name="instruction_payments_with_cards_content_4">4. Проверьте адрес Вашего email – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего email</string>
+    <string name="instruction_payments_with_cards_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
     <string name="instruction_payments_with_cards_content_5">5. Выберите карту, которой Вы будете выполнять платёж</string>
     <string name="instruction_payments_with_cards_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
     <string name="instruction_payments_with_cards_content_7">7. В окне подтверждения оплаты нажмите «ОК»</string>

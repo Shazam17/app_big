@@ -100,6 +100,8 @@ class SignInActivity : MvpActivity(), ISignInView {
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(if (isOfflineSignIn) R.string.sing_in_offline_title else R.string.sign_in_title)
+        signInPasswordTextInputLayout?.hint = getString(if (isOfflineSignIn) R.string.sign_in_password_offline_hint else R.string.sign_in_password_hint)
+
         signInForgotPasswordView.visibility = if (isOfflineSignIn) View.GONE else View.VISIBLE
 
         signInLoginEditText.textChangedListener {

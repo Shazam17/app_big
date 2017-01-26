@@ -380,7 +380,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return fetchCurrentUser()
                 .concatMap {
                     currentUser ->
-                    Observable.just(currentUser?.receipts?.sortedBy { it.address })
+                    currentUser?.receipts?.toTypedArray()?.sortBy { it.address }
+                    Observable.just(currentUser?.receipts?.reversed())
                 }
     }
 
