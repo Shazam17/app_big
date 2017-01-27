@@ -92,7 +92,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         when {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
             searchView.isSearchOpen -> searchView.closeSearch()
-            else -> super.onBackPressed()
+            else -> presenter.onBackPressed()
         }
     }
 
@@ -171,6 +171,10 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, HistoryTabFragment().withArguments("historyFilter" to HistoryFilterModel(barcode = receiptCode)))
                 .commitAllowingStateLoss()
+    }
+
+    override fun superBackPressed() {
+        super.onBackPressed()
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {

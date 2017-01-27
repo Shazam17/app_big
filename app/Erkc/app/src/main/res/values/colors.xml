@@ -31,7 +31,7 @@
     <color name="colorDarkText">#515151</color>
     <color name="colorHelp">#acabab</color>
 
-    <color name="colorError">#FFC5C5</color>
+    <color name="colorError">#fd9494</color>
 
     <color name="colorRed">#f44336</color>
     <color name="colorGreen">#4CAF50</color>
