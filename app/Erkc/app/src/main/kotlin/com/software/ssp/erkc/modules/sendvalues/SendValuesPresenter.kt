@@ -135,7 +135,11 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         it.isSent = true
                         it.date = now
                     }
-                    realmRepository.saveIpu(currentIpu)
+                    if (activeSession.accessToken != null) {
+                        realmRepository.saveIpu(currentIpu)
+                    } else {
+                        Observable.just(null)
+                    }
                 }
                 .subscribe(
                         {
