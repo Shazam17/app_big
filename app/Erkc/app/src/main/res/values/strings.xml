@@ -7,6 +7,7 @@
     <string name="none" />
     <string name="offline_mode_error">Данное действие недоступно в офлайн режиме.</string>
     <string name="error_no_connection">Не удалось установить связь c сервером</string>
+    <string name="on_back_pressed_text">Нажмите снова для выхода</string>
 
     <!-- Splash -->
     <string name="splash_try_again_text">Попробовать еще раз</string>
@@ -429,7 +430,7 @@
     <string name="instruction_payment_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
     <string name="instruction_payment_content_2">2. Нажмите кнопку «Оплатить»</string>
     <string name="instruction_payment_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
-    <string name="instruction_payment_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего email</string>
+    <string name="instruction_payment_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
     <string name="instruction_payment_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
     <string name="instruction_payment_content_6">6. Вы перешли на сайт эквайринговой компании</string>
     <string name="instruction_payment_content_7">7. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>

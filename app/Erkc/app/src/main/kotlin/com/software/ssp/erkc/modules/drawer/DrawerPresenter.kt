@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.drawer
 
 import com.jakewharton.rxrelay.Relay
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.OpenCardsEvent
 import com.software.ssp.erkc.common.OpenHistoryWithReceiptEvent
 import com.software.ssp.erkc.common.OpenInstructionsList
@@ -10,7 +11,9 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
+import rx.Observable
 import rx.lang.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -21,6 +24,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var eventBus: Relay<Any, Any>
     @Inject lateinit var notificationServiceManager: NotificationServiceManager
+    private var doubleBackToExitPressedOnce = false
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -66,6 +70,20 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     override fun onUserProfileUpdated() {
         showCurrentUser()
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            view?.pressBack()
+        } else {
+            doubleBackToExitPressedOnce = true
+            view?.showMessage(R.string.on_back_pressed_text)
+            subscriptions += Observable.timer(2, TimeUnit.SECONDS)
+                    .subscribe({
+                        doubleBackToExitPressedOnce = false
+                    })
+        }
+
     }
 
     private fun showCurrentUser() {

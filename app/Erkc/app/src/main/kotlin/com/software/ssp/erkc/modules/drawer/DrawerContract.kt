@@ -15,10 +15,12 @@ interface IDrawerView : IView {
     fun navigateToSplashScreen()
     fun navigateToUserProfile()
     fun navigateToHistory(receiptCode: String)
+    fun pressBack()
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {
     fun onLogoutClick()
     fun onUserProfileClick()
     fun onUserProfileUpdated()
+    fun onBackPressed()
 }
