@@ -15,7 +15,7 @@ interface IDrawerView : IView {
     fun navigateToSplashScreen()
     fun navigateToUserProfile()
     fun navigateToHistory(receiptCode: String)
-    fun pressBack()
+    fun navigateBack()
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {

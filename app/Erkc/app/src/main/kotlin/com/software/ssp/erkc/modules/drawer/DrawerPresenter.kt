@@ -74,7 +74,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            view?.pressBack()
+            view?.navigateBack()
         } else {
             doubleBackToExitPressedOnce = true
             view?.showMessage(R.string.on_back_pressed_text)

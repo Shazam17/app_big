@@ -173,7 +173,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 .commitAllowingStateLoss()
     }
 
-    override fun pressBack() {
+    override fun navigateBack() {
         super.onBackPressed()
     }
 
