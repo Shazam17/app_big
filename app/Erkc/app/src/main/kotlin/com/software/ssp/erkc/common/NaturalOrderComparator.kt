@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.utils
+package com.software.ssp.erkc.common
 
 import java.util.*
 

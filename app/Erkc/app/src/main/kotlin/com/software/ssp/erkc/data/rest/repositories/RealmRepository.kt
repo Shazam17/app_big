@@ -3,7 +3,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
-import com.software.ssp.erkc.utils.NaturalOrderComparator
+import com.software.ssp.erkc.common.NaturalOrderComparator
 import io.realm.Realm
 import rx.Observable
 import javax.inject.Inject
