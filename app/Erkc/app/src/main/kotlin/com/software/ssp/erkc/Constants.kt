@@ -10,6 +10,9 @@ object Constants {
     const val API_OAUTH_REDIRECT_URI = "https://api.vc.tom.ru/auth/success.html"
     const val API_SIG_PRIVATE_KEY = "21ba15f3410d6fe7fd00b83d18025358"
 
+    // FOR WEB REDIRECT
+    const val BANK_URL = "www.gazprombank.ru"
+    const val STORE_URL = "http://vc.tom.ru/"
     //DateTime formats
     const val PERIOD_DATE_FORMAT_API = "yyyyMM"
     const val PERIOD_DATE_FORMAT_UI = "MMM yyyy"
