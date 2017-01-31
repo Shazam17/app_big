@@ -191,6 +191,7 @@
     <string name="send_values_debts_des">Текущая задолженность (расчетный период)</string>
     <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
     <string name="send_values_title">Ввод показаний ИПУ</string>
+    <string name="send_values_ipu_hint" formatted="false">%s (№%s)</string>
     <string name="send_parameters_button">Передать показания</string>
     <string name="send_values_no_cached_ipu_error">Для данной квитанции нет сохраненных ИПУ. Необходимо как минимум 1 раз передать показания, чтобы они сохранились.</string>
     <string name="send_values_dialog_button">Закрыть</string>
