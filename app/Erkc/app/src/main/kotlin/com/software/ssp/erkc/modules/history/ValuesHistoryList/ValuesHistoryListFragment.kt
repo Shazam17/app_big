@@ -121,7 +121,6 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
 
     override fun initViews() {
         super.initViews()
-        emptyMessageText = ""
         swipeToRefreshEnabled = false
         filterChipView.chipLayoutRes = R.layout.layout_history_chip
         filterChipView.setOnChipClickListener {
@@ -133,6 +132,10 @@ class ValuesHistoryListFragment : BaseListFragment<RealmReceipt>(), IValuesHisto
                 filterChipView.visibility = View.GONE
             }
         }
+    }
+
+    override fun setEmptyViewVisible(visible: Boolean) {
+        emptyView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     private fun checkAndAddFilterTag(text: String?, field: HistoryFilterField) {

@@ -2,12 +2,16 @@ package com.software.ssp.erkc.modules.transaction.valuestransaction
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
+import kotlinx.android.synthetic.main.fragment_transaction_values_list.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -29,6 +33,10 @@ class ValuesTransactionListFragment : BaseListFragment<RealmOfflineIpu>(), IValu
                 .valuesTransactionListModule(ValuesTransactionListModule(this))
                 .build()
                 .inject(this)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_transaction_values_list, container, false)
     }
 
     override fun beforeDestroy() {
@@ -58,5 +66,9 @@ class ValuesTransactionListFragment : BaseListFragment<RealmOfflineIpu>(), IValu
     override fun initViews() {
         super.initViews()
         swipeToRefreshEnabled = false
+    }
+
+    override fun setEmptyViewVisible(visible: Boolean) {
+        emptyView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 }

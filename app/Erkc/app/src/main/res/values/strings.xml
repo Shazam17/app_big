@@ -285,6 +285,7 @@
     <string name="history_filter_menu_refresh">Обновить список</string>
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+    <string name="history_empty_text">Ни одной операции пока не было произведено.</string>
 
     <!-- Transaction -->
     <string name="transaction_payments_tab_title">Платежи</string>
@@ -355,12 +356,14 @@
     <!-- Transactions -->
     <string name="transaction_ipu_text">Передать показания</string>
     <string name="transaction_payment_text">Оплатить</string>
+    <string name="transaction_empty_text">Ни одной транзакции пока не было произведено.</string>
     <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
 
     <!-- Notifications -->
     <string name="notifications_menu_filter">Применить фильтр</string>
     <string name="notifications_menu_search">Поиск по теме</string>
     <string name="notifications_search_hint">Введите тему…</string>
+    <string name="notifications_empty_text">Пока не было ни одного уведомления.</string>
 
     <!-- Notifications filter -->
     <string name="notifications_filter_title">Фильтр</string>

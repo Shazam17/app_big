@@ -92,6 +92,13 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
         presenter.onNotificationDeleteClick(notification)
     }
 
+    override fun notifyItemRemoved(item: RealmNotification) {
+        super.notifyItemRemoved(item)
+        if (dataset.count() == 0) {
+            setEmptyViewVisible(true)
+        }
+    }
+
     override fun notificationClick(notification: RealmNotification) {
         presenter.onNotificationClick(notification)
     }
@@ -172,6 +179,10 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
                 filterBlur.visibility = View.VISIBLE
             }
         })
+    }
+
+    override fun setEmptyViewVisible(visible: Boolean) {
+        emptyView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     private fun checkAndAddFilterTag(text: String?, field: NotificationsFilterField) {

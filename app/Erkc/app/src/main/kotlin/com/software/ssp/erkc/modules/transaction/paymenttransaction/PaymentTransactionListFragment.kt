@@ -2,12 +2,16 @@ package com.software.ssp.erkc.modules.transaction.paymenttransaction
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import kotlinx.android.synthetic.main.fragment_transaction_payments_list.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -20,6 +24,10 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
 
     override fun navigateToPaymentInfo(payment: RealmOfflinePayment) {
         startActivity<PaymentActivity>(Constants.KEY_FROM_TRANSACTION to true, Constants.KEY_RECEIPT to payment.receipt.id)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_transaction_payments_list, container, false)
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
@@ -59,6 +67,10 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
     override fun initViews() {
         super.initViews()
         swipeToRefreshEnabled = false
+    }
+
+    override fun setEmptyViewVisible(visible: Boolean) {
+        emptyView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
 }

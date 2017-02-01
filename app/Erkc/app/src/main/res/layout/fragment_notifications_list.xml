@@ -49,25 +49,40 @@
         android:visibility="gone"
         tools:ignore="UnusedAttribute" />
 
-    <TextView
-        android:id="@+id/emptyMessageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/double_default_margin"
-        android:layout_marginRight="@dimen/double_default_margin"
-        android:gravity="center"
-        android:text="@string/default_empty_list_message_text"
-        android:textSize="@dimen/google_subhead_text_size"
-        android:visibility="invisible" />
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:src="@drawable/notification_placeholder" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:paddingEnd="@dimen/default_margin"
+            android:paddingStart="@dimen/default_margin"
+            android:text="@string/notifications_empty_text"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorHelp" />
+    </LinearLayout>
 
     <View
         android:id="@+id/filterBlur"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:clickable="true"
         android:background="@color/colorInactiveBack"
-        tools:visibility="visible"/>
+        android:clickable="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </FrameLayout>
