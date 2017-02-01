@@ -132,7 +132,7 @@
     <string name="card_status_registered">АКТИВИРОВАТЬ</string>
     <string name="card_status_activate" />
     <string name="card_status_deleted" />
-    <string name="cards_empty_text">Здесь вы пожете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
+    <string name="cards_empty_text">Здесь вы можете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
     <string name="cards_add_menu_text">Добавить</string>
     <string name="cards_instruction_menu_text">Инструкция</string>
 
@@ -252,7 +252,7 @@
     <string name="auto_payments_delete_positive_button">Удалить</string>
     <string name="auto_payments_delete_negative_button">Отмена</string>
     <string name="auto_payments_add_menu_text">Добавить</string>
-    <string name="auto_payments_empty_list_text">Здесь вы пожете добавить автоплатежи и настроить оплату в один клик.</string>
+    <string name="auto_payments_empty_list_text">Здесь вы можете добавить автоплатежи и настроить оплату в один клик.</string>
     <string name="auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
     <string name="auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
 
