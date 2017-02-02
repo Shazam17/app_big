@@ -7,75 +7,97 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_2" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_7_1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_3" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_7_2" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_4" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_7_3" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_5" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
-            android:text="@string/instruction_payments_with_cards_content_6" />
+            android:src="@drawable/inst_7_4" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
+            android:text="@string/instruction_payments_with_cards_content_6" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_7_5" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_7" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_8" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_9" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_10" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_payments_with_cards_content_11" />
 
     </LinearLayout>

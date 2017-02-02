@@ -7,62 +7,85 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_1" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_10_1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_2" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_10_2" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_3" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_10_3" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_4" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_10_4" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_5" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_10_5" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_history_payment_content_6" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
-            android:text="@string/instruction_history_payment_content_7" />
+            android:src="@drawable/inst_10_6" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_filter_black"
-            android:paddingTop="@dimen/default_margin"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:text="@string/instructions_filter_icon_text"
-            android:textStyle="normal|italic" />
+            android:padding="@dimen/default_margin"
+            android:text="@string/instruction_history_payment_content_7" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_11_4" /> <!-- По логике нужна 10_7, пока юзаем 11_4 -->
+
 
     </LinearLayout>
 

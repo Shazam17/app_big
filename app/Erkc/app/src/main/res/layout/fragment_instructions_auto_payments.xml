@@ -7,58 +7,100 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_1" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_2" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_2" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_3" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_3" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_4" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_4" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_5" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_5" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_6" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_6" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
-            android:text="@string/instruction_auto_payments_content_7" />
+            android:src="@drawable/inst_9_7" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
+            android:text="@string/instruction_auto_payments_content_7" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_8" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_8" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_9_9" />
 
     </LinearLayout>
 

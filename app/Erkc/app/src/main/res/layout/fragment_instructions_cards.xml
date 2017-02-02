@@ -7,75 +7,98 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_1" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_2" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_2" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_3" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
-            android:text="@string/instruction_cards_content_4" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
+            android:text="@string/instruction_cards_content_4" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_5" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_6" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_4" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_7" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_8" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_9" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_10" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_5" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/default_margin"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_11" />
 
     </LinearLayout>
