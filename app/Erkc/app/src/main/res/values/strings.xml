@@ -237,6 +237,7 @@
     <string name="payment_commission_sum" formatted="false">(%.2f р.)</string>
     <string name="payment_commission_percent" formatted="false">Комиссия %.2f%%</string>
     <string name="payment_sum" formatted="false">%.2f р.</string>
+    <string name="payment_sum_format" formatted="false">%.2f</string>
     <string name="payment_currency_symbol"> р.</string>
     <string name="payment_non_selected_card">Не выбрана</string>
     <string name="payment_navigate_to_cards_dialog_text">На вашей учетной записи отсуствуют активированные карты.\nПерейти к добавлению/активации карты?</string>

@@ -130,7 +130,9 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             negativeText(R.string.history_filter_dialog_cancel)
             onPositive {
                 dialog, action ->
-                onConfirm(dialog.selectedIndex)
+                if (dialog.selectedIndex != -1) {
+                    onConfirm(dialog.selectedIndex)
+                }
             }
         }.show()
     }
@@ -147,7 +149,9 @@ class HistoryFilterActivity : MvpActivity(), IHistoryFilterView {
             negativeText(R.string.history_filter_dialog_cancel)
             onPositive {
                 dialog, action ->
-                onConfirm(items[dialog.selectedIndex])
+                if (dialog.selectedIndex != -1) {
+                    onConfirm(items[dialog.selectedIndex])
+                }
             }
         }.show()
     }

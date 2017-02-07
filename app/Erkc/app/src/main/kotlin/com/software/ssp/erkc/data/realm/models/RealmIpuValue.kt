@@ -8,6 +8,7 @@ import java.util.*
 open class RealmIpuValue(
         open var id: String = "",
         open var serviceName: String = "",
+        open var shortName: String? = "",
         open var number: String = "",
         open var installPlace: String = "",
         open var date: Date? = null,

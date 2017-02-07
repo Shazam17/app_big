@@ -796,6 +796,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                             RealmIpuValue(
                                     id = it.id,
                                     serviceName = it.serviceName,
+                                    shortName = it.shortName,
                                     number = it.number,
                                     installPlace = it.installPlace,
                                     date = it.date,

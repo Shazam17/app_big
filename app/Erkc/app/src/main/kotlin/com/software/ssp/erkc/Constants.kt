@@ -19,7 +19,7 @@ object Constants {
     const val DATE_TIME_FORMAT_PAYMENTS_UI = "dd MMM yyyy, HH:mm"
     const val DATE_TIME_FORMAT_API = "yyyy-MM-dd HH:mm:ss"
     const val DATE_TIME_FORMAT_API_PAYMENTS = "dd.MM.yyyy HH:mm"
-    const val HISTORY_DATE_FORMAT = "dd MMM"
+    const val HISTORY_DATE_FORMAT = "dd MMM\nyyyy"
     const val RECEIPT_DATE_API_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val RECEIPT_DATE_FORMAT = "dd MMM yyyy"
     const val VALUES_DATE_FORMAT = "dd.MM.yyyy"

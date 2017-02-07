@@ -111,7 +111,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun showPaymentSum(sum: Double) {
-        paymentSum.setText(sum.toString())
+        paymentSum.setText(getString(R.string.payment_sum_format).format(sum))
     }
 
     override fun showSelectedCard(card: RealmCard?) {

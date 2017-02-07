@@ -28,6 +28,8 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
 
     private val defaultLatitude = 56.473696
     private val defaultLongitude = 84.973129
+    private val centerLatitude = 56.473996
+    private val centerLongitude = 84.973129
     private val mapCameraZoom = 16f
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -60,12 +62,13 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
         map.uiSettings?.isCompassEnabled = false
 
         val location = LatLng(defaultLatitude, defaultLongitude)
+        val locationForCenter = LatLng(centerLatitude, centerLongitude)
 
         val marker = MarkerOptions()
         marker.position(location)
         marker.title(getString(com.software.ssp.erkc.R.string.contacts_map_marker_title))
 
-        val cameraPosition = CameraPosition.fromLatLngZoom(location, mapCameraZoom)
+        val cameraPosition = CameraPosition.fromLatLngZoom(locationForCenter, mapCameraZoom)
 
         val cameraUpdatePosition = CameraUpdateFactory.newCameraPosition(cameraPosition)
 

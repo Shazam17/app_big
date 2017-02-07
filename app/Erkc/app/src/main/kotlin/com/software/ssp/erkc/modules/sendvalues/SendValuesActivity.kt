@@ -64,7 +64,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         newIpus.forEach {
             val ipuLayout = layoutInflater.inflate(R.layout.sendparameters_ipu_layout, parametersContainer, false)
             ipuLayout.ipuLocation.text = it.installPlace
-            ipuLayout.ipuValueWrapper.hint = "${it.serviceName} (№${it.number})"
+            ipuLayout.ipuValueWrapper.hint = "${it.shortName} (№${it.number})"
             ipuLayout.ipuValue.textChangedListener {
                 afterTextChanged {
                     text ->

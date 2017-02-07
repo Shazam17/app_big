@@ -74,6 +74,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                             RealmIpuValue(
                                                     id = it.id,
                                                     serviceName = it.serviceName,
+                                                    shortName = it.shortName,
                                                     number = it.number,
                                                     installPlace = it.installPlace,
                                                     period = it.period
@@ -105,6 +106,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                             RealmIpuValue(
                                                     id = ipu.id,
                                                     serviceName = ipu.serviceName,
+                                                    shortName = ipu.shortName,
                                                     number = ipu.number,
                                                     installPlace = ipu.installPlace,
                                                     period = ipuData.offlineIpu.createDate,
@@ -200,6 +202,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                             RealmIpuValue(
                                                     it.id,
                                                     it.serviceName,
+                                                    it.shortName,
                                                     it.number,
                                                     it.installPlace,
                                                     null,

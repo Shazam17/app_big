@@ -14,6 +14,9 @@ data class Ipu(
         @SerializedName("usluga_name")
         var serviceName: String,
 
+        @SerializedName("usluga_shortname")
+        var shortName: String?,
+
         @SerializedName("nomer")
         var number: String,
 
