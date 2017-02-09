@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.ErkcApplication
+import com.software.ssp.erkc.common.ActivityLifecycle
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.drawer.DrawerItem
@@ -33,31 +34,44 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
             if (activeSession.accessToken != null) {
 
-                //add drawer first
-                val drawerIntent = Intent(context.applicationContext, DrawerActivity::class.java)
-                drawerIntent.newTask().singleTop()
-                intents.add(drawerIntent)
-
-                when(notificationType) {
+                //стартуем начинася с дровера только если мы получили нотификацию в выключенном приложении
+                if (ActivityLifecycle.isBackground) {
+                    val drawerIntent = Intent(context.applicationContext, DrawerActivity::class.java)
+                    drawerIntent.newTask().singleTop()
+                    intents.add(drawerIntent)
+                }
+                when (notificationType) {
                     PushNotificationType.NOTIFICATION -> {
                         val newIntent = Intent(context.applicationContext, NotificationScreenActivity::class.java)
                         newIntent.putExtra(Constants.KEY_NOTIFICATION_ID, notificationId)
+                        if (intents.isEmpty()) {
+                            newIntent.newTask().singleTop()
+                        }
                         intents.add(newIntent)
                     }
                     PushNotificationType.PAYMENT -> {
                         val newIntent = Intent(context.applicationContext, PaymentInfoActivity::class.java)
                         newIntent.putExtra(Constants.KEY_PAYMENT, notificationId)
+                        if (intents.isEmpty()) {
+                            newIntent.newTask().singleTop()
+                        }
                         intents.add(newIntent)
                     }
                     PushNotificationType.CARD -> {
                         //drawer navigation to cards list
-                        intents[0].putExtra(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.CARDS)
+                        if (ActivityLifecycle.isBackground) {
+                            val drawerIntent = Intent(context.applicationContext, DrawerActivity::class.java)
+                            drawerIntent.newTask().singleTop()
+                            drawerIntent.putExtra(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.CARDS)
+                            intents.add(drawerIntent)
+                        }
                     }
                 }
 
             } else {
                 val newIntent = Intent(context.applicationContext, SplashActivity::class.java)
                 newIntent.newTask().singleTop()
+                newIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME)
                 intents.add(newIntent)
             }
 
