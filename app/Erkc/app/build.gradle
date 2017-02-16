@@ -12,7 +12,7 @@ android {
         applicationId "com.software.ssp.erkc"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 8
+        versionCode 9
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -20,7 +20,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def apkName = "erkc_${output.name}.apk"
+            def apkName = "erkc_v${variant.versionCode}_${output.name}.apk"
             output.outputFile = file("$project.buildDir/apk/$apkName")
         }
     }
