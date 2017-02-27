@@ -20,6 +20,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.setTextColorByContextCompat
+import com.software.ssp.erkc.extensions.toStringWithDot
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.confirm_payment_layout.view.*
@@ -111,7 +112,7 @@ class PaymentActivity : MvpActivity(), IPaymentView {
     }
 
     override fun showPaymentSum(sum: Double) {
-        paymentSum.setText(getString(R.string.payment_sum_format).format(sum))
+        paymentSum.setText(sum.toStringWithDot())
     }
 
     override fun showSelectedCard(card: RealmCard?) {
