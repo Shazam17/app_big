@@ -6,17 +6,18 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/addressHeaderText"
+        android:id="@+id/dateHeaderText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:paddingEnd="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
         android:paddingTop="@dimen/half_default_margin"
-        android:textAllCaps="false"
+        android:textAlignment="center"
         android:textColor="@color/colorLightInput"
+        android:textSize="@dimen/google_body_text_size"
         android:textStyle="normal|bold"
-        tools:text="ул. Усова 25/1, кв 7" />
+        tools:text="30 янв. 2017" />
 
     <LinearLayout
         android:id="@+id/rootLayout"
@@ -24,66 +25,80 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:orientation="horizontal"
-        android:padding="@dimen/default_margin">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/half_default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/google_subhead_text_size"
+                    android:textStyle="normal|bold"
+                    tools:text="Оплата Электросна" />
+
+                <TextView
+                    android:id="@+id/barcodeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/google_body_text_size"
+                    tools:text="1231231321321" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/paymentLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/moneyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="@dimen/google_subhead_text_size"
+                    android:textStyle="normal|bold"
+                    tools:text="789000000 р." />
+
+                <TextView
+                    android:id="@+id/commissionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="@dimen/google_body_text_size"
+                    tools:text="+789000 р.(10%)" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/dateText"
-            android:layout_width="wrap_content"
+            android:id="@+id/addressTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="30 Aug" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/nameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:textSize="16sp"
-                android:maxLines="1"
-                android:textStyle="normal|bold"
-                tools:text="Оплата Электросна" />
-
-            <TextView
-                android:id="@+id/barcodeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="1231231321321" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/paymentLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/moneyText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorGreen"
-                android:textSize="16sp"
-                android:textStyle="normal|bold"
-                tools:text="789000000 р." />
-
-            <TextView
-                android:id="@+id/commissionText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorGreen"
-                tools:text="+789000 р.(10%)" />
-
-        </LinearLayout>
+            android:maxLines="1"
+            android:textSize="@dimen/google_body_text_size"
+            android:textStyle="normal"
+            tools:text="ул. Усова 25/1, кв 7" />
 
     </LinearLayout>
 

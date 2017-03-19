@@ -10,7 +10,6 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
-import java.util.*
 import javax.inject.Inject
 
 
@@ -127,12 +126,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                 .subscribe(
                         {
                             payments ->
-
-                            val sortedPayments = ArrayList<RealmPaymentInfo>()
-
-                            val groupedPayments = payments.sortedByDescending { it.date }.groupBy { it.receipt!!.address }
-                            groupedPayments.forEach { sortedPayments.addAll(it.value) }
-
+                            val sortedPayments = payments.sortedByDescending { it.date }
                             view?.showData(sortedPayments)
                         },
                         {

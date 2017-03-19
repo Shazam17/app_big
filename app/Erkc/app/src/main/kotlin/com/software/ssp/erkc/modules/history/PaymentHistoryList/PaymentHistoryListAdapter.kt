@@ -8,6 +8,7 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.extensions.getCompatColor
+import com.software.ssp.erkc.extensions.isSameDay
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_history.view.*
 import org.jetbrains.anko.textColor
@@ -21,7 +22,11 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setHeaderVisibility(position == 0 || dataList[position].receipt?.address != dataList[position - 1].receipt?.address)
+        val isDateHeaderVisible = position == 0 || (dataList[position].date != null
+                && dataList[position - 1].date != null
+                && !dataList[position].date!!.isSameDay(dataList[position - 1].date!!))
+
+        holder.setDateVisibility(isDateHeaderVisible)
         holder.bindReceipt(dataList[position])
     }
 
@@ -34,13 +39,13 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
 
         fun bindReceipt(payment: RealmPaymentInfo) {
             itemView.apply {
-                addressHeaderText.text = payment.receipt?.address
+                addressTextView.text = payment.receipt?.address
                 nameText.text = payment.receipt?.name
                 barcodeText.text = payment.receipt?.barcode
 
-                dateText.text = payment.date?.toString(Constants.HISTORY_DATE_FORMAT)
+                dateHeaderText.text = payment.date?.toString(Constants.HISTORY_DATE_FORMAT)
 
-                val statusColor = context.getCompatColor(if(payment.status == 0) R.color.colorRed else R.color.colorGreen)
+                val statusColor = context.getCompatColor(if (payment.status == 0) R.color.colorRed else R.color.colorGreen)
                 moneyText.textColor = statusColor
                 commissionText.textColor = statusColor
 
@@ -52,8 +57,8 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
             }
         }
 
-        fun setHeaderVisibility(isVisible: Boolean) {
-            itemView.addressHeaderText.visibility = if (isVisible) View.VISIBLE else View.GONE
+        fun setDateVisibility(isVisible: Boolean) {
+            itemView.dateHeaderText.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 }

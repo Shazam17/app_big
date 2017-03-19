@@ -16,6 +16,7 @@
         android:paddingStart="@dimen/default_margin"
         android:textAllCaps="false"
         android:textColor="@color/colorLightInput"
+        android:textSize="@dimen/google_body_text_size"
         android:textStyle="normal|bold"
         tools:text="ул. Усова 25/1, кв 7" />
 
@@ -26,8 +27,8 @@
         android:layout_marginEnd="@dimen/half_default_margin"
         android:layout_marginStart="@dimen/half_default_margin"
         android:layout_marginTop="@dimen/quarter_default_margin"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="3dp">
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
 
         <ru.rambler.libs.swipe_layout.SwipeLayout
             android:id="@+id/swipeLayout"
@@ -47,19 +48,18 @@
                     android:maxLines="2"
                     android:paddingEnd="@dimen/half_default_margin"
                     android:textColor="@color/colorBlack"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     android:textStyle="normal|bold"
-                    app:layout_constraintBottom_toTopOf="@+id/receiptBarcodeText"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread_inside"
                     app:layout_constraintRight_toLeftOf="@+id/receiptTypeImage"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Отопление asjdlaksjd lajsd lkajs kldajs lkdaj as das d" />
+                    tools:text="Отопление" />
 
                 <TextView
                     android:id="@+id/receiptBarcodeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/google_body_text_size"
                     app:layout_constraintBottom_toTopOf="@+id/receiptAmountText"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/receiptTypeImage"
@@ -71,27 +71,30 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/receiptTypeImage"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/receiptBarcodeText"
-                    tools:text="-5690000 р." />
+                    tools:text="-5690000 р."
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/receiptAutoPaymentText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:drawableStart="@drawable/ic_autopay_enabled"
-                    android:ellipsize="end"
-                    android:gravity="bottom"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:paddingEnd="@dimen/half_default_margin"
+                    android:paddingStart="@dimen/half_default_margin"
                     android:text="@string/receipts_auto_payment"
                     android:textColor="@color/colorReceiptAutoPay"
-                    android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/receiptAmountText"
+                    android:textSize="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/receiptAmountText"
                     app:layout_constraintLeft_toRightOf="@+id/receiptAmountText"
-                    app:layout_constraintRight_toLeftOf="@+id/receiptTypeImage" />
+                    app:layout_constraintRight_toLeftOf="@+id/receiptTypeImage"
+                    app:layout_constraintTop_toTopOf="@+id/receiptAmountText"
+                    tools:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/receiptTypeImage"
@@ -112,9 +115,10 @@
                     android:gravity="center_vertical"
                     android:text="@string/receipts_pay_button"
                     android:textAllCaps="true"
-                    android:textSize="13sp"
+                    android:textSize="13dp"
                     android:textStyle="normal|bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/receiptTransferButton"
                     app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
@@ -130,40 +134,13 @@
                     android:gravity="center_vertical"
                     android:text="@string/receipts_transfer_value_button"
                     android:textAllCaps="true"
-                    android:textSize="13sp"
+                    android:textSize="13dp"
                     android:textStyle="normal|bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/receiptPayButton"
                     app:layout_constraintRight_toLeftOf="@+id/receiptLastTransferLayout"
                     app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
-                    tools:visibility="visible" />
-
-                <LinearLayout
-                    android:id="@+id/receiptLastPayLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_default_margin"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/receiptTransferButton"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
-                    tools:visibility="gone">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/receipts_last_pay_text" />
-
-                    <TextView
-                        android:id="@+id/receiptLastPayDateText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        tools:text="20.10.2014" />
-
-                </LinearLayout>
+                    tools:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/receiptLastTransferLayout"
@@ -173,7 +150,7 @@
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/receiptTransferButton"
-                    app:layout_constraintRight_toLeftOf="@+id/receiptMenuImage"
+                    app:layout_constraintRight_toLeftOf="@+id/receiptLastPayLayout"
                     app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
                     tools:visibility="gone">
 
@@ -181,13 +158,44 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="@string/receipts_last_transfer_text" />
+                        android:text="@string/receipts_last_transfer_text"
+                        android:textSize="@dimen/google_body_text_size" />
 
                     <TextView
                         android:id="@+id/receiptLastTransferDateText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
+                        android:textSize="@dimen/google_body_text_size"
+                        tools:text="20.10.2014" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/receiptLastPayLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_default_margin"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/receiptLastTransferLayout"
+                    app:layout_constraintRight_toLeftOf="@+id/receiptMenuImage"
+                    app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/receipts_last_pay_text"
+                        android:textSize="@dimen/google_body_text_size" />
+
+                    <TextView
+                        android:id="@+id/receiptLastPayDateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="@dimen/google_body_text_size"
                         tools:text="20.10.2014" />
 
                 </LinearLayout>
@@ -200,10 +208,10 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/receiptLastTransferLayout"
+                    app:layout_constraintLeft_toRightOf="@+id/receiptLastPayLayout"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/receiptTypeImage"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
             </android.support.constraint.ConstraintLayout>
 

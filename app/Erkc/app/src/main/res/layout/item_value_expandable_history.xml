@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemValueHistoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableEnd="@drawable/ic_arrow_drop_down"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/half_default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin"
+        android:textColor="@color/colorPaymentBodyText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ХВ (1334546, сан.узел)" />
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/itemValueExpandableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        app:el_duration="500"
+        app:el_expanded="false"
+        app:el_parallax="0.0">
+
+        <LinearLayout
+            android:id="@+id/itemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/history_value_average_ipu"
+            android:textColor="@color/colorHistoryValueBody"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/averageByIpuTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorHistoryValueBody"
+            android:textSize="14dp"
+            tools:text="0000,263" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingTop="@dimen/half_default_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/history_value_total_ipu"
+            android:textColor="@color/colorHistoryValueBody"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/totalByIpuTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorHistoryValueBody"
+            android:textSize="14dp"
+            tools:text="0000,263" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/half_default_margin"
+        android:background="@color/colorHistoryValueDivider" />
+
+</LinearLayout>

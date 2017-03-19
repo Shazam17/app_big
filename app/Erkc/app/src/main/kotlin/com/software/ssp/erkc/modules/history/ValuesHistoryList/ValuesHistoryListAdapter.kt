@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.extensions.isSameDay
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_history.view.*
 
@@ -19,7 +20,11 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setHeaderVisibility(position == 0 || dataList[position].address != dataList[position - 1].address)
+        val isDateHeaderVisible = position == 0 || (dataList[position].lastIpuTransferDate != null
+                && dataList[position - 1].lastIpuTransferDate != null
+                && !dataList[position].lastIpuTransferDate!!.isSameDay(dataList[position - 1].lastIpuTransferDate!!))
+
+        holder.setDateVisibility(isDateHeaderVisible)
         holder.bindReceipt(dataList[position])
     }
 
@@ -36,8 +41,8 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
 
         fun bindReceipt(receipt: RealmReceipt) {
             itemView.apply {
-                addressHeaderText.text = receipt.address
-                dateText.text = receipt.lastIpuTransferDate?.toString(Constants.HISTORY_DATE_FORMAT)
+                addressTextView.text = receipt.address
+                dateHeaderText.text = receipt.lastIpuTransferDate?.toString(Constants.HISTORY_DATE_FORMAT)
                 nameText.text = receipt.name
                 barcodeText.text = receipt.barcode
 
@@ -47,8 +52,8 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
             }
         }
 
-        fun setHeaderVisibility(isVisible: Boolean) {
-            itemView.addressHeaderText.visibility = if (isVisible) View.VISIBLE else View.GONE
+        fun setDateVisibility(isVisible: Boolean) {
+            itemView.dateHeaderText.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 }

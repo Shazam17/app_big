@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.modules.history.valuehistory
 
 import com.software.ssp.erkc.Constants
-import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -28,19 +27,21 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     override var currentFilter: HistoryFilterModel = HistoryFilterModel()
 
     override fun onViewAttached() {
-        view?.setLoadingVisible(true)
-
         fetchData()
     }
 
-    override fun onSwipeToRefresh() {
+    override fun onViewDetached() {
+        realmRepository.close()
+        super.onViewDetached()
     }
 
     private fun fetchData() {
-        view?.setLoadingVisible(true)
         subscriptions += realmRepository.fetchReceiptsById(receiptId)
                 .concatMap {
                     receipt ->
+
+                    view?.showReceiptData(receipt)
+
                     if (activeSession.isOfflineSession) {
                         Observable.just(null)
                     } else {
@@ -74,28 +75,24 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
                                         return@filter true
                                     }
-                                    .sortedBy { it.number }
+                                    .sortedByDescending { it.date }
 
-                            view?.showData(filteredIpuValues)
                             fillData(filteredIpuValues)
-
-                            view?.setLoadingVisible(false)
                         },
                         {
                             error ->
                             view?.showMessage(error.parsedMessage())
-                            view?.setLoadingVisible(false)
                         }
                 )
     }
 
     private fun fillData(ipus: List<RealmIpuValue>) {
         val startCalendar = GregorianCalendar()
-        val dateFrom = ipus.first().date
+        val dateFrom = ipus.last().date
         startCalendar.time = dateFrom
 
         val endCalendar = GregorianCalendar()
-        val dateTo = ipus.last().date
+        val dateTo = ipus.first().date
         endCalendar.time = dateTo
 
         val diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR)
@@ -109,36 +106,17 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
             it.value.groupBy { it.number }.forEach {
                 val ipu = it.value
-                total += if (ipu.count() > 1) ipu.first().value.toLong() - ipu.last().value.toLong() else ipu.first().value.toLong()
+
+                val ipuTotal = if (ipu.count() > 1) ipu.first().value.toLong() - ipu.last().value.toLong() else ipu.first().value.toLong()
+                val ipuAverage = ipuTotal / if (diffMonth == 0) 1 else diffMonth
+                view?.addIpuData(ValueHistoryViewModel(ipu, ipuTotal, ipuAverage))
+
+                total += ipuTotal
             }
 
             val average = total / if (diffMonth == 0) 1 else diffMonth
 
-            val serviceName = it.key
-
-            val unitResId: Int
-            val picRecId: Int
-            when {
-                serviceName.contains(Constants.HOT_WATER) -> {
-                    unitResId = R.string.history_value_water_unit
-                    picRecId = R.drawable.pic_hot_water
-                }
-                serviceName.contains(Constants.COLD_WATER) -> {
-                    unitResId = R.string.history_value_water_unit
-                    picRecId = R.drawable.pic_cold_water
-                }
-                else -> {
-                    unitResId = R.string.history_value_electro_unit
-                    picRecId = R.drawable.pic_electro
-                }
-            }
-
-            view?.fillData(it.key, total.toString(), average.toString(), unitResId, picRecId)
+            view?.addServiceData(it.key, total.toString(), average.toString())
         }
-    }
-
-    override fun onViewDetached() {
-        realmRepository.close()
-        super.onViewDetached()
     }
 }

@@ -1,57 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorWhite"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorWhite">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorHistoryValueBackground"
-        android:padding="@dimen/half_default_margin"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2" />
-
-        <TextView
-            android:id="@+id/valueHistoryAverageTextView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:textAlignment="center"
-            android:textColor="@color/colorHistoryValueHeader"
-            android:textSize="12sp"
-            tools:text="@string/history_value_average_title"/>
-
-        <TextView
-            android:id="@+id/valueHistoryTotalTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:textColor="@color/colorHistoryValueHeader"
-            android:textSize="12sp"
-            tools:text="Общий расход за период 01.01.2016 - 12.09.2016" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorHistoryValueDivider" />
-
-    <LinearLayout
-        android:id="@+id/valueHistoryIpuContainer"
+        android:id="@+id/valuesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorHistoryValueBackground"
-        android:padding="@dimen/half_default_margin"/>
+        android:paddingBottom="@dimen/default_margin">
 
-    <include layout="@layout/layout_recycler_view" />
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorHistoryValueBackground"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BodyTextViewSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:text="@string/history_value_barcode_caption"
+                android:textColor="@color/colorHistoryValueHeader"
+                android:textSize="@dimen/google_body_text_size" />
+
+            <TextView
+                android:id="@+id/barcodeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:textColor="@color/colorBaseText"
+                android:textSize="@dimen/google_body_text_size"
+                tools:text="234 678 45678 90 (Оплата ХВ)" />
+
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:textColor="@color/colorBaseText"
+                android:textSize="@dimen/google_body_text_size"
+                tools:text="пр. Ленина 34, кв, 45" />
+
+            <TextView
+                android:id="@+id/periodTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:textColor="@color/colorBaseText"
+                android:textSize="@dimen/google_body_text_size"
+                tools:text="@string/history_value_period_format" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:background="@color/colorHistoryValueDivider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:text="@string/history_value_average"
+                android:textColor="@color/colorHistoryValueHeader"
+                android:textSize="@dimen/google_body_text_size" />
+
+            <LinearLayout
+                android:id="@+id/averageValueContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:background="@color/colorHistoryValueDivider" />
+
+            <TextView
+                android:id="@+id/totalValueCaption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin"
+                android:text="@string/history_value_total"
+                android:textColor="@color/colorHistoryValueHeader"
+                android:textSize="@dimen/google_body_text_size" />
+
+            <LinearLayout
+                android:id="@+id/totalValueContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/default_margin"
+                android:paddingStart="@dimen/default_margin" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:background="@color/colorHistoryValueDivider" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

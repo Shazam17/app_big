@@ -296,12 +296,21 @@
     <string name="transaction_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
     <!-- History Value -->
-    <string name="history_value_title">Показания</string>
-    <string name="history_value_average_title">Средний\nрасход</string>
-    <string name="history_value_total" formatted="false">Общий расход за период %s - %s</string>
+    <string name="history_value_title">История ИПУ</string>
+    <string name="history_value_period_format" formatted="false">Период: от %s до %s</string>
+    <string name="history_value_barcode_caption">Штрих-код (Вид платежа)</string>
+
+    <string name="history_value_average">Средний расход по услуге</string>
+    <string name="history_value_total">Общий расход по услуге за период</string>
+
+    <string name="history_value_average_ipu">Средний расход по ИПУ</string>
+    <string name="history_value_total_ipu">Общий расход по ИПУ за период</string>
+
+    <string name="history_value_barcode_format" formatted="false">%s (%s)</string>
     <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>
     <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
     <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
+
     <string name="history_value_menu_info">Справка</string>
     <string name="history_value_info_dialog_content">Данные о среднем и общем расходе ресурса за период рассчитаны на основании показаний переданных через приложение, имеют информационный характер и могут быть уточнены у поставщика услуги.</string>
     <string name="history_value_info_dialog_positive">Понятно</string>

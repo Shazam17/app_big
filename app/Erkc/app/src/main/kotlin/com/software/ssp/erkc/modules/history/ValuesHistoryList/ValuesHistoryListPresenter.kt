@@ -12,7 +12,6 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
-import java.util.*
 import javax.inject.Inject
 
 
@@ -122,10 +121,9 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
                         {
                             filteredIpus ->
 
-                            val sortedReceipts = ArrayList<RealmReceipt>()
-
-                            val groupedReceipts = filteredIpus.sortedByDescending { it.receipt!!.lastIpuTransferDate }.groupBy { it.receipt!!.address }
-                            groupedReceipts.forEach { sortedReceipts.addAll(it.value.map { it.receipt!! }) }
+                            val sortedReceipts = filteredIpus
+                                    .map { it.receipt!! }
+                                    .sortedByDescending { it.lastIpuTransferDate }
 
                             view?.showData(sortedReceipts)
                         },
