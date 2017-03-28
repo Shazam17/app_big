@@ -300,11 +300,14 @@
     <string name="history_value_period_format" formatted="false">Период: от %s до %s</string>
     <string name="history_value_barcode_caption">Штрих-код (Вид платежа)</string>
 
-    <string name="history_value_average">Средний расход по услуге</string>
+    <string name="history_value_average">Среднемесячный расход по услуге за период</string>
     <string name="history_value_total">Общий расход по услуге за период</string>
+    <string name="history_value_ipu_header">Расход по ИПУ за период</string>
 
-    <string name="history_value_average_ipu">Средний расход по ИПУ</string>
-    <string name="history_value_total_ipu">Общий расход по ИПУ за период</string>
+    <string name="history_value_average_ipu">Среднемесячный</string>
+    <string name="history_value_total_ipu">Общий</string>
+
+    <string name="history_value_not_available">н/д</string>
 
     <string name="history_value_barcode_format" formatted="false">%s (%s)</string>
     <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>

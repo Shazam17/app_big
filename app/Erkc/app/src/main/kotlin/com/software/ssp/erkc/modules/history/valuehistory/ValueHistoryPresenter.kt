@@ -59,6 +59,8 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                 .concatMap {
                     realmRepository.fetchIpuByReceiptId(receiptId)
                 }
+                .doOnSubscribe { view?.setProgressVisible(true) }
+                .doOnTerminate { view?.setProgressVisible(false) }
                 .subscribe(
                         {
                             ipu ->
@@ -100,7 +102,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
         view?.showPeriod(dateFrom!!.toString(Constants.VALUES_DATE_FORMAT), dateTo!!.toString(Constants.VALUES_DATE_FORMAT))
 
-        ipus.groupBy { it.serviceName }.forEach {
+        ipus.groupBy { it.shortName }.forEach {
 
             var total = 0L
 
@@ -108,15 +110,15 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                 val ipu = it.value
 
                 val ipuTotal = if (ipu.count() > 1) ipu.first().value.toLong() - ipu.last().value.toLong() else ipu.first().value.toLong()
-                val ipuAverage = ipuTotal / if (diffMonth == 0) 1 else diffMonth
+                val ipuAverage: Double = if (diffMonth <= 1) 0.0 else (1.0) * ipuTotal / diffMonth
                 view?.addIpuData(ValueHistoryViewModel(ipu, ipuTotal, ipuAverage))
 
                 total += ipuTotal
             }
 
-            val average = total / if (diffMonth == 0) 1 else diffMonth
+            val average: Double = if (diffMonth <= 1) 0.0 else (1.0) * total / diffMonth
 
-            view?.addServiceData(it.key, total.toString(), average.toString())
+            view?.addServiceData(it.key ?: "", total, average)
         }
     }
 }

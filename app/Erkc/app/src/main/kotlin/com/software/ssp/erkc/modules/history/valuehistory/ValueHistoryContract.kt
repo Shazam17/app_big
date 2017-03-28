@@ -10,9 +10,10 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
  */
 interface IValueHistoryView : IView {
     fun showPeriod(dateFrom: String, dateTo: String)
-    fun addServiceData(name: String, total: String, average: String)
+    fun addServiceData(name: String, total: Long, average: Double)
     fun addIpuData(ipu: ValueHistoryViewModel)
     fun showReceiptData(receipt: RealmReceipt)
+    fun setProgressVisible(isVisible: Boolean)
 }
 
 interface IValueHistoryPresenter : IPresenter<IValueHistoryView> {

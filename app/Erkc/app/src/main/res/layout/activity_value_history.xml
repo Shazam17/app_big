@@ -9,14 +9,22 @@
         android:id="@+id/valuesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_margin">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorHistoryValueBackground"
             android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/BodyTextViewSub"
@@ -71,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/half_default_margin"
-                android:paddingEnd="@dimen/default_margin"
                 android:paddingStart="@dimen/default_margin"
                 android:text="@string/history_value_average"
                 android:textColor="@color/colorHistoryValueHeader"
@@ -96,7 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/half_default_margin"
-                android:paddingEnd="@dimen/default_margin"
                 android:paddingStart="@dimen/default_margin"
                 android:text="@string/history_value_total"
                 android:textColor="@color/colorHistoryValueHeader"

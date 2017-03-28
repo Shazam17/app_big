@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.history.valuehistory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.software.ssp.erkc.Constants
@@ -13,6 +14,7 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.toString
+import com.software.ssp.erkc.extensions.toStringWithDot
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.activity_value_history.*
 import kotlinx.android.synthetic.main.item_value_expandable_history.view.*
@@ -77,22 +79,26 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         }
     }
 
+    override fun setProgressVisible(isVisible: Boolean) {
+        progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
     override fun showReceiptData(receipt: RealmReceipt) {
         barcodeTextView.text = getString(R.string.history_value_barcode_format, receipt.barcode, receipt.name)
         addressTextView.text = receipt.address
     }
 
-    override fun addServiceData(name: String, total: String, average: String) {
+    override fun addServiceData(name: String, total: Long, average: Double) {
 
         val unitResId: Int
         val picRecId: Int
 
         when {
-            name.contains(Constants.HOT_WATER) -> {
+            name.contains(Constants.HOT_WATER, true) -> {
                 unitResId = R.string.history_value_water_unit
                 picRecId = R.drawable.pic_hot_water
             }
-            name.contains(Constants.COLD_WATER) -> {
+            name.contains(Constants.COLD_WATER, true) -> {
                 unitResId = R.string.history_value_water_unit
                 picRecId = R.drawable.pic_cold_water
             }
@@ -109,7 +115,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             }
 
             find<TextView>(R.id.ipuValueTextView).apply {
-                text = getString(unitResId, average)
+                text = if (average > 0) getString(unitResId, average.toStringWithDot()) else getString(R.string.history_value_not_available)
             }
         }
 
@@ -132,7 +138,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             val anyIpu = ipu.values.first()
 
             find<TextView>(R.id.itemValueHistoryTitle).apply {
-                text = getString(R.string.history_value_item_title, anyIpu.serviceName, anyIpu.number, anyIpu.installPlace)
+                text = getString(R.string.history_value_item_title, anyIpu.shortName, anyIpu.number, anyIpu.installPlace)
                 setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expandableView.isExpanded) R.drawable.ic_arrow_drop_up else R.drawable.ic_arrow_drop_down, 0)
 
                 onClick {
@@ -149,10 +155,10 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             }
 
             val unitResId = when {
-                anyIpu.serviceName.contains(Constants.HOT_WATER) -> {
+                anyIpu.shortName?.contains(Constants.HOT_WATER, true) ?: false -> {
                     R.string.history_value_water_unit
                 }
-                anyIpu.serviceName.contains(Constants.COLD_WATER) -> {
+                anyIpu.shortName?.contains(Constants.COLD_WATER, true) ?: false -> {
                     R.string.history_value_water_unit
                 }
                 else -> {
@@ -161,7 +167,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             }
 
             find<TextView>(R.id.totalByIpuTextView).text = getString(unitResId, ipu.total)
-            find<TextView>(R.id.averageByIpuTextView).text = getString(unitResId, ipu.average)
+            find<TextView>(R.id.averageByIpuTextView).text = if (ipu.average > 0) getString(unitResId, ipu.average.toStringWithDot()) else getString(R.string.history_value_not_available)
         }
     }
 
