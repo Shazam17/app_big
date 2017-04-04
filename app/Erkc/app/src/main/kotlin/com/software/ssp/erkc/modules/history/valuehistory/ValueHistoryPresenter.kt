@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.history.valuehistory
 
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.IpuType
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
@@ -117,8 +118,9 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
             }
 
             val average: Double = if (diffMonth <= 1) 0.0 else (1.0) * total / diffMonth
+            val type = it.value.firstOrNull()?.ipuType ?: IpuType.UNKNOWN
 
-            view?.addServiceData(it.key ?: "", total, average)
+            view?.addServiceData(it.key ?: "", type, total, average)
         }
     }
 }

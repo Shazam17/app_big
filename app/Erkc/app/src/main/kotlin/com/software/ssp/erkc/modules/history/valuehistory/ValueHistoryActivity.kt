@@ -10,11 +10,10 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.realm.models.IpuType
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.extensions.materialDialog
-import com.software.ssp.erkc.extensions.toString
-import com.software.ssp.erkc.extensions.toStringWithDot
+import com.software.ssp.erkc.extensions.*
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.activity_value_history.*
 import kotlinx.android.synthetic.main.item_value_expandable_history.view.*
@@ -88,25 +87,10 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         addressTextView.text = receipt.address
     }
 
-    override fun addServiceData(name: String, total: Long, average: Double) {
+    override fun addServiceData(name: String, ipuType: IpuType, total: Long, average: Double) {
 
-        val unitResId: Int
-        val picRecId: Int
-
-        when {
-            name.contains(Constants.HOT_WATER, true) -> {
-                unitResId = R.string.history_value_water_unit
-                picRecId = R.drawable.pic_hot_water
-            }
-            name.contains(Constants.COLD_WATER, true) -> {
-                unitResId = R.string.history_value_water_unit
-                picRecId = R.drawable.pic_cold_water
-            }
-            else -> {
-                unitResId = R.string.history_value_electro_unit
-                picRecId = R.drawable.pic_electro
-            }
-        }
+        val unitResId = ipuType.getUnitResId()
+        val picRecId = ipuType.getIconResId()
 
         averageValueContainer.include<ViewGroup>(R.layout.item_value_history_ipu).apply {
             find<TextView>(R.id.ipuNameTextView).apply {
@@ -154,17 +138,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
                 }
             }
 
-            val unitResId = when {
-                anyIpu.shortName?.contains(Constants.HOT_WATER, true) ?: false -> {
-                    R.string.history_value_water_unit
-                }
-                anyIpu.shortName?.contains(Constants.COLD_WATER, true) ?: false -> {
-                    R.string.history_value_water_unit
-                }
-                else -> {
-                    R.string.history_value_electro_unit
-                }
-            }
+            val unitResId = anyIpu.ipuType.getUnitResId()
 
             find<TextView>(R.id.totalByIpuTextView).text = getString(unitResId, ipu.total)
             find<TextView>(R.id.averageByIpuTextView).text = if (ipu.average > 0) getString(unitResId, ipu.average.toStringWithDot()) else getString(R.string.history_value_not_available)

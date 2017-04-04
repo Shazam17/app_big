@@ -43,6 +43,8 @@ object Constants {
     // Т.к. нет у АПИ кодов для определения горячая вода / холодная вода / эл-во приняли решение привязаться в названию
     const val HOT_WATER = "г/в"
     const val COLD_WATER = "х/в"
+    const val GAS = "газ"
+    const val ELECTRICITY = "э/эл"
 
     const val NOTIFICATION_ACTION_CLICK = "notificationClicked"
 }
