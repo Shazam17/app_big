@@ -7,7 +7,7 @@ fun IpuType.getIconResId(): Int {
     return when (this) {
         IpuType.HOT_WATER -> R.drawable.pic_hot_water
         IpuType.COLD_WATER -> R.drawable.pic_cold_water
-        IpuType.GAS -> 0
+        IpuType.GAS -> R.drawable.pic_gas
         IpuType.ELECTRICITY -> R.drawable.pic_electro
         IpuType.UNKNOWN -> 0
     }
