@@ -37,7 +37,7 @@ platform :android do
             api_token: '844c280aa7dd3fe31fb14ee80fc622bdfdee99a2',
             build_secret: 'b69df53e3bb7313c890e5b2c65233993a0e184caba3e4116c74bce1dc5355ec8',
             notes: changelog,
-            apk_path: "app/build/apk/erkc_debug.apk"
+            apk_path: "app/build/apk/erkc_v13_prodDebug.apk"
            )
 
   end
