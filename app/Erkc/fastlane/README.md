@@ -44,9 +44,9 @@ fastlane android debugBuild
 fastlane android beta
 ```
 Submit a new Beta Build to Crashlytics Beta
-### android deploy
+### android marketBeta
 ```
-fastlane android deploy
+fastlane android marketBeta
 ```
 Deploy a new version to the Google Play
 

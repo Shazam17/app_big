@@ -37,15 +37,21 @@ platform :android do
             api_token: '844c280aa7dd3fe31fb14ee80fc622bdfdee99a2',
             build_secret: 'b69df53e3bb7313c890e5b2c65233993a0e184caba3e4116c74bce1dc5355ec8',
             notes: changelog,
-            apk_path: "app/build/apk/erkc_v13_prodDebug.apk"
+            apk_path: "app/build/apk/erkc_debug.apk"
            )
 
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
+  desc "Deploy a new version to the Google Play Beta"
+  lane :marketBeta do
     gradle(task: "assembleRelease")
-    supply
+    supply(
+    	track: 'beta',
+    	apk: "app/build/apk/erkc_release.apk",
+    	skip_upload_metadata: true,
+    	skip_upload_images: true,
+    	skip_upload_screenshots: true
+    )
   end
 
   # You can define as many lanes as you want

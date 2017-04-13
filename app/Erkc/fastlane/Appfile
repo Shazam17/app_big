@@ -1,2 +1,2 @@
-json_key_file "" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
-package_name "com.software.ssp.erkc" # e.g. com.krausefx.app
+json_key_file "docs/Google API Key/Google Play Android Developer-3980dbb7d969.json"
+package_name "com.software.ssp.erkc"
