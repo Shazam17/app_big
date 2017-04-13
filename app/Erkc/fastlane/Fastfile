@@ -44,7 +44,7 @@ platform :android do
 
   desc "Deploy a new version to the Google Play Beta"
   lane :marketBeta do
-    gradle(task: "assembleRelease")
+    gradle(task: "clean assembleRelease")
     supply(
     	track: 'beta',
     	apk: "app/build/apk/erkc_release.apk",
