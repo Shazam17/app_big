@@ -76,11 +76,11 @@ class AutoPaymentsListFragment : BaseListFragment<ReceiptViewModel>(), IAutoPaym
             title(R.string.auto_payments_delete_dialog_title)
             content(if (autoPaymentMode == 1) R.string.auto_payments_delete_one_click_dialog_description else R.string.auto_payments_delete_autopay_dialog_description)
             positiveText(R.string.auto_payments_delete_positive_button)
-            onPositive { materialDialog, dialogAction ->
+            onPositive { _, _ ->
                 presenter.onConfirmDelete(receipt)
             }
             negativeText(R.string.auto_payments_delete_negative_button)
-            onNegative { materialDialog, dialogAction ->
+            onNegative { _, _ ->
                 autoPaymentDidNotDeleted(receipt)
             }
         }.show()

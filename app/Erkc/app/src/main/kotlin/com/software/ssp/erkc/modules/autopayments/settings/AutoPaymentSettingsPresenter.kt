@@ -76,7 +76,6 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                 }
                 .subscribe(
                         {
-                            response ->
                             view?.setProgressVisibility(false)
                             view?.close()
                         },

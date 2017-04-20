@@ -76,7 +76,7 @@ class AddCardActivity : MvpActivity(), IAddCardView {
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
-        addCardNameEditText.onEditorAction { textView, actionId, event ->
+        addCardNameEditText.onEditorAction { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE) {
                 presenter.onCreateCardClick(addCardNameEditText.text.toString())
                 true

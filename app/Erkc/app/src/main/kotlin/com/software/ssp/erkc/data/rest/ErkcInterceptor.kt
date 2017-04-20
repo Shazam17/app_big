@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.data.rest
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonIOException
@@ -37,9 +36,6 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
                 originalBody != null && originalBody is FormBody -> getSignedFormBodyRequest(token, app_id, originalRequest)
                 else -> getSignedGetRequest(token, app_id, originalRequest)
             }
-
-            var requestStartMessage = "--> " + authorizedRequest.method() + ' ' + authorizedRequest.url()
-            Log.d("SignedRequest", requestStartMessage)
 
             val response = chain.proceed(authorizedRequest)
 
@@ -141,9 +137,9 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
     }
 
 
-    protected fun getSig(tokenValue: String?, parameters: List<String>): String {
+    private fun getSig(tokenValue: String?, parameters: List<String>): String {
         val private_key = Constants.API_SIG_PRIVATE_KEY
-        var params = parameters.joinToString("")
+        val params = parameters.joinToString("")
         val sig = (tokenValue + params + private_key).md5()
         return sig
     }

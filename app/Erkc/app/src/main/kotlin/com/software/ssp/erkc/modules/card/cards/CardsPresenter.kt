@@ -63,32 +63,38 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
             CardStatus.NOT_REGISTERED -> {
                 subscriptions += cardsRepository
                         .registerCard(card.id)
-                        .subscribe({
-                            response ->
-                            isCardRequestPending = false
-                            view?.setCardPending(card, false)
-                            view?.navigateToBankSite(response.url)
-                        }, {
-                            error ->
-                            isCardRequestPending = false
-                            view?.setCardPending(card, false)
-                            view?.showMessage(error.parsedMessage())
-                        })
+                        .subscribe(
+                                {
+                                    response ->
+                                    isCardRequestPending = false
+                                    view?.setCardPending(card, false)
+                                    view?.navigateToBankSite(response.url)
+                                },
+                                {
+                                    error ->
+                                    isCardRequestPending = false
+                                    view?.setCardPending(card, false)
+                                    view?.showMessage(error.parsedMessage())
+                                }
+                        )
             }
             CardStatus.REGISTERED -> {
                 subscriptions += cardsRepository
                         .activateCard(card.id)
-                        .subscribe({
-                            response ->
-                            isCardRequestPending = false
-                            view?.setCardPending(card, false)
-                            view?.navigateToBankSite(response.url)
-                        }, {
-                            error ->
-                            isCardRequestPending = false
-                            view?.setCardPending(card, false)
-                            view?.showMessage(error.parsedMessage())
-                        })
+                        .subscribe(
+                                {
+                                    response ->
+                                    isCardRequestPending = false
+                                    view?.setCardPending(card, false)
+                                    view?.navigateToBankSite(response.url)
+                                },
+                                {
+                                    error ->
+                                    isCardRequestPending = false
+                                    view?.setCardPending(card, false)
+                                    view?.showMessage(error.parsedMessage())
+                                }
+                        )
             }
             else -> {
                 isCardRequestPending = false
@@ -103,13 +109,16 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                 .concatMap {
                     realmRepository.removeCard(card)
                 }
-                .subscribe({
-                    view?.cardDeleted(card)
-                }, {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                    view?.cardDidNotDeleted(card)
-                })
+                .subscribe(
+                        {
+                            view?.cardDeleted(card)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.parsedMessage())
+                            view?.cardDidNotDeleted(card)
+                        }
+                )
     }
 
     override fun onSwipeToRefresh() {
@@ -119,14 +128,16 @@ class CardsPresenter @Inject constructor(view: ICardsView) : RxPresenter<ICardsV
                     cards ->
                     realmRepository.saveCardsList(cards ?: emptyList())
                 }
-                .subscribe({
-                    cards ->
-                    showCards()
-                }, {
-                    error ->
-                    view?.setLoadingVisible(false)
-                    view?.showMessage(error.parsedMessage())
-                })
+                .subscribe(
+                        {
+                            showCards()
+                        },
+                        {
+                            error ->
+                            view?.setLoadingVisible(false)
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     private fun showCards() {

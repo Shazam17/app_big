@@ -75,7 +75,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             title(R.string.autopayment_screen_payment_type_label)
             items(listOf(oneClickModeString, autoPaymentModeString))
             itemsCallbackSingleChoice(autoPaymentMode.ordinal - 1, {
-                dialog, view, which, text ->
+                _, _, which, _ ->
                 presenter.onPaymentModeSelect(PaymentMethod.values()[which + 1])
                 true
             })
@@ -101,11 +101,11 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             title(title)
             customView(R.layout.dialog_custom_view_void, true)
             positiveText(R.string.autopayment_screen_receipt_button_ok)
-            onPositive { materialDialog, dialogAction ->
+            onPositive { materialDialog, _ ->
                 materialDialog.dismiss()
             }
             negativeText(R.string.autopayment_screen_receipt_button_close)
-            onNegative { materialDialog, dialogAction -> materialDialog.dismiss() }
+            onNegative { materialDialog, _ -> materialDialog.dismiss() }
 
         }.build()
 
@@ -121,11 +121,11 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             title(title)
             customView(R.layout.dialog_custom_view_void, true)
             positiveText(R.string.autopayment_screen_receipt_button_ok)
-            onPositive { materialDialog, dialogAction ->
+            onPositive { materialDialog, _ ->
                 materialDialog.dismiss()
             }
             negativeText(R.string.autopayment_screen_receipt_button_close)
-            onNegative { materialDialog, dialogAction -> materialDialog.dismiss() }
+            onNegative { materialDialog, _ -> materialDialog.dismiss() }
 
         }.build()
 
@@ -179,10 +179,12 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         cardIdTextView.onClick { presenter.onCardClick() }
         cardTypeTextView.onClick { presenter.onCardClick() }
 
-        agreementCheckBox.onCheckedChange { compoundButton, checked -> continueButton.enabled = checked }
+        agreementCheckBox.onCheckedChange { _, checked -> continueButton.enabled = checked }
 
         maxSumEditText.textChangedListener {
-            onTextChanged { text, start, before, count -> presenter.onMaxSumChanged(text.toString()) }
+            onTextChanged { text, _, _, _ ->
+                presenter.onMaxSumChanged(text.toString())
+            }
         }
 
         continueButton.onClick { presenter.onContinueButtonClick() }
@@ -204,7 +206,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             subtitleTextView.text = receipt.address
             radioButton.isChecked = receipt.id == presenter.selectedReceipt?.id
 
-            radioButton.onCheckedChange { compoundButton, checked ->
+            radioButton.onCheckedChange { _, checked ->
                 if (checked) {
                     presenter.onReceiptSelect(receipt)
                 }
@@ -235,7 +237,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
             subtitleTextView.text = card.name
             radioButton.isChecked = card.id == presenter.selectedCard?.id
 
-            radioButton.onCheckedChange { compoundButton, checked ->
+            radioButton.onCheckedChange { _, checked ->
                 if (checked) {
                     presenter.onCardSelect(card)
                 }

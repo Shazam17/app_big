@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'realm-android'
@@ -57,69 +58,77 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
-
-ext.support_version = '25.3.0'
+ext.support_version = '25.3.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
     compile "com.android.support:support-v13:$support_version"
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.android.support:multidex:1.0.1'
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    compile 'com.google.firebase:firebase-core:10.2.0'
-    compile 'com.google.firebase:firebase-messaging:10.2.0'
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    // Play Services
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    compile 'com.google.firebase:firebase-messaging:10.2.1'
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
 
+    // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jetbrains.anko:anko-sdk15:0.9'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9'
 
+    // Network
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
+    // Parser
     compile 'org.jsoup:jsoup:1.8.3'
 
+    // RX Java
     compile 'io.reactivex:rxkotlin:0.60.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
 
+    // DI
     compile 'com.google.dagger:dagger:2.5'
     kapt 'com.google.dagger:dagger-compiler:2.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
+    // Parcelable
     compile 'com.github.grandstaish.paperparcel:paperparcel:1.0.0'
     compile 'com.github.grandstaish.paperparcel:paperparcel-kotlin:1.0.0'
     kapt 'com.github.grandstaish.paperparcel:compiler:1.0.0'
 
+    // Dialogs
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
+    compile 'com.wdullaer:materialdatetimepicker:3.0.0'
 
-    compile 'me.dm7.barcodescanner:zxing:1.9'
-
+    // Shared Preferences
     compile 'com.chibatching:kotpref:1.5.0'
 
-    compile 'ru.rambler.android:swipe-layout:1.0.14'
+    // Barcode Scanner
+    compile 'me.dm7.barcodescanner:zxing:1.9'
 
-    //pdf
+    // PDF Viewer
     compile 'com.github.barteksc:android-pdf-viewer:2.1.0'
 
-    compile 'com.wdullaer:materialdatetimepicker:3.0.0'
-    compile 'com.github.Plumillon:ChipView:1.2.0'
+    // Formatter
     compile 'com.redmadrobot:inputmask:1.1.0'
 
+    // UI
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
+    compile 'ru.rambler.android:swipe-layout:1.0.14'
+    compile 'com.github.Plumillon:ChipView:1.2.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
+    // Fabric
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
