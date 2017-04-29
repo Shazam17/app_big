@@ -13,6 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_margin"
+            android:text="@string/instruction_auto_payments_content_0"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_auto_payments_content_1" />
 
         <ImageView

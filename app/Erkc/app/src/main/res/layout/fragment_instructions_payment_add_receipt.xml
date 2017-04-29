@@ -92,6 +92,11 @@
             android:padding="@dimen/default_margin"
             android:text="@string/instruction_payment_add_receipt_content_8" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_3_8" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +106,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/inst_3_8" />
+            android:src="@drawable/inst_3_9" />
 
         <TextView
             android:layout_width="match_parent"
@@ -112,7 +117,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/inst_3_9" />
+            android:src="@drawable/inst_3_10" />
 
         <TextView
             android:layout_width="match_parent"

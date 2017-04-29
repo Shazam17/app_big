@@ -76,6 +76,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/inst_6_5" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_6_6" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +102,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/inst_6_6" />
+            android:src="@drawable/inst_6_7" />
 
         <TextView
             android:layout_width="match_parent"
@@ -108,7 +113,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/inst_6_7" />
+            android:src="@drawable/inst_6_8" />
     </LinearLayout>
 
 </ScrollView>
