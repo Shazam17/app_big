@@ -73,7 +73,8 @@
             android:name=".modules.passwordrecovery.PasswordRecoveryActivity"
             android:label="@string/pass_recovery_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".modules.address.SearchAddressActivity"

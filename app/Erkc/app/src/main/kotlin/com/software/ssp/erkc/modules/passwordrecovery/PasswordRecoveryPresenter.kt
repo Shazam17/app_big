@@ -5,11 +5,7 @@ import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.extensions.parsedMessage
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.plusAssign
-import rx.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -21,9 +17,7 @@ class PasswordRecoveryPresenter @Inject constructor(view: IPasswordRecoveryView)
     private var isLoading = false
     private var email: String = ""
     private var login: String = ""
-    private var captcha: String = "" 
-
-    private val READING_DELAY_SECONDS = 3L
+    private var captcha: String = ""
 
     override fun onViewAttached() {
         fetchCaptcha()
@@ -46,20 +40,19 @@ class PasswordRecoveryPresenter @Inject constructor(view: IPasswordRecoveryView)
 
     override fun onSendButtonClick() {
         if (isLoading) return
-        isLoading = true
+
         subscriptions += authRepository.recoverPassword(login, email, captcha)
-                .flatMap { response ->
-                    isLoading = false
-                    view?.showMessage(R.string.pass_recovery_sent_message)
-                    Observable.interval(READING_DELAY_SECONDS, TimeUnit.SECONDS).take(1)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { isLoading = true }
+                .doOnTerminate { isLoading = false }
                 .subscribe(
-                        { response -> view?.navigateToSignInScreen() },
-                        { throwable ->
-                            isLoading = false
+                        {
+                            view?.showMessage(R.string.pass_recovery_sent_message)
+                            view?.navigateToSignInScreen()
+                        },
+                        {
+                            throwable ->
                             view?.showMessage(throwable.parsedMessage())
+                            fetchCaptcha()
                         }
                 )
     }
@@ -74,16 +67,21 @@ class PasswordRecoveryPresenter @Inject constructor(view: IPasswordRecoveryView)
 
     }
 
-
     private fun fetchCaptcha() {
-        subscriptions += authRepository.
-                getCaptcha()
-                .subscribe({
-                    captcha ->
-                    view?.showCaptcha(captcha.image)
-                }, {
-                    error ->
-                    view?.showMessage(error.message!!)
-                })
+        if (isLoading) return
+
+        subscriptions += authRepository.getCaptcha()
+                .doOnSubscribe { isLoading = true }
+                .doOnTerminate { isLoading = false }
+                .subscribe(
+                        {
+                            captcha ->
+                            view?.showCaptcha(captcha.image)
+                        },
+                        {
+                            error ->
+                            view?.showMessage(error.message!!)
+                        }
+                )
     }
 }
