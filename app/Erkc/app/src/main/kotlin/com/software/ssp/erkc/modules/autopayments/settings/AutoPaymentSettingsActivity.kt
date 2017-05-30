@@ -90,8 +90,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         }
 
         maxSumTextInputLayout.visibility = if (autoPaymentMode == PaymentMethod.AUTO) View.VISIBLE else View.GONE
-        agreementTextView.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT) View.GONE else View.VISIBLE
-        agreementCheckBox.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT) View.GONE else View.VISIBLE
+        continueButton.enabled = autoPaymentMode == PaymentMethod.ONE_CLICK
+        agreementTextView.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT || autoPaymentMode == PaymentMethod.ONE_CLICK) View.GONE else View.VISIBLE
+        agreementCheckBox.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT || autoPaymentMode == PaymentMethod.ONE_CLICK) View.GONE else View.VISIBLE
     }
 
     override fun showReceiptSelectDialog(receipts: List<RealmReceipt>) {
