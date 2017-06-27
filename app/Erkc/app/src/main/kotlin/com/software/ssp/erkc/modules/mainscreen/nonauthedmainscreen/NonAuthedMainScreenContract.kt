@@ -6,6 +6,7 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 
 
 interface INonAuthedMainScreenView : IView {
+    fun clearReceiptData()
     fun showErrorBarcodeMessage(resId: Int)
     fun showScannedBarcode(code: String)
     fun navigateToSignInScreen()

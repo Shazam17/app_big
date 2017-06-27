@@ -34,6 +34,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
     }
 
     override fun onBarCodeScanned(barcode: String) {
+        view?.clearReceiptData()
         view?.showProgressVisible(true)
         subscriptions += receiptsRepository.fetchReceiptInfo(barcode)
                 .subscribe(

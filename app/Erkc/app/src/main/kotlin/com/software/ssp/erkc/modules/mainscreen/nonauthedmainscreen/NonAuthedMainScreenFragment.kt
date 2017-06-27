@@ -79,6 +79,15 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenBarcodeLayout.error = getString(resId)
     }
 
+    override fun clearReceiptData() {
+        mainScreenStreetLayout.isEnabled = true
+        mainScreenHouseLayout.isEnabled = true
+        mainScreenApartmentLayout.isEnabled = true
+        mainScreenStreetEditText.setText("")
+        mainScreenHouseEditText.setText("")
+        mainScreenApartmentEditText.setText("")
+    }
+
     override fun showScannedBarcode(code: String) {
         mainScreenBarcodeEditText.setText(code)
         mainScreenStreetLayout.isEnabled = false

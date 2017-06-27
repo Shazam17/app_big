@@ -9,6 +9,8 @@ interface INewReceiptView : IView {
     fun navigateToBarCodeScanScreen()
     fun navigateToStreetSelectScreen()
 
+    fun clearReceiptData()
+
     fun navigateToIPUInputScreen(receipt: Receipt)
     fun navigateToPayScreen(receipt: Receipt)
     fun navigateToIPUInputScreen(receiptId: String)

@@ -62,6 +62,16 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         }
     }
 
+    override fun clearReceiptData() {
+        streetInputLayout.isEnabled = true
+        houseInputLayout.isEnabled = true
+        apartmentInputLayout.isEnabled = true
+
+        streetEditText.setText("")
+        houseEditText.setText("")
+        apartmentEditText.setText("")
+    }
+
     override fun beforeDestroy() {
         presenter.dropView()
     }

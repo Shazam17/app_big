@@ -66,6 +66,7 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
     }
 
     override fun onBarCodeScanned(code: String) {
+        view?.clearReceiptData()
         view?.showProgressVisible(true)
         subscriptions += receiptsRepository.fetchReceiptInfo(code)
                 .subscribe(
