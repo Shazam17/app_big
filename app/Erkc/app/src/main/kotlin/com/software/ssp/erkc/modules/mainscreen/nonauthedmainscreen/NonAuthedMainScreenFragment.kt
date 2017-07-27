@@ -125,9 +125,11 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         mainScreenStreetEditText.setText(street)
     }
 
-    override fun showReceiptData(receipt: Receipt) {
-        mainScreenBarcodeEditText.setText(receipt.barcode)
+    override fun setBarcode(code: String) {
+        mainScreenBarcodeEditText.setText(code)
+    }
 
+    override fun showReceiptData(receipt: Receipt) {
         mainScreenStreetLayout.isEnabled = false
         mainScreenHouseLayout.isEnabled = false
         mainScreenApartmentLayout.isEnabled = false

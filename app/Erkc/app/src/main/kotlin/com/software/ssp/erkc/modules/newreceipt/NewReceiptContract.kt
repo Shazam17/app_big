@@ -25,6 +25,7 @@ interface INewReceiptView : IView {
 
     fun showProgressVisible(isVisible: Boolean)
     fun showReceiptData(receipt: Receipt)
+    fun setBarcode(barcode: String)
 }
 
 interface INewReceiptPresenter : IPresenter<INewReceiptView> {

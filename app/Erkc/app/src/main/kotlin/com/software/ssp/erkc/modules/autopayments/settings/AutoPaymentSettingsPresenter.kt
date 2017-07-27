@@ -13,6 +13,12 @@ import com.software.ssp.erkc.extensions.CardStatus
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
+import android.R.id.edit
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.Context.MODE_PRIVATE
+
+
 
 class
 AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)

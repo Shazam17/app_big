@@ -18,6 +18,7 @@ interface INonAuthedMainScreenView : IView {
     fun navigateToStreetSelectScreen()
     fun showReceiptData(receipt: Receipt)
     fun fillStreet(street: String)
+    fun setBarcode(code: String)
 }
 
 interface INonAuthedMainScreenPresenter : IPresenter<INonAuthedMainScreenView> {

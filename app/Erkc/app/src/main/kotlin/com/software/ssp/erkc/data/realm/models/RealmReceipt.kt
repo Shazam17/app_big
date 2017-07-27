@@ -43,12 +43,11 @@ open class RealmReceipt(
             353 -> return ReceiptType.UK_OTHER
             354 -> return ReceiptType.HEAT_FINE
             355 -> return ReceiptType.GKU_OTHER
-            350 -> return ReceiptType.TEST
             610 -> return ReceiptType.GKU_ERKC
-            612 -> return ReceiptType.OVERHAUL
+            1, 612 -> return ReceiptType.OVERHAUL
             615 -> return ReceiptType.OVERHAUL_VILLAGE
-            611 -> return ReceiptType.OVERHAUL_FINE
-            351 -> return ReceiptType.GKU_FINE
+            2, 611 -> return ReceiptType.OVERHAUL_FINE
+            350, 351 -> return ReceiptType.GKU_FINE
             else -> return ReceiptType.TEST
         }
     }

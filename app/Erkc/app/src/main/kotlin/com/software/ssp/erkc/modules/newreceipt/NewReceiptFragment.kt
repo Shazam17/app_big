@@ -122,8 +122,11 @@ class NewReceiptFragment : MvpFragment(), INewReceiptView {
         continueButton.enabled = !isVisible
     }
 
+    override fun setBarcode(barcode: String) {
+        barcodeEditText.setText(barcode)
+    }
+
     override fun showReceiptData(receipt: Receipt) {
-        barcodeEditText.setText(receipt.barcode)
 
         streetInputLayout.isEnabled = false
         houseInputLayout.isEnabled = false

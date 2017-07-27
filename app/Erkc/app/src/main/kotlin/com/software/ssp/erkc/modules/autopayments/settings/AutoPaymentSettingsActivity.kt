@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.autopayments.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -162,6 +163,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
     }
 
     private fun initViews() {
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
@@ -180,7 +182,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         cardIdTextView.onClick { presenter.onCardClick() }
         cardTypeTextView.onClick { presenter.onCardClick() }
 
-        agreementCheckBox.onCheckedChange { _, checked -> continueButton.enabled = checked }
+        agreementCheckBox.onCheckedChange { _, checked ->
+            continueButton.enabled = checked
+        }
 
         maxSumEditText.textChangedListener {
             onTextChanged { text, _, _, _ ->
