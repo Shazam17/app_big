@@ -47,7 +47,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
 
     override fun onPaymentModeSelect(mode: PaymentMethod) {
         autoPaymentMode = mode
-        view?.showAutoPaymentMode(autoPaymentMode)
+        view?.showAutoPaymentMode(autoPaymentMode, null)
     }
 
     override fun onReceiptClick() {
@@ -118,7 +118,7 @@ AutoPaymentSettingsPresenter @Inject constructor(view: IAutoPaymentSettingsView)
                             selectedCard = selectedReceipt?.linkedCard
                             autoPaymentMode = PaymentMethod.values()[selectedReceipt?.autoPayMode ?: 0]
 
-                            view?.showAutoPaymentMode(autoPaymentMode)
+                            view?.showAutoPaymentMode(autoPaymentMode, selectedReceipt)
                             view?.showReceiptDetails(selectedReceipt)
                             view?.showCardDetails(selectedCard)
                             view?.setProgressVisibility(false)

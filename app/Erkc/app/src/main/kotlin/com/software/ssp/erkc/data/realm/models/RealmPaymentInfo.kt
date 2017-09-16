@@ -12,6 +12,7 @@ open class RealmPaymentInfo(
         open var house: String = "",
         open var status: Int = 0,
         open var street: String = "",
+        open var comimssionAgreed: String = "",
         open var barcode: String = "",
         open var operationId: String = "",
         open var modeId: Int = 0,

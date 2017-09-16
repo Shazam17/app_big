@@ -275,6 +275,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
 
                     realmReceipt.apply {
                         street = receipt.street
+                        comimssionAgreed = receipt.comimssionAgreed
                         house = receipt.house
                         apart = receipt.apart
                         autoPayMode = receipt.autoPayMode
@@ -340,6 +341,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         RealmReceipt(
                                 it.id!!,
                                 it.street,
+                                it.comimssionAgreed,
                                 it.house,
                                 it.apart,
                                 it.autoPayMode,
@@ -531,6 +533,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         house = paymentInfo.house
                         status = paymentInfo.status
                         street = paymentInfo.street
+                        comimssionAgreed = paymentInfo.comimssionAgreed
                         barcode = paymentInfo.barcode
                         operationId = paymentInfo.operationId
                         sum = paymentInfo.sum
@@ -575,6 +578,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                 it.house,
                                 it.status,
                                 it.street,
+                                it.comimssionAgreed,
                                 it.barcode,
                                 it.operationId,
                                 it.modeId,

@@ -118,8 +118,8 @@ class SignInActivity : MvpActivity(), ISignInView {
         if (BuildConfig.DEBUG) {
 //            signInLoginEditText.setText("dimas19")
 //            signInPasswordEditText.setText("dimas19")
-            signInLoginEditText.setText("ivanov")
-            signInPasswordEditText.setText("123")
+            signInLoginEditText.setText("director")
+            signInPasswordEditText.setText("987456")
         }
     }
 }

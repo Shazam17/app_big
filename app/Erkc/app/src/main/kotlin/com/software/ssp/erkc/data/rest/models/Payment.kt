@@ -43,6 +43,9 @@ data class PaymentInfo(
         @SerializedName("street")
         var street: String,
 
+        @SerializedName("comimssion_agreed")
+        var comimssionAgreed: String,
+
         @SerializedName("barcode")
         var barcode: String,
 

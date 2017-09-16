@@ -42,7 +42,8 @@ class ReceiptsRepository @Inject constructor(private val receiptsDataSource: Rec
                 "id" to receiptId,
                 "user_card_id" to userCardId,
                 "maxsumma" to maxSum.toStringWithDot(),
-                "mode_id" to modeId
+                "mode_id" to modeId,
+                "commission_agreed" to "1"
         )
 
         return receiptsDataSource

@@ -35,17 +35,18 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
 
     override fun onBarCodeScanned(barcode: String) {
         view?.clearReceiptData()
-        view?.setBarcode(barcode)
         view?.showProgressVisible(true)
         subscriptions += receiptsRepository.fetchReceiptInfo(barcode)
                 .subscribe(
                         {
                             receipt ->
+                            view?.setBarcode(receipt.barcode)
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
                         {
                             error ->
+                            view?.setBarcode("")
                             view?.showProgressVisible(false)
                             if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showBarcodeError(R.string.api_error_unknown_barcode)

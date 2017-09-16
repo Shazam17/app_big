@@ -13,7 +13,7 @@ interface IAutoPaymentSettingsView : IView {
     fun showReceiptSelectDialog(receipts: List<RealmReceipt>)
     fun showCardSelectDialog(cards: List<RealmCard>)
 
-    fun showAutoPaymentMode(autoPaymentMode: PaymentMethod)
+    fun showAutoPaymentMode(autoPaymentMode: PaymentMethod, selectedReceipt: RealmReceipt?)
     fun showReceiptDetails(receipt: RealmReceipt?)
     fun showCardDetails(card: RealmCard?)
     fun showCommissionPercent(percent: Double)

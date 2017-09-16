@@ -67,15 +67,16 @@ class NonAuthedMainScreenPresenter @Inject constructor(view: INonAuthedMainScree
 
     override fun onBarCodeScanned(code: String) {
         view?.clearReceiptData()
-        view?.setBarcode(code)
         view?.showProgressVisible(true)
         subscriptions += receiptsRepository.fetchReceiptInfo(code)
                 .subscribe(
                         { receipt ->
+                            view?.setBarcode(receipt.barcode)
                             view?.showProgressVisible(false)
                             view?.showReceiptData(receipt)
                         },
                         { error ->
+                            view?.setBarcode("")
                             view?.showProgressVisible(false)
                             if (error is ApiException && error.errorCode == ApiErrorType.UNKNOWN_BARCODE) {
                                 view?.showErrorBarcodeMessage(R.string.api_error_unknown_barcode)

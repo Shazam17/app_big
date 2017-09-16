@@ -83,7 +83,7 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         }.show()
     }
 
-    override fun showAutoPaymentMode(autoPaymentMode: PaymentMethod) {
+    override fun showAutoPaymentMode(autoPaymentMode: PaymentMethod, selectedReceipt: RealmReceipt?) {
         paymentModeSelectTextView.text = when (autoPaymentMode) {
             PaymentMethod.DEFAULT -> noPaymentModeString
             PaymentMethod.AUTO -> autoPaymentModeString
@@ -91,6 +91,14 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         }
 
         maxSumTextInputLayout.visibility = if (autoPaymentMode == PaymentMethod.AUTO) View.VISIBLE else View.GONE
+
+        val percent = selectedReceipt?.percent ?: 0.0
+        if (percent == 0.0) {
+            continueButton.enabled = true
+            agreementTextView.visibility = View.GONE
+            agreementCheckBox.visibility = View.GONE
+            return;
+        }
         continueButton.enabled = autoPaymentMode == PaymentMethod.ONE_CLICK
         agreementTextView.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT || autoPaymentMode == PaymentMethod.ONE_CLICK) View.GONE else View.VISIBLE
         agreementCheckBox.visibility = if (autoPaymentMode == PaymentMethod.DEFAULT || autoPaymentMode == PaymentMethod.ONE_CLICK) View.GONE else View.VISIBLE
@@ -141,6 +149,10 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
         receiptTypeTextView.text = receipt?.name ?: ""
         receiptAddressTextView.text = receipt?.address ?: ""
         maxSumEditText.setText(receipt?.maxSum?.toString() ?: "")
+        if (receipt?.comimssionAgreed == "1") {
+            agreementCheckBox.isChecked = true
+            continueButton.enabled = true
+        }
         showCommissionPercent(receipt?.percent ?: 0.0)
     }
 
@@ -151,6 +163,15 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
     override fun showCommissionPercent(percent: Double) {
         agreementTextView.text = getString(R.string.autopayment_screen_agreement_checkbox_label).format(percent)
+        if (percent == 0.0) {
+            continueButton.enabled = true
+            agreementTextView.visibility = View.GONE
+            agreementCheckBox.visibility = View.GONE
+        } else {
+            continueButton.enabled = false
+            agreementTextView.visibility = View.VISIBLE
+            agreementCheckBox.visibility = View.VISIBLE
+        }
     }
 
     override fun close() {

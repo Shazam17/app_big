@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.splash
 
 import android.text.format.DateUtils
+import android.util.Log
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -57,7 +58,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         error("Didn't get application token")
                     }
                     activeSession.appToken = appToken
-                    if (AppPrefs.lastCashingDate == -1L && !DateUtils.isToday(AppPrefs.lastCashingDate) || !realmRepository.streetsLoaded()) {
+                    if ((AppPrefs.lastCashingDate != -1L && (Date().time - AppPrefs.lastCashingDate >= 80000000)) || !realmRepository.streetsLoaded()) {
                         dictionaryRepository.fetchStreets()
                     } else {
                         Observable.just(null)

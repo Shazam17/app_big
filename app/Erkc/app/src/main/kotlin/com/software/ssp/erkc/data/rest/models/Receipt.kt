@@ -12,6 +12,9 @@ class Receipt(
         @SerializedName("street")
         val street: String,
 
+        @SerializedName("commission_agreed")
+        val comimssionAgreed: String,
+
         @SerializedName("house")
         val house: String,
 
