@@ -30,7 +30,8 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
     override fun onViewAttached() {
         super.onViewAttached()
-        activeSession.clear()
+        //activeSession.clear()
+        //authRepository.saveTokenApi("")
 
         //Needed 5 second splash showing (3 sec timer + requests time)
         subscriptions += Observable.timer(TIMER_SECONDS, TimeUnit.SECONDS)

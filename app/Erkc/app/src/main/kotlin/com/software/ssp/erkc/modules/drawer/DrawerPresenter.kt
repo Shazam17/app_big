@@ -2,11 +2,10 @@ package com.software.ssp.erkc.modules.drawer
 
 import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.OpenCardsEvent
-import com.software.ssp.erkc.common.OpenHistoryWithReceiptEvent
-import com.software.ssp.erkc.common.OpenInstructionsList
+import com.software.ssp.erkc.common.*
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
+import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -19,6 +18,7 @@ import javax.inject.Inject
 
 class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDrawerView>(view), IDrawerPresenter {
 
+    @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var settingsRepository: SettingsRepository
@@ -32,6 +32,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         subscribeToOpenCardsEvent()
         subscribeToOpenHistoryWithReceipt()
         subscribeToOpenInstructionsEvent()
+        subscribeToLogoutEvent()
 
         view?.navigateToMainScreen()
         showCurrentUser()
@@ -44,6 +45,11 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     override fun onLogoutClick() {
         if (activeSession.isOfflineSession) {
+            activeSession.clear()
+            authRepository.saveTokenApi("")
+            view?.clearUserInfo()
+            view?.setAuthedMenuVisible(false)
+            eventBus.call(LogoutFinished())
             view?.navigateToSplashScreen()
         } else {
             subscriptions += settingsRepository
@@ -52,9 +58,11 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                             {
                                 notificationServiceManager.stopPushService()
                                 activeSession.clear()
+                                authRepository.saveTokenApi("")
                                 view?.clearUserInfo()
                                 view?.setAuthedMenuVisible(false)
                                 view?.navigateToMainScreen()
+                                eventBus.call(LogoutFinished())
                             },
                             {
                                 error ->
@@ -128,6 +136,14 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                 .subscribe {
                     event ->
                     view?.navigateToDrawerItem(DrawerItem.TUTORIAL)
+                }
+    }
+
+    private fun subscribeToLogoutEvent() {
+        subscriptions += eventBus.ofType(Logout::class.java)
+                .subscribe {
+                    event ->
+                    onLogoutClick()
                 }
     }
 }

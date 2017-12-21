@@ -141,6 +141,10 @@
     <string name="add_card_name_hint">Название карты</string>
     <string name="add_card_done">Готово</string>
 
+    <!--Setup Fast Auth screen-->
+    <string name="setup_fast_auth_title">Настройка быстрой авторизации</string>
+
+
     <!-- Settings Screen -->
     <string name="settings_title">Настройки</string>
     <string name="settings_offline_header">Офлайн режим</string>
@@ -511,5 +515,26 @@
     <string name="instruction_notifications_content_1">1. На данном экране доступны для чтения все полученные уведомления в обратном хронологическом порядке</string>
     <string name="instruction_notifications_content_2">2. Чтобы ознакомиться с полученным уведомлением подробнее, нажмите на любое уведомление из списка</string>
     <string name="instruction_notifications_content_3">3. Чтобы настроить  получаемые уведомления, перейдите на экран Настройки. Здесь Вы можете включить или отключить получение уведомлений</string>
+
+    <!-- Fast Auth -->
+    <string name="fast_auth_title">Быстрая авторизация</string>
+    <string name="pin_suggest_dialog_message">Хотите установить пин код для быстрой авторизации?</string>
+    <string name="fingerprint_suggest_dialog_message">Разрешить использовать отпечаток пальца для авторизации?</string>
+    <string name="fingerprint_not_match">Отпечаток не распознан</string>
+    <string name="fingerprint_failed">Ошибка распознования. Используйте PIN код</string>
+    <string name="fast_auth_menu_text">Меню</string>
+    <string name="fast_auth_menu_change_user_text">Сменить пользователя</string>
+    <string name="fast_auth_pin_attemp_error_text">Вы ввели неверный пин код три раза. Дальнейшая авторизация возможна только с помощью логина и пароля</string>
+
+
+
+    <!--Shared Prefs-->
+    <string name="secure_prefs_filename">prefs.xml</string>
+    <string name="user_pin_key">UserPinKey</string>
+    <string name="auth_token_key">AuthToken</string>
+    <string name="use_fingerprint_key">UseFingerprint</string>
+    <string name="fail_attemps_count_key">FailAttempsCount</string>
+    <string name="fail_attemps_message_key">FailAttempsMessage</string>
+
 
 </resources>

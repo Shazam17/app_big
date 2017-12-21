@@ -2,6 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity">
+
+    <com.hanks.passcodeview.PasscodeView
+        android:id="@+id/passcodeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#222222"
+        app:firstInputTip="Введите PIN"
+        app:secondInputTip="Введите PIN заново"
+        app:correctInputTip="Успешно"
+        app:wrongInputTip="Неверный PIN код"
+        app:wrongLengthTip="Некорректная длина PIN кода"
+        app:correctStateColor="#71bb4d"
+        app:wrongStateColor="#ea2b46"
+        app:normalStateColor="#ffffff"
+        app:numberTextColor="#222222"
+        app:passcodeLength="4"
+        app:passcodeViewType="set_passcode"/>
 
 </FrameLayout>

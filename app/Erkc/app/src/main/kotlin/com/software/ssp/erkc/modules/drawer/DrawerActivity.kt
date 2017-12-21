@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
+import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
@@ -23,6 +24,7 @@ import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
+import com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -173,8 +175,22 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 .commitAllowingStateLoss()
     }
 
+    fun getPin(): String {
+        val securePrefs = SecurePreferences(this, "", getString(R.string.secure_prefs_filename))
+        return securePrefs.getString(getString(R.string.user_pin_key), "")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val pin = getPin()
+        if (!pin.isNullOrEmpty()) {
+            startActivity<ProcessFastAuthActivity>()
+            return
+        }
+    }
+
     override fun navigateBack() {
-        super.onBackPressed()
+        System.exit(0)
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {

@@ -8,3 +8,7 @@ class OpenCardsEvent()
 class OpenHistoryWithReceiptEvent(val receiptCode: String)
 
 class OpenInstructionsList()
+
+class Logout()
+
+class LogoutFinished()

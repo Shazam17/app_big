@@ -69,7 +69,6 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-
                     notificationServiceManager.fcmToken?.let {
                         settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
                     }

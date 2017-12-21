@@ -8,4 +8,5 @@ interface ISetupFastAuthView : IView {
 }
 
 interface ISetupFastAuthPresenter : IPresenter<ISetupFastAuthView> {
+    fun saveApiToken()
 }

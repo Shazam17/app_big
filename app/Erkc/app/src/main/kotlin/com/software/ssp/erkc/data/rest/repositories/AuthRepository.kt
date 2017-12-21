@@ -1,6 +1,9 @@
 package com.software.ssp.erkc.data.rest.repositories
 
+import android.content.Context
 import android.net.Uri
+import android.provider.Settings
+import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
@@ -14,12 +17,31 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource) : Repository() {
+class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource, private val context: Context) : Repository() {
 
     fun authenticateApp(): Observable<ResponseBody> {
         return authDataSource
                 .authenticateApp(Constants.API_OAUTH_URL, Constants.API_OAUTH_RESPONSE_TYPE, Constants.API_OAUTH_CLIENT_ID)
                 .compose(this.applySchedulers<ResponseBody>())
+    }
+
+    fun getLocalTokenApi(): String {
+        return getPrivateTokenPreferences().getString("AuthToken", "")
+    }
+
+    private fun getPrivateTokenPreferences(): SecurePreferences {
+        return SecurePreferences(context, "", "prefs.xml")
+    }
+
+    fun saveTokenApi(apiToken: String) {
+        if (apiToken.isNullOrEmpty()) {
+            getPrivateTokenPreferences().edit()
+                    .putString("UserPinKey", "")
+                    .apply()
+        }
+        getPrivateTokenPreferences().edit()
+                .putString("AuthToken", apiToken)
+                .apply()
     }
 
     fun fetchAppToken(authHtmlPage: String): Observable<String> {

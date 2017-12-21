@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER"/>
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
     <application
         android:name=".ErkcApplication"
@@ -151,6 +154,18 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".modules.instructions.instructiondetails.InstructionActivity" />
+
+        <activity
+            android:name=".modules.setupfastauth.SetupFastAuthActivity"
+            android:label="@string/setup_fast_auth_title"
+            android:theme="@style/AppTheme.Light" />
+
+        <activity
+            android:name=".modules.processfastauth.ProcessFastAuthActivity"
+            android:label="@string/fast_auth_title"
+            android:theme="@style/AppTheme.Light" />
+
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

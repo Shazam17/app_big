@@ -1,13 +1,13 @@
 package com.software.ssp.erkc.modules.setupfastauth
 
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.di.scopes.LifetimeScope
+import com.software.ssp.erkc.di.scopes.ActivityScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-@LifetimeScope
+@ActivityScope
 @Component(modules = arrayOf(SetupFastAuthModule::class), dependencies = arrayOf(AppComponent::class))
 interface SetupFastAuthComponent {
     fun inject(setupFastAuthActivity: SetupFastAuthActivity)
@@ -25,7 +25,7 @@ class SetupFastAuthModule(val setupFastAuthView: ISetupFastAuthView) {
     interface Declarations {
 
         @Binds
-        @LifetimeScope
+        @ActivityScope
         fun bindSetupFastAuthPresenter(setupFastAuthPresenter: SetupFastAuthPresenter): ISetupFastAuthPresenter
     }
 }

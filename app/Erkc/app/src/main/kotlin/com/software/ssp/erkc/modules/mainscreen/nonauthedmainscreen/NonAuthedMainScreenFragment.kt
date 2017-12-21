@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -40,10 +41,16 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
-
         presenter.onViewAttached()
+        val securePrefs = SecurePreferences(this.activity, "", getString(R.string.secure_prefs_filename))
+        val isNeededToDisplayAttempsMessage = securePrefs.getBoolean(getString(R.string.fail_attemps_message_key), false)
+        val securePrefsEditor = securePrefs.edit()
+        securePrefsEditor.putBoolean(getString(R.string.fail_attemps_message_key), false)
+        securePrefsEditor.commit()
+        if (isNeededToDisplayAttempsMessage) {
+            showMessage(R.string.fast_auth_pin_attemp_error_text)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,13 +1,13 @@
 package com.software.ssp.erkc.modules.processfastauth
 
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.di.scopes.LifetimeScope
+import com.software.ssp.erkc.di.scopes.ActivityScope
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-@LifetimeScope
+@ActivityScope
 @Component(modules = arrayOf(ProcessFastAuthModule::class), dependencies = arrayOf(AppComponent::class))
 interface ProcessFastAuthComponent {
     fun inject(processFastAuthActivity: ProcessFastAuthActivity)
@@ -25,7 +25,7 @@ class ProcessFastAuthModule(val processFastAuthView: IProcessFastAuthView) {
     interface Declarations {
 
         @Binds
-        @LifetimeScope
+        @ActivityScope
         fun bindProcessFastAuthPresenter(processFastAuthPresenter: ProcessFastAuthPresenter): IProcessFastAuthPresenter
     }
 }

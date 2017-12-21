@@ -1,5 +1,7 @@
 package com.software.ssp.erkc
 
+import android.app.Application
+import android.content.Context
 import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.software.ssp.erkc.common.ActivityLifecycle
@@ -21,7 +23,6 @@ class ErkcApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
@@ -38,6 +39,12 @@ class ErkcApplication : MultiDexApplication() {
                     .singleTop())
         }
     }
+
+    fun getContext(): Context {
+        return this.applicationContext
+    }
+
+
 
     private fun initFabric() {
         Fabric.with(this, Crashlytics())

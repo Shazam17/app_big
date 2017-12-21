@@ -47,6 +47,9 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         realmRepository.close()
     }
 
+
+
+
     private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
 
@@ -71,7 +74,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     authData ->
                     activeSession.accessToken = authData.access_token
-
                     notificationServiceManager.fcmToken?.let {
                         return@concatMap settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
                     }
@@ -122,6 +124,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
                             activeSession.clear()
+                            authRepository.saveTokenApi("")
                             view?.showMessage(error.parsedMessage())
                         }
                 )
