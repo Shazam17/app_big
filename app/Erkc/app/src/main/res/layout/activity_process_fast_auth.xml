@@ -1,25 +1,53 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context="com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity">
 
-    <com.hanks.passcodeview.PasscodeView
-        android:id="@+id/passcodeView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#222222"
-        app:firstInputTip="Введите PIN"
-        app:secondInputTip="Введите PIN заново"
-        app:correctInputTip="Успешно"
-        app:wrongInputTip="Неверный PIN код"
-        app:wrongLengthTip="Некорректная длина PIN кода"
-        app:correctStateColor="#71bb4d"
-        app:wrongStateColor="#ea2b46"
-        app:normalStateColor="#ffffff"
-        app:numberTextColor="#222222"
-        app:passcodeLength="4"
-        app:passcodeViewType="set_passcode"/>
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:src="@drawable/lock" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/enterLoginTip"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Введите PIN"
+        android:textColor="@color/text_black"
+        android:textSize="24sp" />
+
+    <com.andrognito.pinlockview.IndicatorDots
+        android:id="@+id/indicatorLoginDots"
+        android:layout_width="wrap_content"
+        app:dotFilledBackground="@drawable/filled_dot"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/enterLoginTip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp" />
+
+    <com.andrognito.pinlockview.PinLockView
+        android:id="@+id/pinLockLoginView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indicatorLoginDots"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        app:keypadButtonSize="72dp"
+        app:keypadShowDeleteButton="true"
+        app:keypadTextColor="@color/text_black"
+        app:keypadTextSize="18dp" />
+
+</RelativeLayout>

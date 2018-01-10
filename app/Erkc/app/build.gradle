@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -131,6 +132,8 @@ dependencies {
     compile 'com.hanks:passcodeview:0.1.2'
     compile 'com.scottyab:secure-preferences-lib:0.1.4'
     compile 'com.wei.android.lib:fingerprintidentify:1.2.1'
+
+    compile 'com.andrognito.pinlockview:pinlockview:2.1.0'
 
     // Fabric
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {

@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.mainscreen
 
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -15,9 +16,10 @@ import com.software.ssp.erkc.modules.mainscreen.receiptlist.ReceiptListFragment
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
 import android.content.DialogInterface
+import android.content.Intent
 import com.securepreferences.SecurePreferences
-import com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity
-import com.software.ssp.erkc.modules.setupfastauth.SetupFastAuthActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -60,22 +62,20 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
     }
 
     override fun showProcessFastAuthScreen() {
-        startActivity(intentFor<ProcessFastAuthActivity>())
-    }
-
-    override fun getPin(): String {
-        val securePrefs = SecurePreferences(this.activity, "", getString(R.string.secure_prefs_filename))
-        return securePrefs.getString(getString(R.string.user_pin_key), "")
+        val intent = Intent(this.activity, EnterPinActivity::class.java)
+        startActivity(intent)
+//        startActivity(intentFor<ProcessFastAuthActivity>())
     }
 
     override fun showPinSuggestDialog() {
-        val securePrefs = SecurePreferences(this.activity, "", getString(R.string.secure_prefs_filename))
-        val pin = securePrefs.getString(getString(R.string.user_pin_key), "")
+        val prefs = this.activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        val pin = prefs.getString(EnterPinActivity.KEY_PIN, "")
         if (pin.isNullOrEmpty()) {
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                     .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
-                        startActivity(intentFor<SetupFastAuthActivity>())
+                        val intent = Intent(this.activity, EnterPinActivity::class.java)
+                        startActivity(intent)
                     })
                     .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
                         presenter.onPinReject()

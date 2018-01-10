@@ -82,4 +82,15 @@
     <color name="colorPaymentInfoDivider">#c6c6c5</color>
     <color name="colorPaymentInfoCurrencyTextColor">#009688</color>
 
+    <!-- fastAuth -->
+    <color name="colorAccent">#FF4081</color>
+    <color name="text_numberpressed">#153481</color>
+    <color name="text_title">#153481</color>
+    <color name="layout_background">#ffffff</color>
+    <color name="text_attempts">#FF4081</color>
+    <color name="text_fingerprint">#153481</color>
+    <color name="button_notpressed">#2136FFD9</color>
+    <color name="dot_emptyborder">#87898C</color>
+    <color name="transparent">#00000000</color>
+
 </resources>

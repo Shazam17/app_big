@@ -10,7 +10,6 @@ interface IMainScreenView: IView {
     fun showReceiptListScreen()
     fun showPinSuggestDialog()
     fun showProcessFastAuthScreen()
-    fun getPin(): String
 }
 
 interface IMainScreenPresenter: IPresenter<IMainScreenView>{

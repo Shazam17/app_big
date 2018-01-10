@@ -145,6 +145,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                 }
                 .subscribe(
                         {
+                            view?.showInfoDialog(R.string.ok_ipu_sended)
                             view?.setProgressVisibility(false)
                             view?.close()
                         },

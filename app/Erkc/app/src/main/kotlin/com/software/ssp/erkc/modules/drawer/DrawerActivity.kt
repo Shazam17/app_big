@@ -2,10 +2,12 @@ package com.software.ssp.erkc.modules.drawer
 
 import android.app.Activity
 import android.app.Fragment
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.securepreferences.SecurePreferences
@@ -13,18 +15,21 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.common.views.pinLockView.util.Utils
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
-import com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -176,17 +181,19 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     fun getPin(): String {
-        val securePrefs = SecurePreferences(this, "", getString(R.string.secure_prefs_filename))
-        return securePrefs.getString(getString(R.string.user_pin_key), "")
+        val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_PIN, "")
     }
 
     override fun onPause() {
         super.onPause()
-        val pin = getPin()
-        if (!pin.isNullOrEmpty()) {
-            startActivity<ProcessFastAuthActivity>()
-            return
-        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val prefs = this.getSharedPreferences("onStop", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("onStop", true).apply()
+
     }
 
     override fun navigateBack() {
@@ -292,5 +299,17 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         drawerNavigationView.setCheckedItem(selectedDrawerItem.itemId)
         supportActionBar?.title = getString(selectedDrawerItem.titleId)
         navigateToModule(selectedDrawerItem)
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        val prefs = this.getSharedPreferences("onStop", Context.MODE_PRIVATE)
+//        val needToEnterPin = prefs.getBoolean("onStop", false)
+//        val pin = getPin()
+//        if (needToEnterPin && !pin.isNullOrEmpty()) {
+//            prefs.edit().putBoolean(KEY_PIN, false).apply()
+//            startActivity<EnterPinActivity>()
+//            return
+//        }
     }
 }

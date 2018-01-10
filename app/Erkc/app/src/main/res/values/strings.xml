@@ -536,5 +536,12 @@
     <string name="fail_attemps_count_key">FailAttempsCount</string>
     <string name="fail_attemps_message_key">FailAttempsMessage</string>
 
+    <string name="ok_ipu_sended">Данные успешно переданы и сохранены в Истории показаний.</string>
+    <string name="pinlock_title">Введите PIN код</string>
+    <string name="pinlock_fingerprint">Использовать отпечаток пальца</string>
+    <string name="pinlock_settitle">Установить PIN код</string>
+    <string name="pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
+    <string name="pinlock_tryagain">PIN код не совпадает</string>
+    <string name="pinlock_secondPin">Введите PIN код ещё раз</string>
 
 </resources>

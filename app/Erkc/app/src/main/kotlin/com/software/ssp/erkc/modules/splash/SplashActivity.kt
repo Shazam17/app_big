@@ -1,16 +1,18 @@
 package com.software.ssp.erkc.modules.splash
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
-import com.software.ssp.erkc.modules.processfastauth.ProcessFastAuthActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -63,15 +65,15 @@ class SplashActivity : MvpActivity(), ISplashView {
     }
 
     fun getPin(): String {
-        val securePrefs = SecurePreferences(this, "", getString(R.string.secure_prefs_filename))
-        return securePrefs.getString(getString(R.string.user_pin_key), "")
+        val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_PIN, "")
     }
 
     override fun navigateToDrawer() {
         finish()
         val pin = getPin()
         if (!pin.isNullOrEmpty()) {
-            startActivity<ProcessFastAuthActivity>()
+            startActivity<EnterPinActivity>()
             return
         }
         startActivity<DrawerActivity>()
