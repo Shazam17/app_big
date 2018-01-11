@@ -16,6 +16,7 @@ interface IDrawerView : IView {
     fun navigateToUserProfile()
     fun navigateToHistory(receiptCode: String)
     fun navigateBack()
+    fun setProgressVisibility(isVisible: Boolean)
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {

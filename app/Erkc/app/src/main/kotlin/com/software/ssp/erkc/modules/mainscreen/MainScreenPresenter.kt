@@ -1,11 +1,10 @@
 package com.software.ssp.erkc.modules.mainscreen
 
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
+import rx.Observable
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
@@ -20,7 +19,8 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
             view?.showReceiptListScreen()
             return
         }
-        if (!authRepository.getLocalTokenApi().isNullOrEmpty())
+
+        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken == null)
             activeSession.accessToken = authRepository.getLocalTokenApi()
 
         if(activeSession.accessToken.isNullOrEmpty()){
@@ -29,24 +29,24 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
         }
 
         subscriptions += realmRepository.fetchReceiptsList()
-                .subscribe(
-                        {
-                            receipts ->
-                            when {
-                                receipts == null || receipts.count() == 0 -> view?.showAddReceiptScreen()
-                                else -> view?.showReceiptListScreen()
-                            }
-                        },
-                        {
-                            error ->
-                            view?.showMessage(error.parsedMessage())
-                        })
+            .subscribe(
+                {
+                    receipts ->
+                    when {
+                        receipts == null || receipts.count() == 0 -> view?.showAddReceiptScreen()
+                        else -> view?.showReceiptListScreen()
+                    }
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                })
 
         view?.showPinSuggestDialog()
     }
 
     override fun onPinReject() {
-        authRepository.saveTokenApi("")
+        //authRepository.saveTokenApi("")
     }
 
     override fun onViewDetached() {

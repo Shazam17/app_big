@@ -16,15 +16,17 @@ import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.software.ssp.erkc.R;
+import com.software.ssp.erkc.common.mvp.MvpActivity;
 import com.software.ssp.erkc.common.views.pinLockView.IndicatorDots;
 import com.software.ssp.erkc.common.views.pinLockView.PinLockListener;
 import com.software.ssp.erkc.common.views.pinLockView.PinLockView;
@@ -32,8 +34,11 @@ import com.software.ssp.erkc.common.views.pinLockView.fingerprint.FingerPrintLis
 import com.software.ssp.erkc.common.views.pinLockView.fingerprint.FingerprintHandler;
 import com.software.ssp.erkc.common.views.pinLockView.util.Animate;
 import com.software.ssp.erkc.common.views.pinLockView.util.Utils;
-import com.software.ssp.erkc.data.rest.ActiveSession;
+import com.software.ssp.erkc.di.AppComponent;
 import com.software.ssp.erkc.modules.drawer.DrawerActivity;
+import com.software.ssp.erkc.modules.signin.SignInActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -47,12 +52,15 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.inject.Inject;
 
 /**
  * Created by nixus on 02.01.2018.
  */
 
-public class EnterPinActivity extends AppCompatActivity {
+public class EnterPinActivity extends MvpActivity implements IEnterPinView {
+
+    @Inject public IEnterPinPresenter presenter;
 
     public static final String TAG = "EnterPinActivity";
 
@@ -67,6 +75,7 @@ public class EnterPinActivity extends AppCompatActivity {
 
     public static final String PREFERENCES = "erkc.pinlock";
     public static final String KEY_PIN = "pin";
+    public static final String SHOULD_SUGGEST_SET_PIN = "should_suggest_set_pin";
 
     private PinLockView mPinLockView;
     private IndicatorDots mIndicatorDots;
@@ -181,6 +190,22 @@ public class EnterPinActivity extends AppCompatActivity {
 
             checkForFont();
         }
+
+        presenter.onViewAttached();
+    }
+
+    @Override
+    public void resolveDependencies(@NotNull AppComponent appComponent) {
+        DaggerEnterPinComponent.builder()
+                .appComponent(appComponent)
+                .enterPinModule(new EnterPinModule(this))
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public void beforeDestroy() {
+        presenter.dropView();
     }
 
     private void checkForFont() {
@@ -291,6 +316,7 @@ public class EnterPinActivity extends AppCompatActivity {
     private void writePinToSharedPreferences(String pin) {
         SharedPreferences prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         prefs.edit().putString(KEY_PIN, Utils.sha256(pin)).apply();
+        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, false).apply();
     }
 
     private String getPinFromSharedPreferences() {
@@ -321,8 +347,6 @@ public class EnterPinActivity extends AppCompatActivity {
         if (Utils.sha256(pin).equals(getPinFromSharedPreferences())) {
             setResult(RESULT_OK);
             finish();
-            Intent intent = new Intent(this, DrawerActivity.class);
-            startActivity(intent);
         } else {
             shake();
 
@@ -410,27 +434,19 @@ public class EnterPinActivity extends AppCompatActivity {
 //                textView.setText("Your device doesn't support fingerprint authentication");
                 mImageViewFingerView.setVisibility(View.GONE);
                 mTextFingerText.setVisibility(View.GONE);
-            }
-            //Check whether the user has granted your app the USE_FINGERPRINT permission//
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+            } else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) { //Check whether the user has granted your app the USE_FINGERPRINT permission//
                 // If your app doesn't have this permission, then display the following text//
 //                Toast.makeText(EnterPinActivity.this, "Please enable the fingerprint permission", Toast.LENGTH_LONG).show();
                 mImageViewFingerView.setVisibility(View.GONE);
                 mTextFingerText.setVisibility(View.GONE);
-            }
-
-            //Check that the user has registered at least one fingerprint//
-            if (!mFingerprintManager.hasEnrolledFingerprints()) {
+            } else if (!mFingerprintManager.hasEnrolledFingerprints()) { //Check that the user has registered at least one fingerprint//
                 // If the user hasn’t configured any fingerprints, then display the following message//
 //                Toast.makeText(EnterPinActivity.this,
 //                        "No fingerprint configured. Please register at least one fingerprint in your device's Settings",
 //                        Toast.LENGTH_LONG).show();
                 mImageViewFingerView.setVisibility(View.GONE);
                 mTextFingerText.setVisibility(View.GONE);
-            }
-
-            //Check that the lockscreen is secured//
-            if (!mKeyguardManager.isKeyguardSecure()) {
+            } else if (!mKeyguardManager.isKeyguardSecure()) {  //Check that the lockscreen is secured//
                 // If the user hasn’t secured their lockscreen with a PIN password or pattern, then display the following text//
 //                Toast.makeText(EnterPinActivity.this, "Please enable lockscreen security in your device's Settings", Toast.LENGTH_LONG).show();
                 mImageViewFingerView.setVisibility(View.GONE);
@@ -461,8 +477,20 @@ public class EnterPinActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_BACK_PRESSED);
-        super.onBackPressed();
+        presenter.onBackPressed();
+    }
+
+    @Override
+    public void close() {
+        System.exit(0);
+    }
+
+    @Override
+    public void navigateToSignInScreen() {
+        this.finish();
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.putExtra("shouldCloseAppOnBackPressed", true);
+        startActivity(intent);
     }
 
     private class FingerprintException extends Exception {

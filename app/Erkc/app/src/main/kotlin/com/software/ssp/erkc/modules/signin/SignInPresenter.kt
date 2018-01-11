@@ -3,18 +3,17 @@ package com.software.ssp.erkc.modules.signin
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISignInView>(view), ISignInPresenter {
 
-    @Inject lateinit var authProvider: AuthProvider
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
@@ -23,6 +22,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var cardsRepository: CardsRepository
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var notificationServiceManager: NotificationServiceManager
+    private var doubleBackToExitPressedOnce = false
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -47,8 +47,19 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         realmRepository.close()
     }
 
+    override fun onBackPressed(shouldCloseAppOnBackPressed: Boolean) {
+        if (doubleBackToExitPressedOnce || !shouldCloseAppOnBackPressed) {
+            view?.navigateBack()
+        } else {
+            doubleBackToExitPressedOnce = true
+            view?.showMessage(R.string.on_back_pressed_text)
+            subscriptions += Observable.timer(2, TimeUnit.SECONDS)
+                .subscribe({
+                    doubleBackToExitPressedOnce = false
+                })
+        }
 
-
+    }
 
     private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
@@ -73,6 +84,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .authenticate(login, password)
                 .concatMap {
                     authData ->
+                    authRepository.saveTokenApi(authData.access_token)
                     activeSession.accessToken = authData.access_token
                     notificationServiceManager.fcmToken?.let {
                         return@concatMap settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
@@ -117,7 +129,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
                             view?.setResultOk()
-                            view?.close()
+                            view?.navigateBack()
                         },
                         {
                             error ->
@@ -159,7 +171,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setProgressVisibility(false)
                             if (result) {
                                 view?.setResultOk()
-                                view?.close()
+                                view?.navigateBack()
                             }
                         },
                         {

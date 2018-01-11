@@ -22,6 +22,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     @Inject lateinit var presenter: ISignInPresenter
 
     private val isOfflineSignIn: Boolean by extras(defaultValue = false)
+    private val shouldCloseAppOnBackPressed: Boolean by extras(defaultValue = false)
 
     companion object {
         val SIGN_IN_REQUEST_CODE = 24512
@@ -74,8 +75,12 @@ class SignInActivity : MvpActivity(), ISignInView {
         setResult(Activity.RESULT_OK)
     }
 
-    override fun close() {
+    override fun navigateBack() {
         finish()
+    }
+
+    override fun close() {
+        System.exit(0)
     }
 
     override fun showInfoDialog(stringResId: Int) {
@@ -95,6 +100,10 @@ class SignInActivity : MvpActivity(), ISignInView {
 
     override fun beforeDestroy() {
         presenter.dropView()
+    }
+
+    override fun onBackPressed() {
+        presenter.onBackPressed(shouldCloseAppOnBackPressed)
     }
 
     private fun initViews() {

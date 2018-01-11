@@ -70,7 +70,7 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
     override fun showPinSuggestDialog() {
         val prefs = this.activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
         val pin = prefs.getString(EnterPinActivity.KEY_PIN, "")
-        if (pin.isNullOrEmpty()) {
+        if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true)) {
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                     .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
@@ -79,6 +79,7 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
                     })
                     .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
                         presenter.onPinReject()
+                        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, false).apply()
                     })
             builder.create().show()
         }

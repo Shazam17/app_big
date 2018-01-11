@@ -7,21 +7,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.common.views.pinLockView.util.Utils
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
@@ -74,6 +70,10 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         }
 
         presenter.onViewAttached()
+    }
+
+    override fun setProgressVisibility(isVisible: Boolean) {
+        getDataProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun onNewIntent(intent: Intent) {

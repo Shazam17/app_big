@@ -2,7 +2,6 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import android.content.Context
 import android.net.Uri
-import android.provider.Settings
 import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.views.pinLockView.util.Utils
@@ -10,7 +9,6 @@ import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.Captcha
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import okhttp3.ResponseBody
 import org.jsoup.Connection
@@ -23,6 +21,10 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource, private val context: Context) : Repository() {
 
+    companion object {
+        val LOCAL_TOKEN = "local_token"
+    }
+
     fun authenticateApp(): Observable<ResponseBody> {
         return authDataSource
                 .authenticateApp(Constants.API_OAUTH_URL, Constants.API_OAUTH_RESPONSE_TYPE, Constants.API_OAUTH_CLIENT_ID)
@@ -30,8 +32,8 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
     }
 
     fun getLocalTokenApi(): String {
-        val prefs = context.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        return prefs.getString(EnterPinActivity.KEY_PIN, "")
+        val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        return prefs.getString(LOCAL_TOKEN, "")
     }
 
     private fun getPrivateTokenPreferences(): SecurePreferences {
@@ -39,9 +41,9 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
     }
 
     fun saveTokenApi(apiToken: String) {
-        if (apiToken.isNullOrEmpty()) {
+        if (!apiToken.isEmpty()) {
             val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            prefs.edit().putString(KEY_PIN, Utils.sha256(apiToken)).apply()
+            prefs.edit().putString(LOCAL_TOKEN, apiToken).apply()
         }
         getPrivateTokenPreferences().edit()
                 .putString("AuthToken", apiToken)

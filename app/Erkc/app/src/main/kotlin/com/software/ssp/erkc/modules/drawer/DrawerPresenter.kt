@@ -95,6 +95,9 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     }
 
     private fun showCurrentUser() {
+        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken == null)
+            activeSession.accessToken = authRepository.getLocalTokenApi()
+
         if (!activeSession.isOfflineSession && activeSession.accessToken == null) {
             view?.setAuthedMenuVisible(false)
             view?.navigateToMainScreen()

@@ -72,7 +72,8 @@ class SplashActivity : MvpActivity(), ISplashView {
     override fun navigateToDrawer() {
         finish()
         val pin = getPin()
-        if (!pin.isNullOrEmpty()) {
+        if (!pin.isEmpty()) {
+            startActivity<DrawerActivity>()
             startActivity<EnterPinActivity>()
             return
         }
