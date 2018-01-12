@@ -5,6 +5,8 @@ import com.software.ssp.erkc.R
 
 
 enum class InstructionType(@StringRes val titleId: Int) {
+    AUTH_AND_REG(R.string.instruction_registration_and_authorization_title),
+    OFFLINE(R.string.instruction_offline_mode_title),
     NON_AUTH_SEND_VALUES(R.string.instruction_send_values_non_auth_title),
     NON_AUTH_TITLE(R.string.instruction_payment_non_auth_title),
     PAYMENT_ADD_RECEIPT(R.string.instruction_payment_add_receipt_title),

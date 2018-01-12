@@ -16,4 +16,5 @@ interface ISplashView : IView {
 interface ISplashPresenter : IPresenter<ISplashView> {
     fun onTryAgainClicked()
     fun onConfirmOfflineLogin()
+    fun clearToken()
 }

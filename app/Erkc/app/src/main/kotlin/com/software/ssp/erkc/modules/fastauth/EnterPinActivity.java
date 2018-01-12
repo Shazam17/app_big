@@ -331,6 +331,7 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
             mPinLockView.resetPinLockView();
         } else {
             if (pin.equals(mFirstPin)) {
+                presenter.saveAccessToken();
                 writePinToSharedPreferences(pin);
                 setResult(RESULT_OK);
                 finish();

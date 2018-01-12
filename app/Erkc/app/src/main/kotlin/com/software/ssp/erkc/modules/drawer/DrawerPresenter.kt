@@ -45,8 +45,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     override fun onLogoutClick() {
         if (activeSession.isOfflineSession) {
-            activeSession.clear()
             authRepository.saveTokenApi("")
+            activeSession.clear()
             view?.clearUserInfo()
             view?.setAuthedMenuVisible(false)
             eventBus.call(LogoutFinished())
@@ -57,8 +57,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                     .subscribe(
                             {
                                 notificationServiceManager.stopPushService()
-                                activeSession.clear()
                                 authRepository.saveTokenApi("")
+                                activeSession.clear()
                                 view?.clearUserInfo()
                                 view?.setAuthedMenuVisible(false)
                                 view?.navigateToMainScreen()
@@ -72,6 +72,11 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         }
     }
 
+    override fun onClear() {
+        authRepository.saveTokenApi("")
+        activeSession.clear()
+    }
+
     override fun onUserProfileClick() {
         view?.navigateToUserProfile()
     }
@@ -80,8 +85,10 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         showCurrentUser()
     }
 
+
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
+
             view?.navigateBack()
         } else {
             doubleBackToExitPressedOnce = true
@@ -95,10 +102,10 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     }
 
     private fun showCurrentUser() {
-        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken == null)
+        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken.isNullOrEmpty())
             activeSession.accessToken = authRepository.getLocalTokenApi()
 
-        if (!activeSession.isOfflineSession && activeSession.accessToken == null) {
+        if (!activeSession.isOfflineSession && activeSession.accessToken.isNullOrEmpty()) {
             view?.setAuthedMenuVisible(false)
             view?.navigateToMainScreen()
             return

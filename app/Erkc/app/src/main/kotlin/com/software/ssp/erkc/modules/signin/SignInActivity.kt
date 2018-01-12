@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.signin
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -8,8 +9,12 @@ import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.common.views.pinLockView.util.Utils
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
@@ -121,7 +126,12 @@ class SignInActivity : MvpActivity(), ISignInView {
             onTextChanged { charSequence, i, j, k -> signInPasswordTextInputLayout.error = null }
         }
 
-        signInLoginButton.onClick { presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString()) }
+        signInLoginButton.onClick {
+            val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            prefs.edit().putString(KEY_PIN, "").apply()
+            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
+            presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString())
+        }
         signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }
 
         if (BuildConfig.DEBUG) {

@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.signup
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.load
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.onClick
 import javax.inject.Inject
@@ -71,6 +73,8 @@ class SignUpActivity : MvpActivity(), ISignUpView {
 
     private fun initViews() {
         signUpButton.onClick {
+            val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+            prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
             presenter.onSignUpButtonClick(
                     signUpLoginEditText.text.toString(),
                     signUpPasswordEditText.text.toString(),

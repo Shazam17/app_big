@@ -41,10 +41,8 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
     }
 
     fun saveTokenApi(apiToken: String) {
-        if (!apiToken.isEmpty()) {
             val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             prefs.edit().putString(LOCAL_TOKEN, apiToken).apply()
-        }
         getPrivateTokenPreferences().edit()
                 .putString("AuthToken", apiToken)
                 .apply()

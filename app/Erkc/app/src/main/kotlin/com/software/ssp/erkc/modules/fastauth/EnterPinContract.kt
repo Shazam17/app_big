@@ -11,4 +11,5 @@ interface IEnterPinView : IView {
 interface IEnterPinPresenter : IPresenter<IEnterPinView> {
     fun onBackPressed()
     fun onArrowClosePressed()
+    fun saveAccessToken()
 }

@@ -84,7 +84,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .authenticate(login, password)
                 .concatMap {
                     authData ->
-                    authRepository.saveTokenApi(authData.access_token)
+
                     activeSession.accessToken = authData.access_token
                     notificationServiceManager.fcmToken?.let {
                         return@concatMap settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)

@@ -18,6 +18,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
 import com.software.ssp.erkc.modules.contacts.ContactsFragment
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
@@ -180,13 +181,21 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 .commitAllowingStateLoss()
     }
 
-    fun getPin(): String {
+    override fun getPin(): String {
         val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
         return prefs.getString(KEY_PIN, "")
     }
 
     override fun onPause() {
         super.onPause()
+        val pin = getPin()
+        if (!pin.isNullOrEmpty()) {
+            startActivity<EnterPinActivity>()
+            return
+        } else {
+            presenter.onClear()
+        }
+
     }
 
     override fun onDestroy() {
@@ -197,7 +206,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun navigateBack() {
-        System.exit(0)
+        super.onBackPressed()
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
@@ -214,6 +223,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.TUTORIAL -> InstructionsListFragment()
             DrawerItem.CONTACTS -> ContactsFragment()
             DrawerItem.EXIT -> {
+                val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
                 presenter.onLogoutClick()
                 return
             }

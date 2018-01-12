@@ -20,7 +20,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
             return
         }
 
-        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken == null)
+        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken.isNullOrEmpty())
             activeSession.accessToken = authRepository.getLocalTokenApi()
 
         if(activeSession.accessToken.isNullOrEmpty()){
@@ -46,7 +46,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
     }
 
     override fun onPinReject() {
-        //authRepository.saveTokenApi("")
+        authRepository.saveTokenApi("")
     }
 
     override fun onViewDetached() {

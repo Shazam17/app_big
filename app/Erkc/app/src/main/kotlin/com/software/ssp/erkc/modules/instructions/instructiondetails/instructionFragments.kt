@@ -8,6 +8,18 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 
 
+class InstructionsAuthorizationAndRegistration : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_instructions_authorization_and_registration, container, false)
+    }
+}
+
+class InstructionsOfflineMode : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_instructions_offline_mode, container, false)
+    }
+}
+
 class InstructionsIpuNonAuthFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_instructions_ipu_non_auth, container, false)

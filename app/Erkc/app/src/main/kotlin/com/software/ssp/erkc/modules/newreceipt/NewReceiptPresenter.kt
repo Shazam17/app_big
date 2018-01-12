@@ -75,7 +75,7 @@ class NewReceiptPresenter @Inject constructor(view: INewReceiptView) : RxPresent
                     receipt ->
 
 
-                    if (activeSession.accessToken == null) {
+                    if (activeSession.accessToken.isNullOrEmpty()) {
 
                         view?.showProgressVisible(false)
                         if (isSendValue) {

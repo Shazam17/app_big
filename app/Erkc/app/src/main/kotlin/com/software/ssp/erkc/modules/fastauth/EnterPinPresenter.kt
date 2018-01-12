@@ -31,6 +31,10 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
         subscribeToLogoutEvent()
     }
 
+    override fun saveAccessToken() {
+        authRepository.saveTokenApi(activeSession.accessToken ?: "")
+    }
+
     fun logout() {
         if (activeSession.isOfflineSession) {
             activeSession.clear()
