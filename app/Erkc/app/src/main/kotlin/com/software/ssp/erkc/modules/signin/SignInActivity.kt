@@ -2,24 +2,26 @@ package com.software.ssp.erkc.modules.signin
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.common.views.pinLockView.util.Utils
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
+import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class SignInActivity : MvpActivity(), ISignInView {
@@ -27,7 +29,6 @@ class SignInActivity : MvpActivity(), ISignInView {
     @Inject lateinit var presenter: ISignInPresenter
 
     private val isOfflineSignIn: Boolean by extras(defaultValue = false)
-    private val shouldCloseAppOnBackPressed: Boolean by extras(defaultValue = false)
 
     companion object {
         val SIGN_IN_REQUEST_CODE = 24512
@@ -80,7 +81,10 @@ class SignInActivity : MvpActivity(), ISignInView {
         setResult(Activity.RESULT_OK)
     }
 
-    override fun navigateBack() {
+    override fun navigateToMainScreen() {
+        startActivity(intentFor<DrawerActivity>()
+            .newTask()
+            .clearTop())
         finish()
     }
 
@@ -107,8 +111,27 @@ class SignInActivity : MvpActivity(), ISignInView {
         presenter.dropView()
     }
 
-    override fun onBackPressed() {
-        presenter.onBackPressed(shouldCloseAppOnBackPressed)
+    override fun showPinSuggestDialog(login: String) {
+        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+        if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true)) {
+            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, false).apply()
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(R.string.pin_suggest_dialog_message)
+                .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
+                    val intent = Intent(this, CreatePinActivity::class.java)
+                    startActivity(intent)
+                })
+                .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
+                    presenter.onPinReject()
+                })
+                .setNeutralButton(R.string.splash_offline_dialog_neutral, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true).apply()
+                    presenter.onPinReject()
+                })
+                .setCancelable(false)
+            builder.create().show()
+        }
     }
 
     private fun initViews() {
@@ -128,8 +151,8 @@ class SignInActivity : MvpActivity(), ISignInView {
 
         signInLoginButton.onClick {
             val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            prefs.edit().putString(KEY_PIN, "").apply()
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
+            prefs.edit().remove(KEY_PIN + signInLoginEditText.text.toString()).apply()
+            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signInLoginEditText.text.toString(), true).apply()
             presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString())
         }
         signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }

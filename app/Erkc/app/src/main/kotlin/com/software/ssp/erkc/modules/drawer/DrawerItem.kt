@@ -17,5 +17,6 @@ enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
     SETTINGS(R.string.drawer_settings_text, R.id.menuSettings),
     TUTORIAL(R.string.drawer_instruction_text, R.id.menuInstructions),
     CONTACTS(R.string.drawer_contacts_text, R.id.menuContacts),
-    EXIT(R.string.drawer_exit_text, R.id.menuExit)
+    EXIT(R.string.drawer_exit_text, R.id.menuExit),
+    FASTAUTH(R.string.drawer_fast_auth_text, R.id.menuFastAuth)
 }

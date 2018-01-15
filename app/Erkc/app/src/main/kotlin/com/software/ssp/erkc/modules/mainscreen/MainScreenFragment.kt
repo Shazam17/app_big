@@ -1,9 +1,7 @@
 package com.software.ssp.erkc.modules.mainscreen
 
 import android.app.Fragment
-import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +13,6 @@ import com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen.NonAuthedMai
 import com.software.ssp.erkc.modules.mainscreen.receiptlist.ReceiptListFragment
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import javax.inject.Inject
-import android.content.DialogInterface
-import android.content.Intent
-import com.securepreferences.SecurePreferences
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
-import org.jetbrains.anko.defaultSharedPreferences
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
 
 
 class MainScreenFragment : MvpFragment(), IMainScreenView {
@@ -42,6 +33,10 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val nonAuthImitation = arguments?.getBoolean("nonAuthImitation") ?: false
+        if(nonAuthImitation) {
+            presenter.setNonAuthImitation()
+        }
         presenter.onViewAttached()
     }
 
@@ -50,7 +45,6 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
     }
 
     override fun showNonAuthedScreen() {
-
         showFragment(NonAuthedMainScreenFragment(), R.string.main_screen_non_authed_title)
     }
 
@@ -62,13 +56,7 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
         showFragment(ReceiptListFragment(), R.string.main_screen_authed_title)
     }
 
-    override fun showProcessFastAuthScreen() {
-        val intent = Intent(this.activity, EnterPinActivity::class.java)
-        startActivity(intent)
-//        startActivity(intentFor<ProcessFastAuthActivity>())
-    }
-
-    override fun showPinSuggestDialog() {
+    /*override fun showPinSuggestDialog() {
         val prefs = this.activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
         val pin = prefs.getString(EnterPinActivity.KEY_PIN, "")
         if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true)) {
@@ -76,7 +64,8 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                     .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
-                        val intent = Intent(this.activity, EnterPinActivity::class.java)
+                        val intent = Intent(this.activity, CreatePinActivity::class.java)
+                        intent.putExtra(CreatePinActivity.SHOULD_NAVIGATE_TO_MAIN_SCREEN_IF_SUCCEED, true)
                         startActivity(intent)
                     })
                     .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
@@ -88,7 +77,7 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
                     })
             builder.create().show()
         }
-    }
+    }*/
 
     private fun showFragment(fragment: Fragment, titleResId: Int) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(titleResId)

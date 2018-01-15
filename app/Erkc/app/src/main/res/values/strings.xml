@@ -36,6 +36,7 @@
     <string name="drawer_notifications_text">Уведомления</string>
     <string name="drawer_transaction_text">Журнал транзакций</string>
     <string name="drawer_settings_text">Настройки</string>
+    <string name="drawer_fast_auth_text">Быстрая авторизация</string>
     <string name="drawer_instruction_text">Инструкции</string>
     <string name="drawer_contacts_text">Контакты</string>
     <string name="drawer_exit_text">Выход</string>
@@ -125,6 +126,10 @@
     <string name="user_profile_email_hint">E-mail</string>
     <string name="user_profile_password_hint">Пароль</string>
     <string name="user_profile_re_password_hint">Повторить пароль</string>
+    <string name="user_profile_pin">PIN код</string>
+    <string name="user_profile_pin_change">Изменить</string>
+    <string name="user_profile_pin_delete">Удалить</string>
+    <string name="user_profile_pin_create">Создать</string>
     <string name="user_profile_save_button">Сохранить</string>
     <string name="user_profile_data_saved">Данные успешно сохранены</string>
 
@@ -568,7 +573,9 @@
     <string name="ok_ipu_sended">Данные успешно переданы и сохранены в Истории показаний.</string>
     <string name="pinlock_title">Введите PIN код</string>
     <string name="pinlock_fingerprint">Использовать отпечаток пальца</string>
-    <string name="pinlock_settitle">Установить PIN код</string>
+    <string name="pinlock_set_title">Установить PIN код</string>
+    <string name="pinlock_change_title">Сменить PIN код</string>
+    <string name="pinlock_delete_title">Удалить PIN код</string>
     <string name="pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
     <string name="pinlock_tryagain">PIN код не совпадает</string>
     <string name="pinlock_secondPin">Введите PIN код ещё раз</string>

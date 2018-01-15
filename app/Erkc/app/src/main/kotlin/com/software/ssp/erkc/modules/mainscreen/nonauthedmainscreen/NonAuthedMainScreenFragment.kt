@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog
 import android.view.*
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -17,6 +16,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
@@ -58,8 +58,8 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
     fun showAlert(message: String) {
         val builder = AlertDialog.Builder(activity)
-        builder.setMessage(R.string.pin_suggest_dialog_message)
-                .setNeutralButton(R.string.history_filter_dialog_ok, DialogInterface.OnClickListener { dialog, id ->
+        builder.setMessage(message)
+                .setNeutralButton(R.string.history_filter_dialog_ok, DialogInterface.OnClickListener { _, _ ->
                 })
         builder.create().show()
     }
@@ -117,30 +117,18 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
     }
 
     override fun navigateToSignInScreen() {
-        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
-        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
         activity.startActivityForResult<SignInActivity>(SignInActivity.SIGN_IN_REQUEST_CODE)
     }
 
     override fun navigateToSignUpScreen() {
-        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
-        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
         activity.startActivityForResult<SignUpActivity>(SignUpActivity.SIGN_UP_REQUEST_CODE)
     }
 
     override fun navigateToPaymentScreen(receipt: Receipt) {
-        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
-        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
         startActivity<PaymentActivity>("receipt" to receipt)
     }
 
     override fun navigateToSendValuesScreen(receipt: Receipt) {
-        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        prefs.edit().putString(EnterPinActivity.KEY_PIN, "").apply()
-        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
         startActivity<SendValuesActivity>("receipt" to receipt)
     }
 

@@ -22,7 +22,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     @Inject lateinit var cardsRepository: CardsRepository
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var notificationServiceManager: NotificationServiceManager
-    private var doubleBackToExitPressedOnce = false
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -45,20 +44,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     override fun onViewDetached() {
         super.onViewDetached()
         realmRepository.close()
-    }
-
-    override fun onBackPressed(shouldCloseAppOnBackPressed: Boolean) {
-        if (doubleBackToExitPressedOnce || !shouldCloseAppOnBackPressed) {
-            view?.navigateBack()
-        } else {
-            doubleBackToExitPressedOnce = true
-            view?.showMessage(R.string.on_back_pressed_text)
-            subscriptions += Observable.timer(2, TimeUnit.SECONDS)
-                .subscribe({
-                    doubleBackToExitPressedOnce = false
-                })
-        }
-
     }
 
     private fun validateFields(login: String?, password: String?): Boolean {
@@ -129,7 +114,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
                             view?.setResultOk()
-                            view?.navigateBack()
+                            view?.showPinSuggestDialog(login)
                         },
                         {
                             error ->
@@ -171,7 +156,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setProgressVisibility(false)
                             if (result) {
                                 view?.setResultOk()
-                                view?.navigateBack()
+                                view?.navigateToMainScreen()
                             }
                         },
                         {
@@ -181,5 +166,10 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    override fun onPinReject() {
+        authRepository.saveTokenApi("")
+        view?.navigateToMainScreen()
     }
 }

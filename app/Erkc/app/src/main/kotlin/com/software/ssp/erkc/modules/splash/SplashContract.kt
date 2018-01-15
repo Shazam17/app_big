@@ -11,6 +11,7 @@ interface ISplashView : IView {
     fun showTryAgainSnack(message: String)
     fun showOfflineLoginDialog()
     fun navigateToOfflineSignIn()
+    fun setUserLogin(login: String)
 }
 
 interface ISplashPresenter : IPresenter<ISplashView> {

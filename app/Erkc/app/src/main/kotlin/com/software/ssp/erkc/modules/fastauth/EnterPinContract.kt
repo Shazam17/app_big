@@ -5,11 +5,13 @@ import com.software.ssp.erkc.common.mvp.IView
 
 interface IEnterPinView : IView {
     fun close()
-    fun navigateToSignInScreen()
+    fun navigateToMainScreen()
+    fun setLogin(login: String)
 }
 
 interface IEnterPinPresenter : IPresenter<IEnterPinView> {
     fun onBackPressed()
     fun onArrowClosePressed()
+    fun onAttemptsFailed()
     fun saveAccessToken()
 }

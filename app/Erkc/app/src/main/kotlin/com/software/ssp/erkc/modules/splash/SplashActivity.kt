@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
@@ -14,8 +15,7 @@ import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.signin.SignInActivity
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 /**
@@ -24,6 +24,8 @@ import javax.inject.Inject
 class SplashActivity : MvpActivity(), ISplashView {
 
     @Inject lateinit var presenter: ISplashPresenter
+
+    var login = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,22 +66,30 @@ class SplashActivity : MvpActivity(), ISplashView {
         }.show()
     }
 
+    override fun setUserLogin(login: String) {
+        this.login = login
+        ErkcApplication.login = login
+    }
+
     fun getPin(): String {
         val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        return prefs.getString(KEY_PIN, "")
+        return prefs.getString(KEY_PIN + login, "")
     }
 
     override fun navigateToDrawer() {
-        finish()
         val pin = getPin()
-        if (!pin.isNullOrEmpty()) {
-            startActivity<DrawerActivity>()
-            startActivity<EnterPinActivity>()
-            return
-        } else {
+        if (pin.isEmpty()) {
             presenter.clearToken()
+            startActivity(intentFor<DrawerActivity>()
+                .newTask()
+                .clearTop())
+        } else {
+            startActivity(intentFor<EnterPinActivity>()
+                .newTask()
+                .singleTop()
+                .putExtra("initialAuth", true))
         }
-        startActivity<DrawerActivity>()
+        this.finish()
     }
 
     override fun navigateToOfflineSignIn() {

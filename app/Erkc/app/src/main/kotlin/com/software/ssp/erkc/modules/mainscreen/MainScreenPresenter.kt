@@ -14,6 +14,12 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
 
+    var nonAuthImitation = false
+
+    override fun setNonAuthImitation() {
+        nonAuthImitation = true
+    }
+
     override fun onViewAttached() {
         if(activeSession.isOfflineSession) {
             view?.showReceiptListScreen()
@@ -23,7 +29,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
         if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken.isNullOrEmpty())
             activeSession.accessToken = authRepository.getLocalTokenApi()
 
-        if(activeSession.accessToken.isNullOrEmpty()){
+        if(activeSession.accessToken.isNullOrEmpty() || nonAuthImitation){
             view?.showNonAuthedScreen()
             return
         }
@@ -42,12 +48,12 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
                     view?.showMessage(error.parsedMessage())
                 })
 
-        view?.showPinSuggestDialog()
+        //view?.showPinSuggestDialog()
     }
 
-    override fun onPinReject() {
+    /*override fun onPinReject() {
         authRepository.saveTokenApi("")
-    }
+    }*/
 
     override fun onViewDetached() {
         super.onViewDetached()

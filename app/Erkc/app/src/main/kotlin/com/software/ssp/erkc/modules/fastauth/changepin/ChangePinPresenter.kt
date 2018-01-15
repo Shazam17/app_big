@@ -1,8 +1,8 @@
-package com.software.ssp.erkc.modules.fastauth
+package com.software.ssp.erkc.modules.fastauth.changepin
 
 import com.jakewharton.rxrelay.Relay
-import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.*
+import com.software.ssp.erkc.common.Logout
+import com.software.ssp.erkc.common.LogoutFinished
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
@@ -10,12 +10,11 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
-import rx.Observable
 import rx.lang.kotlin.plusAssign
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<IEnterPinView>(view), IEnterPinPresenter {
+
+class ChangePinPresenter @Inject constructor(view: IChangePinView) : RxPresenter<IChangePinView>(view), IChangePinPresenter {
 
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var activeSession: ActiveSession
@@ -58,41 +57,33 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
             eventBus.call(LogoutFinished())
         } else {
             subscriptions += settingsRepository
-                    .unregisterFbToken(notificationServiceManager.deviceId)
-                    .subscribe(
-                            {
-                                notificationServiceManager.stopPushService()
-                                authRepository.saveTokenApi("")
-                                view?.navigateToMainScreen()
-                                eventBus.call(LogoutFinished())
-                            },
-                            {
-                                error ->
-                                authRepository.saveTokenApi("")
-                                view?.navigateToMainScreen()
-                                eventBus.call(LogoutFinished())
-                            }
-                    )
+                .unregisterFbToken(notificationServiceManager.deviceId)
+                .subscribe(
+                    {
+                        notificationServiceManager.stopPushService()
+                        authRepository.saveTokenApi("")
+                        view?.navigateToMainScreen()
+                        eventBus.call(LogoutFinished())
+                    },
+                    {
+                        error ->
+                        authRepository.saveTokenApi("")
+                        view?.navigateToMainScreen()
+                        eventBus.call(LogoutFinished())
+                    }
+                )
         }
-    }
-
-    override fun onArrowClosePressed() {
-        logout()
     }
 
     override fun onAttemptsFailed() {
         logout()
     }
 
-    override fun onBackPressed() {
-        logout()
-    }
-
     private fun subscribeToLogoutEvent() {
         subscriptions += eventBus.ofType(Logout::class.java)
-                .subscribe {
-                    event ->
-                    logout()
-                }
+            .subscribe {
+                event ->
+                logout()
+            }
     }
 }

@@ -159,6 +159,21 @@
             android:name=".modules.fastauth.EnterPinActivity"
             android:label="@string/fast_auth_title"
             android:theme="@style/AppTheme.Light"/>
+
+        <activity
+            android:name=".modules.fastauth.createpin.CreatePinActivity"
+            android:label="@string/pinlock_set_title"
+            android:theme="@style/AppTheme.Light"/>
+
+        <activity
+            android:name=".modules.fastauth.changepin.ChangePinActivity"
+            android:label="@string/pinlock_change_title"
+            android:theme="@style/AppTheme.Light"/>
+
+        <activity
+            android:name=".modules.fastauth.deletepin.DeletePinActivity"
+            android:label="@string/pinlock_delete_title"
+            android:theme="@style/AppTheme.Light"/>
         
         <provider
             android:name="android.support.v4.content.FileProvider"

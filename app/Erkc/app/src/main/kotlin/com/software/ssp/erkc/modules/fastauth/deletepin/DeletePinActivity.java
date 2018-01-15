@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.fastauth;
+package com.software.ssp.erkc.modules.fastauth.deletepin;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -21,8 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -40,6 +38,7 @@ import com.software.ssp.erkc.common.views.pinLockView.util.Animate;
 import com.software.ssp.erkc.common.views.pinLockView.util.Utils;
 import com.software.ssp.erkc.di.AppComponent;
 import com.software.ssp.erkc.modules.drawer.DrawerActivity;
+import com.software.ssp.erkc.modules.fastauth.EnterPinModule;
 import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity;
 import com.software.ssp.erkc.modules.signin.SignInActivity;
 
@@ -59,26 +58,20 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.inject.Inject;
 
-/**
- * Created by nixus on 02.01.2018.
- */
+import static com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN;
+import static com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES;
 
-public class EnterPinActivity extends MvpActivity implements IEnterPinView {
 
-    @Inject public IEnterPinPresenter presenter;
+public class DeletePinActivity extends MvpActivity implements IDeletePinView {
 
-    public static final String TAG = "EnterPinActivity";
+    @Inject public IDeletePinPresenter presenter;
+
+    public static final String TAG = "DeletePinActivity";
     public static final String EXTRA_FONT_TEXT = "textFont";
     public static final String EXTRA_FONT_NUM = "numFont";
 
-    private boolean initialAuth = false;
-
     private static final int PIN_LENGTH = 4;
     private static final String FINGER_PRINT_KEY = "FingerPrintKey";
-
-    public static final String PREFERENCES = "erkc.pinlock";
-    public static final String KEY_PIN = "pin";
-    public static final String SHOULD_SUGGEST_SET_PIN = "should_suggest_set_pin";
 
     private PinLockView mPinLockView;
     private IndicatorDots mIndicatorDots;
@@ -101,11 +94,11 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
     private AnimatedVectorDrawable fingerprintToCross;
 
     public static Intent getIntent(Context context, boolean setPin) {
-        return new Intent(context, EnterPinActivity.class);
+        return new Intent(context, DeletePinActivity.class);
     }
 
     public static Intent getIntent(Context context, String fontText, String fontNum) {
-        Intent intent = new Intent(context, EnterPinActivity.class);
+        Intent intent = new Intent(context, DeletePinActivity.class);
 
         intent.putExtra(EXTRA_FONT_TEXT, fontText);
         intent.putExtra(EXTRA_FONT_NUM, fontNum);
@@ -130,50 +123,20 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
         mImageViewFingerView = (AppCompatImageView) findViewById(R.id.fingerView);
         mTextFingerText = (TextView) findViewById(R.id.fingerText);
 
+        mTextTitle.setText(R.string.pinlock_title);
+
         showFingerprint = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.show_fingerprint);
         fingerprintToTick = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_tick);
         fingerprintToCross = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_cross);
-
-        Bundle b = getIntent().getExtras();
-        if(b!=null) {
-            initialAuth = b.getBoolean("initialAuth");
-            getIntent().getExtras().remove("initialAuth");
-        }
-
-        mTextTitle.setText(R.string.pinlock_title);
-
-        if(getSupportActionBar()!=null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setElevation(0f);
-            //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
-        }
 
         presenter.onViewAttached();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.fast_auth_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            presenter.onArrowClosePressed();
-            return true;
-        } else if (item.getItemId() == R.id.change_user) {
-            presenter.onArrowClosePressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void resolveDependencies(@NotNull AppComponent appComponent) {
-        DaggerEnterPinComponent.builder()
+        DaggerDeletePinComponent.builder()
                 .appComponent(appComponent)
-                .enterPinModule(new EnterPinModule(this))
+                .deletePinModule(new DeletePinModule(this))
                 .build()
                 .inject(this);
     }
@@ -181,52 +144,6 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
     @Override
     public void beforeDestroy() {
         presenter.dropView();
-    }
-
-    @Override
-    public void setLogin(@NotNull String login) {
-        this.login = login;
-        ErkcApplication.login = login;
-
-        String pin = getPinFromSharedPreferences();
-        if (pin.equals("")) {
-            /*Intent intent = new Intent(this, CreatePinActivity.class);
-            startActivity(intent);*/
-            this.finish();
-        } else {
-            checkForFingerPrint();
-        }
-
-        final PinLockListener pinLockListener = new PinLockListener() {
-
-            @Override
-            public void onComplete(String pin) {
-                checkPin(pin);
-            }
-
-            @Override
-            public void onEmpty() {
-                Log.d(TAG, "Pin empty");
-            }
-
-            @Override
-            public void onPinChange(int pinLength, String intermediatePin) {
-
-            }
-
-        };
-
-        mPinLockView = (PinLockView) findViewById(R.id.pinlockView);
-        mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
-
-        mPinLockView.attachIndicatorDots(mIndicatorDots);
-        mPinLockView.setPinLockListener(pinLockListener);
-
-        mPinLockView.setPinLength(PIN_LENGTH);
-
-        mIndicatorDots.setIndicatorType(IndicatorDots.IndicatorType.FILL_WITH_ANIMATION);
-
-        checkForFont();
     }
 
     private void checkForFont() {
@@ -266,7 +183,7 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
     }
 
     //Create the generateKey method that we’ll use to gain access to the Android keystore and generate the encryption key//
-    private void generateKey() throws EnterPinActivity.FingerprintException {
+    private void generateKey() throws FingerprintException {
         try {
             // Obtain a reference to the Keystore using the standard Android keystore container identifier (“AndroidKeystore”)//
             mKeyStore = KeyStore.getInstance("AndroidKeyStore");
@@ -303,7 +220,7 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
                 | InvalidAlgorithmParameterException
                 | CertificateException
                 | IOException exc) {
-            throw new EnterPinActivity.FingerprintException(exc);
+            throw new FingerprintException(exc);
         }
     }
 
@@ -341,16 +258,10 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
 
     private void checkPin(String pin) {
         if (Utils.sha256(pin).equals(getPinFromSharedPreferences())) {
-            presenter.saveAccessToken();
             setResult(RESULT_OK);
-            if(initialAuth) {
-                Intent intent = new Intent(this, DrawerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                this.finish();
-            } else {
-                finish();
-            }
+            SharedPreferences prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            prefs.edit().remove(KEY_PIN + login).apply();
+            finish();
         } else {
             shake();
 
@@ -359,19 +270,19 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
             mPinLockView.resetPinLockView();
             if (mTryCount > 2) {
                 new AlertDialog.Builder(this)
-                    .setMessage(R.string.fast_auth_pin_attemp_error_text)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-                            prefs.edit().remove(KEY_PIN + login).apply();
-                            prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), true).apply();
-                            presenter.onAttemptsFailed();
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
+                        .setMessage(R.string.fast_auth_pin_attemp_error_text)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+                                prefs.edit().remove(KEY_PIN + login).apply();
+                                prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), true).apply();
+                                presenter.onAttemptsFailed();
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
             }
         }
     }
@@ -389,15 +300,9 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
             @Override
             public void onSuccess() {
                 setResult(RESULT_OK);
+                SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+                prefs.edit().remove(KEY_PIN + login).apply();
                 Animate.animate(mImageViewFingerView, fingerprintToTick);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-
-                    }
-                }, 750);
             }
 
             @Override
@@ -414,12 +319,12 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
 
             @Override
             public void onError(CharSequence errorString) {
-                Toast.makeText(EnterPinActivity.this, errorString, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeletePinActivity.this, errorString, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onHelp(CharSequence helpString) {
-                Toast.makeText(EnterPinActivity.this, helpString, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeletePinActivity.this, helpString, Toast.LENGTH_SHORT).show();
             }
 
         };
@@ -460,7 +365,7 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
             } else {
                 try {
                     generateKey();
-                } catch (EnterPinActivity.FingerprintException e) {
+                } catch (DeletePinActivity.FingerprintException e) {
                     Log.wtf(TAG, "Failed to generate key for fingerprint.", e);
                 }
 
@@ -482,13 +387,47 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
     }
 
     @Override
-    public void onBackPressed() {
-        presenter.onBackPressed();
-    }
+    public void setLogin(@NotNull String login) {
+        this.login = login;
+        ErkcApplication.login = login;
 
-    @Override
-    public void close() {
-        System.exit(0);
+        String pin = getPinFromSharedPreferences();
+        if (pin.equals("")) {
+            this.finish();
+        } else {
+            checkForFingerPrint();
+        }
+
+        final PinLockListener pinLockListener = new PinLockListener() {
+
+            @Override
+            public void onComplete(String pin) {
+                checkPin(pin);
+            }
+
+            @Override
+            public void onEmpty() {
+                Log.d(TAG, "Pin empty");
+            }
+
+            @Override
+            public void onPinChange(int pinLength, String intermediatePin) {
+
+            }
+
+        };
+
+        mPinLockView = (PinLockView) findViewById(R.id.pinlockView);
+        mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
+
+        mPinLockView.attachIndicatorDots(mIndicatorDots);
+        mPinLockView.setPinLockListener(pinLockListener);
+
+        mPinLockView.setPinLength(PIN_LENGTH);
+
+        mIndicatorDots.setIndicatorType(IndicatorDots.IndicatorType.FILL_WITH_ANIMATION);
+
+        checkForFont();
     }
 
     @Override

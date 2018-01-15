@@ -98,7 +98,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                         {
                             notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
-                            view?.navigateToMainScreen()
+                            view?.showPinSuggestDialog(login)
                         },
                         {
                             error ->
@@ -107,6 +107,11 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    override fun onPinReject() {
+        authRepository.saveTokenApi("")
+        view?.navigateToMainScreen()
     }
 
     private fun fetchCaptcha() {

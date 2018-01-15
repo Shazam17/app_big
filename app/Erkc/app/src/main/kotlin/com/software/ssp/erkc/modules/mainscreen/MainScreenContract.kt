@@ -8,10 +8,8 @@ interface IMainScreenView: IView {
     fun showNonAuthedScreen()
     fun showAddReceiptScreen()
     fun showReceiptListScreen()
-    fun showPinSuggestDialog()
-    fun showProcessFastAuthScreen()
 }
 
 interface IMainScreenPresenter: IPresenter<IMainScreenView>{
-    fun onPinReject()
+    fun setNonAuthImitation()
 }

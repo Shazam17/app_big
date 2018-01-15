@@ -4,11 +4,9 @@ import android.content.Context
 import android.net.Uri
 import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
-import com.software.ssp.erkc.common.views.pinLockView.util.Utils
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.Captcha
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import okhttp3.ResponseBody
 import org.jsoup.Connection
@@ -36,16 +34,9 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
         return prefs.getString(LOCAL_TOKEN, "")
     }
 
-    private fun getPrivateTokenPreferences(): SecurePreferences {
-        return SecurePreferences(context, "", "prefs.xml")
-    }
-
     fun saveTokenApi(apiToken: String) {
             val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             prefs.edit().putString(LOCAL_TOKEN, apiToken).apply()
-        getPrivateTokenPreferences().edit()
-                .putString("AuthToken", apiToken)
-                .apply()
     }
 
     fun fetchAppToken(authHtmlPage: String): Observable<String> {

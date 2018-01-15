@@ -139,6 +139,10 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+
+    // AppState
+    compile 'com.jenzz.appstate:appstate:3.0.1'
+    compile 'com.jenzz.appstate:adapter-rxjava:3.0.1'
 }
 
 repositories {
