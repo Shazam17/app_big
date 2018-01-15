@@ -19,8 +19,7 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var realmRepository: RealmRepository
 
-    override fun onViewAttached() {
-        super.onViewAttached()
+    override fun resumed() {
         fetchUserInfo()
     }
 
@@ -88,12 +87,31 @@ class UserProfilePresenter @Inject constructor(view: IUserProfileView) : RxPrese
         return isValid
     }
 
+    override fun onPinReject() {
+        authRepository.saveTokenApi("")
+    }
+
+    override fun onPinChangeClick() {
+        view?.navigateToPinChangeScreen()
+    }
+
+    override fun onPinDeleteClick() {
+        view?.navigateToPinDeleteScreen()
+    }
+
+    override fun onPinCreateClick() {
+        view?.navigateToPinCreateScreen()
+    }
+
     private fun fetchUserInfo(){
         subscriptions += realmRepository.fetchCurrentUser()
                 .subscribe (
                         {
                             realmUser ->
                             view?.showUserInfo(realmUser)
+                            view?.setUserLogin(realmUser.login)
+                            view?.showPinStatus()
+                            view?.showPinSuggestDialog()
                         },
                         {
                             error ->

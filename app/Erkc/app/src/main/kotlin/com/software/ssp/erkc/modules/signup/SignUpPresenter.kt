@@ -41,6 +41,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     }
 
     override fun onSignUpButtonClick(login: String, password: String, password2: String, name: String, email: String, turing: String) {
+
         if (login.isBlank()
                 || password.isBlank()
                 || password2.isBlank()
@@ -97,7 +98,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                         {
                             notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
-                            view?.navigateToMainScreen()
+                            view?.showPinSuggestDialog(login)
                         },
                         {
                             error ->
@@ -106,6 +107,11 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    override fun onPinReject() {
+        authRepository.saveTokenApi("")
+        view?.navigateToMainScreen()
     }
 
     private fun fetchCaptcha() {

@@ -18,7 +18,7 @@ class PaymentScreenPresenter @Inject constructor(view: IPaymentScreenView) : RxP
             return
         }
 
-        if(activeSession.accessToken == null){
+        if(activeSession.accessToken.isNullOrEmpty()){
             view?.navigateToAddReceiptScreen()
             return
         }

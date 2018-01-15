@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.card.addcard
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -78,7 +80,12 @@ class AddCardActivity : MvpActivity(), IAddCardView {
 
         addCardNameEditText.onEditorAction { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE) {
-                presenter.onCreateCardClick(addCardNameEditText.text.toString())
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage(R.string.add_card_info)
+                        .setNeutralButton(R.string.add_card_info_understand, DialogInterface.OnClickListener { dialog, id ->
+                            presenter.onCreateCardClick(addCardNameEditText.text.toString())
+                        })
+                builder.create().show()
                 true
             } else {
                 false

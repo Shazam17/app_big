@@ -18,7 +18,7 @@ class ValueTransferPresenter @Inject constructor(view: IValueTransferView) : RxP
             return
         }
 
-        if(activeSession.accessToken == null){
+        if(activeSession.accessToken.isNullOrEmpty()){
             view?.navigateToAddReceiptScreen()
             return
         }

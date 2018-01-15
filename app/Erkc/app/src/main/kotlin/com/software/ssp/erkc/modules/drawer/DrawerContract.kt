@@ -16,6 +16,8 @@ interface IDrawerView : IView {
     fun navigateToUserProfile()
     fun navigateToHistory(receiptCode: String)
     fun navigateBack()
+    fun setProgressVisibility(isVisible: Boolean)
+    fun setUserLogin(login: String)
 }
 
 interface IDrawerPresenter : IPresenter<IDrawerView> {
@@ -23,4 +25,6 @@ interface IDrawerPresenter : IPresenter<IDrawerView> {
     fun onUserProfileClick()
     fun onUserProfileUpdated()
     fun onBackPressed()
+    fun onClear()
+    fun setNonAuthImitation()
 }

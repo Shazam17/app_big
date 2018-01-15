@@ -39,6 +39,8 @@ class InstructionActivity : AppCompatActivity() {
         supportActionBar?.setTitle(instructionType.titleId)
 
         when (instructionType) {
+            InstructionType.AUTH_AND_REG -> showFragment(InstructionsAuthorizationAndRegistration())
+            InstructionType.OFFLINE -> showFragment(InstructionsOfflineMode())
             InstructionType.NON_AUTH_SEND_VALUES -> showFragment(InstructionsIpuNonAuthFragment())
             InstructionType.NON_AUTH_TITLE -> showFragment(InstructionsPaymentNonAuthFragment())
             InstructionType.PAYMENT_ADD_RECEIPT -> showFragment(InstructionsPaymentAddReceiptFragment())

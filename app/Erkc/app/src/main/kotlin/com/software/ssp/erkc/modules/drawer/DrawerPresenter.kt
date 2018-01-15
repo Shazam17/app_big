@@ -26,6 +26,12 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     @Inject lateinit var notificationServiceManager: NotificationServiceManager
     private var doubleBackToExitPressedOnce = false
 
+    var nonAuthImitation = false
+
+    override fun setNonAuthImitation() {
+        nonAuthImitation = true
+    }
+
     override fun onViewAttached() {
         super.onViewAttached()
 
@@ -34,7 +40,6 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         subscribeToOpenInstructionsEvent()
         subscribeToLogoutEvent()
 
-        view?.navigateToMainScreen()
         showCurrentUser()
     }
 
@@ -45,8 +50,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
 
     override fun onLogoutClick() {
         if (activeSession.isOfflineSession) {
-            activeSession.clear()
             authRepository.saveTokenApi("")
+            activeSession.clear()
             view?.clearUserInfo()
             view?.setAuthedMenuVisible(false)
             eventBus.call(LogoutFinished())
@@ -57,8 +62,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                     .subscribe(
                             {
                                 notificationServiceManager.stopPushService()
-                                activeSession.clear()
                                 authRepository.saveTokenApi("")
+                                activeSession.clear()
                                 view?.clearUserInfo()
                                 view?.setAuthedMenuVisible(false)
                                 view?.navigateToMainScreen()
@@ -72,6 +77,11 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         }
     }
 
+    override fun onClear() {
+        authRepository.saveTokenApi("")
+        activeSession.clear()
+    }
+
     override fun onUserProfileClick() {
         view?.navigateToUserProfile()
     }
@@ -80,8 +90,10 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         showCurrentUser()
     }
 
+
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
+
             view?.navigateBack()
         } else {
             doubleBackToExitPressedOnce = true
@@ -95,7 +107,10 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
     }
 
     private fun showCurrentUser() {
-        if (!activeSession.isOfflineSession && activeSession.accessToken == null) {
+        if (!authRepository.getLocalTokenApi().isEmpty() && activeSession.accessToken.isNullOrEmpty())
+            activeSession.accessToken = authRepository.getLocalTokenApi()
+
+        if (!activeSession.isOfflineSession && activeSession.accessToken.isNullOrEmpty() && !nonAuthImitation) {
             view?.setAuthedMenuVisible(false)
             view?.navigateToMainScreen()
             return
@@ -105,8 +120,10 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                 .subscribe(
                         {
                             currentUser ->
+                            view?.setUserLogin(currentUser.login)
                             view?.showUserInfo(currentUser)
                             view?.setAuthedMenuVisible(true)
+                            view?.navigateToMainScreen()
                             view?.updateCurrentScreen()
                         },
                         {

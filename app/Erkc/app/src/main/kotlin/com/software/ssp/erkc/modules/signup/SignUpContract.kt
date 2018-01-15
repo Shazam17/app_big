@@ -10,6 +10,7 @@ interface ISignUpView : IView {
     fun navigateToMainScreen()
     fun showCaptcha(image: ByteArray)
     fun setProgressVisibility(isVisible: Boolean)
+    fun showPinSuggestDialog(login: String)
 }
 
 interface ISignUpPresenter : IPresenter<ISignUpView> {
@@ -21,6 +22,6 @@ interface ISignUpPresenter : IPresenter<ISignUpView> {
             email: String,
             turing: String
     )
-
+    fun onPinReject()
     fun onCaptchaClick()
 }

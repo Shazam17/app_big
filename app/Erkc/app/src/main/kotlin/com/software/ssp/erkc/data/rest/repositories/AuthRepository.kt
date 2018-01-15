@@ -2,12 +2,12 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import android.content.Context
 import android.net.Uri
-import android.provider.Settings
 import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData
 import com.software.ssp.erkc.data.rest.models.Captcha
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import okhttp3.ResponseBody
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -19,6 +19,10 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val authDataSource: AuthDataSource, private val context: Context) : Repository() {
 
+    companion object {
+        val LOCAL_TOKEN = "local_token"
+    }
+
     fun authenticateApp(): Observable<ResponseBody> {
         return authDataSource
                 .authenticateApp(Constants.API_OAUTH_URL, Constants.API_OAUTH_RESPONSE_TYPE, Constants.API_OAUTH_CLIENT_ID)
@@ -26,22 +30,13 @@ class AuthRepository @Inject constructor(private val authDataSource: AuthDataSou
     }
 
     fun getLocalTokenApi(): String {
-        return getPrivateTokenPreferences().getString("AuthToken", "")
-    }
-
-    private fun getPrivateTokenPreferences(): SecurePreferences {
-        return SecurePreferences(context, "", "prefs.xml")
+        val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        return prefs.getString(LOCAL_TOKEN, "")
     }
 
     fun saveTokenApi(apiToken: String) {
-        if (apiToken.isNullOrEmpty()) {
-            getPrivateTokenPreferences().edit()
-                    .putString("UserPinKey", "")
-                    .apply()
-        }
-        getPrivateTokenPreferences().edit()
-                .putString("AuthToken", apiToken)
-                .apply()
+            val prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            prefs.edit().putString(LOCAL_TOKEN, apiToken).apply()
     }
 
     fun fetchAppToken(authHtmlPage: String): Observable<String> {

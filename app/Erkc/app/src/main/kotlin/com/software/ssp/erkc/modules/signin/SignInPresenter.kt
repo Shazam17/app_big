@@ -3,18 +3,17 @@ package com.software.ssp.erkc.modules.signin
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.AuthProvider
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISignInView>(view), ISignInPresenter {
 
-    @Inject lateinit var authProvider: AuthProvider
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var accountRepository: AccountRepository
     @Inject lateinit var receiptsRepository: ReceiptsRepository
@@ -47,9 +46,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         realmRepository.close()
     }
 
-
-
-
     private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
 
@@ -73,6 +69,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .authenticate(login, password)
                 .concatMap {
                     authData ->
+
                     activeSession.accessToken = authData.access_token
                     notificationServiceManager.fcmToken?.let {
                         return@concatMap settingsRepository.registerFbToken(notificationServiceManager.deviceId, it)
@@ -117,7 +114,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             notificationServiceManager.startPushService()
                             view?.setProgressVisibility(false)
                             view?.setResultOk()
-                            view?.close()
+                            view?.showPinSuggestDialog(login)
                         },
                         {
                             error ->
@@ -159,7 +156,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setProgressVisibility(false)
                             if (result) {
                                 view?.setResultOk()
-                                view?.close()
+                                view?.navigateToMainScreen()
                             }
                         },
                         {
@@ -169,5 +166,10 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    override fun onPinReject() {
+        authRepository.saveTokenApi("")
+        view?.navigateToMainScreen()
     }
 }

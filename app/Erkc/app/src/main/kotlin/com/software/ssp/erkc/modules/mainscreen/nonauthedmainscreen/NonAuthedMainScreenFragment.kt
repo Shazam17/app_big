@@ -1,12 +1,14 @@
 package com.software.ssp.erkc.modules.mainscreen.nonauthedmainscreen
 
 import android.app.Activity
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.*
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.data.rest.models.Receipt
@@ -14,6 +16,9 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.barcodescanner.BarcodeScannerActivity
+import com.software.ssp.erkc.modules.drawer.DrawerActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import com.software.ssp.erkc.modules.signin.SignInActivity
@@ -43,14 +48,20 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         presenter.onViewAttached()
-        val securePrefs = SecurePreferences(this.activity, "", getString(R.string.secure_prefs_filename))
-        val isNeededToDisplayAttempsMessage = securePrefs.getBoolean(getString(R.string.fail_attemps_message_key), false)
-        val securePrefsEditor = securePrefs.edit()
-        securePrefsEditor.putBoolean(getString(R.string.fail_attemps_message_key), false)
-        securePrefsEditor.commit()
+        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        val isNeededToDisplayAttempsMessage = prefs.getBoolean(getString(R.string.fail_attemps_message_key), false)
         if (isNeededToDisplayAttempsMessage) {
-            showMessage(R.string.fast_auth_pin_attemp_error_text)
+            showAlert(getString(R.string.fast_auth_pin_attemp_error_text))
+            prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), false).apply()
         }
+    }
+
+    fun showAlert(message: String) {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(message)
+                .setNeutralButton(R.string.history_filter_dialog_ok, DialogInterface.OnClickListener { _, _ ->
+                })
+        builder.create().show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

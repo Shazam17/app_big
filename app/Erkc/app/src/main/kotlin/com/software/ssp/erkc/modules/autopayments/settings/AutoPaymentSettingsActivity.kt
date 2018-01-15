@@ -1,6 +1,5 @@
 package com.software.ssp.erkc.modules.autopayments.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem

@@ -248,10 +248,10 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap {
                     currentUser ->
                     currentUser.settings?.apply {
-                        operationStatusNotificationEnabled = if (settings.operationsNotificationStatus == 1) true else false
-                        newsNotificationEnabled = if (settings.newsNotificationStatus == 1) true else false
-                        paymentNotificationEnabled = if (settings.paymentRemindStatus == 1) true else false
-                        ipuNotificationEnabled = if (settings.ipuRemindStatus == 1) true else false
+                        operationStatusNotificationEnabled = settings.operationsNotificationStatus == 1
+                        newsNotificationEnabled = settings.newsNotificationStatus == 1
+                        paymentNotificationEnabled = settings.paymentRemindStatus == 1
+                        ipuNotificationEnabled = settings.ipuRemindStatus == 1
 
                         pushEnabled = operationStatusNotificationEnabled
                                 || newsNotificationEnabled

@@ -7,7 +7,6 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-
 @FragmentScope
 @Component(modules = arrayOf(MainScreenModule::class), dependencies = arrayOf(AppComponent::class))
 interface MainScreenComponent {

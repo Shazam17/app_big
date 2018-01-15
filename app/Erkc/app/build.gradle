@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -132,10 +133,16 @@ dependencies {
     compile 'com.scottyab:secure-preferences-lib:0.1.4'
     compile 'com.wei.android.lib:fingerprintidentify:1.2.1'
 
+    compile 'com.andrognito.pinlockview:pinlockview:2.1.0'
+
     // Fabric
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+
+    // AppState
+    compile 'com.jenzz.appstate:appstate:3.0.1'
+    compile 'com.jenzz.appstate:adapter-rxjava:3.0.1'
 }
 
 repositories {

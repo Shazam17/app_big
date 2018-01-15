@@ -13,8 +13,19 @@ interface IUserProfileView : IView {
     fun showErrorEmailMessage(resId: Int)
     fun showErrorPasswordMessage(resId: Int)
     fun didUserProfileUpdated()
+    fun navigateToPinCreateScreen()
+    fun navigateToPinDeleteScreen()
+    fun navigateToPinChangeScreen()
+    fun showPinSuggestDialog()
+    fun setUserLogin(login: String)
+    fun showPinStatus()
 }
 
 interface IUserProfilePresenter : IPresenter<IUserProfileView> {
     fun onSaveButtonClick(name: String, email: String, password: String, rePassword: String)
+    fun onPinChangeClick()
+    fun onPinDeleteClick()
+    fun onPinCreateClick()
+    fun onPinReject()
+    fun resumed()
 }

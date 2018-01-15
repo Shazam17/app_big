@@ -58,4 +58,11 @@
             android:title="@string/drawer_exit_text" />
     </group>
 
+    <group android:id="@+id/menuLastGroup" android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuFastAuth"
+            android:title="@string/drawer_fast_auth_text"
+            android:visible="false"/>
+    </group>
+
 </menu>

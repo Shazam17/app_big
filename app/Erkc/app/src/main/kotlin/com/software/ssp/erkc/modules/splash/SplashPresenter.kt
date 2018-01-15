@@ -1,7 +1,5 @@
 package com.software.ssp.erkc.modules.splash
 
-import android.text.format.DateUtils
-import android.util.Log
 import com.software.ssp.erkc.AppPrefs
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -33,6 +31,8 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         //activeSession.clear()
         //authRepository.saveTokenApi("")
 
+        fetchCurrentUser()
+
         //Needed 5 second splash showing (3 sec timer + requests time)
         subscriptions += Observable.timer(TIMER_SECONDS, TimeUnit.SECONDS)
                 .subscribe {
@@ -40,9 +40,29 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 }
     }
 
+    fun fetchCurrentUser() {
+        subscriptions += realmRepository
+            .fetchCurrentUser()
+            .subscribe(
+                {
+                    currentUser ->
+                    view?.setUserLogin(currentUser.login)
+                },
+                {
+                    error ->
+                    error.printStackTrace()
+                }
+            )
+    }
+
     override fun onViewDetached() {
         realmRepository.close()
         super.onViewDetached()
+    }
+
+    override fun clearToken() {
+        authRepository.saveTokenApi("")
+        activeSession.accessToken = ""
     }
 
     private fun authenticateApp() {
@@ -73,12 +93,17 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         Observable.just(false)
                     }
                 }
+                .concatMap {
+                    isCashed ->
+                    if (isCashed) {
+                        AppPrefs.lastCashingDate = Date().time
+                    }
+
+                    Observable.just(null)
+                }
                 .subscribe(
                         {
-                            isCashed ->
-                            if (isCashed) {
-                                AppPrefs.lastCashingDate = Date().time
-                            }
+                            activeSession.accessToken = authRepository.getLocalTokenApi()
                             view?.navigateToDrawer()
                         },
                         {
