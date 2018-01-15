@@ -9,6 +9,7 @@ import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
  */
 interface IValuesTransactionListView : IListView<RealmOfflineIpu> {
     fun navigateToIpuValueInfo(realmOfflineIpu: RealmOfflineIpu)
+    fun showAlert(message: Int)
 }
 
 interface IValuesTransactionListPresenter : IListPresenter<RealmOfflineIpu, IValuesTransactionListView> {

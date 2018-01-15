@@ -63,6 +63,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     }
 
     private fun login(login: String, password: String) {
+        //authRepository.saveTokenApi("")
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository

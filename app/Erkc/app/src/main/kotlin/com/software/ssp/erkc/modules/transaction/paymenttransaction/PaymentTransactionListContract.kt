@@ -9,6 +9,7 @@ import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
  */
 interface IPaymentTransactionListView : IListView<RealmOfflinePayment> {
     fun navigateToPaymentInfo(payment: RealmOfflinePayment)
+    fun showAlert(message: Int)
 }
 
 interface IPaymentTransactionListPresenter : IListPresenter<RealmOfflinePayment, IPaymentTransactionListView> {

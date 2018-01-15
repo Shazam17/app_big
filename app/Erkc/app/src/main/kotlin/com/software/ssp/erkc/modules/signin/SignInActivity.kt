@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.BuildConfig
+import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -112,6 +113,7 @@ class SignInActivity : MvpActivity(), ISignInView {
     }
 
     override fun showPinSuggestDialog(login: String) {
+        ErkcApplication.login = login
         val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
         val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
         if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true)) {

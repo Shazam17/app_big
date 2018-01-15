@@ -3,21 +3,14 @@ package com.software.ssp.erkc
 import android.content.Context
 import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
-import com.jakewharton.rxrelay.Relay
 import com.jenzz.appstate.AppState
 import com.jenzz.appstate.adapter.rxjava.RxAppStateMonitor
 import com.software.ssp.erkc.common.ActivityLifecycle
-import com.software.ssp.erkc.common.LogoutFinished
-import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.repositories.AuthRepository
-import com.software.ssp.erkc.data.rest.repositories.RealmRepository
-import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.DaggerAppComponent
 import com.software.ssp.erkc.di.modules.AppModule
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
-import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import com.software.ssp.erkc.modules.splash.SplashActivity
 import io.fabric.sdk.android.Fabric
 import io.realm.Realm
@@ -27,7 +20,6 @@ import org.jetbrains.anko.newTask
 import org.jetbrains.anko.singleTop
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import javax.inject.Inject
 
 
 class ErkcApplication : MultiDexApplication() {

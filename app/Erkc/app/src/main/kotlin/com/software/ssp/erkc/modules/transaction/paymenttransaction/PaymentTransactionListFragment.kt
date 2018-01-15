@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.transaction.paymenttransaction
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +46,14 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
 
     override fun onSwipeToRefresh() {
 
+    }
+
+    override fun showAlert(message: Int) {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(message)
+            .setNeutralButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            })
+        builder.create().show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

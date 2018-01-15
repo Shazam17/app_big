@@ -28,7 +28,15 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             val originalRequest = chain!!.request()
             val originalBody = originalRequest.body()
 
-            val token = activeSession.accessToken ?: activeSession.appToken
+            var token: String? = null
+            val methodValue = originalRequest.url().queryParameter("method") ?: ""
+            if( methodValue != "users.authorization" &&
+                methodValue != "users.registration" &&
+                methodValue != "sys.captcha") {
+                token = activeSession.accessToken ?: activeSession.appToken
+            } else {
+                token = activeSession.appToken
+            }
             val app_id = Constants.API_OAUTH_CLIENT_ID
 
             val authorizedRequest: Request = when {

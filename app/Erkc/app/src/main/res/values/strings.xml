@@ -5,7 +5,8 @@
     <!-- Common -->
     <string name="data_loading">Загрузка данных…</string>
     <string name="none" />
-    <string name="offline_mode_error">Данное действие недоступно в офлайн режиме.</string>
+    <string name="offline_mode_error">Данное действие недоступно в оффлайн режиме.</string>
+    <string name="offline_mode_transaction_error">Вы в оффлайн режиме, для совершения данной операции необходимо перезапустить приложение и войти в онлайн режиме.</string>
     <string name="error_no_connection">Не удалось установить связь c сервером</string>
     <string name="on_back_pressed_text">Нажмите снова для выхода</string>
 

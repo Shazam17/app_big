@@ -28,6 +28,7 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
 
     override fun onViewAttached() {
         super.onViewAttached()
+
         fetchCaptcha()
     }
 
@@ -115,8 +116,8 @@ class SignUpPresenter @Inject constructor(view: ISignUpView) : RxPresenter<ISign
     }
 
     private fun fetchCaptcha() {
-        subscriptions += authRepository.
-                getCaptcha()
+        subscriptions += authRepository
+                .getCaptcha()
                 .subscribe(
                         {
                             captcha ->

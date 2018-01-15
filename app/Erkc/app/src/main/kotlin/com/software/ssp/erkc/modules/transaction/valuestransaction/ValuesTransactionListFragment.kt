@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.transaction.valuestransaction
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,14 @@ class ValuesTransactionListFragment : BaseListFragment<RealmOfflineIpu>(), IValu
 
     override fun onSwipeToRefresh() {
         //disabled
+    }
+
+    override fun showAlert(message: Int) {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(message)
+            .setNeutralButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            })
+        builder.create().show()
     }
 
     override fun onSendValuesClick(offlineIpu: RealmOfflineIpu) {

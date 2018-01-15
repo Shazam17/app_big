@@ -28,7 +28,7 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
 
     override fun onPaymentClick(payment: RealmOfflinePayment) {
         if (activeSession.isOfflineSession) {
-            view?.showMessage(R.string.offline_mode_error)
+            view?.showAlert(R.string.offline_mode_transaction_error)
             return
         }
         view?.navigateToPaymentInfo(payment)

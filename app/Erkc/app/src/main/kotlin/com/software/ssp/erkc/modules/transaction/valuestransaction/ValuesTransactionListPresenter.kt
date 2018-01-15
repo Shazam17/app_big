@@ -30,7 +30,7 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
 
     override fun onIpuClick(realmOfflineIpu: RealmOfflineIpu) {
         if (activeSession.isOfflineSession) {
-            view?.showMessage(R.string.offline_mode_error)
+            view?.showAlert(R.string.offline_mode_transaction_error)
             return
         }
         view?.navigateToIpuValueInfo(realmOfflineIpu)
