@@ -133,6 +133,8 @@ class SignInActivity : MvpActivity(), ISignInView {
                 })
                 .setCancelable(false)
             builder.create().show()
+        } else {
+            presenter.onPinReject()
         }
     }
 
@@ -152,9 +154,9 @@ class SignInActivity : MvpActivity(), ISignInView {
         }
 
         signInLoginButton.onClick {
-            val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            /*val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             prefs.edit().remove(KEY_PIN + signInLoginEditText.text.toString()).apply()
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signInLoginEditText.text.toString(), true).apply()
+            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signInLoginEditText.text.toString(), true).apply()*/
             presenter.onLoginButtonClick(signInLoginEditText.text.toString(), signInPasswordEditText.text.toString())
         }
         signInForgotPasswordView.onClick { presenter.onForgotPasswordButtonClick() }

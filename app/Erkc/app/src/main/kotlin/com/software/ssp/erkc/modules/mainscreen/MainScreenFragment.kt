@@ -56,29 +56,6 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
         showFragment(ReceiptListFragment(), R.string.main_screen_authed_title)
     }
 
-    /*override fun showPinSuggestDialog() {
-        val prefs = this.activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        val pin = prefs.getString(EnterPinActivity.KEY_PIN, "")
-        if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true)) {
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, false).apply()
-            val builder = AlertDialog.Builder(activity)
-            builder.setMessage(R.string.pin_suggest_dialog_message)
-                    .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
-                        val intent = Intent(this.activity, CreatePinActivity::class.java)
-                        intent.putExtra(CreatePinActivity.SHOULD_NAVIGATE_TO_MAIN_SCREEN_IF_SUCCEED, true)
-                        startActivity(intent)
-                    })
-                    .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
-                        presenter.onPinReject()
-                    })
-                    .setNeutralButton(R.string.splash_offline_dialog_neutral, DialogInterface.OnClickListener { dialog, id ->
-                        presenter.onPinReject()
-                        prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN, true).apply()
-                    })
-            builder.create().show()
-        }
-    }*/
-
     private fun showFragment(fragment: Fragment, titleResId: Int) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(titleResId)
         childFragmentManager.beginTransaction()

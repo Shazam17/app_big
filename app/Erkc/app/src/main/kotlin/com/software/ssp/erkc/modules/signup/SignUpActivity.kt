@@ -104,6 +104,8 @@ class SignUpActivity : MvpActivity(), ISignUpView {
                 })
                 .setCancelable(false)
             builder.create().show()
+        } else {
+            presenter.onPinReject()
         }
     }
 

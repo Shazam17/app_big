@@ -125,9 +125,11 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
 
         mTextTitle.setText(R.string.pinlock_title);
 
-        showFingerprint = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.show_fingerprint);
-        fingerprintToTick = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_tick);
-        fingerprintToCross = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_cross);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            showFingerprint = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.show_fingerprint);
+            fingerprintToTick = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_tick);
+            fingerprintToCross = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_cross);
+        }
 
         presenter.onViewAttached();
     }
@@ -302,17 +304,20 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
                 setResult(RESULT_OK);
                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                 prefs.edit().remove(KEY_PIN + login).apply();
-                Animate.animate(mImageViewFingerView, fingerprintToTick);
+                if(fingerprintToTick!=null)
+                    Animate.animate(mImageViewFingerView, fingerprintToTick);
             }
 
             @Override
             public void onFailed() {
-                Animate.animate(mImageViewFingerView, fingerprintToCross);
+                if(fingerprintToCross!=null)
+                    Animate.animate(mImageViewFingerView, fingerprintToCross);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Animate.animate(mImageViewFingerView, showFingerprint);
+                        if(showFingerprint!=null)
+                            Animate.animate(mImageViewFingerView, showFingerprint);
                     }
                 }, 750);
             }

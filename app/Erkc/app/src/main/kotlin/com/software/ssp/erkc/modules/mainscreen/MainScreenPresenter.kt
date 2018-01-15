@@ -47,13 +47,7 @@ class MainScreenPresenter @javax.inject.Inject constructor(view: IMainScreenView
                     error ->
                     view?.showMessage(error.parsedMessage())
                 })
-
-        //view?.showPinSuggestDialog()
     }
-
-    /*override fun onPinReject() {
-        authRepository.saveTokenApi("")
-    }*/
 
     override fun onViewDetached() {
         super.onViewDetached()

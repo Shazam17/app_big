@@ -130,9 +130,12 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
         mImageViewFingerView = (AppCompatImageView) findViewById(R.id.fingerView);
         mTextFingerText = (TextView) findViewById(R.id.fingerText);
 
-        showFingerprint = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.show_fingerprint);
-        fingerprintToTick = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_tick);
-        fingerprintToCross = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_cross);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            showFingerprint = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.show_fingerprint);
+            fingerprintToTick = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_tick);
+            fingerprintToCross = (AnimatedVectorDrawable) ContextCompat.getDrawable(this, R.drawable.fingerprint_to_cross);
+        }
 
         Bundle b = getIntent().getExtras();
         if(b!=null) {
@@ -389,7 +392,8 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
             @Override
             public void onSuccess() {
                 setResult(RESULT_OK);
-                Animate.animate(mImageViewFingerView, fingerprintToTick);
+                if(fingerprintToTick!=null)
+                    Animate.animate(mImageViewFingerView, fingerprintToTick);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -402,12 +406,14 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
 
             @Override
             public void onFailed() {
-                Animate.animate(mImageViewFingerView, fingerprintToCross);
+                if(fingerprintToCross!=null)
+                    Animate.animate(mImageViewFingerView, fingerprintToCross);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Animate.animate(mImageViewFingerView, showFingerprint);
+                        if(showFingerprint!=null)
+                            Animate.animate(mImageViewFingerView, showFingerprint);
                     }
                 }, 750);
             }
