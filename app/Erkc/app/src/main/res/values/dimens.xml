@@ -43,13 +43,13 @@
     // dots
     <dimen name="dot_diameter">12dp</dimen>
     <dimen name="dot_spacing">12.2dp</dimen>
-    <dimen name="dot_margintop">25dp</dimen>
+    <dimen name="dot_margintop">24dp</dimen>
 
     //attempts
-    <dimen name="attempts_margintop">15dp</dimen>
+    <dimen name="attempts_margintop">8dp</dimen>
     <dimen name="textsize_attempts">13sp</dimen>
 
-    <dimen name="lockview_margin">10dp</dimen>
+    <dimen name="lockview_margin">8dp</dimen>
 
     // layout
     <dimen name="layout_maxwidth">500dp</dimen>
@@ -57,7 +57,7 @@
 
     // title
     <dimen name="textsize_title">20sp</dimen>
-    <dimen name="title_margintop">54dp</dimen>
+    <dimen name="title_margintop">16dp</dimen>
     <dimen name="title_marginstart">10dp</dimen>
     <dimen name="title_marginend">10dp</dimen>
 

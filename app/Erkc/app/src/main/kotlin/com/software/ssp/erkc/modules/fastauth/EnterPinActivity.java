@@ -391,14 +391,22 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
 
             @Override
             public void onSuccess() {
-                setResult(RESULT_OK);
                 if(fingerprintToTick!=null)
                     Animate.animate(mImageViewFingerView, fingerprintToTick);
+                presenter.saveAccessToken();
+                setResult(RESULT_OK);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        finish();
+                        if(initialAuth) {
+                            Intent intent = new Intent(EnterPinActivity.this, DrawerActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            finish();
+                        }
 
                     }
                 }, 750);
