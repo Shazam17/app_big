@@ -301,11 +301,19 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
 
             @Override
             public void onSuccess() {
+                if(fingerprintToTick!=null)
+                    Animate.animate(mImageViewFingerView, fingerprintToTick);
                 setResult(RESULT_OK);
                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                 prefs.edit().remove(KEY_PIN + login).apply();
-                if(fingerprintToTick!=null)
-                    Animate.animate(mImageViewFingerView, fingerprintToTick);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+
+                    }
+                }, 750);
             }
 
             @Override
