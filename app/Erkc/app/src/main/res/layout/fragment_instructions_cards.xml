@@ -37,7 +37,6 @@
             android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_3" />
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,12 +54,6 @@
             android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_5" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/default_margin"
-            android:text="@string/instruction_cards_content_6" />
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +63,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_margin"
+            android:text="@string/instruction_cards_content_6" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_7" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_5" />
 
         <TextView
             android:layout_width="match_parent"
@@ -90,16 +94,16 @@
             android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_10" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/inst_8_5" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_margin"
             android:text="@string/instruction_cards_content_11" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/inst_8_6" />
 
     </LinearLayout>
 
