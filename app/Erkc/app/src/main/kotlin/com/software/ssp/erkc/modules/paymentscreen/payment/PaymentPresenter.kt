@@ -139,6 +139,26 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         view?.close()
     }
 
+    private fun deletePaymentFromTransactions() {
+        subscriptions += realmRepository.fetchCurrentUser()
+            .concatMap {
+                currentUser ->
+                realmRepository.deleteOfflinePayment(RealmOfflinePayment(
+                    login = currentUser.login,
+                    receipt = realmReceipt
+                ))
+            }
+            .subscribe(
+                {
+                    // Nothing
+                },
+                {
+                    error ->
+                    // Nothing
+                }
+            )
+    }
+
     private fun initPayment(userEmail: String) {
         view?.setProgressVisibility(true)
 
@@ -148,9 +168,11 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 sum = currentPayment.amount.toStringWithDot(),
                 email = userEmail,
                 cardId = currentPayment.paymentCard?.id
-        ).subscribe(
+            )
+            .subscribe(
                 {
                     response ->
+                    deletePaymentFromTransactions()
                     view?.setProgressVisibility(false)
                     if (currentPayment.paymentCard == null) {
                         view?.navigateToResult(response.url)

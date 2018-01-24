@@ -48,6 +48,12 @@ class PaymentTransactionListFragment : BaseListFragment<RealmOfflinePayment>(), 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        presenter.showPaymentsList()
+    }
+
     override fun showAlert(message: Int) {
         val builder = AlertDialog.Builder(activity)
         builder.setMessage(message)

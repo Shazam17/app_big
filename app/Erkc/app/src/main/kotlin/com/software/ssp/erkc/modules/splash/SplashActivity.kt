@@ -29,6 +29,7 @@ class SplashActivity : MvpActivity(), ISplashView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ErkcApplication.wasSplash = false
         presenter.onViewAttached()
     }
 
@@ -78,6 +79,7 @@ class SplashActivity : MvpActivity(), ISplashView {
 
     override fun navigateToDrawer() {
         val pin = getPin()
+        ErkcApplication.wasSplash = true
         if (pin.isEmpty()) {
             presenter.clearToken()
             startActivity(intentFor<DrawerActivity>()

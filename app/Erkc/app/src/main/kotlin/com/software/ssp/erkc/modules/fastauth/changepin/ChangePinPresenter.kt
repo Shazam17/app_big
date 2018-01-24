@@ -4,6 +4,7 @@ import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.common.Logout
 import com.software.ssp.erkc.common.LogoutFinished
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -50,10 +51,23 @@ class ChangePinPresenter @Inject constructor(view: IChangePinView) : RxPresenter
         authRepository.saveTokenApi(activeSession.accessToken ?: "")
     }
 
+    private fun resetCurrentUser() {
+        subscriptions += realmRepository.setCurrentUser(RealmUser())
+            .subscribe(
+                {
+                    view?.navigateToMainScreen()
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                }
+            )
+    }
+
     fun logout() {
         if (activeSession.isOfflineSession) {
             authRepository.saveTokenApi("")
-            view?.navigateToMainScreen()
+            resetCurrentUser()
             eventBus.call(LogoutFinished())
         } else {
             subscriptions += settingsRepository
@@ -62,13 +76,13 @@ class ChangePinPresenter @Inject constructor(view: IChangePinView) : RxPresenter
                     {
                         notificationServiceManager.stopPushService()
                         authRepository.saveTokenApi("")
-                        view?.navigateToMainScreen()
+                        resetCurrentUser()
                         eventBus.call(LogoutFinished())
                     },
                     {
                         error ->
                         authRepository.saveTokenApi("")
-                        view?.navigateToMainScreen()
+                        resetCurrentUser()
                         eventBus.call(LogoutFinished())
                     }
                 )

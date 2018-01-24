@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -117,11 +118,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        //super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.drawer_menu, menu)
-        /*fastAuthItem = menu.findItem(DrawerItem.FASTAUTH.itemId)
-        fastAuthItem.isVisible = true*/
-
         return true
     }
 
@@ -208,22 +205,13 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onDestroy() {
-        val prefs = this.getSharedPreferences("onStop", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("onStop", true).apply()
+        Log.e("Destroy", "Destroy")
         super.onDestroy()
     }
 
     override fun navigateBack() {
-        super.onBackPressed()
-    }
-
-    fun setFastAuthItemVisibility() {
-        val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
-        //fastAuthItem.isVisible = !pin.isEmpty()
-        val menu = drawerNavigationView.menu
-
-        menu.findItem(DrawerItem.FASTAUTH.itemId).isVisible = !pin.isEmpty()
+        System.exit(0)
+        //super.onBackPressed()
     }
 
     private fun navigateToModule(drawerItem: DrawerItem) {
@@ -258,17 +246,9 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.SETTINGS -> SettingsFragment()
             DrawerItem.TUTORIAL -> InstructionsListFragment()
             DrawerItem.CONTACTS -> ContactsFragment()
-            DrawerItem.FASTAUTH -> {
-                startActivity(intentFor<EnterPinActivity>()
-                    .newTask()
-                    .singleTop()
-                    .putExtra("initialAuth", true))
-                finish()
-                return
-            }
             DrawerItem.EXIT -> {
-                val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                prefs.edit().remove(EnterPinActivity.KEY_PIN + login).apply()
+                //val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                //prefs.edit().remove(EnterPinActivity.KEY_PIN + login).apply()
                 presenter.onLogoutClick()
                 return
             }
@@ -310,7 +290,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                     DrawerItem.SETTINGS.itemId -> selectedDrawerItem = DrawerItem.SETTINGS
                     DrawerItem.TUTORIAL.itemId -> selectedDrawerItem = DrawerItem.TUTORIAL
                     DrawerItem.CONTACTS.itemId -> selectedDrawerItem = DrawerItem.CONTACTS
-                    DrawerItem.FASTAUTH.itemId -> selectedDrawerItem = DrawerItem.FASTAUTH
                     DrawerItem.EXIT.itemId -> selectedDrawerItem = DrawerItem.EXIT
                 }
 
@@ -335,10 +314,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-
-                if(nonAuthImitation) {
-                    setFastAuthItemVisibility()
-                }
             }
         }
 

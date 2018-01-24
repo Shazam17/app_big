@@ -143,11 +143,20 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         Observable.just(null)
                     }
                 }
+                .concatMap {
+                    realmRepository.fetchCurrentUser()
+                }
+                .concatMap {
+                    currentUser ->
+                    realmRepository.deleteOfflineIpu(RealmOfflineIpu(
+                        login = currentUser.login,
+                        receipt = currentIpu.receipt!!
+                    ))
+                }
                 .subscribe(
                         {
                             view?.showInfoDialog(R.string.ok_ipu_sended)
                             view?.setProgressVisibility(false)
-                            //view?.close()
                         },
                         {
                             error ->

@@ -15,4 +15,5 @@ interface IValuesTransactionListView : IListView<RealmOfflineIpu> {
 interface IValuesTransactionListPresenter : IListPresenter<RealmOfflineIpu, IValuesTransactionListView> {
     fun onIpuClick(realmOfflineIpu: RealmOfflineIpu)
     fun onDeleteClick(realmOfflineIpu: RealmOfflineIpu)
+    fun showReceiptsList()
 }

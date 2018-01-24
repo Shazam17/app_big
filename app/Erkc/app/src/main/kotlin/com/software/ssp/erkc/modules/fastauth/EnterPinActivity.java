@@ -501,11 +501,6 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
     }
 
     @Override
-    public void close() {
-        System.exit(0);
-    }
-
-    @Override
     public void navigateToMainScreen() {
         Intent intent = new Intent(this, DrawerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

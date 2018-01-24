@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.card.cards
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.software.ssp.erkc.Constants
@@ -14,6 +16,7 @@ import com.software.ssp.erkc.modules.card.editcard.EditCardActivity
 import com.software.ssp.erkc.modules.confirmbyurl.ConfirmByUrlActivity
 import com.software.ssp.erkc.modules.instructions.InstructionType
 import com.software.ssp.erkc.modules.instructions.instructiondetails.InstructionActivity
+import kotlinx.android.synthetic.main.activity_add_card.*
 import kotlinx.android.synthetic.main.fragment_cards.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -129,6 +132,12 @@ class CardsFragment : BaseListFragment<CardViewModel>(), ICardsView {
     }
 
     override fun navigateToBankSite(url: String) {
-        startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(R.string.add_card_info)
+            .setNeutralButton(R.string.add_card_info_understand, DialogInterface.OnClickListener { dialog, id ->
+                startActivity<ConfirmByUrlActivity>(Constants.KEY_URL to url)
+            })
+            .setCancelable(false)
+        builder.create().show()
     }
 }

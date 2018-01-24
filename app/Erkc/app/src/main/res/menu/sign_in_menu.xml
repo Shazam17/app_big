@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sign_in_menu"
+        android:icon="@drawable/ic_more"
+        android:title="@string/fast_auth_menu_text"
+        android:visible="false"
+        android:textColorPrimary="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:itemIconTint="@color/colorWhite"
+        app:showAsAction="ifRoom|withText">
+        <menu>
+            <item
+                android:id="@+id/fast_auth"
+                android:visible="false"
+                android:title="@string/sign_in_fast_auth_text" />
+        </menu>
+    </item>
+</menu>

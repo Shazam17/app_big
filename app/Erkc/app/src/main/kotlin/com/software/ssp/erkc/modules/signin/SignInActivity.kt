@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.BuildConfig
@@ -17,8 +18,6 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -30,6 +29,8 @@ class SignInActivity : MvpActivity(), ISignInView {
     @Inject lateinit var presenter: ISignInPresenter
 
     private val isOfflineSignIn: Boolean by extras(defaultValue = false)
+    private var fastAuthItem: MenuItem? = null
+    private var fastAuthGroupItem: MenuItem? = null
 
     companion object {
         val SIGN_IN_REQUEST_CODE = 24512
@@ -50,12 +51,27 @@ class SignInActivity : MvpActivity(), ISignInView {
                 .inject(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.sign_in_menu, menu)
+
+        fastAuthItem = menu.findItem(R.id.fast_auth)
+        fastAuthGroupItem = menu.findItem(R.id.sign_in_menu)
+
+        presenter.onMenuCreated()
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
             finish()
             return true
+        } else if (item?.itemId == R.id.fast_auth) {
+            presenter.onFastAuthClick()
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun showMessage(message: String) {
@@ -89,8 +105,12 @@ class SignInActivity : MvpActivity(), ISignInView {
         finish()
     }
 
-    override fun close() {
-        System.exit(0)
+    override fun setUserLogin(login: String) {
+        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+
+        fastAuthGroupItem?.isVisible = !pin.isEmpty()
+        fastAuthItem?.isVisible = !pin.isEmpty()
     }
 
     override fun showInfoDialog(stringResId: Int) {
@@ -110,6 +130,14 @@ class SignInActivity : MvpActivity(), ISignInView {
 
     override fun beforeDestroy() {
         presenter.dropView()
+    }
+
+    override fun navigateToFastAuthScreen() {
+        startActivity(intentFor<EnterPinActivity>()
+            .newTask()
+            .singleTop()
+            .putExtra("initialAuth", true))
+        finish()
     }
 
     override fun showPinSuggestDialog(login: String) {
@@ -133,6 +161,8 @@ class SignInActivity : MvpActivity(), ISignInView {
                 })
                 .setCancelable(false)
             builder.create().show()
+        } else if (!pin.isEmpty()) {
+            presenter.onPinExist()
         } else {
             presenter.onPinReject()
         }

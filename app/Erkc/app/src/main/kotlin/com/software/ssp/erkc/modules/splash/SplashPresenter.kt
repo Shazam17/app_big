@@ -28,8 +28,6 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
     override fun onViewAttached() {
         super.onViewAttached()
-        //activeSession.clear()
-        //authRepository.saveTokenApi("")
 
         fetchCurrentUser()
 
@@ -62,7 +60,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
     override fun clearToken() {
         authRepository.saveTokenApi("")
-        activeSession.accessToken = ""
+        //activeSession.accessToken = ""
     }
 
     private fun authenticateApp() {

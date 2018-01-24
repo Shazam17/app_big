@@ -15,4 +15,5 @@ interface IPaymentTransactionListView : IListView<RealmOfflinePayment> {
 interface IPaymentTransactionListPresenter : IListPresenter<RealmOfflinePayment, IPaymentTransactionListView> {
     fun onPaymentClick(payment: RealmOfflinePayment)
     fun onDeleteClick(payment: RealmOfflinePayment)
+    fun showPaymentsList()
 }

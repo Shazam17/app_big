@@ -48,7 +48,7 @@ class PaymentTransactionListPresenter @Inject constructor(view: IPaymentTransact
 
     }
 
-    private fun showPaymentsList() {
+    override fun showPaymentsList() {
         subscriptions += realmRepository.fetchOfflinePayments()
                 .subscribe(
                         {

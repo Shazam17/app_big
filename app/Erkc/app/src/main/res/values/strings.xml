@@ -37,7 +37,6 @@
     <string name="drawer_notifications_text">Уведомления</string>
     <string name="drawer_transaction_text">Журнал транзакций</string>
     <string name="drawer_settings_text">Настройки</string>
-    <string name="drawer_fast_auth_text">Быстрая авторизация</string>
     <string name="drawer_instruction_text">Инструкции</string>
     <string name="drawer_contacts_text">Контакты</string>
     <string name="drawer_exit_text">Выход</string>
@@ -75,6 +74,7 @@
     <string name="sign_in_offline_password_not_set">Для данной учетной записи офлайн пароль не установлен</string>
     <string name="sign_in_offline_disabled">Для данной учетной записи отключен офлайн режим</string>
     <string name="sign_in_offline_info_positive">Понятно</string>
+    <string name="sign_in_fast_auth_text">Быстрая авторизация</string>
 
     <!-- Sign up -->
     <string name="sign_up_login_hint">Логин</string>
@@ -148,7 +148,7 @@
     <string name="add_card_name_hint">Название карты</string>
     <string name="add_card_done">Готово</string>
     <string name="add_card_info_understand">Понял</string>
-    <string name="add_card_info">Для подтверждения карты мы спишем и вернем незначительную сумму с Вашей карты</string>
+    <string name="add_card_info">При регистрации и активации, для проверки карты, банком, будет списана и возвращена незначительная сумма</string>
 
 
 

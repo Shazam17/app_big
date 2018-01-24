@@ -32,6 +32,8 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
     }
 
 
+
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(payment: RealmOfflinePayment,

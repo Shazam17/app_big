@@ -27,6 +27,12 @@ class ErkcApplication : MultiDexApplication() {
     companion object {
         @JvmField
         var login = ""
+
+        @JvmField
+        var isAppLaunching = true
+
+        @JvmField
+        var wasSplash = false
     }
 
     lateinit var appComponent: AppComponent
@@ -50,7 +56,9 @@ class ErkcApplication : MultiDexApplication() {
                     .singleTop())
         }
 
-        var isAppLaunching = true
+        isAppLaunching = true
+        login = ""
+        wasSplash = false
 
         RxAppStateMonitor.monitor(this)
             .subscribeOn(Schedulers.io())
@@ -58,23 +66,28 @@ class ErkcApplication : MultiDexApplication() {
             .subscribe ({ appState ->
                 when (appState) {
                     AppState.FOREGROUND -> {
-                        if (!isAppLaunching) {
-                            val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-                            val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
-                            if (!pin.isEmpty()) {
-                                startActivity(intentFor<EnterPinActivity>()
-                                    .newTask()
-                                    .singleTop())
-                            } else {
-                                startActivity(intentFor<DrawerActivity>()
-                                    .newTask()
-                                    .clearTop()
-                                    .putExtra("nonAuthImitation", true))
+                        if (appComponent.provideActiveSession().appToken != null) {
+                            if (!isAppLaunching && wasSplash) {
+                                val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+                                val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+                                if (!pin.isEmpty()) {
+                                    startActivity(intentFor<EnterPinActivity>()
+                                        .newTask()
+                                        .singleTop())
+                                } else {
+                                    startActivity(intentFor<DrawerActivity>()
+                                        .newTask()
+                                        .clearTop()
+                                        .putExtra("nonAuthImitation", true))
+                                }
                             }
                         }
                     }
                     AppState.BACKGROUND -> {
                         isAppLaunching = false
+                    }
+                    else -> {
+                        // Nothing
                     }
                 }
             },

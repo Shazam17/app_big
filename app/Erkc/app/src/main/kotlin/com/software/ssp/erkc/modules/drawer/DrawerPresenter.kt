@@ -4,6 +4,7 @@ import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.*
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -48,6 +49,19 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         realmRepository.close()
     }
 
+    private fun resetCurrentUser() {
+        subscriptions += realmRepository.setCurrentUser(RealmUser())
+            .subscribe(
+                {
+                    view?.navigateToSplashScreen()
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                }
+            )
+    }
+
     override fun onLogoutClick() {
         if (activeSession.isOfflineSession) {
             authRepository.saveTokenApi("")
@@ -55,10 +69,11 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
             view?.clearUserInfo()
             view?.setAuthedMenuVisible(false)
             eventBus.call(LogoutFinished())
-            view?.navigateToSplashScreen()
+            resetCurrentUser()
         } else {
             subscriptions += settingsRepository
                     .unregisterFbToken(notificationServiceManager.deviceId)
+                    .concatMap { realmRepository.fetchCurrentUser() }
                     .subscribe(
                             {
                                 notificationServiceManager.stopPushService()
@@ -66,8 +81,8 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                                 activeSession.clear()
                                 view?.clearUserInfo()
                                 view?.setAuthedMenuVisible(false)
-                                view?.navigateToMainScreen()
                                 eventBus.call(LogoutFinished())
+                                resetCurrentUser()
                             },
                             {
                                 error ->

@@ -2,6 +2,7 @@ package com.software.ssp.erkc.modules.signin
 
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -27,6 +28,24 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         super.onViewAttached()
     }
 
+    override fun onMenuCreated() {
+        fetchUserLogin()
+    }
+
+    fun fetchUserLogin() {
+        subscriptions += realmRepository
+            .fetchCurrentUser()
+            .subscribe(
+                {
+                    currentUser ->
+                    view?.setUserLogin(currentUser.login)
+                },
+                {
+                    error ->
+                }
+            )
+    }
+
     override fun onLoginButtonClick(login: String, password: String) {
         if (validateFields(login, password)) {
             if (activeSession.isOfflineSession) {
@@ -46,6 +65,10 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
         realmRepository.close()
     }
 
+    override fun onFastAuthClick() {
+        view?.navigateToFastAuthScreen()
+    }
+
     private fun validateFields(login: String?, password: String?): Boolean {
         var isValid = true
 
@@ -63,7 +86,6 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
     }
 
     private fun login(login: String, password: String) {
-        //authRepository.saveTokenApi("")
         view?.setProgressVisibility(true)
 
         subscriptions += authRepository
@@ -121,11 +143,25 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             error ->
                             view?.setProgressVisibility(false)
                             error.printStackTrace()
-                            activeSession.clear()
-                            authRepository.saveTokenApi("")
+                            resetCurrentUser()
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    private fun resetCurrentUser() {
+        subscriptions += realmRepository.setCurrentUser(RealmUser())
+            .subscribe(
+                {
+                    activeSession.clear()
+                    authRepository.saveTokenApi("")
+                    fetchUserLogin()
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                }
+            )
     }
 
     private fun offlineLogin(login: String, password: String) {
@@ -167,6 +203,10 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.showMessage(error.parsedMessage())
                         }
                 )
+    }
+
+    override fun onPinExist() {
+        view?.navigateToMainScreen()
     }
 
     override fun onPinReject() {

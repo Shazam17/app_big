@@ -65,7 +65,7 @@
                     android:textStyle="bold"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    tools:text="Зарегестрировать"/>
+                    tools:text="Зарегистрировать"/>
 
                 <ImageView
                     android:id="@+id/cardListItemEditImageView"

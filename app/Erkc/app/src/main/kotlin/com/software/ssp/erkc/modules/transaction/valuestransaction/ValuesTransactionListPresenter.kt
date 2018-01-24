@@ -52,7 +52,7 @@ class ValuesTransactionListPresenter @Inject constructor(view: IValuesTransactio
                 )
     }
 
-    private fun showReceiptsList() {
+    override fun showReceiptsList() {
         subscriptions += realmRepository.fetchOfflineIpus()
                 .subscribe(
                         {

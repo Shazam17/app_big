@@ -4,6 +4,7 @@ import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.*
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
@@ -51,10 +52,23 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
         authRepository.saveTokenApi(activeSession.accessToken ?: "")
     }
 
+    private fun resetCurrentUser() {
+        subscriptions += realmRepository.setCurrentUser(RealmUser())
+            .subscribe(
+                {
+                    view?.navigateToMainScreen()
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                }
+            )
+    }
+
     fun logout() {
         if (activeSession.isOfflineSession) {
             authRepository.saveTokenApi("")
-            view?.navigateToMainScreen()
+            resetCurrentUser()
             eventBus.call(LogoutFinished())
         } else {
             subscriptions += settingsRepository
@@ -63,13 +77,13 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
                             {
                                 notificationServiceManager.stopPushService()
                                 authRepository.saveTokenApi("")
-                                view?.navigateToMainScreen()
+                                resetCurrentUser()
                                 eventBus.call(LogoutFinished())
                             },
                             {
                                 error ->
                                 authRepository.saveTokenApi("")
-                                view?.navigateToMainScreen()
+                                resetCurrentUser()
                                 eventBus.call(LogoutFinished())
                             }
                     )
@@ -77,7 +91,7 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
     }
 
     override fun onArrowClosePressed() {
-        logout()
+        view?.navigateToMainScreen()
     }
 
     override fun onAttemptsFailed() {
@@ -85,7 +99,7 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
     }
 
     override fun onBackPressed() {
-        logout()
+        view?.navigateToMainScreen()
     }
 
     private fun subscribeToLogoutEvent() {

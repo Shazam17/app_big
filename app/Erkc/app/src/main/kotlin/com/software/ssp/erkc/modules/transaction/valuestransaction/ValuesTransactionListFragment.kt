@@ -49,6 +49,12 @@ class ValuesTransactionListFragment : BaseListFragment<RealmOfflineIpu>(), IValu
         //disabled
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        presenter.showReceiptsList()
+    }
+
     override fun showAlert(message: Int) {
         val builder = AlertDialog.Builder(activity)
         builder.setMessage(message)

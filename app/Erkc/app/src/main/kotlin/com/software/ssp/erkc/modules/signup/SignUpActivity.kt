@@ -112,8 +112,8 @@ class SignUpActivity : MvpActivity(), ISignUpView {
     private fun initViews() {
         signUpButton.onClick {
             val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-            prefs.edit().remove(EnterPinActivity.KEY_PIN + signUpLoginEditText.text.toString()).apply()
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signUpLoginEditText.text.toString(), true).apply()
+            //prefs.edit().remove(EnterPinActivity.KEY_PIN + signUpLoginEditText.text.toString()).apply()
+            //prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signUpLoginEditText.text.toString(), true).apply()
             presenter.onSignUpButtonClick(
                     signUpLoginEditText.text.toString(),
                     signUpPasswordEditText.text.toString(),

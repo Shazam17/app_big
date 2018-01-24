@@ -82,9 +82,10 @@ class AddCardActivity : MvpActivity(), IAddCardView {
             if(actionId == EditorInfo.IME_ACTION_DONE) {
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage(R.string.add_card_info)
-                        .setNeutralButton(R.string.add_card_info_understand, DialogInterface.OnClickListener { dialog, id ->
+                    .setNeutralButton(R.string.add_card_info_understand, DialogInterface.OnClickListener { dialog, id ->
                             presenter.onCreateCardClick(addCardNameEditText.text.toString())
                         })
+                    .setCancelable(false)
                 builder.create().show()
                 true
             } else {
