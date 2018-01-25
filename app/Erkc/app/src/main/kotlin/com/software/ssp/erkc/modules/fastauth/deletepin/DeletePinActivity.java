@@ -261,6 +261,7 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
     private void checkPin(String pin) {
         if (Utils.sha256(pin).equals(getPinFromSharedPreferences())) {
             setResult(RESULT_OK);
+            presenter.removeAccessToken();
             SharedPreferences prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
             prefs.edit().remove(KEY_PIN + login).apply();
             finish();
@@ -304,6 +305,7 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
                 if(fingerprintToTick!=null)
                     Animate.animate(mImageViewFingerView, fingerprintToTick);
                 setResult(RESULT_OK);
+                presenter.removeAccessToken();
                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                 prefs.edit().remove(KEY_PIN + login).apply();
                 final Handler handler = new Handler();

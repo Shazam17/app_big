@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.history.paymenthistorylist
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmPaymentInfo
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -25,6 +26,13 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
             view?.showCurrentFilter(value)
             showPaymentsList()
         }
+
+    override fun onViewAttached() {
+        super.onViewAttached()
+
+        if(!activeSession.isOfflineSession)
+            fetchPayments()
+    }
 
     override fun onViewDetached() {
         realmRepository.close()
@@ -61,25 +69,32 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
         view?.navigateToFilter(currentFilter)
     }
 
-    override fun onRefreshClick() {
+    private fun fetchPayments() {
         view?.setLoadingVisible(true)
 
         subscriptions += paymentRepository
-                .fetchPayments()
-                .concatMap {
-                    payments ->
-                    realmRepository.savePaymentsList(payments)
+            .fetchPayments()
+            .concatMap {
+                payments ->
+                realmRepository.savePaymentsList(payments)
+            }
+            .subscribe(
+                {
+                    showPaymentsList()
+                },
+                {
+                    error ->
+                    view?.setLoadingVisible(false)
+                    view?.showMessage(error.parsedMessage())
                 }
-                .subscribe(
-                        {
-                            showPaymentsList()
-                        },
-                        {
-                            error ->
-                            view?.setLoadingVisible(false)
-                            view?.showMessage(error.parsedMessage())
-                        }
-                )
+            )
+    }
+
+    override fun onRefreshClick() {
+        if(!activeSession.isOfflineSession)
+            fetchPayments()
+        else
+            view?.showMessage(R.string.offline_mode_error)
     }
 
     private fun showPaymentsList() {
@@ -127,6 +142,7 @@ class PaymentHistoryListPresenter @Inject constructor(view: IPaymentHistoryListV
                         {
                             payments ->
                             val sortedPayments = payments.sortedByDescending { it.date }
+                            view?.setLoadingVisible(false)
                             view?.showData(sortedPayments)
                         },
                         {

@@ -9,6 +9,6 @@ interface IDeletePinView : IView {
 }
 
 interface IDeletePinPresenter : IPresenter<IDeletePinView> {
-    fun saveAccessToken()
+    fun removeAccessToken()
     fun onAttemptsFailed()
 }

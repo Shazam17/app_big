@@ -47,8 +47,8 @@ class DeletePinPresenter @Inject constructor(view: IDeletePinView) : RxPresenter
             )
     }
 
-    override fun saveAccessToken() {
-        authRepository.saveTokenApi(activeSession.accessToken ?: "")
+    override fun removeAccessToken() {
+        authRepository.saveTokenApi("")
     }
 
     private fun resetCurrentUser() {

@@ -101,7 +101,8 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 }
                 .subscribe(
                         {
-                            activeSession.accessToken = authRepository.getLocalTokenApi()
+                            if(activeSession.accessToken.isNullOrEmpty())
+                                activeSession.accessToken = authRepository.getLocalTokenApi()
                             view?.navigateToDrawer()
                         },
                         {

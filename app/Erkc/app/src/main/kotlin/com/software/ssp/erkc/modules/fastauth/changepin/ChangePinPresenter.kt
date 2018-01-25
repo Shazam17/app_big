@@ -48,7 +48,11 @@ class ChangePinPresenter @Inject constructor(view: IChangePinView) : RxPresenter
     }
 
     override fun saveAccessToken() {
-        authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        if(!activeSession.accessToken.isNullOrEmpty()) {
+            authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        } else {
+            activeSession.accessToken = authRepository.getLocalTokenApi()
+        }
     }
 
     private fun resetCurrentUser() {

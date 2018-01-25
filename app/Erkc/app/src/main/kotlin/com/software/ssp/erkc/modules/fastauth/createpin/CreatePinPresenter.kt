@@ -22,7 +22,11 @@ class CreatePinPresenter @Inject constructor(view: ICreatePinView) : RxPresenter
     }
 
     override fun saveAccessToken() {
-        authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        if(!activeSession.accessToken.isNullOrEmpty()) {
+            authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        } else {
+            activeSession.accessToken = authRepository.getLocalTokenApi()
+        }
     }
 
     override fun onBackPressed() {

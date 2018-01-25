@@ -2,6 +2,7 @@ package com.software.ssp.erkc
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
+import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.jenzz.appstate.AppState
 import com.jenzz.appstate.adapter.rxjava.RxAppStateMonitor
@@ -52,8 +53,8 @@ class ErkcApplication : MultiDexApplication() {
         // -> стратуем его если токен пустой
         if (appComponent.provideActiveSession().appToken == null) {
             startActivity(intentFor<SplashActivity>()
-                    .newTask()
-                    .singleTop())
+                .newTask()
+                .clearTop())
         }
 
         isAppLaunching = true

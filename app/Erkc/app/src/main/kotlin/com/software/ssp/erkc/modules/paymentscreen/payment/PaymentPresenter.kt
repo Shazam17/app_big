@@ -231,8 +231,8 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             realmReceipt = offlinePayment.receipt
                             currentPayment.paymentCard = offlinePayment.card
 
-                            view?.showPaymentSum(offlinePayment.paymentSum)
                             view?.showReceiptInfo(realmReceipt)
+                            view?.showPaymentSum(offlinePayment.paymentSum)
                             view?.showEmail(offlinePayment.email)
                             view?.showSelectedCard(currentPayment.paymentCard)
 

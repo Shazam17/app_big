@@ -28,8 +28,16 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
     override fun onViewAttached() {
         super.onViewAttached()
 
+        checkAuth()
+
         fetchUserLogin()
         subscribeToLogoutEvent()
+    }
+
+    private fun checkAuth() {
+        if(activeSession.accessToken.isNullOrEmpty() && authRepository.getLocalTokenApi().isEmpty()) {
+            logout()
+        }
     }
 
     fun fetchUserLogin() {
@@ -49,7 +57,11 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
     }
 
     override fun saveAccessToken() {
-        authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        if(!activeSession.accessToken.isNullOrEmpty()) {
+            authRepository.saveTokenApi(activeSession.accessToken ?: "")
+        } else {
+            activeSession.accessToken = authRepository.getLocalTokenApi()
+        }
     }
 
     private fun resetCurrentUser() {

@@ -14,7 +14,7 @@ android {
         applicationId "com.software.ssp.erkc"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 18
+        versionCode 21
         versionName "1.0"
         multiDexEnabled true
     }

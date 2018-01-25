@@ -1,8 +1,5 @@
 package com.software.ssp.erkc.data.rest
 
-import android.content.Context
-import com.securepreferences.SecurePreferences
-
 
 class ActiveSession {
 

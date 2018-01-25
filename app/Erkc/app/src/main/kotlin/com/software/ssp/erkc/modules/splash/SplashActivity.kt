@@ -95,7 +95,8 @@ class SplashActivity : MvpActivity(), ISplashView {
     }
 
     override fun navigateToOfflineSignIn() {
-        startActivityForResult<SignInActivity>(SignInActivity.SIGN_IN_REQUEST_CODE, "isOfflineSignIn" to true)
+        startActivity<SignInActivity>("isOfflineSignIn" to true)
+        this.finish()
     }
 
     override fun showTryAgainSnack(message: String) {

@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.history.valueshistorylist
 
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.data.rest.ActiveSession
@@ -28,6 +29,40 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
             view?.showCurrentFilter(value)
             showReceiptsList()
         }
+
+    override fun onViewAttached() {
+        super.onViewAttached()
+
+        if(!activeSession.isOfflineSession)
+            fetchValues()
+    }
+
+    private fun fetchValues() {
+        view?.setLoadingVisible(true)
+
+        subscriptions += realmRepository
+            .fetchReceiptsList()
+            .flatMap {
+                receipts ->
+                receipts.toObservable()
+            }
+            .filter { it.lastIpuTransferDate != null }
+            .flatMap {
+                receipt ->
+                updateIpusForReceipt(receipt)
+            }
+            .toList()
+            .subscribe(
+                {
+                    showReceiptsList()
+                },
+                {
+                    error ->
+                    view?.showMessage(error.parsedMessage())
+                    view?.setLoadingVisible(false)
+                }
+            )
+    }
 
     override fun onViewDetached() {
         realmRepository.close()
@@ -64,30 +99,10 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
     }
 
     override fun onRefreshClick() {
-        view?.setLoadingVisible(true)
-
-        subscriptions += realmRepository
-                .fetchReceiptsList()
-                .flatMap {
-                    receipts ->
-                    receipts.toObservable()
-                }
-                .filter { it.lastIpuTransferDate != null }
-                .flatMap {
-                    receipt ->
-                    updateIpusForReceipt(receipt)
-                }
-                .toList()
-                .subscribe(
-                        {
-                            showReceiptsList()
-                        },
-                        {
-                            error ->
-                            view?.showMessage(error.parsedMessage())
-                            view?.setLoadingVisible(false)
-                        }
-                )
+        if(!activeSession.isOfflineSession)
+            fetchValues()
+        else
+            view?.showMessage(R.string.offline_mode_error)
     }
 
     private fun showReceiptsList() {
