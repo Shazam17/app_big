@@ -54,7 +54,7 @@ class ErkcApplication : MultiDexApplication() {
         if (appComponent.provideActiveSession().appToken == null) {
             startActivity(intentFor<SplashActivity>()
                 .newTask()
-                .clearTop())
+                .singleTop())
         }
 
         isAppLaunching = true
