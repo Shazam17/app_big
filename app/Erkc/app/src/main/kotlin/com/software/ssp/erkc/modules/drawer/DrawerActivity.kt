@@ -205,7 +205,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     }
 
     override fun onDestroy() {
-        Log.e("Destroy", "Destroy")
         super.onDestroy()
     }
 

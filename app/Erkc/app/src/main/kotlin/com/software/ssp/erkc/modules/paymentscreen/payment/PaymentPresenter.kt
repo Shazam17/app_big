@@ -200,7 +200,8 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                 paymentSum = paymentValue,
                 email = userEmail,
                 card = currentPayment.paymentCard,
-                createDate = Calendar.getInstance().time
+                createDate = Calendar.getInstance().time,
+                commissionChecked = true
         )
 
         subscriptions += realmRepository.saveOfflinePayment(offlinePayment)
@@ -235,6 +236,7 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.showPaymentSum(offlinePayment.paymentSum)
                             view?.showEmail(offlinePayment.email)
                             view?.showSelectedCard(currentPayment.paymentCard)
+                            view?.setCommissionCheck(offlinePayment.commissionChecked)
 
                             view?.setProgressVisibility(false)
                         },

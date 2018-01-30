@@ -2,7 +2,6 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import android.content.Context
 import android.net.Uri
-import com.securepreferences.SecurePreferences
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.data.rest.datasource.AuthDataSource
 import com.software.ssp.erkc.data.rest.models.AuthData

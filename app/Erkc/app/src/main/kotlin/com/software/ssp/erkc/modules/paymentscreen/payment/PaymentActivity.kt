@@ -187,6 +187,10 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         }
     }
 
+    override fun setCommissionCheck(checked: Boolean) {
+        paymentAcceptCheckbox.isChecked = checked
+    }
+
     override fun showCardSelectDialog(cardsViewModels: List<PaymentCardViewModel>) {
         val dialog = materialDialog {
             title(R.string.payment_dialog_cards_title)

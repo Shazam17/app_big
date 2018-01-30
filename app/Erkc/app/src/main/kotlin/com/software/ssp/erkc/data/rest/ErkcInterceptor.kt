@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.data.rest
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonIOException
@@ -9,15 +10,18 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
 import com.software.ssp.erkc.data.rest.models.ApiResponse
+import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.extensions.getParameters
 import com.software.ssp.erkc.extensions.md5
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import okhttp3.*
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.util.*
 
 
-class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
+class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
+
     override fun intercept(chain: Interceptor.Chain?): Response {
 
         if (activeSession.isOfflineSession) {
@@ -30,10 +34,19 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
 
             var token: String? = null
             val methodValue = originalRequest.url().queryParameter("method") ?: ""
+
             if( methodValue != "users.authorization" &&
                 methodValue != "users.registration" &&
                 methodValue != "sys.captcha") {
-                token = activeSession.accessToken ?: activeSession.appToken
+
+                if(activeSession.accessToken == null) {
+                    token = activeSession.appToken
+                } else if (activeSession.accessToken?.isEmpty()!!) {
+                    val prefs = context.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+                    token = prefs.getString(AuthRepository.LOCAL_TOKEN, activeSession.appToken)
+                } else {
+                    token = activeSession.accessToken
+                }
             } else {
                 token = activeSession.appToken
             }

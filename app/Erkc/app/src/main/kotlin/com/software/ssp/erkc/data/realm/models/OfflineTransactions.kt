@@ -14,7 +14,8 @@ open class RealmOfflinePayment(
         open var paymentSum: Double = 0.0,
         open var email: String = "",
         open var card: RealmCard? = RealmCard(),
-        open var createDate: Date? = null
+        open var createDate: Date? = null,
+        open var commissionChecked: Boolean = false
 ) : RealmObject()
 
 open class RealmOfflineIpu(

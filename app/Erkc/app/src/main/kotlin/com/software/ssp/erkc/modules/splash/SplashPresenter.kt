@@ -48,7 +48,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                 },
                 {
                     error ->
-                    error.printStackTrace()
+                    //error.printStackTrace()
                 }
             )
     }
