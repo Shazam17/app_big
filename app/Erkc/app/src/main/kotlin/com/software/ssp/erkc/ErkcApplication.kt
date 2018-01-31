@@ -69,8 +69,13 @@ class ErkcApplication : MultiDexApplication() {
                     AppState.FOREGROUND -> {
                         if (appComponent.provideActiveSession().appToken != null) {
                             if (!isAppLaunching && wasSplash) {
-                                val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-                                val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+                                val pin: String
+                                if(!login.isEmpty()) {
+                                    val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+                                    pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+                                } else {
+                                    pin = ""
+                                }
                                 if (!pin.isEmpty()) {
                                     startActivity(intentFor<EnterPinActivity>()
                                         .newTask()
@@ -93,7 +98,7 @@ class ErkcApplication : MultiDexApplication() {
                 }
             },
             { error ->
-                error.printStackTrace()
+                //error.printStackTrace()
             })
     }
 

@@ -25,6 +25,5 @@ interface IDrawerPresenter : IPresenter<IDrawerView> {
     fun onUserProfileClick()
     fun onUserProfileUpdated()
     fun onBackPressed()
-    fun onClear()
     fun setNonAuthImitation()
 }

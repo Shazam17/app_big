@@ -1,7 +1,9 @@
 package com.software.ssp.erkc.modules.splash
 
 import com.software.ssp.erkc.AppPrefs
+import com.software.ssp.erkc.common.LogoutFinished
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
 import com.software.ssp.erkc.data.rest.repositories.DictionaryRepository
@@ -103,7 +105,14 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         {
                             if(activeSession.accessToken.isNullOrEmpty())
                                 activeSession.accessToken = authRepository.getLocalTokenApi()
-                            view?.navigateToDrawer()
+
+                            // Происходит в случае потери токена, поэтому не надо отображать экран ввода пинкода
+                            if(activeSession.accessToken.isNullOrEmpty() && authRepository.getLocalTokenApi().isEmpty()) {
+                                view?.setUserLogin("")
+                                resetCurrentUser()
+                            } else {
+                                view?.navigateToDrawer()
+                            }
                         },
                         {
                             error ->
@@ -113,9 +122,22 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                             }
 
                             view?.showTryAgainSnack(error.parsedMessage())
-                            error.printStackTrace()
+                            //error.printStackTrace()
                         }
                 )
+    }
+
+    private fun resetCurrentUser() {
+        subscriptions += realmRepository.setCurrentUser(RealmUser())
+            .subscribe(
+                {
+                    view?.navigateToDrawer()
+                },
+                {
+                    error ->
+                    view?.navigateToDrawer()
+                }
+            )
     }
 
     override fun onTryAgainClicked() {

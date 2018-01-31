@@ -238,6 +238,8 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.showSelectedCard(currentPayment.paymentCard)
                             view?.setCommissionCheck(offlinePayment.commissionChecked)
 
+                            paymentValue = offlinePayment.paymentSum
+
                             view?.setProgressVisibility(false)
                         },
                         {

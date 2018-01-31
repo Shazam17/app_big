@@ -73,8 +73,12 @@ class SplashActivity : MvpActivity(), ISplashView {
     }
 
     fun getPin(): String {
-        val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        return prefs.getString(KEY_PIN + login, "")
+        if(!login.isEmpty()) {
+            val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            return prefs.getString(KEY_PIN + login, "")
+        } else {
+            return ""
+        }
     }
 
     override fun navigateToDrawer() {

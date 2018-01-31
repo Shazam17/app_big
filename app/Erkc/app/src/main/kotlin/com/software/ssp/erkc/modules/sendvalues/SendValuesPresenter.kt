@@ -86,7 +86,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             },
                             {
                                 error ->
-                                error.printStackTrace()
+                                //error.printStackTrace()
                                 view?.close()
                                 view?.showMessage(error.parsedMessage())
                             }
@@ -119,7 +119,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             },
                             {
                                 error ->
-                                error.printStackTrace()
+                                //error.printStackTrace()
                                 view?.close()
                                 view?.showMessage(error.parsedMessage())
                             }

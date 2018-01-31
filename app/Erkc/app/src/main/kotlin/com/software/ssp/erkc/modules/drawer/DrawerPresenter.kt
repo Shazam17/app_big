@@ -92,11 +92,6 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         }
     }
 
-    override fun onClear() {
-        authRepository.saveTokenApi("")
-        activeSession.clear()
-    }
-
     override fun onUserProfileClick() {
         view?.navigateToUserProfile()
     }

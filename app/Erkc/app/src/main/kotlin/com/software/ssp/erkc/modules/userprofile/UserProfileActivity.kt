@@ -97,8 +97,12 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     fun getPin(): String {
-        val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        return prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+        if(!login.isEmpty()) {
+            val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+            return prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+        } else {
+            return ""
+        }
     }
 
     override fun navigateToPinCreateScreen() {

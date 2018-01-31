@@ -142,7 +142,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                         {
                             error ->
                             view?.setProgressVisibility(false)
-                            error.printStackTrace()
+                            //error.printStackTrace()
                             resetCurrentUser()
                             view?.showMessage(error.parsedMessage())
                         }
@@ -199,7 +199,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                         {
                             error ->
                             view?.setProgressVisibility(false)
-                            error.printStackTrace()
+                            //error.printStackTrace()
                             view?.showMessage(error.parsedMessage())
                         }
                 )
