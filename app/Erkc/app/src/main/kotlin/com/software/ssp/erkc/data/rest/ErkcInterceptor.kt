@@ -43,9 +43,13 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
                     token = activeSession.appToken
                 } else if (activeSession.accessToken?.isEmpty()!!) {
                     val prefs = context.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-                    token = prefs.getString(AuthRepository.LOCAL_TOKEN, activeSession.appToken)
+                    token = prefs.getString(AuthRepository.LOCAL_TOKEN, "")
                 } else {
                     token = activeSession.accessToken
+                }
+
+                if(token.isNullOrEmpty()) {
+                    token = activeSession.appToken
                 }
             } else {
                 token = activeSession.appToken
