@@ -45,7 +45,11 @@ class MainScreenFragment : MvpFragment(), IMainScreenView {
     }
 
     override fun showNonAuthedScreen() {
-        showFragment(NonAuthedMainScreenFragment(), R.string.main_screen_non_authed_title)
+        val fragment = NonAuthedMainScreenFragment()
+        val bundle = Bundle()
+        bundle.putBoolean("navigateToLogin", arguments?.getBoolean("navigateToLogin") ?: false)
+        fragment.arguments = bundle
+        showFragment(fragment, R.string.main_screen_non_authed_title)
     }
 
     override fun showAddReceiptScreen() {

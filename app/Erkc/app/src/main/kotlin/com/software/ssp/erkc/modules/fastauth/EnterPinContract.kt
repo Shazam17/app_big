@@ -5,6 +5,7 @@ import com.software.ssp.erkc.common.mvp.IView
 
 interface IEnterPinView : IView {
     fun navigateToMainScreen()
+    fun navigateToLoginScreen()
     fun setLogin(login: String)
 }
 

@@ -26,7 +26,7 @@ class NetworkModule {
     @Singleton
     fun providesDefaultHTTPClient(erkcInterceptor: ErkcInterceptor): OkHttpClient {
         val client = OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(erkcInterceptor)

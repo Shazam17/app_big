@@ -82,6 +82,17 @@ class PaymentActivity : MvpActivity(), IPaymentView {
         return true
     }
 
+    override fun setCommissionCheckVisibility(isVisible: Boolean) {
+        if(isVisible) {
+            paymentAcceptContainer.visibility = View.VISIBLE
+        } else {
+            paymentAcceptContainer.visibility = View.GONE
+            paymentAcceptCheckbox.isChecked = true
+        }
+
+        paymentAcceptCheckbox.enabled = isVisible
+    }
+
     override fun setProgressVisibility(isVisible: Boolean) {
         paymentCardAdd.enabled = !isVisible
         paymentEmail.enabled = !isVisible

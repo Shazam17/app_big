@@ -368,7 +368,7 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
                         public void onClick(DialogInterface dialog, int which) {
                             SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                             prefs.edit().remove(KEY_PIN + login).apply();
-                            prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), true).apply();
+                            prefs.edit().remove(SHOULD_SUGGEST_SET_PIN + login).apply();
                             presenter.onAttemptsFailed();
                         }
                     })
@@ -505,6 +505,16 @@ public class EnterPinActivity extends MvpActivity implements IEnterPinView {
         Intent intent = new Intent(this, DrawerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("nonAuthImitation", true);
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public void navigateToLoginScreen() {
+        Intent intent = new Intent(this, DrawerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("nonAuthImitation", true);
+        intent.putExtra("navigateToLogin", true);
         startActivity(intent);
         this.finish();
     }

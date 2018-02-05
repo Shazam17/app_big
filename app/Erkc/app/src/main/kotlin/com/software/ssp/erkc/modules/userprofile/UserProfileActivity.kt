@@ -15,15 +15,12 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmUser
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.hideKeyboard
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.*
 import com.software.ssp.erkc.modules.fastauth.changepin.ChangePinActivity
 import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity
 import com.software.ssp.erkc.modules.fastauth.deletepin.DeletePinActivity
 import kotlinx.android.synthetic.main.activity_user_profile.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.onEditorAction
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 
@@ -32,6 +29,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     @Inject lateinit var presenter: IUserProfilePresenter
 
     var login = ""
+    private var isPinDeleted = false
 
     companion object {
         val USER_PROFILE_REQUEST_CODE = 23512
@@ -63,6 +61,17 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
 
     override fun beforeDestroy() {
         presenter.dropView()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            DeletePinActivity.DELETE_PIN_REQUEST_CODE -> isPinDeleted = data!!.getBooleanExtra(DeletePinActivity.DELETED_PIN_RESULT_KEY, false)
+        }
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
@@ -98,8 +107,8 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
 
     fun getPin(): String {
         if(!login.isEmpty()) {
-            val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-            return prefs.getString(EnterPinActivity.KEY_PIN + login, "")
+            val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            return prefs.getString(KEY_PIN + login, "")
         } else {
             return ""
         }
@@ -110,7 +119,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     override fun navigateToPinDeleteScreen() {
-        startActivity<DeletePinActivity>()
+        startActivityForResult<DeletePinActivity>(DeletePinActivity.DELETE_PIN_REQUEST_CODE)
     }
 
     override fun navigateToPinChangeScreen() {
@@ -118,21 +127,22 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
     }
 
     override fun showPinSuggestDialog() {
-        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        if (getPin().isEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true)) {
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, false).apply()
+        val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        if (getPin().isEmpty() && prefs.getBoolean(SHOULD_SUGGEST_SET_PIN + login, true) && !isPinDeleted) {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                 .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, true).apply()
                     val intent = Intent(this, CreatePinActivity::class.java)
                     startActivity(intent)
                 })
                 .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, false).apply()
                     presenter.onPinReject()
                 })
                 .setNeutralButton(R.string.splash_offline_dialog_neutral, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, true).apply()
                     presenter.onPinReject()
-                    prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true).apply()
                 })
                 .setCancelable(false)
             builder.create().show()

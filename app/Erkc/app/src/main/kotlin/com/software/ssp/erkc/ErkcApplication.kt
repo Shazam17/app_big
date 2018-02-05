@@ -81,10 +81,10 @@ class ErkcApplication : MultiDexApplication() {
                                         .newTask()
                                         .singleTop())
                                 } else {
-                                    startActivity(intentFor<DrawerActivity>()
+                                    /*startActivity(intentFor<DrawerActivity>()
                                         .newTask()
                                         .clearTop()
-                                        .putExtra("nonAuthImitation", true))
+                                        .putExtra("nonAuthImitation", true))*/
                                 }
                             }
                         }

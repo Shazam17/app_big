@@ -47,6 +47,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     @Inject lateinit var presenter: IDrawerPresenter
 
     private var nonAuthImitation = false
+    private var navigateToLogin = false
     //private lateinit var fastAuthItem: MenuItem
 
     lateinit private var drawerToggle: ActionBarDrawerToggle
@@ -69,8 +70,12 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
 
+        nonAuthImitation = false
+        navigateToLogin = false
+
         if(intent.extras!=null) {
             nonAuthImitation = intent.extras.getBoolean("nonAuthImitation")
+            navigateToLogin = intent.extras.getBoolean("navigateToLogin")
             intent.extras.clear()
         }
 
@@ -225,6 +230,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                     val fragment =  MainScreenFragment()
                     val bundle = Bundle()
                     bundle.putBoolean("nonAuthImitation", true)
+                    bundle.putBoolean("navigateToLogin", navigateToLogin)
                     fragment.arguments = bundle
 
                     fragmentManager.beginTransaction()
@@ -246,8 +252,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             DrawerItem.TUTORIAL -> InstructionsListFragment()
             DrawerItem.CONTACTS -> ContactsFragment()
             DrawerItem.EXIT -> {
-                //val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                //prefs.edit().remove(EnterPinActivity.KEY_PIN + login).apply()
                 presenter.onLogoutClick()
                 return
             }

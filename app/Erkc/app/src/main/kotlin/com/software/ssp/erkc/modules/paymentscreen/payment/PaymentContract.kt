@@ -16,6 +16,7 @@ interface IPaymentView : IView {
     fun showReceiptInfo(receipt: RealmReceipt)
     fun showSelectedCard(card: RealmCard?)
     fun setCommissionCheck(checked: Boolean)
+    fun setCommissionCheckVisibility(isVisible: Boolean)
     fun showEmail(email: String)
     fun showSumError(errorRes: Int)
     fun showEmailError(errorRes: Int)

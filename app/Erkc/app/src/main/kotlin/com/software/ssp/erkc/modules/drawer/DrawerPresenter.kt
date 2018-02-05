@@ -130,11 +130,18 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                 .subscribe(
                         {
                             currentUser ->
-                            view?.setUserLogin(currentUser.login)
-                            view?.showUserInfo(currentUser)
-                            view?.setAuthedMenuVisible(true)
-                            view?.navigateToMainScreen()
-                            view?.updateCurrentScreen()
+                            if(currentUser != null) {
+                                view?.setUserLogin(currentUser.login)
+                                view?.showUserInfo(currentUser)
+                                view?.setAuthedMenuVisible(true)
+                                view?.navigateToMainScreen()
+                                //view?.updateCurrentScreen()
+                            } else {
+                                view?.setUserLogin("")
+                                view?.clearUserInfo()
+                                view?.setAuthedMenuVisible(false)
+                                view?.navigateToMainScreen()
+                            }
                         },
                         {
                             error ->

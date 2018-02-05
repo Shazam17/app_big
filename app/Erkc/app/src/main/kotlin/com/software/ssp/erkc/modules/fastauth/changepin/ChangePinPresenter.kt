@@ -59,7 +59,7 @@ class ChangePinPresenter @Inject constructor(view: IChangePinView) : RxPresenter
         subscriptions += realmRepository.setCurrentUser(RealmUser())
             .subscribe(
                 {
-                    view?.navigateToMainScreen()
+                    view?.navigateToLoginScreen()
                 },
                 {
                     error ->

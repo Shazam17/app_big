@@ -15,7 +15,7 @@ import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.load
 import com.software.ssp.erkc.modules.drawer.DrawerActivity
-import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
+import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.*
 import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.clearTop
@@ -85,21 +85,22 @@ class SignUpActivity : MvpActivity(), ISignUpView {
 
     override fun showPinSuggestDialog(login: String) {
         ErkcApplication.login = login
-        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        val pin = prefs.getString(EnterPinActivity.KEY_PIN + login, "")
-        if (pin.isNullOrEmpty() && prefs.getBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true)) {
-            prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, false).apply()
+        val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        val pin = prefs.getString(KEY_PIN + login, "")
+        if (pin.isNullOrEmpty() && prefs.getBoolean(SHOULD_SUGGEST_SET_PIN + login, true)) {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                 .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, true).apply()
                     val intent = Intent(this, CreatePinActivity::class.java)
                     startActivity(intent)
                 })
                 .setNegativeButton(R.string.splash_offline_dialog_negative, DialogInterface.OnClickListener { dialog, id ->
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, false).apply()
                     presenter.onPinReject()
                 })
                 .setNeutralButton(R.string.splash_offline_dialog_neutral, DialogInterface.OnClickListener { dialog, id ->
-                    prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + login, true).apply()
+                    prefs.edit().putBoolean(SHOULD_SUGGEST_SET_PIN + login, true).apply()
                     presenter.onPinReject()
                 })
                 .setCancelable(false)
@@ -111,7 +112,7 @@ class SignUpActivity : MvpActivity(), ISignUpView {
 
     private fun initViews() {
         signUpButton.onClick {
-            val prefs = this.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+            //val prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             //prefs.edit().remove(EnterPinActivity.KEY_PIN + signUpLoginEditText.text.toString()).apply()
             //prefs.edit().putBoolean(EnterPinActivity.SHOULD_SUGGEST_SET_PIN + signUpLoginEditText.text.toString(), true).apply()
             presenter.onSignUpButtonClick(

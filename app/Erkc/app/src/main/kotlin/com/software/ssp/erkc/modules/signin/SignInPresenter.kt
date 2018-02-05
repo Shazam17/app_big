@@ -38,7 +38,11 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
             .subscribe(
                 {
                     currentUser ->
-                    view?.setUserLogin(currentUser.login)
+                    if(currentUser!=null) {
+                        view?.setUserLogin(currentUser.login)
+                    } else {
+                        view?.setUserLogin("")
+                    }
                 },
                 {
                     error ->

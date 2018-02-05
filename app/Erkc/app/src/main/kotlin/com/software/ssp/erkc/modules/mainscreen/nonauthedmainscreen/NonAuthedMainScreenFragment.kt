@@ -48,20 +48,6 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         presenter.onViewAttached()
-        val prefs = this.activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        val isNeededToDisplayAttempsMessage = prefs.getBoolean(getString(R.string.fail_attemps_message_key), false)
-        if (isNeededToDisplayAttempsMessage) {
-            showAlert(getString(R.string.fast_auth_pin_attemp_error_text))
-            prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), false).apply()
-        }
-    }
-
-    fun showAlert(message: String) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setMessage(message)
-                .setNeutralButton(R.string.history_filter_dialog_ok, DialogInterface.OnClickListener { _, _ ->
-                })
-        builder.create().show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -231,5 +217,9 @@ class NonAuthedMainScreenFragment : MvpFragment(), INonAuthedMainScreenView {
 
         mainScreenSingInButton.onClick { navigateToSignInScreen() }
         mainScreenRegistrationButton.onClick { navigateToSignUpScreen() }
+
+        if(arguments?.getBoolean("navigateToLogin") ?: false) {
+            navigateToSignInScreen()
+        }
     }
 }

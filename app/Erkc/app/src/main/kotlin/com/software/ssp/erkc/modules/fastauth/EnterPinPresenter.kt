@@ -46,7 +46,11 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
             .subscribe(
                 {
                     currentUser ->
-                    view?.setLogin(currentUser.login)
+                    if(currentUser != null) {
+                        view?.setLogin(currentUser.login)
+                    } else {
+                        view?.navigateToMainScreen()
+                    }
                 },
                 {
                     error ->
@@ -68,7 +72,7 @@ class EnterPinPresenter @Inject constructor(view: IEnterPinView) : RxPresenter<I
         subscriptions += realmRepository.setCurrentUser(RealmUser())
             .subscribe(
                 {
-                    view?.navigateToMainScreen()
+                    view?.navigateToLoginScreen()
                 },
                 {
                     error ->

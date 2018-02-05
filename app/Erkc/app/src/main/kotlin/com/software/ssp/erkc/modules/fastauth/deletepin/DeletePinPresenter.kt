@@ -55,7 +55,7 @@ class DeletePinPresenter @Inject constructor(view: IDeletePinView) : RxPresenter
         subscriptions += realmRepository.setCurrentUser(RealmUser())
             .subscribe(
                 {
-                    view?.navigateToMainScreen()
+                    view?.navigateToLoginScreen()
                 },
                 {
                     error ->

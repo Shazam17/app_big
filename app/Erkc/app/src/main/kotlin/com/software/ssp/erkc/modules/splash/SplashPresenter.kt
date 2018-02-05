@@ -46,7 +46,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
             .subscribe(
                 {
                     currentUser ->
-                    view?.setUserLogin(currentUser.login)
+                    if(currentUser!=null) {
+                        view?.setUserLogin(currentUser.login)
+                    } else {
+                        view?.setUserLogin("")
+                    }
                 },
                 {
                     error ->

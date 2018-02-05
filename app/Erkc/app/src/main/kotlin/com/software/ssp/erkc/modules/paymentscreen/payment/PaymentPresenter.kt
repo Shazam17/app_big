@@ -65,6 +65,13 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
         if (receiptId == null) {
             view?.showReceiptInfo(receipt)
             paymentValue = receipt.amount
+
+            if(commission <= 0.1) {
+                view?.setCommissionCheckVisibility(false)
+            } else {
+                view?.setCommissionCheckVisibility(true)
+            }
+
             return
         }
 
@@ -240,6 +247,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
 
                             paymentValue = offlinePayment.paymentSum
 
+                            if(commission <= 0.1) {
+                                view?.setCommissionCheckVisibility(false)
+                            } else {
+                                view?.setCommissionCheckVisibility(true)
+                            }
+
                             view?.setProgressVisibility(false)
                         },
                         {
@@ -264,6 +277,12 @@ class PaymentPresenter @Inject constructor(view: IPaymentView) : RxPresenter<IPa
                             view?.showEmail(user.email)
                             view?.showSelectedCard(currentPayment.paymentCard)
                             view?.setProgressVisibility(false)
+
+                            if(commission <= 0.1) {
+                                view?.setCommissionCheckVisibility(false)
+                            } else {
+                                view?.setCommissionCheckVisibility(true)
+                            }
                         },
                         {
                             error ->

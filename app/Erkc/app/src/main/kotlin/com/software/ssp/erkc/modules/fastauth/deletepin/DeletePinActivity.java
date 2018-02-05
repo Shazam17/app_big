@@ -60,6 +60,7 @@ import javax.inject.Inject;
 
 import static com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN;
 import static com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES;
+import static com.software.ssp.erkc.modules.fastauth.EnterPinActivity.SHOULD_SUGGEST_SET_PIN;
 
 
 public class DeletePinActivity extends MvpActivity implements IDeletePinView {
@@ -92,6 +93,9 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
     private AnimatedVectorDrawable showFingerprint;
     private AnimatedVectorDrawable fingerprintToTick;
     private AnimatedVectorDrawable fingerprintToCross;
+
+    public static final int DELETE_PIN_REQUEST_CODE = 12491;
+    public static final String DELETED_PIN_RESULT_KEY = "DELETED_PIN_RESULT_KEY";
 
     public static Intent getIntent(Context context, boolean setPin) {
         return new Intent(context, DeletePinActivity.class);
@@ -260,10 +264,15 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
 
     private void checkPin(String pin) {
         if (Utils.sha256(pin).equals(getPinFromSharedPreferences())) {
-            setResult(RESULT_OK);
+            Intent intent = new Intent();
+            intent.putExtra(DELETED_PIN_RESULT_KEY, true);
+            setResult(RESULT_OK, intent);
+            //finish()
+            //setResult(RESULT_OK);
             presenter.removeAccessToken();
             SharedPreferences prefs = this.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
             prefs.edit().remove(KEY_PIN + login).apply();
+            prefs.edit().remove(SHOULD_SUGGEST_SET_PIN + login).apply();
             finish();
         } else {
             shake();
@@ -279,7 +288,7 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                                 prefs.edit().remove(KEY_PIN + login).apply();
-                                prefs.edit().putBoolean(getString(R.string.fail_attemps_message_key), true).apply();
+                                prefs.edit().remove(SHOULD_SUGGEST_SET_PIN + login).apply();
                                 presenter.onAttemptsFailed();
                             }
                         })
@@ -304,7 +313,10 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
             public void onSuccess() {
                 if(fingerprintToTick!=null)
                     Animate.animate(mImageViewFingerView, fingerprintToTick);
-                setResult(RESULT_OK);
+                //setResult(RESULT_OK);
+                Intent intent = new Intent();
+                intent.putExtra(DELETED_PIN_RESULT_KEY, true);
+                setResult(RESULT_OK, intent);
                 presenter.removeAccessToken();
                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
                 prefs.edit().remove(KEY_PIN + login).apply();
@@ -450,6 +462,16 @@ public class DeletePinActivity extends MvpActivity implements IDeletePinView {
         Intent intent = new Intent(this, DrawerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("nonAuthImitation", true);
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public void navigateToLoginScreen() {
+        Intent intent = new Intent(this, DrawerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("nonAuthImitation", true);
+        intent.putExtra("navigateToLogin", true);
         startActivity(intent);
         this.finish();
     }
