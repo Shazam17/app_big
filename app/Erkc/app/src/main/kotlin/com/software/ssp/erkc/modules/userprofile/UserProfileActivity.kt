@@ -30,6 +30,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
 
     var login = ""
     private var isPinDeleted = false
+    private var isDialogShown = false
 
     companion object {
         val USER_PROFILE_REQUEST_CODE = 23512
@@ -128,7 +129,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
 
     override fun showPinSuggestDialog() {
         val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        if (getPin().isEmpty() && prefs.getBoolean(SHOULD_SUGGEST_SET_PIN + login, true) && !isPinDeleted) {
+        if (getPin().isEmpty() && prefs.getBoolean(SHOULD_SUGGEST_SET_PIN + login, true) && !isPinDeleted && !isDialogShown) {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.pin_suggest_dialog_message)
                 .setPositiveButton(R.string.splash_offline_dialog_positive, DialogInterface.OnClickListener { dialog, id ->
@@ -146,6 +147,7 @@ class UserProfileActivity : MvpActivity(), IUserProfileView {
                 })
                 .setCancelable(false)
             builder.create().show()
+            isDialogShown = true
         }
     }
 
