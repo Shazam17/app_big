@@ -32,40 +32,40 @@ enum class PaymentStatus {
 data class PaymentInfo(
         @JsonAdapter(DateTimeDeserializerReceipts::class)
         @SerializedName("date_pay")
-        var date: Date,
+        var date: Date?,
 
         @SerializedName("house")
-        var house: String,
+        var house: String?,
 
         @SerializedName("status")
         var status: Int,
 
         @SerializedName("street")
-        var street: String,
+        var street: String?,
 
         @SerializedName("comimssion_agreed")
-        var comimssionAgreed: String,
+        var comimssionAgreed: String?,
 
         @SerializedName("barcode")
-        var barcode: String,
+        var barcode: String?,
 
         @SerializedName("operation_id")
-        var operationId: String,
+        var operationId: String?,
 
         @SerializedName("summ")
         var sum: Double,
 
         @SerializedName("supplier_name")
-        var supplierName: String,
+        var supplierName: String?,
 
         @SerializedName("service_name")
-        var serviceName: String,
+        var serviceName: String?,
 
         @SerializedName("amount")
         var amount: Double,
 
         @SerializedName("text")
-        var text: String,
+        var text: String?,
 
         @SerializedName("id")
         var id: String,
@@ -74,13 +74,13 @@ data class PaymentInfo(
         var modeId: Int,
 
         @SerializedName("address")
-        var address: String,
+        var address: String?,
 
         @SerializedName("receipt_id")
-        var receiptId: String,
+        var receiptId: String?,
 
         @SerializedName("apart")
-        var apart: String,
+        var apart: String?,
 
         @SerializedName("erdesc")
         var errorDesc: String?,
@@ -91,5 +91,5 @@ data class PaymentInfo(
 
 data class PaymentCheck(
         @SerializedName("file")
-        var fileCheck: String
+        var fileCheck: String?
 )

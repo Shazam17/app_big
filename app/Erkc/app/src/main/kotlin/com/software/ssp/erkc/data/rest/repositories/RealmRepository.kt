@@ -572,26 +572,36 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 .concatMap { currentUser ->
                     val cachedPayments = arrayListOf<RealmPaymentInfo>()
                     payments.mapTo(cachedPayments) {
+
+                        var receipt: RealmReceipt
+                        try {
+                            receipt = realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst()) ?: RealmReceipt()
+                        } catch (e: IllegalArgumentException) {
+                            receipt = RealmReceipt()
+                        }
+
+
                         RealmPaymentInfo(
-                                it.id,
-                                it.date,
-                                it.house,
-                                it.status,
-                                it.street,
-                                it.comimssionAgreed,
-                                it.barcode,
-                                it.operationId,
-                                it.modeId,
-                                it.sum,
-                                it.supplierName,
-                                it.serviceName,
-                                it.amount,
-                                it.text,
-                                it.address,
-                                it.apart,
-                                it.checkFile ?: "",
-                                it.errorDesc,
-                                realm.copyFromRealm(realm.where(RealmReceipt::class.java).equalTo("id", it.receiptId).findFirst())
+                            it.id,
+                            it.date,
+                            it.house ?: "",
+                            it.status,
+                            it.street ?: "",
+                            it.comimssionAgreed ?: "",
+                            it.barcode ?: "",
+                            it.operationId ?: "",
+                            it.modeId,
+                            it.sum,
+                            it.supplierName ?: "",
+                            it.serviceName ?: "",
+                            it.amount,
+                            it.text ?: "",
+                            it.address ?: "",
+                            it.apart ?: "",
+                            it.checkFile ?: "",
+                            it.errorDesc ?: "",
+                            receipt,
+                            receipt.linkedCard ?: RealmCard()
                         )
                     }
 

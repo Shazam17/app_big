@@ -1,7 +1,6 @@
 package com.software.ssp.erkc.data.rest
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonIOException
@@ -54,6 +53,7 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
             } else {
                 token = activeSession.appToken
             }
+
             val app_id = Constants.API_OAUTH_CLIENT_ID
 
             val authorizedRequest: Request = when {
