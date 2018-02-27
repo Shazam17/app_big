@@ -1,1 +1,9 @@
 app/Erkc/.idea/
+.DS_Store
+.gradle/4.1/fileChanges/last-build.bin
+.gradle/4.1/fileHashes/fileHashes.bin
+.gradle/4.1/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/built.bin
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/cache.properties.lock
+app/.DS_Store
