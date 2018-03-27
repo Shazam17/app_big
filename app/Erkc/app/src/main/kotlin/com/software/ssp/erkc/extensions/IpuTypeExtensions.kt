@@ -22,3 +22,12 @@ fun IpuType.getUnitResId(): Int {
         IpuType.UNKNOWN -> R.string.none
     }
 }
+fun IpuType.getUnitResIdOnly(): Int {
+    return when (this) {
+        IpuType.HOT_WATER -> R.string.history_value_water_unit_only
+        IpuType.COLD_WATER -> R.string.history_value_water_unit_only
+        IpuType.GAS -> R.string.history_value_water_unit_only
+        IpuType.ELECTRICITY -> R.string.history_value_electro_unit_only
+        IpuType.UNKNOWN -> R.string.none
+    }
+}

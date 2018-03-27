@@ -1,19 +1,28 @@
 package com.software.ssp.erkc.modules.history.valuehistory
 
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.IpuType
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.getUnitResId
+import com.software.ssp.erkc.extensions.getUnitResIdOnly
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import rx.Observable
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.plusAssign
+import rx.lang.kotlin.requireNoNulls
+import rx.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 /**
  * @author Alexander Popov on 05/12/2016.
@@ -26,6 +35,27 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
     override var receiptId: String = ""
     override var currentFilter: HistoryFilterModel = HistoryFilterModel()
+
+    var dismissProgressOnNextResume = false
+
+    class ShareData (val address: String, val getString: (Int)->String) {
+        private var data = ArrayList<String>()
+
+        fun addIpu(ipus: List<RealmIpuValue>) {
+            val recent = ipus.sortedBy { it.date }.last()
+            val units = recent.ipuType.getUnitResIdOnly()
+            data.add("${recent.shortName} (${recent.number}, ${recent.installPlace}) ${recent.value} ${getString(units)}" +
+                    "\n${getString(R.string.history_share_last_data)}: ${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}")
+        }
+
+        override fun toString(): String {
+            val sb = StringBuilder("${getString(R.string.history_share_address)}: $address")
+            for (s in data) sb.append("\n\n$s")
+            sb.append("\n\n${getString(R.string.history_share_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
+            return sb.toString()
+        }
+    }
+    var shareData: ShareData? = null
 
     override fun onViewAttached() {
         fetchData()
@@ -42,6 +72,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                     receipt ->
 
                     view?.showReceiptData(receipt)
+                    shareData = ShareData(receipt.address, view!!::getString)
 
                     if (activeSession.isOfflineSession) {
                         Observable.just(null)
@@ -115,6 +146,8 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                 view?.addIpuData(ValueHistoryViewModel(ipu, ipuTotal, ipuAverage))
 
                 total += ipuTotal
+
+                shareData?.addIpu(it.value)
             }
 
             val average: Double = if (diffMonth <= 1) 0.0 else (1.0) * total / diffMonth
@@ -122,5 +155,22 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
             view?.addServiceData(it.key ?: "", type, total, average)
         }
+    }
+
+    override fun shareAction() {
+        view?.setProgressVisible(true)
+        dismissProgressOnNextResume = true
+
+        subscriptions += Observable.just(shareData)
+                .requireNoNulls()
+                .subscribe(
+                        {view?.shareIntent(it.toString())},
+                        {view?.shareDataNotReady()}
+                )
+    }
+
+    override fun onResume() {
+        if (dismissProgressOnNextResume) view?.setProgressVisible(false)
+        dismissProgressOnNextResume = false
     }
 }

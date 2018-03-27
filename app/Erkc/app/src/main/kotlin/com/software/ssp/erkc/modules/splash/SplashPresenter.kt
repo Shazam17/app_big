@@ -27,6 +27,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
     @Inject lateinit var realmRepository: RealmRepository
 
     private val TIMER_SECONDS = 3L
+    private var can_process_next = false
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -35,9 +36,13 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
         //Needed 5 second splash showing (3 sec timer + requests time)
         subscriptions += Observable.timer(TIMER_SECONDS, TimeUnit.SECONDS)
-                .subscribe {
-                    authenticateApp()
-                }
+                .subscribe( {can_process_next = true} )
+
+        authenticateApp()
+//        subscriptions += Observable.timer(TIMER_SECONDS, TimeUnit.SECONDS)
+//                .subscribe {
+//                    authenticateApp()
+//                }
     }
 
     fun fetchCurrentUser() {
@@ -115,7 +120,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                                 view?.setUserLogin("")
                                 resetCurrentUser()
                             } else {
-                                view?.navigateToDrawer()
+                                navigate(view!!::navigateToDrawer)
                             }
                         },
                         {
@@ -135,11 +140,11 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
         subscriptions += realmRepository.setCurrentUser(RealmUser())
             .subscribe(
                 {
-                    view?.navigateToDrawer()
+                    navigate(view!!::navigateToDrawer)
                 },
                 {
                     error ->
-                    view?.navigateToDrawer()
+                    navigate(view!!::navigateToDrawer)
                 }
             )
     }
@@ -151,6 +156,13 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
 
     override fun onConfirmOfflineLogin() {
         activeSession.isOfflineSession = true
-        view?.navigateToOfflineSignIn()
+        navigate(view!!::navigateToOfflineSignIn)
+    }
+
+    fun navigate(navigateFunction: ()->Unit) {
+        subscriptions += Observable.interval(100, TimeUnit.MILLISECONDS)
+                .filter({can_process_next})
+                .first()
+                .subscribe( {navigateFunction()} )
     }
 }

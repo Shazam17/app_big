@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.history.valuehistory
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,6 +23,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import org.jetbrains.anko.find
 import org.jetbrains.anko.include
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 /**
@@ -66,6 +69,11 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
+                return true
+            }
+
+            R.id.menu_share -> {
+                presenter.shareAction()
                 return true
             }
 
@@ -159,5 +167,22 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             content(R.string.history_value_info_dialog_content)
             positiveText(R.string.history_value_info_dialog_positive)
         }.show()
+    }
+
+    override fun shareIntent(msg: String) {
+        Log.d("hist_", msg)
+        val intent = Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, msg)
+                .setType("text/plain")
+        startActivity(Intent.createChooser(intent, getString(R.string.history_share)))
+    }
+
+    override fun shareDataNotReady() {
+        toast(getString(R.string.history_share_data_not_ready))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 }
