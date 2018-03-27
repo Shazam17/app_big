@@ -303,6 +303,11 @@
     <string name="history_money_format">%,.2f р.</string>
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
     <string name="history_empty_text">Ни одной операции пока не было произведено.</string>
+    <string name="history_share_last_data">Последние показания</string>
+    <string name="history_share_address">Адрес</string>
+    <string name="history_share_date">Дата</string>
+    <string name="history_share_data_not_ready">Данные еще не готовы...</string>
+    <string name="history_share">Отправить...</string>
 
     <!-- Transaction -->
     <string name="transaction_payments_tab_title">Платежи</string>
@@ -329,6 +334,10 @@
     <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
     <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
 
+    <string name="history_value_water_unit_only" formatted="false">м\u00B3</string>
+    <string name="history_value_electro_unit_only" formatted="false">кВт*ч</string>
+
+    <string name="history_value_menu_share">Поделиться</string>
     <string name="history_value_menu_info">Справка</string>
     <string name="history_value_info_dialog_content">Данные о среднем и общем расходе ресурса за период рассчитаны на основании показаний переданных через приложение, имеют информационный характер и могут быть уточнены у поставщика услуги.</string>
     <string name="history_value_info_dialog_positive">Понятно</string>
@@ -584,5 +593,6 @@
     <string name="pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
     <string name="pinlock_tryagain">PIN код не совпадает</string>
     <string name="pinlock_secondPin">Введите PIN код ещё раз</string>
+
 
 </resources>
