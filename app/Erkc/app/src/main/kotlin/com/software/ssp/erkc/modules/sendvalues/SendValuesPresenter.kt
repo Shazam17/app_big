@@ -11,6 +11,7 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -157,6 +158,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         {
                             view?.showInfoDialog(R.string.ok_ipu_sended)
                             view?.setProgressVisibility(false)
+                            view?.close()
                         },
                         {
                             error ->
@@ -200,7 +202,9 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             if (activeSession.isOfflineSession) {
 
                                 if (currentIpu.ipuValues.isEmpty()) {
-                                    view?.showInfoDialog(R.string.send_values_no_cached_ipu_error)
+                                    view?.showInfoDialog(R.string.send_values_no_cached_ipu_error_add)
+                                    //view?.showIpu(currentIpu)
+                                    view?.showAddIPU()
                                     return@subscribe
                                 }
 
@@ -245,5 +249,9 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             }
         }
         return true
+    }
+
+    override fun addIPUClicked() {
+        view?.navigateToAddUserIPU()
     }
 }

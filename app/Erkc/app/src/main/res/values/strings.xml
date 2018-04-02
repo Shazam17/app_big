@@ -209,7 +209,9 @@
     <string name="send_values_ipu_hint" formatted="false">%s (№%s)</string>
     <string name="send_parameters_button">Передать показания</string>
     <string name="send_values_no_cached_ipu_error">Для данной квитанции нет сохраненных ИПУ. Необходимо как минимум 1 раз передать показания, чтобы они сохранились.</string>
+    <string name="send_values_no_cached_ipu_error_add">Для данной квитанции нет сохраненных ИПУ. Вы можете добавить их в ручном режиме.</string>
     <string name="send_values_dialog_button">Закрыть</string>
+    <string name="send_values_add_user_ipu">Добавить ИПУ</string>
 
     <!-- Payment Info -->
     <string name="payment_info_title">Информация о платеже</string>
@@ -593,6 +595,13 @@
     <string name="pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
     <string name="pinlock_tryagain">PIN код не совпадает</string>
     <string name="pinlock_secondPin">Введите PIN код ещё раз</string>
+
+
+    <!-- Add user IPU screen -->
+    <string name="add_user_ipu_title">Ввод данных ИПУ</string>
+    <string name="add_user_ipu_hint_number">Номер ИПУ</string>
+    <string name="add_user_ipu_hint_location">Расположение</string>
+    <string name="add_user_ipu_commit">Добавить</string>
 
 
 </resources>

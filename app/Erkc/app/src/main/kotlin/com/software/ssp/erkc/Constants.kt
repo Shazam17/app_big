@@ -1,6 +1,7 @@
 package com.software.ssp.erkc
 
 object Constants {
+    const val DEBUG_OFFLINE_MODE = true //TODO: debug
     const val V_API_MAIN = "https://api.vc.tom.ru"
     const val V_API_TEST = "https://testapi.vc.tom.ru"
     const val V_API = V_API_TEST

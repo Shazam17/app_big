@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.sendvalues
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,11 +14,10 @@ import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.toString
+import com.software.ssp.erkc.modules.adduseripu.Activity as AddUserIPUActivity
 import kotlinx.android.synthetic.main.activity_send_values.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
-import org.jetbrains.anko.enabled
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 /**
@@ -80,9 +80,6 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         materialDialog {
             content(resId)
             positiveText(R.string.send_values_dialog_button)
-            onPositive { materialDialog, dialogAction ->
-                close()
-            }
         }.show()
     }
 
@@ -108,5 +105,18 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         sendValuesButton.onClick { presenter.onSendValuesClick() }
+    }
+
+    override fun showAddIPU() {
+        val view = layoutInflater.inflate(R.layout.item_add_user_ipu, parametersContainer, false)
+        view.onClick { presenter.addIPUClicked() }
+        parametersContainer.addView(view)
+    }
+
+    override fun navigateToAddUserIPU() {
+        val intent = Intent(this, AddUserIPUActivity::class.java)
+                .putExtra(Constants.KEY_RECEIPT, receiptId)
+                .putExtra("receipt", receipt)
+        startActivity(intent)
     }
 }

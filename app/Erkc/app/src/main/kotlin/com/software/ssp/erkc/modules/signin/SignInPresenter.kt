@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.signin
 
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmUser
@@ -177,6 +178,8 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                         view?.showInfoDialog(R.string.sign_in_offline_login_not_exist)
                     } else {
                         with(user.settings!!) {
+                            if (Constants.DEBUG_OFFLINE_MODE) return@concatMap realmRepository.setCurrentUser(user)
+
                             if (offlineModeEnabled) {
                                 if (checkPassword(password)) {
                                     return@concatMap realmRepository.setCurrentUser(user)

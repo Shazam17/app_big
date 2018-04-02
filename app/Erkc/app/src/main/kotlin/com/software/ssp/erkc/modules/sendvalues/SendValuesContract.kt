@@ -13,6 +13,8 @@ interface ISendValuesView : IView {
     fun showIpu(ipu: RealmIpu)
     fun setProgressVisibility(isVisible: Boolean)
     fun showInfoDialog(resId: Int)
+    fun showAddIPU()
+    fun navigateToAddUserIPU()
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
@@ -20,4 +22,5 @@ interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     var receipt : Receipt?
     var fromTransaction: Boolean
     fun onSendValuesClick()
+    fun addIPUClicked()
 }

@@ -21,7 +21,7 @@ import org.jetbrains.anko.newTask
 import org.jetbrains.anko.singleTop
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-
+import timber.log.Timber
 
 class ErkcApplication : MultiDexApplication() {
 
@@ -45,6 +45,7 @@ class ErkcApplication : MultiDexApplication() {
                 .appModule(AppModule(this))
                 .build()
 
+        initTimber()
         initFabric()
         registerActivityLifecycleCallbacks(ActivityLifecycle)
         Realm.init(this)
@@ -108,5 +109,23 @@ class ErkcApplication : MultiDexApplication() {
 
     private fun initFabric() {
         Fabric.with(this, Crashlytics())
+    }
+
+    private fun initTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(object : Timber.DebugTree() {
+                override fun createStackElementTag(element: StackTraceElement): String? {
+                    val tag = "_ERKC"
+                    return String.format("$tag [L:%s] [M:%s] [C:%s]",
+                            element.lineNumber,
+                            element.methodName,
+                            super.createStackElementTag(element))
+                }
+            })
+        } else {
+            Timber.plant(object : Timber.Tree() {
+                override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {}
+            })
+        }
     }
 }

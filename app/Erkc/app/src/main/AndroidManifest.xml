@@ -115,6 +115,13 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".modules.adduseripu.Activity"
+            android:label="@string/add_user_ipu_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
             android:name=".modules.paymentsinfo.PaymentInfoActivity"
             android:label="@string/payment_info_title"
             android:screenOrientation="portrait"
