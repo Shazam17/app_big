@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Send values activity -->
+    <dimen name="values_photo_view_height">300dp</dimen>
+
+</resources>

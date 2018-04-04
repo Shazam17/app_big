@@ -272,4 +272,9 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     override fun editIPUClicked(ipu_value: RealmIpuValue) {
         view?.navigateToUserIPU(ipu_value.number)
     }
+
+    override fun addPhotoClick() {
+        view?.hideFAB()
+        view?.showCameraView()
+    }
 }

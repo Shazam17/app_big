@@ -17,6 +17,9 @@ interface ISendValuesView : IView {
     fun showAddIPU()
     fun navigateToUserIPU(number: String? = null)
     fun clearIPUs()
+    fun showCameraView()
+    fun hideFAB()
+    fun showFAB()
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
@@ -27,4 +30,5 @@ interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     fun addIPUClicked()
     fun editIPUClicked(ipu_value: RealmIpuValue)
     fun onResume()
+    fun addPhotoClick()
 }

@@ -51,6 +51,7 @@ android {
         }
         debug {
             manifestPlaceholders = [app_name:"ЕРКЦ(D)"]
+            ext.alwaysUpdateBuildId = false
         }
     }
 
@@ -59,7 +60,12 @@ android {
         }
         dev {
             minSdkVersion 21
+            resConfigs("xhdpi") //comment while testing on other devices
         }
+    }
+
+    if (project.hasProperty("devBuild")){
+        aaptOptions.cruncherEnabled = false
     }
 
     sourceSets {
@@ -68,6 +74,10 @@ android {
 
     dexOptions {
         jumboMode = true
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
     }
 }
 
@@ -159,6 +169,8 @@ dependencies {
     //Timber
     compile 'com.jakewharton.timber:timber:4.7.0'
 
+    //Camera
+    implementation "io.fotoapparat.fotoapparat:library:2.2.0"
 }
 
 repositories {
