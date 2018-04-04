@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.software.ssp.erkc">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +15,8 @@
         android:name=".ErkcApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${app_name}"
+        tools:replace="android:label"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Light">
 
@@ -110,6 +112,13 @@
         <activity
             android:name=".modules.paymentscreen.payment.PaymentActivity"
             android:label="@string/payment_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".modules.useripu.Activity"
+            android:label="@string/user_ipu_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light"
             android:windowSoftInputMode="adjustPan" />

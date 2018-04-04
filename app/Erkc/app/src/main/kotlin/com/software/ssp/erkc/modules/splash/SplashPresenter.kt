@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.splash
 
 import com.software.ssp.erkc.AppPrefs
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.common.LogoutFinished
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmUser
@@ -126,7 +127,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                         {
                             error ->
 
-                            if (error is UnknownHostException) {
+                            if (Constants.DEBUG_OFFLINE_MODE || error is UnknownHostException) {
                                 view?.showOfflineLoginDialog()
                             }
 

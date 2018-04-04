@@ -30,6 +30,10 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     private lateinit var currentIpu: RealmIpu
 
     override fun onViewAttached() {
+    }
+
+    override fun onResume() {
+        view?.clearIPUs()
         if (receiptId == null) {
             currentIpu = RealmIpu(
                     receipt = RealmReceipt(
@@ -82,13 +86,21 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                     )
                                 }
                                 view?.showIpu(currentIpu)
+                                //TODO: if userRegistered from server -> view?.showAddIPU()
                                 view?.setProgressVisibility(false)
                             },
                             {
                                 error ->
                                 //error.printStackTrace()
-                                view?.close()
-                                view?.showMessage(error.parsedMessage())
+
+                                if (error.parsedMessage().contains("По данному адресу нет зарегистрированных ИПУ")) {
+                                    view?.showMessage(R.string.send_values_no_registered_ipu)
+                                    view?.showAddIPU()
+                                    view?.setProgressVisibility(false)
+                                } else {
+                                    view?.close()
+                                    view?.showMessage(error.parsedMessage())
+                                }
                             }
                     )
         } else {
@@ -157,6 +169,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         {
                             view?.showInfoDialog(R.string.ok_ipu_sended)
                             view?.setProgressVisibility(false)
+                            view?.close()
                         },
                         {
                             error ->
@@ -200,7 +213,9 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             if (activeSession.isOfflineSession) {
 
                                 if (currentIpu.ipuValues.isEmpty()) {
-                                    view?.showInfoDialog(R.string.send_values_no_cached_ipu_error)
+                                    view?.showInfoDialog(R.string.send_values_no_cached_ipu_error_add)
+                                    //view?.showIpu(currentIpu)
+                                    view?.showAddIPU()
                                     return@subscribe
                                 }
 
@@ -218,12 +233,15 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                                     null,
                                                     now,
                                                     false,
-                                                    ""
+                                                    "",
+                                                    it.userRegistered
                                             )
                                     )
                                 }
 
                                 view?.showIpu(currentIpu)
+                                if (ipus.first().userRegistered) //if so -> all other are userRegistered too
+                                    view?.showAddIPU()
                                 view?.setProgressVisibility(false)
 
                             } else {
@@ -245,5 +263,13 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             }
         }
         return true
+    }
+
+    override fun addIPUClicked() {
+        view?.navigateToUserIPU()
+    }
+
+    override fun editIPUClicked(ipu_value: RealmIpuValue) {
+        view?.navigateToUserIPU(ipu_value.number)
     }
 }

@@ -1,9 +1,10 @@
 package com.software.ssp.erkc
 
 object Constants {
+    const val DEBUG_OFFLINE_MODE = false //TODO: -> FALSE
     const val V_API_MAIN = "https://api.vc.tom.ru"
     const val V_API_TEST = "https://testapi.vc.tom.ru"
-    const val V_API = V_API_TEST
+    const val V_API = V_API_MAIN
 
     const val SERVER_URL = V_API
     const val API_MAIN_ENDPOINT_URL = "$SERVER_URL/apps/"
@@ -36,6 +37,7 @@ object Constants {
     const val KEY_URL = "url_key"
     const val KEY_URL_ACTIVITY_TITLE = "url_activity_title_key"
     const val KEY_RECEIPT = "KEY_RECEIPT"
+    const val KEY_IPU_NUMBER = "KEY_IPU_NUMBER"
     const val KEY_HISTORY_FILTER = "KEY_HISTORY_FILTER"
     const val KEY_SELECTED_DRAWER_ITEM = "selected_drawer_item_key"
     const val KEY_PAYMENT = "KEY_PAYMENT"

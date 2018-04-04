@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.rxrelay.PublishRelay
 import com.jakewharton.rxrelay.Relay
 import com.software.ssp.erkc.ErkcApplication
+import com.software.ssp.erkc.data.realm.models.Migrations
 import com.software.ssp.erkc.data.rest.ActiveSession
 import dagger.Module
 import dagger.Provides
@@ -41,7 +42,9 @@ class AppModule(val application: ErkcApplication) {
     fun provideRealm(): Realm {
         val realmConfiguration = RealmConfiguration
                 .Builder()
-                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(1)
+                .migration(Migrations())
+                //.deleteRealmIfMigrationNeeded()
                 .build()
         return Realm.getInstance(realmConfiguration)
     }

@@ -14,7 +14,8 @@ open class RealmIpuValue(
         open var date: Date? = null,
         open var period: Date? = null,
         open var isSent: Boolean = false,
-        open var value: String = "") : RealmObject() {
+        open var value: String = "",
+        open var userRegistered:Boolean = false) : RealmObject() {
 
     val ipuType: IpuType
         get() {
