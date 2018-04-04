@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.adduseripu
+package com.software.ssp.erkc.modules.useripu
 
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.scopes.ActivityScope

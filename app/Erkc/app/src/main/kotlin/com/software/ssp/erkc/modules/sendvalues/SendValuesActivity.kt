@@ -10,11 +10,12 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmIpu
+import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.extensions.toString
-import com.software.ssp.erkc.modules.adduseripu.Activity as AddUserIPUActivity
+import com.software.ssp.erkc.modules.useripu.Activity as UserIPUActivity
 import kotlinx.android.synthetic.main.activity_send_values.*
 import kotlinx.android.synthetic.main.sendparameters_ipu_layout.view.*
 import org.jetbrains.anko.*
@@ -43,6 +44,11 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         presenter.onViewAttached()
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
     override fun resolveDependencies(appComponent: AppComponent) {
         DaggerSendValuesComponent.builder()
                 .appComponent(appComponent)
@@ -62,6 +68,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         sendValuesDebts.text = "${ipu.receipt?.amount} р. (${newIpus.first().period?.toString(Constants.PERIOD_DATE_FORMAT_UI)})"
         val layoutInflater = LayoutInflater.from(this)
         newIpus.forEach {
+            val ipu_value = it
             val ipuLayout = layoutInflater.inflate(R.layout.sendparameters_ipu_layout, parametersContainer, false)
             ipuLayout.ipuLocation.text = it.installPlace
             ipuLayout.ipuValueWrapper.hint = getString(R.string.send_values_ipu_hint).format(it.shortName, it.number)
@@ -72,8 +79,14 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                 }
             }
             ipuLayout.ipuValue.setText(it.value)
+            ipuLayout.editUserIPU.visibility = if (it.userRegistered) View.VISIBLE else View.GONE
+            ipuLayout.editUserIPU.onClick { presenter.editIPUClicked(ipu_value) }
             parametersContainer.addView(ipuLayout)
         }
+    }
+
+    override fun clearIPUs() {
+        parametersContainer.removeAllViews()
     }
 
     override fun showInfoDialog(resId: Int) {
@@ -113,10 +126,10 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         parametersContainer.addView(view)
     }
 
-    override fun navigateToAddUserIPU() {
-        val intent = Intent(this, AddUserIPUActivity::class.java)
+    override fun navigateToUserIPU(number: String?) {
+        val intent = Intent(this, UserIPUActivity::class.java)
                 .putExtra(Constants.KEY_RECEIPT, receiptId)
-                .putExtra("receipt", receipt)
+                .putExtra(Constants.KEY_IPU_NUMBER, number)
         startActivity(intent)
     }
 }

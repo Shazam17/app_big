@@ -1,7 +1,8 @@
 package com.software.ssp.erkc
 
+import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDexApplication
+//import android.support.multidex.MultiDexApplication
 import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.jenzz.appstate.AppState
@@ -23,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class ErkcApplication : MultiDexApplication() {
+class ErkcApplication : Application() { //TODO: set base class to multi-dex app in RELEASE
 
     companion object {
         @JvmField

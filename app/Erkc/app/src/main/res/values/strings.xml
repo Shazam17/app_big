@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ЕРКЦ г.Томска</string>
+    <!--<string name="app_name">ЕРКЦ г.Томска</string>-->
     <string name="default_empty_list_message_text">Список пуст</string>
 
     <!-- Common -->
@@ -212,6 +212,7 @@
     <string name="send_values_no_cached_ipu_error_add">Для данной квитанции нет сохраненных ИПУ. Вы можете добавить их в ручном режиме.</string>
     <string name="send_values_dialog_button">Закрыть</string>
     <string name="send_values_add_user_ipu">Добавить ИПУ</string>
+    <string name="send_values_no_registered_ipu">По данному адресу нет зарегистрированных ИПУ. Вы можете зарегистрировать их вручную.</string>
 
     <!-- Payment Info -->
     <string name="payment_info_title">Информация о платеже</string>
@@ -598,10 +599,17 @@
 
 
     <!-- Add user IPU screen -->
-    <string name="add_user_ipu_title">Ввод данных ИПУ</string>
-    <string name="add_user_ipu_hint_number">Номер ИПУ</string>
-    <string name="add_user_ipu_hint_location">Расположение</string>
-    <string name="add_user_ipu_commit">Добавить</string>
+    <string name="user_ipu_title">@string/user_ipu_add_mode</string>
+    <string name="user_ipu_hint_number">Номер ИПУ</string>
+    <string name="user_ipu_hint_location">Расположение</string>
+    <string name="user_ipu_commit">Добавить</string>
+    <string name="user_ipu_commit_save">Сохранить</string>
+    <string name="user_ipu_delete">Удалить</string>
+    <string name="user_ipu_add_mode">Ввод данных ИПУ</string>
+    <string name="user_ipu_edit_mode">Изменение ИПУ</string>
+    <string name="user_ipu_ask_delete">Удалить данные об ИПУ?</string>
+
+    <string name="answer_positive">Да</string>
 
 
 </resources>
