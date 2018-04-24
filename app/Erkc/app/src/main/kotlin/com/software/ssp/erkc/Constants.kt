@@ -1,10 +1,10 @@
 package com.software.ssp.erkc
 
 object Constants {
-    const val DEBUG_OFFLINE_MODE = false //TODO: -> FALSE
+    const val DEBUG_OFFLINE_MODE = true //TODO: -> FALSE
     const val V_API_MAIN = "https://api.vc.tom.ru"
     const val V_API_TEST = "https://testapi.vc.tom.ru"
-    const val V_API = V_API_MAIN
+    const val V_API = V_API_TEST
 
     const val SERVER_URL = V_API
     const val API_MAIN_ENDPOINT_URL = "$SERVER_URL/apps/"

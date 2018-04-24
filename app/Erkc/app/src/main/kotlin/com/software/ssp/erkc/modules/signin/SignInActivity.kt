@@ -198,8 +198,8 @@ class SignInActivity : MvpActivity(), ISignInView {
 //            signInPasswordEditText.setText("dimas19")
 //            signInLoginEditText.setText("director")
 //            signInPasswordEditText.setText("987456")
-            signInLoginEditText.setText("qwer")
-            signInPasswordEditText.setText("qwer")
+            signInLoginEditText.setText("ivanov") //TODO: remove in release
+            signInPasswordEditText.setText("123")
         }
     }
 }

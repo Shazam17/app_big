@@ -77,4 +77,7 @@
     <dimen name="finger_icon_marginbottom">10dp</dimen>
     <dimen name="textsize_fingerprint">14sp</dimen>
 
+    <!-- Send values activity -->
+    <dimen name="values_photo_view_height">200dp</dimen>
+
 </resources>
