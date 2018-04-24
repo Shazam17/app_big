@@ -11,3 +11,12 @@ import org.jetbrains.anko.backgroundColor
 fun View.setBackgroundColorByContextCompat(@ColorInt colorInt: Int) {
     this.backgroundColor = ContextCompat.getColor(rootView.context, colorInt)
 }
+
+fun View.hide() {
+    this.alpha = 0f
+    this.isClickable = false
+}
+fun View.show() {
+    this.alpha = 1f
+    this.isClickable = true
+}

@@ -1,10 +1,13 @@
 package com.software.ssp.erkc.modules.sendvalues
 
+import android.graphics.Bitmap
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.realm.models.RealmIpu
 import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.models.Receipt
+import io.fotoapparat.result.PhotoResult
+import java.io.File
 
 /**
  * @author Alexander Popov on 26/10/2016.
@@ -20,6 +23,9 @@ interface ISendValuesView : IView {
     fun showCameraView()
     fun hideFAB()
     fun showFAB()
+    fun nextCaptureFragment(file: File)
+    fun tmpPhotoSaved(file: File)
+    fun photoError()
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
@@ -31,4 +37,8 @@ interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     fun editIPUClicked(ipu_value: RealmIpuValue)
     fun onResume()
     fun addPhotoClick()
+    fun cameraShot(takePicture: PhotoResult?, pic_width: Int, pic_height: Int)
+    //fun cameraShot(bmp: Bitmap, pic_width: Int, pic_height: Int)
+    fun goodShot()
+    fun badShot()
 }

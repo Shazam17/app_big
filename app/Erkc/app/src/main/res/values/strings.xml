@@ -612,6 +612,8 @@
     <string name="answer_positive">Да</string>
     <string name="add_photo">Вы можете добавить изображения счетчиков для облегчения ввода показаний</string>
     <string name="need_camera_permission">Предоставьте разрешение для захвата изображения с камеры</string>
+    <string name="cancel">Отмена</string>
+    <string name="photo_error">Ошибка камеры</string>
 
 
 </resources>
