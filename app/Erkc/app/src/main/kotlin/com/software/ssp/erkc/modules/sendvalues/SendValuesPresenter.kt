@@ -1,5 +1,8 @@
 package com.software.ssp.erkc.modules.sendvalues
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.util.ArrayMap
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
@@ -8,11 +11,19 @@ import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.models.Receipt
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.extensions.crop
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.extensions.rotate90CW
+import io.fotoapparat.result.PhotoResult
+import io.fotoapparat.result.WhenDoneListener
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 /**
  * @author Alexander Popov on 26/10/2016.
@@ -29,7 +40,12 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     private lateinit var currentIpu: RealmIpu
 
+    private val photo_file_tmp = ArrayList<File>()
+
     override fun onViewAttached() {
+        val folder = File(view?.application()?.filesDir?.path + "/tmp/")
+        folder.mkdirs()
+        for (f in folder.listFiles()) f.delete()
     }
 
     override fun onResume() {
@@ -271,5 +287,46 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     override fun editIPUClicked(ipu_value: RealmIpuValue) {
         view?.navigateToUserIPU(ipu_value.number)
+    }
+
+    override fun addPhotoClick() {
+        view?.hideFAB()
+        view?.showCameraView()
+    }
+
+    private fun newTmpPhotoFile() = File(view?.application()?.filesDir?.path + "/tmp/" + photo_file_tmp.size + ".jpg")
+
+    override fun cameraShot(res: PhotoResult?, pic_width: Int, pic_height: Int) {
+        val file = newTmpPhotoFile()
+        photo_file_tmp.add(file)
+
+        res?.toBitmap()
+                ?.whenAvailable { bmp ->
+                    if (bmp != null) {
+                        val rotated = bmp.bitmap.rotate90CW()
+                        val cropped = rotated.crop(pic_width, pic_height)
+                        //TODO: check on tablets
+                        //https://stackoverflow.com/questions/14066038/why-does-an-image-captured-using-camera-intent-gets-rotated-on-some-devices-on-a
+                        val fos = FileOutputStream(file)
+                        try {
+                            Timber.d("saving cropped ${cropped.width}x${cropped.height}")
+                            cropped.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+                        } finally {
+                            fos.close()
+                        }
+                        view?.tmpPhotoSaved(file)
+                    } else {
+                        view?.photoError()
+                    }
+                }
+    }
+
+    override fun goodShot() {
+        view?.nextCaptureFragment(photo_file_tmp.last())
+    }
+
+    override fun badShot() {
+        if (photo_file_tmp.size > 0) photo_file_tmp.removeAt(photo_file_tmp.size-1)
+        view?.showCameraView()
     }
 }
