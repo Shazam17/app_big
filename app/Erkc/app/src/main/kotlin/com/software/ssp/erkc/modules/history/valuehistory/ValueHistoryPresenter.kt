@@ -44,14 +44,23 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         fun addIpu(ipus: List<RealmIpuValue>) {
             val recent = ipus.sortedBy { it.date }.last()
             val units = recent.ipuType.getUnitResIdOnly()
-            data.add("${recent.shortName} (${recent.number}, ${recent.installPlace}) ${recent.value} ${getString(units)}" +
-                    "\n${getString(R.string.history_share_last_data)}: ${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}")
+//            data.add("${recent.shortName} (${recent.number}, ${recent.installPlace}) ${recent.value} ${getString(units)}" +
+//                    "\n${getString(R.string.history_share_last_data)}: ${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}")
+            data.add("$address\t" +
+                    "${recent.id}\t" + //TODO: change with "л/с"
+                    "${recent.number}\t" +
+                    "${recent.value}\t" +
+                    "${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}\t" +
+                    "${recent.shortName}"
+            )
         }
 
         override fun toString(): String {
-            val sb = StringBuilder("${getString(R.string.history_share_address)}: $address")
-            for (s in data) sb.append("\n\n$s")
-            sb.append("\n\n${getString(R.string.history_share_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
+            //val sb = StringBuilder("${getString(R.string.history_share_address)}: $address")
+            val sb = StringBuilder(getString(R.string.history_share_header))
+            sb.append('\n')
+            data.forEachIndexed { index, s -> sb.append("${index+1}\t$s\n")}
+            //sb.append("\n\n${getString(R.string.history_share_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
             return sb.toString()
         }
     }
