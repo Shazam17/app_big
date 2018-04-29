@@ -94,6 +94,8 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         val user_ipu = Presenter.UserIPUData()
                         user_ipu.realm = realmRepository
 
+                        currentIpu.ipuValues.removeAll { !it.isSent } //copying fix
+
                         ipuData.forEach {
                             val realm_value = RealmIpuValue(
                                     id = it.id,
@@ -208,7 +210,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         {
                             view?.showInfoDialog(R.string.ok_ipu_sended)
                             view?.setProgressVisibility(false)
-                            view?.close()
+                            //view?.close()
                         },
                         {
                             error ->

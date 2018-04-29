@@ -125,7 +125,9 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     override fun showInfoDialog(resId: Int) {
         materialDialog {
             content(resId)
+            cancelable(false)
             positiveText(R.string.send_values_dialog_button)
+            onPositive { dialog, which -> close() }
         }.show()
     }
 
