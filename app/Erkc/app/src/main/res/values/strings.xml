@@ -600,8 +600,18 @@
 
     <!-- Add user IPU screen -->
     <string name="user_ipu_title">@string/user_ipu_add_mode</string>
-    <string name="user_ipu_hint_number">Номер ИПУ</string>
-    <string name="user_ipu_hint_location">Расположение</string>
+    <string name="user_ipu_hint_number">Заводской номер</string>
+    <string name="user_ipu_hint_location">Место установки</string>
+    <string name="user_ipu_hint_service_name">Вид услуги</string>
+    <string name="user_ipu_hint_brand">Марка прибора учета</string>
+    <string name="user_ipu_hint_model">Модель прибора учета</string>
+    <string name="user_ipu_hint_check_interval">Межповерочный интервал</string>
+    <string name="user_ipu_hint_type">Тип ИПУ</string>
+    <string name="user_ipu_hint_type_tariff">Тип ИПУ по тарифным зонам</string>
+    <string name="user_ipu_hint_begin_date">Дата ввода в эксплуатацию ("дд.мм.гггг")</string>
+    <string name="user_ipu_hint_install_date">Дата установки ("дд.мм.гггг")</string>
+    <string name="user_ipu_hint_next_check_date">Дата следующей поверки ("дд.мм.гггг")</string>
+    <string name="user_ipu_hint_status">Статус прибора учета</string>
     <string name="user_ipu_commit">Добавить</string>
     <string name="user_ipu_commit_save">Сохранить</string>
     <string name="user_ipu_delete">Удалить</string>
@@ -610,6 +620,7 @@
     <string name="user_ipu_ask_delete">Удалить данные об ИПУ?</string>
 
     <string name="answer_positive">Да</string>
+    <string name="answer_negative">Нет</string>
     <string name="add_photo">Вы можете добавить изображения счетчиков для облегчения ввода показаний</string>
     <string name="need_camera_permission">Предоставьте разрешение для захвата изображения с камеры</string>
     <string name="cancel">Отмена</string>

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.ArrayMap
+import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.*
@@ -14,8 +15,10 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.crop
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.rotate90CW
+import com.software.ssp.erkc.modules.useripu.Presenter
 import io.fotoapparat.result.PhotoResult
 import io.fotoapparat.result.WhenDoneListener
+import io.realm.RealmList
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import timber.log.Timber
@@ -86,28 +89,48 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         view?.setProgressVisibility(true)
         if (!fromTransaction) {
             subscriptions += ipuRepository.getByReceipt(code)
+                    .concatMap { ipuData ->
+
+                        val user_ipu = Presenter.UserIPUData()
+                        user_ipu.realm = realmRepository
+
+                        ipuData.forEach {
+                            val realm_value = RealmIpuValue(
+                                    id = it.id,
+                                    serviceName = it.serviceName,
+                                    shortName = it.shortName,
+                                    number = it.number,
+                                    installPlace = it.installPlace,
+                                    period = it.period,
+
+                                    isSent = false, //most important thing here
+
+                                    userRegistered = if (Constants.DEBUG_SIMULATE_ALL_USER_ADDED_IPUS) true else (it.user_registered.equals("1")),
+
+                                    brand = it.brand ?: "",
+                                    model = it.model ?: "",
+                                    check_interval = user_ipu.checkIntervalFromId(it.check_interval_id),
+                                    type = user_ipu.typeFromId(it.type_id),
+                                    type_tariff = user_ipu.typeTariffFromId(it.type_tariff_id),
+                                    begin_date = it.begin_date ?: "",
+                                    install_date = it.install_date ?: "",
+                                    next_check_date = it.next_check_date ?: "",
+                                    status = it.status ?: ""
+                            )
+                            currentIpu.ipuValues.add(realm_value)
+                        }
+
+                        //save locally:
+                        realmRepository.saveIpu(RealmIpu(receiptId!!, currentIpu.ipuValues, currentIpu.receipt))
+                    }
                     .subscribe(
                             {
-                                ipuData ->
-                                ipuData.forEach {
-                                    currentIpu.ipuValues.add(
-                                            RealmIpuValue(
-                                                    id = it.id,
-                                                    serviceName = it.serviceName,
-                                                    shortName = it.shortName,
-                                                    number = it.number,
-                                                    installPlace = it.installPlace,
-                                                    period = it.period
-                                            )
-                                    )
-                                }
                                 view?.showIpu(currentIpu)
-                                //TODO: if userRegistered from server -> view?.showAddIPU()
+                                if (currentIpu.ipuValues.find { it.userRegistered } != null) { view?.showAddIPU() }
                                 view?.setProgressVisibility(false)
                             },
                             {
                                 error ->
-                                //error.printStackTrace()
 
                                 if (error.parsedMessage().contains("По данному адресу нет зарегистрированных ИПУ")) {
                                     view?.showMessage(R.string.send_values_no_registered_ipu)

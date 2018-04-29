@@ -5,6 +5,7 @@ import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import com.software.ssp.erkc.common.NaturalOrderComparator
 import io.realm.Realm
+import io.realm.RealmList
 import rx.Observable
 import javax.inject.Inject
 
@@ -14,6 +15,19 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     fun close() {
         realm.close()
     }
+
+    private fun fetchIpuDictionary() = realm
+                .where(RealmIpuDictionary::class.java)
+                .findAll()
+                .first()
+
+    fun fetchIpuLocations() = fetchIpuDictionary().locations
+    fun fetchIpuServiceNames() = fetchIpuDictionary().service_names
+    fun fetchIpuCheckIntervals() = fetchIpuDictionary().check_intervals
+    fun fetchIpuTypes() = fetchIpuDictionary().types
+    fun fetchIpuTypesTariff() = fetchIpuDictionary().tariff_types
+    fun fetchIpuStatuses() = fetchIpuDictionary().statuses
+    fun fetchIpuCloseReasons() = fetchIpuDictionary().close_reasons
 
     fun fetchStreets(query: String = ""): Observable<List<RealmStreet>> {
         return realm
@@ -34,6 +48,59 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     {
                         it.delete(RealmStreet::class.java)
                         it.copyToRealm(streets.street.map { RealmStreet(it, it.toLowerCase()) })
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun saveIpuDictionary(dictionary: List<IpuDictionary>): Observable<Boolean> {
+        fun toListIfExists(list: List<RealmIdName>, array: Array<IdName>): List<RealmIdName> {
+            if (array.size > 0) {
+                return array
+                        .filter { !it.name.toLowerCase().contains("не указано") } //bad value, API doesn't accept it
+                        .map { id_name -> RealmIdName(id_name.id, id_name.name) }
+            }
+            return list
+        }
+
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.delete(RealmIpuDictionary::class.java)
+
+                        var locations = listOf<RealmIdName>()
+                        var service_names = listOf<RealmIdName>()
+                        var check_intervals = listOf<RealmIdName>()
+                        var types = listOf<RealmIdName>()
+                        var tariff_types = listOf<RealmIdName>()
+                        var statuses = listOf<RealmIdName>()
+                        var close_reasons = listOf<RealmIdName>()
+
+                        for (d in dictionary) {
+                            locations       = toListIfExists(locations, d.locations)
+                            service_names   = toListIfExists(service_names, d.service_names)
+                            check_intervals = toListIfExists(check_intervals, d.check_intervals)
+                            types           = toListIfExists(types, d.types)
+                            tariff_types    = toListIfExists(tariff_types, d.tariff_types)
+                            statuses        = toListIfExists(statuses, d.statuses)
+                            close_reasons   = toListIfExists(close_reasons, d.close_reasons)
+                        }
+
+                        it.copyToRealm(RealmIpuDictionary(
+                                locations       = RealmList(*locations.toTypedArray()),
+                                service_names   = RealmList(*service_names.toTypedArray()),
+                                check_intervals = RealmList(*check_intervals.toTypedArray()),
+                                types           = RealmList(*types.toTypedArray()),
+                                tariff_types    = RealmList(*tariff_types.toTypedArray()),
+                                statuses        = RealmList(*statuses.toTypedArray()),
+                                close_reasons   = RealmList(*close_reasons.toTypedArray())
+                        ))
                     },
                     {
                         sub.onNext(true)
