@@ -307,6 +307,7 @@
     <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
     <string name="history_empty_text">Ни одной операции пока не было произведено.</string>
     <string name="history_share_last_data">Последние показания</string>
+    <string name="history_share_header">№ п/п\tАдрес\t№ л/с\tЗаводской № прибора\tТекущие показания\tДата снятия показаний\tВид услуги</string>
     <string name="history_share_address">Адрес</string>
     <string name="history_share_date">Дата</string>
     <string name="history_share_data_not_ready">Данные еще не готовы...</string>
