@@ -12,14 +12,29 @@ interface IModuleView : IView {
     fun close()
     fun setModeAdd()
     fun setModeEdit()
-    fun setData(ipu_data: Presenter.UserIPUData)
+    fun setData(data: Presenter.UserIPUData)
     fun askDeleteIPUAndData(): Observable<Boolean>
+    fun validateDataBeforeCommit(): Boolean
+    fun setupFilters()
+    fun showProgress(show: Boolean)
 }
 
 interface IModulePresenter : IPresenter<IModuleView> {
+
+    enum class FilterType{
+        FILTER_LOCATION,
+        FILTER_SERVICE_NAME,
+        FILTER_CHECK_INTERVAL,
+        FILTER_TYPE,
+        FILTER_TYPE_TARIFF,
+        FILTER_STATUS,
+        FILTER_CLOSE_REASON
+    }
+
     var receiptId : String?
     var ipu_number : String?
 
     fun commitClicked()
     fun delete()
+    fun filter(type: FilterType): List<String>
 }

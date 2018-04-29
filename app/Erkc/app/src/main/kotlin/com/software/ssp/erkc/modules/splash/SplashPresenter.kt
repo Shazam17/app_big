@@ -90,15 +90,16 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     }
                     activeSession.appToken = appToken
                     if ((AppPrefs.lastCashingDate != -1L && (Date().time - AppPrefs.lastCashingDate >= 80000000)) || !realmRepository.streetsLoaded()) {
-                        dictionaryRepository.fetchStreets()
+                        Observable.zip(dictionaryRepository.fetchStreets(), dictionaryRepository.fetchIpu(), {streets,ipu->DictionaryRepository.DictionaryCacheable(streets, ipu)})
                     } else {
                         Observable.just(null)
                     }
                 }
                 .concatMap {
-                    streets ->
-                    if (streets != null) {
-                        realmRepository.saveStreetList(streets)
+                    cache ->
+                    if (cache != null) {
+                        realmRepository.saveStreetList(cache.streets)
+                        realmRepository.saveIpuDictionary(cache.ipu)
                     } else {
                         Observable.just(false)
                     }

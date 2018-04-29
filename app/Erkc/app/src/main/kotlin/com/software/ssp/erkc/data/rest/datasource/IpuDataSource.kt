@@ -17,4 +17,12 @@ interface IpuDataSource {
 
     @GET("?method=ipu.gethistorybyreceipt")
     fun getHistoryByReceipt(@Query("code") code: String): Observable<List<Ipu>>
+
+    @FormUrlEncoded
+    @POST("?method=ipu.addbyuser")
+    fun addByUser(@FieldMap params: Map<String, String>): Observable<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("?method=ipu.updatebyuser")
+    fun updateByUser(@FieldMap params: Map<String, String>): Observable<ResponseBody>
 }

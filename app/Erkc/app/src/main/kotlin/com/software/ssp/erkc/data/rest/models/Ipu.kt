@@ -32,4 +32,43 @@ data class Ipu(
 
         @JsonAdapter(DatePeriodDeserializer::class)
         @SerializedName("period")
-        val period: Date)
+        val period: Date,
+
+        //------------------------------------
+        //Added in version 5:
+        @SerializedName("mesto_ustan_id")
+        val install_place_id: String?,
+
+        @SerializedName("tip_id")
+        val type_id: String?,
+
+        @SerializedName("model")
+        val model: String?,
+
+        @SerializedName("date_poverki")
+        val next_check_date: String?,
+
+        @SerializedName("marka")
+        val brand: String?,
+
+        @SerializedName("date_ustan")
+        val install_date: String?,
+
+        @SerializedName("interval_poverki_id")
+        val check_interval_id: String?,
+
+        @SerializedName("tip_tarifnaya_zona_id")
+        val type_tariff_id: String?,
+
+        @SerializedName("usluga_id")
+        val service_name_id: String?,
+
+        @SerializedName("date_begin")
+        val begin_date: String?,
+
+        @SerializedName("byuser")
+        val user_registered: String?, //if so - "1"
+
+        //@SerializedName("") noname in current API version
+        val status: String?
+)

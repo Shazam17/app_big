@@ -42,7 +42,7 @@ class AppModule(val application: ErkcApplication) {
     fun provideRealm(): Realm {
         val realmConfiguration = RealmConfiguration
                 .Builder()
-                .schemaVersion(1)
+                .schemaVersion(3)
                 .migration(Migrations())
                 //.deleteRealmIfMigrationNeeded()
                 .build()
