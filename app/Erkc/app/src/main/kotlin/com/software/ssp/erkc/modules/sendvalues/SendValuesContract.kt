@@ -26,6 +26,7 @@ interface ISendValuesView : IView {
     fun nextCaptureFragment(file: File)
     fun tmpPhotoSaved(file: File)
     fun photoError()
+    fun startPhotoSendingService()
 }
 
 interface ISendValuesPresenter : IPresenter<ISendValuesView> {
@@ -41,4 +42,6 @@ interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     //fun cameraShot(bmp: Bitmap, pic_width: Int, pic_height: Int)
     fun goodShot()
     fun badShot()
+    fun symbolAdded(ipu_number: String, text: String)
+    fun currentPhotoIdxChanged(idx: Int)
 }

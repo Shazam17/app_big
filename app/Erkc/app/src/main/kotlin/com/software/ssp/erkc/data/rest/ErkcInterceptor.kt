@@ -14,6 +14,7 @@ import com.software.ssp.erkc.extensions.getParameters
 import com.software.ssp.erkc.extensions.md5
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import okhttp3.*
+import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.util.*
@@ -103,6 +104,7 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
     }
 
     private fun getSignedGetRequest(token: String, app_id: String, originalRequest: Request): Request {
+        val methodValue = originalRequest.url().queryParameter("method") ?: ""
         val authorizedRequest: Request
         val originalUrl = originalRequest.url()
         val paramNames = originalUrl.queryParameterNames().toMutableList()
@@ -115,6 +117,7 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
 
         params.add(1, "token=$token")  // order is important here
         params.add(1, "app_id=$app_id")
+        fixSignatureParams(methodValue, params)
         val sig = getSig(token, params)
 
         val authorizedUrl = originalUrl.newBuilder()
@@ -143,6 +146,9 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
         params.add(0, "token=$token")  // order is important here
         params.add(0, "app_id=$app_id")
         params.add(0, "method=$methodValue")
+
+
+        fixSignatureParams(methodValue, params)
         val sig = getSig(token, params)
 
         val authorizedBodyBuilder = FormBody.Builder()
@@ -161,6 +167,14 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
         return authorizedRequest
     }
 
+    private fun fixSignatureParams(method: String, params: MutableList<String>) {
+        if (method.equals("ipu.sendimagebymeters")) {
+            Timber.w("SEND IMAGE REQUEST intercepted! Correcting signature params...")
+
+            val remove_param = params.filter { it.startsWith("ipu_") }.first()
+            params.remove(remove_param)
+        }
+    }
 
     private fun getSig(tokenValue: String?, parameters: List<String>): String {
         val private_key = Constants.API_SIG_PRIVATE_KEY

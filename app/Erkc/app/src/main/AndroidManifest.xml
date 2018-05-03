@@ -210,6 +210,11 @@
             </intent-filter>
         </service>
 
+        <!-- Photo sendind service (ipu values) -->
+        <service android:name=".modules.photoservice.PhotoService"/>
+        <service android:name=".modules.photoservice.PhotoSendingService"/>
+
+
         <receiver
             android:name=".modules.pushnotifications.NotificationBroadcastReceiver"
             android:enabled="true"

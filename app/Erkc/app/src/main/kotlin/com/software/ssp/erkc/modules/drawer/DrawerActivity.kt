@@ -30,6 +30,7 @@ import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
+import com.software.ssp.erkc.modules.photoservice.PhotoService
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -89,6 +90,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             presenter.setNonAuthImitation()
 
         presenter.onViewAttached()
+        startService(Intent(this, PhotoService::class.java))
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
