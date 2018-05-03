@@ -1,8 +1,6 @@
 package com.software.ssp.erkc.modules.sendvalues
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.util.ArrayMap
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
@@ -15,10 +13,9 @@ import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.crop
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.rotate90CW
+import com.software.ssp.erkc.modules.photoservice.PhotoService
 import com.software.ssp.erkc.modules.useripu.Presenter
 import io.fotoapparat.result.PhotoResult
-import io.fotoapparat.result.WhenDoneListener
-import io.realm.RealmList
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import timber.log.Timber
@@ -27,6 +24,7 @@ import java.io.FileOutputStream
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * @author Alexander Popov on 26/10/2016.
@@ -44,6 +42,49 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     private lateinit var currentIpu: RealmIpu
 
     private val photo_file_tmp = ArrayList<File>()
+
+    private class IpuSymbolChanges() {
+        private val data = HashMap<String,HashMap<Int,Int>>() //ipu_number->map(photo_idx->count)
+        private val values = HashMap<String,String>()
+        var photo_idx = 0
+
+        fun clear() { data.clear() }
+        fun init(keys: List<String>) {
+            clear()
+            for (key in keys) data.put(key, HashMap())
+            showMe(photo_idx)
+        }
+        private fun showMe(idx: Int) {
+            val sb = StringBuilder()
+            sb.append("\nipu_symbols: (photo_idx == $idx)")
+            for (key in data.keys) {
+                sb.append("\n\t$key : {") //${data.get(key)}")
+                val map = data.get(key)!!
+                for (pi in map.keys) {
+                    sb.append("$pi=[${map.get(pi)}]")
+                }
+                sb.append('}')
+            }
+
+            Timber.d(sb.toString())
+        }
+
+        fun increment(ipu_id: String, text: String) {
+            values.put(ipu_id, text)
+            val current = data.get(ipu_id)?.get(photo_idx) ?: 0
+            data.get(ipu_id)?.put(photo_idx, current+1)
+            showMe(photo_idx)
+        }
+
+        fun bestIdxFor(id: String): Int? {
+            val map = data.get(id)
+            if (map != null) {
+                val max = map.maxBy { (key,value) -> value }
+                return max?.key
+            } else return null
+        }
+    }
+    private val ipu_symbols = IpuSymbolChanges()
 
     override fun onViewAttached() {
         val folder = File(view?.application()?.filesDir?.path + "/tmp/")
@@ -69,6 +110,11 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     }
 
     override fun onSendValuesClick() {
+        if (true) { //DEBUG
+            addPhotoTasks()
+            return
+        }
+
         if (!validateData()) {
             return
         }
@@ -78,12 +124,31 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
             values.put(it.id, it.value)
         }
 
+        addPhotoTasks()
+
         if (activeSession.isOfflineSession) {
             saveValuesToTransactions(values)
         } else {
             sendValues(values)
         }
     }
+
+    private fun addPhotoTasks() {
+        val values = ArrayMap<String, String>()
+        currentIpu.ipuValues.filter { !it.isSent }.forEach { values.put(it.id, it.value) }
+
+        val used_photos = mutableSetOf<Int>()
+        for ((id,value) in values) {
+            val photo_idx = ipu_symbols.bestIdxFor(id)
+            if (photo_idx != null && !used_photos.contains(photo_idx)) {
+                used_photos.add(photo_idx)
+                PhotoService.addTask(view?.application()!!, photoPath(photo_idx), id, value, currentIpu.receipt!!.barcode)
+            }
+        }
+        view?.startPhotoSendingService()
+    }
+
+    private fun photoPath(idx: Int) = photo_file_tmp.get(idx).absolutePath
 
     private fun fetchIpus(code: String) {
         view?.setProgressVisibility(true)
@@ -127,7 +192,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                     }
                     .subscribe(
                             {
-                                view?.showIpu(currentIpu)
+                                showIpu()
                                 if (currentIpu.ipuValues.find { it.userRegistered } != null) { view?.showAddIPU() }
                                 view?.setProgressVisibility(false)
                             },
@@ -167,7 +232,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                             )
                                     )
                                 }
-                                view?.showIpu(currentIpu)
+                                showIpu()
                                 view?.setProgressVisibility(false)
                             },
                             {
@@ -255,7 +320,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
                                 if (currentIpu.ipuValues.isEmpty()) {
                                     view?.showInfoDialog(R.string.send_values_no_cached_ipu_error_add)
-                                    //view?.showIpu(currentIpu)
+                                    //showIpu()
                                     view?.showAddIPU()
                                     return@subscribe
                                 }
@@ -280,7 +345,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                     )
                                 }
 
-                                view?.showIpu(currentIpu)
+                                showIpu()
                                 if (ipus.first().userRegistered) //if so -> all other are userRegistered too
                                     view?.showAddIPU()
                                 view?.setProgressVisibility(false)
@@ -353,5 +418,20 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     override fun badShot() {
         if (photo_file_tmp.size > 0) photo_file_tmp.removeAt(photo_file_tmp.size-1)
         view?.showCameraView()
+    }
+
+    override fun symbolAdded(ipu_id: String, text: String) {
+        ipu_symbols.increment(ipu_id, text)
+    }
+
+    private fun showIpu() {
+        val ipus = currentIpu.ipuValues.distinctBy { it.id }.map { it.id }.toList()
+        ipu_symbols.init(ipus)
+
+        view?.showIpu(currentIpu)
+    }
+
+    override fun currentPhotoIdxChanged(idx: Int) {
+        ipu_symbols.photo_idx = idx
     }
 }

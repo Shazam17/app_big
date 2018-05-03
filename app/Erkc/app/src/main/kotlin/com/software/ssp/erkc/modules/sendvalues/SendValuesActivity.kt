@@ -43,7 +43,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.software.ssp.erkc.extensions.hide
 import com.software.ssp.erkc.extensions.show
+import com.software.ssp.erkc.modules.photoservice.PhotoService
 import io.fotoapparat.parameter.ScaleType
+import org.jetbrains.anko.support.v4.onPageChangeListener
 
 
 enum class CameraMode{CM_OFF, CM_INITIALIZING, CM_READY, CM_SAVING, CM_SHOT_COMMIT}
@@ -106,9 +108,17 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
             ipuLayout.ipuLocation.text = it.installPlace
             ipuLayout.ipuValueWrapper.hint = getString(R.string.send_values_ipu_hint).format(it.shortName, it.number)
             ipuLayout.ipuValue.textChangedListener {
+                var was_text: String = ""
+                beforeTextChanged{
+                    text,a,b,c ->
+                    was_text = text.toString()
+                }
                 afterTextChanged {
                     text ->
                     it.value = text.toString()
+                    if (text != null) {
+                        if (text.length > was_text.length) presenter.symbolAdded(it.id, text.toString())
+                    }
                 }
             }
             ipuLayout.ipuValue.setText(it.value)
@@ -164,6 +174,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         initPhotos()
 
         photo_tabs.setupWithViewPager(photo_pager, true)
+        photo_pager.onPageChangeListener { onPageSelected { page->presenter.currentPhotoIdxChanged(page) }  }
 
         Glide.get(this).clearMemory()
         Thread({
@@ -364,5 +375,9 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         photos.add(file)
         photo_pager.adapter.notifyDataSetChanged()
         photo_pager.setCurrentItem(photos.size-1, true)
+    }
+
+    override fun startPhotoSendingService() {
+        startService(Intent(this, PhotoService::class.java))
     }
 }

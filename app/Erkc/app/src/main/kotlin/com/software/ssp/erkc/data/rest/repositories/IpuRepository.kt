@@ -3,8 +3,13 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.rest.datasource.IpuDataSource
 import com.software.ssp.erkc.data.rest.models.Ipu
 import com.software.ssp.erkc.modules.useripu.Presenter.UserIPUData
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import rx.Observable
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -76,6 +81,23 @@ class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource
         addField(params, "prichina_id", "2") //4 - error reason; 2 - other
 
         return ipuDataSource.updateByUser(params).compose(this.applySchedulers<ResponseBody>())
+    }
+
+    fun sendImageByMeters(code: String, id: String, value: String, file: File): Observable<ResponseBody> {
+//        if (true) {
+//            file.delete()
+//            file.createNewFile()
+//            val fos = FileOutputStream(file)
+//            try { fos.write("asdf-test".toByteArray()) } finally { fos.close() }
+//        }
+
+        val params = mutableMapOf("code" to code)
+        params.put("ipu_$id", value)
+
+        val request_file = RequestBody.create(MediaType.parse(file.path), file)
+        val multipart_body_part = MultipartBody.Part.createFormData("imagebymeters", file.name, request_file)
+
+        return ipuDataSource.sendImageByMeters(params, multipart_body_part).compose(this.applySchedulers<ResponseBody>())
     }
 
 }
