@@ -5,10 +5,7 @@ import android.view.View
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.models.PaymentMethod
-import com.software.ssp.erkc.extensions.dp
-import com.software.ssp.erkc.extensions.getCompatColor
-import com.software.ssp.erkc.extensions.getIconResId
-import com.software.ssp.erkc.extensions.toString
+import com.software.ssp.erkc.extensions.*
 import kotlinx.android.synthetic.main.item_receipt.view.*
 import org.jetbrains.anko.enabled
 import org.jetbrains.anko.textColor
@@ -23,7 +20,8 @@ abstract class BaseReceiptViewHolder(view: View) : RecyclerView.ViewHolder(view)
             receiptName.text = receiptViewModel.receipt.name
             receiptBarcodeText.text = receiptViewModel.receipt.barcode
 
-            receiptTypeImage.setImageResource(receiptViewModel.receipt.receiptType.getIconResId())
+            //receiptTypeImage.setImageResource(receiptViewModel.receipt.receiptType.getIcon(resources, realmRepository = ))
+            receiptTypeImage.setIcon(receiptViewModel.receipt)
 
             val paymentText: String
 

@@ -8,7 +8,8 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.receipt.ReceiptViewModel
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
 import com.software.ssp.erkc.extensions.dp
-import com.software.ssp.erkc.extensions.getIconResId
+import com.software.ssp.erkc.extensions.setIcon
+//import com.software.ssp.erkc.extensions.getIconResId
 import kotlinx.android.synthetic.main.item_autopayments.view.*
 import org.jetbrains.anko.onClick
 
@@ -41,7 +42,8 @@ class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
                 nameText.text = receiptViewModel.receipt.name
                 barcodeText.text = receiptViewModel.receipt.barcode
 
-                typeImage.setImageResource(receiptViewModel.receipt.receiptType.getIconResId())
+                //typeImage.setImageResource(receiptViewModel.receipt.receiptType.getIconResId())
+                typeImage.setIcon(receiptViewModel.receipt)
 
                 linkedCardNameText.text = receiptViewModel.receipt.linkedCard?.name ?: ""
 

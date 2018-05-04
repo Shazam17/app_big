@@ -214,6 +214,8 @@
         <service android:name=".modules.photoservice.PhotoService"/>
         <service android:name=".modules.photoservice.PhotoSendingService"/>
 
+        <!-- Other possible long running updates (images/instructions) -->
+        <service android:name=".modules.longrunningupdate.LongRunningUpdateService"/>
 
         <receiver
             android:name=".modules.pushnotifications.NotificationBroadcastReceiver"

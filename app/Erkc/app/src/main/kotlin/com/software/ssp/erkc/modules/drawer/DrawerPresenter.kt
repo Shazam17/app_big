@@ -13,6 +13,7 @@ import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.Observable
 import rx.lang.kotlin.plusAssign
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -40,6 +41,7 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
         subscribeToOpenHistoryWithReceipt()
         subscribeToOpenInstructionsEvent()
         subscribeToLogoutEvent()
+        subscribeToIconsSavedEvent()
 
         showCurrentUser()
     }
@@ -178,6 +180,15 @@ class DrawerPresenter @Inject constructor(view: IDrawerView) : RxPresenter<IDraw
                 .subscribe {
                     event ->
                     onLogoutClick()
+                }
+    }
+
+    private fun subscribeToIconsSavedEvent() {
+        subscriptions += eventBus.ofType(ServiceIconsSaved::class.java)
+                .subscribe {
+                    event ->
+                    Timber.d("service icon saved - got event!")
+                    view?.updateCurrentScreen()
                 }
     }
 }

@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.data.rest.models
 
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.software.ssp.erkc.data.rest.adapters.Base64Deserializer
 
 /**
  * @author Alexander Popov on 25/10/2016.
@@ -17,10 +19,13 @@ data class Streets(
         val street: Array<String>)
 
 data class ServiceType(
-        @SerializedName("id") val id: String,
-        @SerializedName("name") val name: String,
-        @SerializedName("opcode") val service_code: String,
-        @SerializedName("icon") val icon_base64: String
+        @SerializedName("id") val id: String = "",
+        @SerializedName("name") val name: String = "",
+        @SerializedName("opcode") val service_code: String = "",
+
+        @JsonAdapter(Base64Deserializer::class)
+        @SerializedName("icon")
+        val icon: ByteArray? = null
 )
 
 data class IdName(
