@@ -6,8 +6,9 @@ import io.realm.RealmSchema
 import io.realm.FieldAttribute
 import java.util.*
 
+const val CURRENT_VERSION = 4L
 
-data class Migrations(val CURRENT_VERSION: Long = 3L) : RealmMigration {
+data class Migrations(val version: Long = CURRENT_VERSION) : RealmMigration {
 
 
     override fun migrate(realm: DynamicRealm?, old_version: Long, new_version: Long) {
@@ -50,6 +51,13 @@ data class Migrations(val CURRENT_VERSION: Long = 3L) : RealmMigration {
                             ?.addField("next_check_date", String::class.java)
                             ?.addField("status", String::class.java)
                     version++
+                }
+                3L -> {
+                    schema?.create("RealmServiceType")
+                            ?.addField("id", String::class.java)
+                            ?.addField("name", String::class.java)
+                            ?.addField("service_code", String::class.java)
+                            ?.addField("icon", ByteArray::class.java)
                 }
                 else -> version++
             }

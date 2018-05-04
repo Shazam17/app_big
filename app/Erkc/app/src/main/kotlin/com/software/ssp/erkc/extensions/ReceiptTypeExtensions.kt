@@ -1,8 +1,15 @@
 package com.software.ssp.erkc.extensions
 
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import com.bumptech.glide.Glide
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.realm.models.ReceiptType
+//import com.software.ssp.erkc.data.realm.models.ReceiptType
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 
+/*
 fun ReceiptType.getIconResId(): Int {
     when(this){
         ReceiptType.GKU -> return R.drawable.ic_card_gku
@@ -48,3 +55,4 @@ fun ReceiptType.getStringResId(): Int {
         ReceiptType.TEST -> return R.string.receipt_test
     }
 }
+*/

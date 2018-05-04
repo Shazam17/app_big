@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmOfflineIpu
-import com.software.ssp.erkc.extensions.getIconResId
+import com.software.ssp.erkc.extensions.setIcon
+//import com.software.ssp.erkc.extensions.getIconResId
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_transaction_ipu.view.*
 
@@ -38,7 +39,8 @@ class ValuesTransactionListAdapter(val dataList: List<RealmOfflineIpu>,
 
                 createDateText.text = offlineIpu.createDate?.toString(Constants.VALUES_DATE_FORMAT)
 
-                typeImage.setImageResource(offlineIpu.receipt.receiptType.getIconResId())
+                //typeImage.setImageResource(offlineIpu.receipt.receiptType.getIconResId())
+                typeImage.setIcon(offlineIpu.receipt)
 
                 swipeLayout.reset()
 

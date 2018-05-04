@@ -20,6 +20,7 @@ import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.*
 import com.software.ssp.erkc.modules.fastauth.createpin.CreatePinActivity
+import com.software.ssp.erkc.modules.longrunningupdate.LongRunningUpdateService
 import com.software.ssp.erkc.modules.passwordrecovery.PasswordRecoveryActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*

@@ -83,7 +83,7 @@ class PhotoService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //testTask()
         processTasks()
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     private fun testTask() {

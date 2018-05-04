@@ -27,6 +27,7 @@ import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
 import com.software.ssp.erkc.modules.history.HistoryTabFragment
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import com.software.ssp.erkc.modules.instructions.InstructionsListFragment
+import com.software.ssp.erkc.modules.longrunningupdate.LongRunningUpdateService
 import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
@@ -91,6 +92,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
         presenter.onViewAttached()
         startService(Intent(this, PhotoService::class.java))
+        startService(Intent(this, LongRunningUpdateService::class.java))
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {

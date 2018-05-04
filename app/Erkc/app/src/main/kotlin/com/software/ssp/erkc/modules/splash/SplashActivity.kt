@@ -14,6 +14,7 @@ import com.software.ssp.erkc.modules.drawer.DrawerActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.KEY_PIN
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity.PREFERENCES
+import com.software.ssp.erkc.modules.longrunningupdate.LongRunningUpdateService
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import org.jetbrains.anko.*
 import javax.inject.Inject

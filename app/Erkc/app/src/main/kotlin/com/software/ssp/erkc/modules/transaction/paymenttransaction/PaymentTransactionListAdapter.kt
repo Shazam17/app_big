@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmOfflinePayment
-import com.software.ssp.erkc.extensions.getIconResId
+import com.software.ssp.erkc.extensions.setIcon
+//import com.software.ssp.erkc.extensions.getIconResId
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_transaction_payment.view.*
 import org.jetbrains.anko.onClick
@@ -48,7 +49,8 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
                 nameText.text = receipt.name
                 barcodeText.text = receipt.barcode
 
-                typeImage.setImageResource(receipt.receiptType.getIconResId())
+                //typeImage.setImageResource(receipt.receiptType.getIconResId())
+                typeImage.setIcon(receipt)
 
                 swipeLayout.reset()
 

@@ -25,7 +25,7 @@ class DictionaryRepository @Inject constructor(private val dictionaryDataSource:
     fun fetchServiceTypes(): Observable<List<ServiceType>> {
         return dictionaryDataSource
                 .fetchServiceTypes()
-                .compose(this.applySchedulers<List<ServiceType>>())
+                //.compose(this.applySchedulers<List<ServiceType>>())
     }
 
     fun fetchIpu(): Observable<List<IpuDictionary>> {

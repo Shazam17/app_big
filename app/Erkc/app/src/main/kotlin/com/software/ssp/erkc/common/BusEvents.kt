@@ -12,3 +12,5 @@ class OpenInstructionsList()
 class Logout()
 
 class LogoutFinished()
+
+class ServiceIconsSaved()

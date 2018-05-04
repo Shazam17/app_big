@@ -1,12 +1,17 @@
 package com.software.ssp.erkc.data.rest.repositories
 
 
+import android.content.Context
 import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.data.rest.models.*
 import com.software.ssp.erkc.common.NaturalOrderComparator
+import com.software.ssp.erkc.extensions.folderPath
+import com.software.ssp.erkc.extensions.iconPath
 import io.realm.Realm
 import io.realm.RealmList
 import rx.Observable
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 
@@ -41,6 +46,62 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     Observable.just(realm.copyFromRealm(results))
                 }
     }
+/*
+    fun saveServiceTypes(list: List<ServiceType>): Observable<Boolean> {
+        return Observable.create<Boolean>{ sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.delete(RealmServiceType::class.java)
+                        it.copyToRealm(list.map { RealmServiceType(
+                                it.id,
+                                it.name,
+                                it.service_code,
+                                it.icon
+                        ) })
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    {
+                        error->sub.onError(error)
+                    }
+            )}
+    }
+*/
+    fun saveServiceTypes(context: Context, list: List<ServiceType>): Boolean {
+        fun saveToFile(service: ServiceType) {
+            val fos = FileOutputStream(File(service.iconPath(context)))
+            try {
+                fos.write(service.icon)
+            } finally {
+                fos.close()
+            }
+        }
+
+        realm.executeTransaction {
+                    it.delete(RealmServiceType::class.java)
+                    it.copyToRealm(list.map { RealmServiceType(
+                            it.id,
+                            it.name,
+                            it.service_code,
+                            it.icon
+                    ) })
+                }
+
+        File(list.firstOrNull()?.folderPath(context)).mkdirs()
+        list.forEach { saveToFile(it) }
+
+        return true
+    }
+
+
+    fun fetchOneServiceType(): RealmServiceType? {
+        return realm
+                .where(RealmServiceType::class.java)
+                .findAll()
+                .firstOrNull()
+    }
+
 
     fun saveStreetList(streets: Streets): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
