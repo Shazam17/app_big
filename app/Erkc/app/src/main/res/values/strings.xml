@@ -310,7 +310,10 @@
     <string name="history_share_header">№ п/п\tАдрес\t№ л/с\tЗаводской № прибора\tТекущие показания\tДата снятия показаний\tВид услуги</string>
     <string name="history_share_address">Адрес</string>
     <string name="history_share_date">Дата</string>
+    <string name="history_share_form_date">Дата формирования</string>
     <string name="history_share_data_not_ready">Данные еще не готовы...</string>
+    <string name="history_share_clipboard_label">ЕРКЦ показания</string>
+    <string name="history_share_copied_to_clipboard">Данные скопированы в буфер обмена</string>
     <string name="history_share">Отправить...</string>
 
     <!-- Transaction -->

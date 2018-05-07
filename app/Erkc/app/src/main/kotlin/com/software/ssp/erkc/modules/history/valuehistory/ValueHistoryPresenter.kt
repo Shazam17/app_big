@@ -60,7 +60,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
             val sb = StringBuilder(getString(R.string.history_share_header))
             sb.append('\n')
             data.forEachIndexed { index, s -> sb.append("${index+1}\t$s\n")}
-            //sb.append("\n\n${getString(R.string.history_share_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
+            sb.append("${getString(R.string.history_share_form_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
             return sb.toString()
         }
     }
