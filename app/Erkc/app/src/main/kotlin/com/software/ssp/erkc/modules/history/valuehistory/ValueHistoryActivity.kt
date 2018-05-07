@@ -25,6 +25,13 @@ import org.jetbrains.anko.include
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 import javax.inject.Inject
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+
+
 
 /**
  * @author Alexander Popov on 05/12/2016.
@@ -170,6 +177,11 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
     }
 
     override fun shareIntent(msg: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), msg)
+        clipboard.setPrimaryClip(clip)
+        toast(R.string.history_share_copied_to_clipboard)
+
         Log.d("hist_", msg)
         val intent = Intent(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_TEXT, msg)
