@@ -3,6 +3,7 @@ package com.software.ssp.erkc.modules.pushnotifications
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
+import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.data.rest.repositories.SettingsRepository
 import com.software.ssp.erkc.extensions.deviceId
@@ -35,10 +36,11 @@ class ErkcFirebaseInstanceIdService : FirebaseInstanceIdService() {
         registerTokenSubscription = settingsRepository.registerFbToken(deviceId, token)
                 .subscribe(
                         {
-                            //TODO Remove in release
-                            Log.d("----", "--------------------------------------------------------")
-                            Log.d("----", "FirebaseInstanceId.getInstance().token = ${token}")
-                            Log.d("----", "--------------------------------------------------------")
+                            if (BuildConfig.DEBUG) {
+                                Log.d("----", "--------------------------------------------------------")
+                                Log.d("----", "FirebaseInstanceId.getInstance().token = ${token}")
+                                Log.d("----", "--------------------------------------------------------")
+                            }
                         },
                         Throwable::printStackTrace
                 )

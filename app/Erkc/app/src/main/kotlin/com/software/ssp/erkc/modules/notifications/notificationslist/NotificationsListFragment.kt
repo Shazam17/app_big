@@ -40,7 +40,7 @@ class NotificationsListFragment : BaseListFragment<RealmNotification>(), INotifi
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-        searchView = activity.searchView //TODO
+        searchView = activity.searchView
         return inflater?.inflate(R.layout.fragment_notifications_list, container, false)
     }
 

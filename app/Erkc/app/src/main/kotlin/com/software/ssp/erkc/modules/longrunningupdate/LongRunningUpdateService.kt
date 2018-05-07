@@ -34,7 +34,7 @@ class LongRunningUpdateService : Service() {
 
     //list of tasks to execute
     private val tasks: Array<BlockingTask> = arrayOf(
-            BlockingTask(this::updateDictionaryOpcodes, 1, TimeUnit.SECONDS), //TODO: DAYS
+            BlockingTask(this::updateDictionaryOpcodes, 1, TimeUnit.DAYS),
             BlockingTask(this::updateTest, 1, TimeUnit.MINUTES)
     )
 
