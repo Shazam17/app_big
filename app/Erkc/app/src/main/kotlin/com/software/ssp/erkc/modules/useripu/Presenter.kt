@@ -67,7 +67,7 @@ class Presenter @Inject constructor(view: IModuleView) : RxPresenter<IModuleView
 
         private fun idFor(what: String, list: RealmList<RealmIdName>?): String {
             return if (list != null)
-                list.find { it.name.equals(what) }?.id ?: "-10" //Error
+                list.find { it.name.equals(what) }?.id ?: "" //"" is not includer in requests
             else
                 "-11" //Error
         }
