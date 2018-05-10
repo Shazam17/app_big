@@ -604,17 +604,17 @@
 
     <!-- Add user IPU screen -->
     <string name="user_ipu_title">@string/user_ipu_add_mode</string>
-    <string name="user_ipu_hint_number">Заводской номер</string>
-    <string name="user_ipu_hint_location">Место установки</string>
+    <string name="user_ipu_hint_number">Заводской номер ИПУ</string>
+    <string name="user_ipu_hint_location">Место установки ИПУ</string>
     <string name="user_ipu_hint_service_name">Вид услуги</string>
     <string name="user_ipu_hint_brand">Марка прибора учета</string>
     <string name="user_ipu_hint_model">Модель прибора учета</string>
-    <string name="user_ipu_hint_check_interval">Межповерочный интервал</string>
-    <string name="user_ipu_hint_type">Тип ИПУ</string>
-    <string name="user_ipu_hint_type_tariff">Тип ИПУ по тарифным зонам</string>
-    <string name="user_ipu_hint_begin_date">Дата ввода в эксплуатацию ("дд.мм.гггг")</string>
-    <string name="user_ipu_hint_install_date">Дата установки ("дд.мм.гггг")</string>
-    <string name="user_ipu_hint_next_check_date">Дата следующей поверки ("дд.мм.гггг")</string>
+    <string name="user_ipu_hint_check_interval">Межповерочный интервал ИПУ</string>
+    <string name="user_ipu_hint_type">Тип прибора учета</string>
+    <string name="user_ipu_hint_type_tariff">Тип прибора учета по тарифным зонам</string>
+    <string name="user_ipu_hint_begin_date">Дата ввода в эксплуатацию</string>
+    <string name="user_ipu_hint_install_date">Дата установки</string>
+    <string name="user_ipu_hint_next_check_date">Дата следующей поверки ИПУ</string>
     <string name="user_ipu_hint_status">Статус прибора учета</string>
     <string name="user_ipu_commit">Добавить</string>
     <string name="user_ipu_commit_save">Сохранить</string>
