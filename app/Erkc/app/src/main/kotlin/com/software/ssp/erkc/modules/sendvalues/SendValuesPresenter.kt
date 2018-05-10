@@ -117,7 +117,11 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                                     next_check_date = it.next_check_date ?: "",
                                     status = it.status ?: ""
                             )
-                            currentIpu.ipuValues.add(realm_value)
+                            if (null == currentIpu.ipuValues.find { value->
+                                        value.isSent == false && value.id == it.id
+                                    }) {
+                                currentIpu.ipuValues.add(realm_value)
+                            }
                         }
 
                         //save locally:

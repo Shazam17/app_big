@@ -44,6 +44,7 @@ fun EditText.beFiltered(activity: Activity, options: List<String>, null_focused:
 }
 
 fun EditText.beDatePicker(activity: Activity, null_focused: View? = null) {
+    this.inputType = InputType.TYPE_NULL //prevent keyboard from showing
     this.setOnFocusChangeListener({v, focused ->
         if (focused) {
             this.pickDate(activity)

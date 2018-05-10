@@ -112,9 +112,9 @@ class Activity : MvpActivity(), IModuleView {
     override fun setupFilters() {
         val null_focused = commitButton
 
-        begin_date.beDatePicker(this)
-        install_date.beDatePicker(this)
-        next_check_date.beDatePicker(this)
+        begin_date.beDatePicker(this, null_focused = null_focused)
+        install_date.beDatePicker(this, null_focused = null_focused)
+        next_check_date.beDatePicker(this, null_focused = null_focused)
 
         location.beFiltered(this, presenter.filter(FILTER_LOCATION), null_focused, other_allowed = false)
         service_name.beFiltered(this, presenter.filter(FILTER_SERVICE_NAME), null_focused)

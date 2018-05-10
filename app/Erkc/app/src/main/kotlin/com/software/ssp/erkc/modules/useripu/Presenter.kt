@@ -108,7 +108,7 @@ class Presenter @Inject constructor(view: IModuleView) : RxPresenter<IModuleView
         subscriptions += realmRepository.fetchIpuByReceiptId(receiptId!!)
                 .concatMap {
                     ipus ->
-                    val ipu = ipus.ipuValues.find { it.number == ipu_number }
+                    val ipu = ipus.ipuValues.find { it.number == ipu_number && it.id.length > 0 }
                     Observable.just(UserIPUData(
                             id = ipu?.id ?: "",
                             number = ipu?.number ?: "",
