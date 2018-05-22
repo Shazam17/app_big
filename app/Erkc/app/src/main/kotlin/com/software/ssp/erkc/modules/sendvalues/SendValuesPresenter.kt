@@ -172,7 +172,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
                                     isSent = false, //most important thing here
 
-                                    userRegistered = if (Constants.DEBUG_SIMULATE_ALL_USER_ADDED_IPUS) true else (it.user_registered.equals("1")),
+                                    userRegistered = /*if (Constants.DEBUG_SIMULATE_ALL_USER_ADDED_IPUS) true else */(it.user_registered.equals("1")),
 
                                     brand = it.brand ?: "",
                                     model = it.model ?: "",

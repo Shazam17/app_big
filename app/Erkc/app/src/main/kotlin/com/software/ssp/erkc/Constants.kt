@@ -1,7 +1,7 @@
 package com.software.ssp.erkc
 
 object Constants {
-    const val DEBUG_SIMULATE_ALL_USER_ADDED_IPUS = true //TODO -> FALSE (added because of API side bug)
+    //const val DEBUG_SIMULATE_ALL_USER_ADDED_IPUS = false
     const val DEBUG_OFFLINE_MODE = false //TODO: -> FALSE
     const val V_API_MAIN = "https://api.vc.tom.ru"
     const val V_API_TEST = "https://testapi.vc.tom.ru"

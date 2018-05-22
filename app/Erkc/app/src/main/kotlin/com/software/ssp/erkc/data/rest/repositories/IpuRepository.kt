@@ -63,22 +63,22 @@ class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource
 
     fun updateByUser(code: String, data: UserIPUData): Observable<ResponseBody> {
         val params = userIpuParams(code, data)
-        addField(params, "id", data.id)
-
-        return ipuDataSource.updateByUser(params).compose(this.applySchedulers<ResponseBody>())
+        val params2send = mutableMapOf("id" to data.id)
+        params2send.putAll(params) //need save order (request signature problem), yes, it's strange to use map, but it is a legacy for now
+        return ipuDataSource.updateByUser(params2send).compose(this.applySchedulers<ResponseBody>())
     }
 
     fun removeByUser(code: String, data: UserIPUData): Observable<ResponseBody> {
-        val params = mutableMapOf("code" to code)
         fun today() = SimpleDateFormat("dd.MM.yyyy").format(Date())
 
-        addField(params, "id", data.id)
+        val params = mutableMapOf("id" to data.id)
+        addField(params, "code", code)
         addField(params, "nomer", data.number)
         addField(params, "mesto_ustan_id", data.locationId())
         addField(params, "usluga_id", data.serviceNameId())
         addField(params, "status_id", "2") //2 - nonactive
         addField(params, "date_end", today())
-        addField(params, "prichina_id", "2") //4 - error reason; 2 - other
+        addField(params, "prichina_id", "2") //4 - error input; 2 - other
 
         return ipuDataSource.updateByUser(params).compose(this.applySchedulers<ResponseBody>())
     }
