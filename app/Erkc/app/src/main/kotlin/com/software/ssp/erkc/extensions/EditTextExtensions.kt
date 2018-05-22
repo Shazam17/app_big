@@ -58,7 +58,7 @@ private fun EditText.pickDate(context: Context) {
     val calendar = Calendar.getInstance()
     DatePickerDialog(context,
             {picker,year,month,day->
-                this.setText(String.format("%02d",day) + '.' + String.format("%02d",month) + '.' + year)
+                this.setText(String.format("%02d",day) + '.' + String.format("%02d",(month+1)) + '.' + year)
             },
             calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
 }
