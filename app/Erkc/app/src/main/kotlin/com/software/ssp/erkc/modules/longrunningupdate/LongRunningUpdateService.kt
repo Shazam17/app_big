@@ -110,7 +110,8 @@ class LongRunningUpdateService : Service() {
         val realmConfiguration = RealmConfiguration
                 .Builder()
                 .schemaVersion(CURRENT_VERSION)
-                .migration(Migrations())
+                //.migration(Migrations())
+                .deleteRealmIfMigrationNeeded()
                 .build()
         val realm = Realm.getInstance(realmConfiguration)
         val realmRepository = RealmRepository(realm)

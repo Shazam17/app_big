@@ -44,8 +44,8 @@ class AppModule(val application: ErkcApplication) {
         val realmConfiguration = RealmConfiguration
                 .Builder()
                 .schemaVersion(CURRENT_VERSION)
-                .migration(Migrations())
-                //.deleteRealmIfMigrationNeeded()
+                //.migration(Migrations())
+                .deleteRealmIfMigrationNeeded()
                 .build()
         return Realm.getInstance(realmConfiguration)
     }
