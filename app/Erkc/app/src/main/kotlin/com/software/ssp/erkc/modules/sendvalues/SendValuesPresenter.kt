@@ -110,10 +110,10 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     }
 
     override fun onSendValuesClick() {
-        if (true) { //DEBUG
-            addPhotoTasks()
-            return
-        }
+//        if (true) { //DEBUG
+//            addPhotoTasks()
+//            return
+//        }
 
         if (!validateData()) {
             return
@@ -140,7 +140,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         val used_photos = mutableSetOf<Int>()
         for ((id,value) in values) {
             val photo_idx = ipu_symbols.bestIdxFor(id)
-            if (photo_idx != null && !used_photos.contains(photo_idx)) {
+            if (photo_idx != null && !used_photos.contains(photo_idx) && photo_file_tmp.size > photo_idx) {
                 used_photos.add(photo_idx)
                 PhotoService.addTask(view?.application()!!, photoPath(photo_idx), id, value, currentIpu.receipt!!.barcode)
             }

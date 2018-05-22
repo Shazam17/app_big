@@ -198,7 +198,10 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                     override fun log(message: String) {
                         Timber.w("camera: $message")
                         when (message) {
-                            "CameraDevice: startPreview" -> {if (camera_mode == CM_INITIALIZING) cameraMode(CM_READY)}
+                            "CameraDevice: startPreview" -> {
+                                if (camera_mode == CM_OFF) cameraMode(CM_OFF) //fix for the first time after granting camera permission
+                                else if (camera_mode == CM_INITIALIZING) cameraMode(CM_READY)
+                            }
                         }
                     }
                 }
@@ -341,9 +344,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                                     if (granted) {
                                         fotoapparat?.start()
                                     } else {
-                                        alert(R.string.need_camera_permission) {
-                                            positiveButton(R.string.answer_positive, {})
-                                        }
+                                        longToast(R.string.need_camera_permission)
                                     }
                                 }
                         )

@@ -14,6 +14,7 @@ object ApiErrorType{
         const val UNAUTHORIZED_USER_FAILED = 110
         const val USER_AUTHENTICATION_FAILED = 111
         const val UNAUTHORIZED_APPLICATION = 112
+        const val SESSION_EXPIRED = 116
 
         const val NOT_SET_BARCODE = 314
         const val NOT_SET_STREET = 315

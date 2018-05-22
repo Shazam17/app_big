@@ -8,8 +8,11 @@ import com.google.gson.JsonSyntaxException
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.ApiException
+import com.software.ssp.erkc.data.realm.models.RealmUser
+import com.software.ssp.erkc.data.rest.models.ApiErrorType
 import com.software.ssp.erkc.data.rest.models.ApiResponse
 import com.software.ssp.erkc.data.rest.repositories.AuthRepository
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.getParameters
 import com.software.ssp.erkc.extensions.md5
 import com.software.ssp.erkc.modules.fastauth.EnterPinActivity
@@ -73,6 +76,9 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
                     val apiResponse = gson.fromJson(bodyString, ApiResponse::class.java)
 
                     if (apiResponse?.result?.code != 0) {
+                        if (apiResponse?.result?.code == ApiErrorType.SESSION_EXPIRED) {
+                            logout()
+                        }
                         throw ApiException(apiResponse.result.description, apiResponse.result.code)
                     }
                 } catch (exception: JsonSyntaxException) {
@@ -181,5 +187,10 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
         val params = parameters.joinToString("")
         val sig = (tokenValue + params + private_key).md5()
         return sig
+    }
+
+    fun logout() {
+        val prefs = context.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        prefs.edit().putString(AuthRepository.LOCAL_TOKEN, "").apply()
     }
 }

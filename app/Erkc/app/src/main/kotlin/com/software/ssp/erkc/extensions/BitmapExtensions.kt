@@ -25,6 +25,16 @@ fun Bitmap.crop(width: Int, height: Int): Bitmap {
         var w2 = w1
         Timber.d("cropping ${w}x${h} to ${w1}x${h1}")
 
+        val scale_w = w/w2.toFloat()
+        val scale_h = h/h2.toFloat()
+        if (scale_w < scale_h) {
+            w2 = w
+            h2 = (h/scale_w).toInt()
+        } else {
+            h2 = h
+            w2 = (w/scale_h).toInt()
+        }
+
         if (w1 > w && h1 < h) {
             val factor: Float = w1/w.toFloat()
             w2 = w
