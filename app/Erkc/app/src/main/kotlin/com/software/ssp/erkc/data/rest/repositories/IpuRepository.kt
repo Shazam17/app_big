@@ -17,6 +17,12 @@ import javax.inject.Inject
 
 class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource) : Repository() {
 
+    private val STATUS_ACTIVE = "1"
+    private val STATUS_NON_ACTIVE = "2"
+
+    private val CLOSE_REASON_OTHER = "2"
+    private val CLOSE_REASON_ERROR_INPUT = "4"
+
     fun sendParameters(code: String, values: MutableMap<String, String>): Observable<ResponseBody> {
         val params = mutableMapOf("code" to code)
 
@@ -76,9 +82,9 @@ class IpuRepository @Inject constructor(private val ipuDataSource: IpuDataSource
         addField(params, "nomer", data.number)
         addField(params, "mesto_ustan_id", data.locationId())
         addField(params, "usluga_id", data.serviceNameId())
-        addField(params, "status_id", "2") //2 - nonactive
+        addField(params, "status_id", STATUS_NON_ACTIVE)
         addField(params, "date_end", today())
-        addField(params, "prichina_id", "2") //4 - error input; 2 - other
+        addField(params, "prichina_id", CLOSE_REASON_OTHER)
 
         return ipuDataSource.updateByUser(params).compose(this.applySchedulers<ResponseBody>())
     }
