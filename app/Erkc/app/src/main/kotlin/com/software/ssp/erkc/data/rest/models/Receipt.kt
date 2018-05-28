@@ -9,6 +9,9 @@ import java.util.*
 
 @PaperParcel
 class Receipt(
+        @SerializedName("account")
+        val account: String,
+
         @SerializedName("street")
         val street: String,
 

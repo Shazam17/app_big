@@ -8,6 +8,7 @@ import com.software.ssp.erkc.data.realm.models.RealmIpuValue
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.getUnitResId
 import com.software.ssp.erkc.extensions.getUnitResIdOnly
 import com.software.ssp.erkc.extensions.parsedMessage
@@ -32,14 +33,18 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     @Inject lateinit var activeSession: ActiveSession
     @Inject lateinit var realmRepository: RealmRepository
     @Inject lateinit var ipuRepository: IpuRepository
+    @Inject lateinit var receiptsRepository: ReceiptsRepository
 
     override var receiptId: String = ""
     override var currentFilter: HistoryFilterModel = HistoryFilterModel()
 
     var dismissProgressOnNextResume = false
+    private var barcode = ""
 
     class ShareData (val address: String, val getString: (Int)->String) {
         private var data = ArrayList<String>()
+        var account_num = ""
+        private val ACCOUNT_PLACEHOLDER = "%ACCOUNT_PLACEHOLDER%"
 
         fun addIpu(ipus: List<RealmIpuValue>) {
             val recent = ipus.sortedBy { it.date }.last()
@@ -47,7 +52,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 //            data.add("${recent.shortName} (${recent.number}, ${recent.installPlace}) ${recent.value} ${getString(units)}" +
 //                    "\n${getString(R.string.history_share_last_data)}: ${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}")
             data.add("$address\t" +
-                    "${recent.id}\t" + //TODO: change with "л/с"
+                    "${ACCOUNT_PLACEHOLDER}\t" +
                     "${recent.number}\t" +
                     "${recent.value}\t" +
                     "${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}\t" +
@@ -59,7 +64,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
             //val sb = StringBuilder("${getString(R.string.history_share_address)}: $address")
             val sb = StringBuilder(getString(R.string.history_share_header))
             sb.append('\n')
-            data.forEachIndexed { index, s -> sb.append("${index+1}\t$s\n")}
+            data.forEachIndexed { index, s -> sb.append("${index+1}\t${s.replace(ACCOUNT_PLACEHOLDER, account_num)}\n")}
             sb.append("${getString(R.string.history_share_form_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}")
             return sb.toString()
         }
@@ -79,6 +84,8 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         subscriptions += realmRepository.fetchReceiptsById(receiptId)
                 .concatMap {
                     receipt ->
+
+                    barcode = receipt!!.barcode
 
                     view?.showReceiptData(receipt)
                     shareData = ShareData(receipt.address, view!!::getString)
@@ -170,7 +177,11 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         view?.setProgressVisible(true)
         dismissProgressOnNextResume = true
 
-        subscriptions += Observable.just(shareData)
+        subscriptions += receiptsRepository.fetchReceiptInfo(barcode)
+                .flatMap { receipt ->
+                    shareData?.account_num = receipt.account
+                    Observable.just(shareData)
+                }
                 .requireNoNulls()
                 .subscribe(
                         {view?.shareIntent(it.toString())},

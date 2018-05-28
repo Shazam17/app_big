@@ -12,6 +12,7 @@ import com.software.ssp.erkc.data.rest.repositories.IpuRepository
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.extensions.crop
 import com.software.ssp.erkc.extensions.parsedMessage
+import com.software.ssp.erkc.extensions.resize
 import com.software.ssp.erkc.extensions.rotate90CW
 import com.software.ssp.erkc.modules.photoservice.PhotoService
 import com.software.ssp.erkc.modules.useripu.Presenter
@@ -397,8 +398,12 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         res?.toBitmap()
                 ?.whenAvailable { bmp ->
                     if (bmp != null) {
-                        val rotated = bmp.bitmap.rotate90CW()
+                        val resized = bmp.bitmap.resize(Math.min(pic_width, pic_height))
+                        bmp.bitmap.recycle()
+                        val rotated = resized.rotate90CW()
+                        resized.recycle()
                         val cropped = rotated.crop(pic_width, pic_height)
+                        rotated.recycle()
                         //TODO: check on tablets
                         //https://stackoverflow.com/questions/14066038/why-does-an-image-captured-using-camera-intent-gets-rotated-on-some-devices-on-a
                         val fos = FileOutputStream(file)

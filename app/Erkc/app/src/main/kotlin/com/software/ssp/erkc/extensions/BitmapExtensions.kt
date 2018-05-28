@@ -15,6 +15,16 @@ fun Bitmap.rotate90CW(): Bitmap {
     return res
 }
 
+fun Bitmap.resize(min_dim: Int): Bitmap {
+    var w = this.width.toFloat()
+    var h = this.height.toFloat()
+    val factor = Math.min(w,h)/min_dim.toFloat()
+    w /= factor
+    h /= factor
+
+    return Bitmap.createScaledBitmap(this, w.toInt(), h.toInt(), true)
+}
+
 fun Bitmap.crop(width: Int, height: Int): Bitmap {
     this.let {
         val w1 = width
