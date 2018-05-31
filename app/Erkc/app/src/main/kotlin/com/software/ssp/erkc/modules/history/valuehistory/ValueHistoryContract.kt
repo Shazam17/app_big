@@ -15,7 +15,7 @@ interface IValueHistoryView : IView {
     fun addIpuData(ipu: ValueHistoryViewModel)
     fun showReceiptData(receipt: RealmReceipt)
     fun setProgressVisible(isVisible: Boolean)
-    fun shareIntent(msg: String)
+    fun shareIntent(data: ValueHistoryPresenter.ShareData, filename: String)
     fun getString(res: Int): String
     fun shareDataNotReady()
 }

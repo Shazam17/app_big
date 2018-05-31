@@ -20,6 +20,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.requireNoNulls
 import rx.schedulers.Schedulers
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -37,6 +38,9 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
     override var receiptId: String = ""
     override var currentFilter: HistoryFilterModel = HistoryFilterModel()
+
+    private var date_from_cached = ""
+    private var date_to_cached = ""
 
     var dismissProgressOnNextResume = false
     private var barcode = ""
@@ -58,6 +62,22 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                     "${recent.date?.toString(Constants.VALUES_DATE_FORMAT)}\t" +
                     "${recent.shortName}"
             )
+        }
+
+        class SheetData(val col: Int, val row: Int, val text: String)
+
+        fun sheetIterator(): ArrayList<SheetData> {
+            val res = ArrayList<SheetData>()
+
+            with(res) {
+                getString(R.string.history_share_header).split("\t").forEachIndexed {index, s -> add(SheetData(index, 0, s)) }
+                data.forEachIndexed { row, line ->
+                    "${row+1}\t${line.replace(ACCOUNT_PLACEHOLDER, account_num)}".split("\t").forEachIndexed {col, cell -> add(SheetData(col, row+1, cell)) }
+                }
+                add(SheetData(0, data.size+1, "${getString(R.string.history_share_form_date)}: ${Date().toString(Constants.VALUES_DATE_FORMAT)}"))
+            }
+
+            return res
         }
 
         override fun toString(): String {
@@ -148,7 +168,9 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
         val diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR)
         val diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH)
 
-        view?.showPeriod(dateFrom!!.toString(Constants.VALUES_DATE_FORMAT), dateTo!!.toString(Constants.VALUES_DATE_FORMAT))
+        date_from_cached = dateFrom!!.toString(Constants.VALUES_DATE_FORMAT)
+        date_to_cached = dateTo!!.toString(Constants.VALUES_DATE_FORMAT)
+        view?.showPeriod(date_from_cached, date_to_cached)
 
         ipus.groupBy { it.shortName }.forEach {
 
@@ -174,6 +196,8 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
     }
 
     override fun shareAction() {
+        if (date_from_cached.isEmpty()) return //skip clicks, not ready yet
+
         view?.setProgressVisible(true)
         dismissProgressOnNextResume = true
 
@@ -184,7 +208,7 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                 }
                 .requireNoNulls()
                 .subscribe(
-                        {view?.shareIntent(it.toString())},
+                        {view?.shareIntent(it, "xml/${it.address} (с ${date_from_cached} по ${date_to_cached}).xls".replace(File.pathSeparator, "-"))},
                         {view?.shareDataNotReady()}
                 )
     }

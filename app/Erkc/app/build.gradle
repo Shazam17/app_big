@@ -14,8 +14,8 @@ android {
         applicationId "com.software.ssp.erkc"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 504
-        versionName "5.0.4"
+        versionCode 505
+        versionName "5.0.5"
         multiDexEnabled true
     }
 
@@ -179,6 +179,10 @@ dependencies {
         exclude group: "com.android.support"
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
+    //Excel export
+    //implementation 'org.apache.poi:poi:3.15'
+    compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6'
 }
 
 repositories {

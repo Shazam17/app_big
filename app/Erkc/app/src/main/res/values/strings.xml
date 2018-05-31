@@ -629,6 +629,7 @@
     <string name="need_camera_permission">Предоставьте разрешение для захвата изображения с камеры</string>
     <string name="cancel">Отмена</string>
     <string name="photo_error">Ошибка камеры</string>
+    <string name="xls_write_error">Ошибка формирования xls документа</string>
 
 
 </resources>

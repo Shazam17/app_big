@@ -404,7 +404,6 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         resized.recycle()
                         val cropped = rotated.crop(pic_width, pic_height)
                         rotated.recycle()
-                        //TODO: check on tablets
                         //https://stackoverflow.com/questions/14066038/why-does-an-image-captured-using-camera-intent-gets-rotated-on-some-devices-on-a
                         val fos = FileOutputStream(file)
                         try {

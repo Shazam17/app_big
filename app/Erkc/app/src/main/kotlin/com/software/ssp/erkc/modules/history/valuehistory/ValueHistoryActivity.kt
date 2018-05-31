@@ -20,17 +20,17 @@ import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import kotlinx.android.synthetic.main.activity_value_history.*
 import kotlinx.android.synthetic.main.item_value_expandable_history.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
-import org.jetbrains.anko.find
-import org.jetbrains.anko.include
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
-
+import android.support.v4.content.FileProvider
+import android.webkit.MimeTypeMap
+import com.software.ssp.erkc.utils.ExcelUtils
+import org.jetbrains.anko.*
+import java.io.File
 
 
 /**
@@ -176,16 +176,32 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         }.show()
     }
 
-    override fun shareIntent(msg: String) {
+    override fun shareIntent(data: ValueHistoryPresenter.ShareData, filename: String) {
+        val string_data = data.toString()
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), msg)
+        val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), string_data)
         clipboard.setPrimaryClip(clip)
         toast(R.string.history_share_copied_to_clipboard)
 
-        Log.d("hist_", msg)
+        val file = File(filesDir, filename)
+        File(filesDir, "xml").mkdirs()
+        file.createNewFile()
+        if (!ExcelUtils.writeToFile(file, data)) {
+            longToast(R.string.xls_write_error)
+            setProgressVisible(false)
+            return
+        }
+
+        Log.d("hist_", string_data)
+        val uri = FileProvider.getUriForFile(this, "com.software.ssp.erkc", file)
         val intent = Intent(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, msg)
-                .setType("text/plain")
+//                .putExtra(Intent.EXTRA_TEXT, string_data)
+//                .setType("text/plain")
+                //.setType(MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(filename)))
+                //.setType("application/vnd.ms-excel")
+                .setType("application/*")
+                //.setType("*/*")
+                .putExtra(Intent.EXTRA_STREAM, uri)
         startActivity(Intent.createChooser(intent, getString(R.string.history_share)))
     }
 
