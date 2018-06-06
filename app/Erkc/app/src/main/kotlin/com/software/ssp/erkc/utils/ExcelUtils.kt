@@ -16,6 +16,10 @@ class ExcelUtils {
 
                 val sheet = workbook.createSheet("Показания", 0)
 
+
+
+                val max_width = HashMap<Int, Int>()
+
                 data.sheetIterator().forEach {
                     val int_value = it.text.toIntOrNull()
                     val double_value = it.text.toDoubleOrNull()
@@ -27,7 +31,11 @@ class ExcelUtils {
                     else
                         sheet.addCell(Label(it.col, it.row, it.text))
 
+                    val cur_width = max_width.get(it.col) ?: 1
+                    max_width.put(it.col, Math.max(cur_width, it.text.length))
                 }
+
+                max_width.forEach { col, width -> sheet.setColumnView(col, width)}
 
                 workbook.write()
                 workbook.close()
