@@ -1,6 +1,8 @@
 package com.software.ssp.erkc.modules.history.valuehistory
 
+import android.text.format.DateUtils
 import com.software.ssp.erkc.Constants
+import com.software.ssp.erkc.Constants.VALUES_DATE_FORMAT
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.IpuType
@@ -21,6 +23,7 @@ import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.requireNoNulls
 import rx.schedulers.Schedulers
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -66,8 +69,18 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
         class SheetData(val col: Int, val row: Int, val text: String)
 
+        private fun sortData() {
+            val sdf = SimpleDateFormat(VALUES_DATE_FORMAT)
+            data.sortWith(compareBy(
+                    { sdf.parse(it.split("\t").get(4)).time }, //date
+                    { it.split("\t").get(5) }  //service type
+            ))
+        }
+
         fun sheetIterator(): ArrayList<SheetData> {
             val res = ArrayList<SheetData>()
+
+            sortData()
 
             with(res) {
                 getString(R.string.history_share_header).split("\t").forEachIndexed {index, s -> add(SheetData(index, 0, s)) }

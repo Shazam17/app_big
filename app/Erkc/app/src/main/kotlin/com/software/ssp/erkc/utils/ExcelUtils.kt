@@ -35,7 +35,8 @@ class ExcelUtils {
                     max_width.put(it.col, Math.max(cur_width, it.text.length))
                 }
 
-                max_width.forEach { col, width -> sheet.setColumnView(col, width)}
+                max_width.keys.forEach({ col -> sheet.setColumnView(col, max_width.get(col)!!) })
+                //max_width.forEach { col, width -> sheet.setColumnView(col, width)}
 
                 workbook.write()
                 workbook.close()
