@@ -433,6 +433,11 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     }
 
     private fun showIpu() {
+        currentIpu.ipuValues.sortWith(compareBy(
+                {it.userRegistered},
+                {it.serviceName}
+        ))
+
         val ipus = currentIpu.ipuValues.distinctBy { it.id }.map { it.id }.toList()
         ipu_symbols.init(ipus)
 
