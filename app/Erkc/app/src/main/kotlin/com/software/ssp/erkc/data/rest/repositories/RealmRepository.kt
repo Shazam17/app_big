@@ -943,7 +943,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                                     installPlace = it.installPlace,
                                     date = it.date,
                                     value = it.value,
-                                    isSent = true
+                                    isSent = true,
+                                    userRegistered = it.user_registered?.equals("1")?:false
                             )
                         }))
                     }

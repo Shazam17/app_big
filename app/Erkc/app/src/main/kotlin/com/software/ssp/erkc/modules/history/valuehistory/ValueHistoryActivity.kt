@@ -27,6 +27,9 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.support.v4.content.FileProvider
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.webkit.MimeTypeMap
 import com.software.ssp.erkc.utils.ExcelUtils
 import org.jetbrains.anko.*
@@ -130,6 +133,15 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         }
     }
 
+    private fun spanIPUTitle(byuser: Boolean, s: String): SpannableString {
+        if (!byuser) return SpannableString(s);
+        else {
+            val span = SpannableString(s+"_")
+            span.setSpan(ImageSpan(this, R.drawable.ic_edit_black), s.length, s.length+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            return span
+        }
+    }
+
     override fun addIpuData(ipu: ValueHistoryViewModel) {
         valuesContainer.include<ViewGroup>(R.layout.item_value_expandable_history) {
 
@@ -137,7 +149,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
             val anyIpu = ipu.values.first()
 
             find<TextView>(R.id.itemValueHistoryTitle).apply {
-                text = getString(R.string.history_value_item_title, anyIpu.shortName, anyIpu.number, anyIpu.installPlace)
+                text = spanIPUTitle(anyIpu.userRegistered, getString(R.string.history_value_item_title, anyIpu.shortName, anyIpu.number, anyIpu.installPlace))
                 setCompoundDrawablesWithIntrinsicBounds(0, 0, if (expandableView.isExpanded) R.drawable.ic_arrow_drop_up else R.drawable.ic_arrow_drop_down, 0)
 
                 onClick {

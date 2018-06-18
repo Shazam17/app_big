@@ -28,6 +28,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * @author Alexander Popov on 05/12/2016.
@@ -127,10 +128,19 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                         Observable.just(null)
                     } else {
                         ipuRepository.getHistoryByReceipt(receipt!!.barcode)
+                                .zipWith(ipuRepository.getByReceipt(receipt!!.barcode), ::Pair)
                     }
                 }
                 .concatMap {
-                    ipus ->
+                    pair ->
+                    val ipus = pair?.first
+                    val ipus_just = pair?.second
+
+                    val map = HashMap<String, String>()
+                    ipus_just?.forEach { map.put(it.id, it.user_registered?:"") }
+
+                    ipus?.forEach{ it.user_registered = map.get(it.id) }
+
                     if (ipus == null) {
                         Observable.just(null)
                     } else {

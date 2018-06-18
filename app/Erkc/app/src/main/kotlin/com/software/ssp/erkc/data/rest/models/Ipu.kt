@@ -67,7 +67,7 @@ data class Ipu(
         val begin_date: String?,
 
         @SerializedName("byuser")
-        val user_registered: String?, //if so - "1"
+        var user_registered: String?, //if so - "1"
 
         //@SerializedName("") noname in current API version
         val status: String?
