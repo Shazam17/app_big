@@ -16,6 +16,7 @@ import com.software.ssp.erkc.extensions.getUnitResIdOnly
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.extensions.toString
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import com.software.ssp.erkc.modules.useripu.Presenter
 import rx.Observable
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
@@ -72,10 +73,16 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
 
         private fun sortData() {
             val sdf = SimpleDateFormat(VALUES_DATE_FORMAT)
-            data.sortWith(compareBy(
-                    { sdf.parse(it.split("\t").get(4)).time }, //date
-                    { it.split("\t").get(5) }  //service type
-            ))
+            data.sortWith(
+                    compareByDescending<String>({ //date
+                        sdf.parse(it.split("\t").get(4)).time
+                    })
+                    .thenBy({ //service type in dictionary order
+                        val service = it.split("\t").get(5)
+                        val service_id = Presenter.UserIPUData(service_name = service).serviceNameId()
+                        service_id
+                    })
+            )
         }
 
         fun sheetIterator(): ArrayList<SheetData> {

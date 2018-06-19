@@ -188,6 +188,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                             if (null == currentIpu.ipuValues.find { value->
                                         value.isSent == false && value.id == it.id
                                     }) {
+                                currentIpu.ipuValues.removeAll { ipu -> ipu.id.equals(it.id) }
                                 currentIpu.ipuValues.add(realm_value)
                             }
                         }
@@ -433,10 +434,12 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
     }
 
     private fun showIpu() {
-        currentIpu.ipuValues.sortWith(compareBy(
-                {it.userRegistered},
-                {it.serviceName}
-        ))
+        currentIpu.ipuValues.sortWith(
+            compareBy(
+                    { it.userRegistered },
+                    { Presenter.UserIPUData(service_name = it.serviceName).serviceNameId() }
+            )
+        )
 
         val ipus = currentIpu.ipuValues.distinctBy { it.id }.map { it.id }.toList()
         ipu_symbols.init(ipus)

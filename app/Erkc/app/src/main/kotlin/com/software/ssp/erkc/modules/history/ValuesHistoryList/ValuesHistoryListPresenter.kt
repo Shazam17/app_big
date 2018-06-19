@@ -10,6 +10,7 @@ import com.software.ssp.erkc.data.rest.repositories.ReceiptsRepository
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterField
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
+import com.software.ssp.erkc.modules.useripu.Presenter
 import rx.Observable
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
@@ -138,7 +139,11 @@ class ValuesHistoryListPresenter @Inject constructor(view: IValuesHistoryListVie
 
                             val sortedReceipts = filteredIpus
                                     .map { it.receipt!! }
-                                    .sortedByDescending { it.lastIpuTransferDate }
+                                    .sortedWith(compareBy(
+                                            { it.lastIpuTransferDate },
+                                            { it.serviceCode }
+                                    ))
+//                                    .sortedByDescending({ it.lastIpuTransferDate })
 
                             view?.showData(sortedReceipts)
                         },
