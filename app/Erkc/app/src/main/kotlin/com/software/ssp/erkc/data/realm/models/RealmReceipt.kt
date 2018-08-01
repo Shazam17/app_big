@@ -31,7 +31,7 @@ open class RealmReceipt(
         open var linkedCard: RealmCard? = null) : RealmObject() {
 
     fun iconPath(context: Context): String? {
-        val service = ServiceType(service_code = serviceCode.toString())
+        val service = ServiceType(service_code = serviceCode.toString().padStart(3, '0'))
         val path = service.iconPath(context)
         if (!File(path).exists())
             return null
