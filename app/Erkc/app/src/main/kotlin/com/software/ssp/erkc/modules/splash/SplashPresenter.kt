@@ -99,7 +99,7 @@ class SplashPresenter @Inject constructor(view: ISplashView) : RxPresenter<ISpla
                     cache ->
                     if (cache != null) {
                         realmRepository.saveStreetList(cache.streets)
-                        realmRepository.saveIpuDictionary(cache.ipu)
+                                .concatMap {  isCached -> realmRepository.saveIpuDictionary(cache.ipu)}
                     } else {
                         Observable.just(false)
                     }
