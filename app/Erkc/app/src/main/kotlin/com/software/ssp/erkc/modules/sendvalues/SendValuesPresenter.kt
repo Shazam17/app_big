@@ -199,7 +199,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                     .subscribe(
                             {
                                 showIpu()
-                                if (currentIpu.ipuValues.find { it.userRegistered } != null) { view?.showAddIPU() }
+                                if (true || currentIpu.ipuValues.find { it.userRegistered } != null) { view?.showAddIPU() }
                                 view?.setProgressVisibility(false)
                             },
                             {
