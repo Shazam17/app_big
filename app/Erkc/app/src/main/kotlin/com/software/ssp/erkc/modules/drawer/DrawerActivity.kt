@@ -168,6 +168,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     override fun setAuthedMenuVisible(isVisible: Boolean) {
         val menu = drawerNavigationView.menu
 
+        menu.findItem(DrawerItem.PAYMENT.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.VALUES.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.CARDS.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.AUTOPAY.itemId).isVisible = isVisible
