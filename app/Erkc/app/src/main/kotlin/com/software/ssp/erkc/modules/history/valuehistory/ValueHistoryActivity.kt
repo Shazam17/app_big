@@ -188,7 +188,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
         }.show()
     }
 
-    override fun shareIntent(data: ValueHistoryPresenter.ShareData, filename: String) {
+    override fun shareIntent(data: ValueHistoryPresenter.ShareData, filename: String, subject: String) {
         val string_data = data.toString()
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), string_data)
@@ -214,6 +214,7 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
                 .setType("application/*")
                 //.setType("*/*")
                 .putExtra(Intent.EXTRA_STREAM, uri)
+                .putExtra(Intent.EXTRA_SUBJECT, subject)
         startActivity(Intent.createChooser(intent, getString(R.string.history_share)))
     }
 

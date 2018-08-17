@@ -238,7 +238,9 @@ class ValueHistoryPresenter @Inject constructor(view: IValueHistoryView) : RxPre
                 }
                 .requireNoNulls()
                 .subscribe(
-                        {view?.shareIntent(it, "xml/${it.address} (с ${date_from_cached} по ${date_to_cached}).xls".replace(File.pathSeparator, "-"))},
+                        {view?.shareIntent(it,
+                                "xml/${it.address} (с ${date_from_cached} по ${date_to_cached}).xls".replace(File.pathSeparator, "-"),
+                                "${it.address} (с ${date_from_cached} по ${date_to_cached})".replace(File.pathSeparator, "-"))},
                         {view?.shareDataNotReady()}
                 )
     }
