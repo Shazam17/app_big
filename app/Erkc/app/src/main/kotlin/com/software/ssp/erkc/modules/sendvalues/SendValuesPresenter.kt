@@ -399,17 +399,20 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
         res?.toBitmap()
                 ?.whenAvailable { bmp ->
                     if (bmp != null) {
-                        val resized = bmp.bitmap.resize(Math.min(pic_width, pic_height))
-                        bmp.bitmap.recycle()
-                        val rotated = resized.rotate90CW()
-                        resized.recycle()
-                        val cropped = rotated.crop(pic_width, pic_height)
-                        rotated.recycle()
+//                        val resized = bmp.bitmap.resize(Math.min(pic_width, pic_height))
+//                        bmp.bitmap.recycle()
+//                        val rotated = resized.rotate90CW()
+//                        resized.recycle()
+//                        val cropped = rotated.crop(pic_width, pic_height)
+//                        rotated.recycle()
+                        val rotated = bmp.bitmap.rotate90CW()
                         //https://stackoverflow.com/questions/14066038/why-does-an-image-captured-using-camera-intent-gets-rotated-on-some-devices-on-a
                         val fos = FileOutputStream(file)
                         try {
-                            Timber.d("saving cropped ${cropped.width}x${cropped.height}")
-                            cropped.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+//                            Timber.d("saving cropped ${cropped.width}x${cropped.height}")
+//                            cropped.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+                            Timber.d("saving image ${rotated.width}x${rotated.height}")
+                            rotated.compress(Bitmap.CompressFormat.JPEG, 90, fos)
                         } finally {
                             fos.close()
                         }
