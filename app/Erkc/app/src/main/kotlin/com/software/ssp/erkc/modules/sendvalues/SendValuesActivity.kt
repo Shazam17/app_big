@@ -302,9 +302,11 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     }
 
     override fun showAddIPU() {
-        val view = layoutInflater.inflate(R.layout.item_add_user_ipu, parametersContainer, false)
-        view.onClick { presenter.addIPUClicked() }
-        parametersContainer.addView(view)
+        if (presenter.isAuthorized()) {
+            val view = layoutInflater.inflate(R.layout.item_add_user_ipu, parametersContainer, false)
+            view.onClick { presenter.addIPUClicked() }
+            parametersContainer.addView(view)
+        }
     }
 
     override fun navigateToUserIPU(number: String?) {

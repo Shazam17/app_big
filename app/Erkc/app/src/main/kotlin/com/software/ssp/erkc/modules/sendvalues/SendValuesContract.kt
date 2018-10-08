@@ -44,4 +44,5 @@ interface ISendValuesPresenter : IPresenter<ISendValuesView> {
     fun badShot()
     fun symbolAdded(ipu_number: String, text: String)
     fun currentPhotoIdxChanged(idx: Int)
+    fun isAuthorized(): Boolean
 }

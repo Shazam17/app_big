@@ -194,7 +194,7 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
                         }
 
                         //save locally:
-                        realmRepository.saveIpu(RealmIpu(receiptId!!, currentIpu.ipuValues, currentIpu.receipt))
+                        realmRepository.saveIpu(RealmIpu(if (receiptId == null) "" else receiptId!!, currentIpu.ipuValues, currentIpu.receipt))
                     }
                     .subscribe(
                             {
@@ -452,5 +452,9 @@ class SendValuesPresenter @Inject constructor(view: ISendValuesView) : RxPresent
 
     override fun currentPhotoIdxChanged(idx: Int) {
         ipu_symbols.photo_idx = idx
+    }
+
+    override fun isAuthorized(): Boolean {
+        return activeSession.accessToken != ""
     }
 }

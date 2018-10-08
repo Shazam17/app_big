@@ -16,7 +16,7 @@ class Receipt(
         val street: String,
 
         @SerializedName("commission_agreed")
-        val comimssionAgreed: String,
+        val comimssionAgreed: String?,
 
         @SerializedName("house")
         val house: String,

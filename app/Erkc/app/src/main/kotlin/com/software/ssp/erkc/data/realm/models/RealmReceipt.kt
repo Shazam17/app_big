@@ -14,7 +14,7 @@ open class RealmReceipt(
         @PrimaryKey
         open var id: String = "",
         open var street: String = "",
-        open var comimssionAgreed: String = "",
+        open var comimssionAgreed: String? = "",
         open var house: String = "",
         open var apart: String = "",
         open var autoPayMode: Int = 0,

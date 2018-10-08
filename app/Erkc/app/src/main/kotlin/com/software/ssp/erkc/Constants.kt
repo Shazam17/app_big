@@ -5,7 +5,7 @@ object Constants {
     const val DEBUG_OFFLINE_MODE = false
     const val V_API_MAIN = "https://api.vc.tom.ru"
     const val V_API_TEST = "https://testapi.vc.tom.ru"
-    const val V_API = V_API_TEST //TODO: change in release
+    const val V_API = V_API_MAIN //TODO: change in release
 
     const val SERVER_URL = V_API
     const val API_MAIN_ENDPOINT_URL = "$SERVER_URL/apps/"
