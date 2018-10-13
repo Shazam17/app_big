@@ -26,6 +26,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.os.Environment
 import android.support.v4.content.FileProvider
 import android.text.Spannable
 import android.text.SpannableString
@@ -189,33 +190,35 @@ class ValueHistoryActivity : MvpActivity(), IValueHistoryView {
     }
 
     override fun shareIntent(data: ValueHistoryPresenter.ShareData, filename: String, subject: String) {
-        val string_data = data.toString()
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), string_data)
-        clipboard.setPrimaryClip(clip)
-        toast(R.string.history_share_copied_to_clipboard)
+            val string_data = data.toString()
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText(getString(R.string.history_share_clipboard_label), string_data)
+            clipboard.setPrimaryClip(clip)
+            toast(R.string.history_share_copied_to_clipboard)
 
-        val file = File(filesDir, filename)
-        File(filesDir, "xml").mkdirs()
-        file.createNewFile()
-        if (!ExcelUtils.writeToFile(file, data)) {
-            longToast(R.string.xls_write_error)
-            setProgressVisible(false)
-            return
-        }
+            val file = File(filesDir.path + filename)
+            File(filesDir, "xml").mkdirs()
+            file.createNewFile()
 
-        Log.d("hist_", string_data)
-        val uri = FileProvider.getUriForFile(this, "com.software.ssp.erkc", file)
-        val intent = Intent(Intent.ACTION_SEND)
+
+            if (!ExcelUtils.writeToFile(file, data)) {
+                longToast(R.string.xls_write_error)
+                setProgressVisible(false)
+                return
+            }
+
+            Log.d("hist_", string_data)
+            val uri = FileProvider.getUriForFile(this, "com.software.ssp.erkc", file)
+            val intent = Intent(Intent.ACTION_SEND)
 //                .putExtra(Intent.EXTRA_TEXT, string_data)
 //                .setType("text/plain")
-                //.setType(MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(filename)))
-                //.setType("application/vnd.ms-excel")
-                .setType("application/*")
-                //.setType("*/*")
-                .putExtra(Intent.EXTRA_STREAM, uri)
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-        startActivity(Intent.createChooser(intent, getString(R.string.history_share)))
+                    //.setType(MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(filename)))
+                    //.setType("application/vnd.ms-excel")
+                    .setType("application/*")
+                    //.setType("*/*")
+                    .putExtra(Intent.EXTRA_STREAM, uri)
+                    .putExtra(Intent.EXTRA_SUBJECT, subject)
+            startActivity(Intent.createChooser(intent, getString(R.string.history_share)))
     }
 
     override fun shareDataNotReady() {
