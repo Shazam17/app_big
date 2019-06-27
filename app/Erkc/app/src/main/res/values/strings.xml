@@ -31,6 +31,7 @@
     <string name="drawer_main_screen_text">Основной экран</string>
     <string name="drawer_payment_text">Оплата</string>
     <string name="drawer_send_values_text">Передача показаний ИПУ</string>
+    <string name="drawer_request_text">Заявки</string>
     <string name="drawer_my_cards_text">Мои карты</string>
     <string name="drawer_history_text">История операций</string>
     <string name="drawer_auto_payment_text">Автоплатежи</string>

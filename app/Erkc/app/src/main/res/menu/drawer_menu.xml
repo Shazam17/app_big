@@ -14,6 +14,11 @@
             android:id="@+id/menuSendValues"
             android:icon="@drawable/ic_menu_submit"
             android:title="@string/drawer_send_values_text" />
+        <item
+            android:id="@+id/menuRequest"
+            android:icon="@drawable/ic_menu_exit"
+            android:title="@string/drawer_request_text"
+            />
     </group>
 
     <group android:id="@+id/menuSecondGroup" android:checkableBehavior="single">
