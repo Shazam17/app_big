@@ -21,6 +21,7 @@ import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onCheckedChange
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textChangedListener
+import org.w3c.dom.Text
 import javax.inject.Inject
 
 
@@ -223,9 +224,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
         for (receipt in receipts) {
             val receiptItemView = layoutInflater.inflate(R.layout.item_autopayment_dialog, rootView, false)
-            val titleTextView = receiptItemView.findViewById(R.id.titleTextView) as TextView
-            val subtitleTextView = receiptItemView.findViewById(R.id.subtitleTextView) as TextView
-            val radioButton = receiptItemView.findViewById(R.id.radioButton) as RadioButton
+            val titleTextView = receiptItemView.findViewById<TextView>(R.id.titleTextView)
+            val subtitleTextView = receiptItemView.findViewById<TextView>(R.id.subtitleTextView)
+            val radioButton = receiptItemView.findViewById<RadioButton>(R.id.radioButton)
 
             titleTextView.text = "${receipt.barcode}\n${receipt.name}"
             subtitleTextView.text = receipt.address
@@ -254,9 +255,9 @@ class AutoPaymentSettingsActivity : MvpActivity(), IAutoPaymentSettingsView {
 
         for (card in cards) {
             val receiptItemView = layoutInflater.inflate(R.layout.item_autopayment_dialog, rootView, false)
-            val titleTextView = receiptItemView.findViewById(R.id.titleTextView) as TextView
-            val subtitleTextView = receiptItemView.findViewById(R.id.subtitleTextView) as TextView
-            val radioButton = receiptItemView.findViewById(R.id.radioButton) as RadioButton
+            val titleTextView = receiptItemView.findViewById<TextView>(R.id.titleTextView)
+            val subtitleTextView = receiptItemView.findViewById<TextView>(R.id.subtitleTextView)
+            val radioButton = receiptItemView.findViewById<RadioButton>(R.id.radioButton)
 
             titleTextView.text = card.maskedCardNumber
             subtitleTextView.text = card.name

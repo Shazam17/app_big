@@ -86,10 +86,10 @@ class ContactsFragment : MvpFragment(), IContactsView, OnMapReadyCallback {
     }
 
     override fun didSentMessage() {
-        messageEditText.text.clear()
+        messageEditText.text?.clear()
 
         val snack = Snackbar.make(view, R.string.contacts_email_send_dialog_message, Snackbar.LENGTH_LONG)
-        val textView = snack.view.findViewById(android.support.design.R.id.snackbar_text) as TextView
+        val textView = snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
         textView.setTextColor(Color.WHITE)
         snack.setAction(R.string.contacts_snack_bar_action_text, {})
         snack.setActionTextColor(Color.WHITE)

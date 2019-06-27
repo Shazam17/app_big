@@ -15,6 +15,9 @@ import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationsListAdapter(val dataList: List<RealmNotification>,
                                val interactionListener: InteractionListener? = null) : RecyclerView.Adapter<NotificationsListAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_notification, p0, false)
+        return ViewHolder(view, interactionListener)    }
 
     override fun getItemCount(): Int {
         return dataList.count()
@@ -24,10 +27,7 @@ class NotificationsListAdapter(val dataList: List<RealmNotification>,
         holder.bindNotification(dataList[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_notification, parent, false)
-        return ViewHolder(view, interactionListener)
-    }
+
 
     class ViewHolder(view: View,
                      val interactionListener: InteractionListener?) : RecyclerView.ViewHolder(view) {

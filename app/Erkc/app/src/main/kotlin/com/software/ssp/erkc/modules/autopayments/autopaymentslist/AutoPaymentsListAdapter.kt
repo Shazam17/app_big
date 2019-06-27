@@ -16,6 +16,10 @@ import org.jetbrains.anko.onClick
 
 class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
                               val interactionListener: InteractionListener? = null) : RecyclerView.Adapter<AutoPaymentsListAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_autopayments, p0, false)
+        return ViewHolder(view, interactionListener)
+    }
 
     override fun getItemCount(): Int {
         return dataList.count()
@@ -26,10 +30,7 @@ class AutoPaymentsListAdapter(val dataList: List<ReceiptViewModel>,
         holder.bindReceipt(dataList[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AutoPaymentsListAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_autopayments, parent, false)
-        return AutoPaymentsListAdapter.ViewHolder(view, interactionListener)
-    }
+
 
     class ViewHolder(view: View,
                      val interactionListener: InteractionListener?) : RecyclerView.ViewHolder(view) {

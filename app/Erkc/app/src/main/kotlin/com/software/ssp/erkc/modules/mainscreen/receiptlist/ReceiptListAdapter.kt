@@ -16,11 +16,10 @@ import org.jetbrains.anko.onClick
 
 class ReceiptListAdapter(dataList: List<ReceiptViewModel>,
                          val interactionListener: InteractionListener? = null) : BaseReceiptAdapter<ReceiptListAdapter.ViewHolder>(dataList) {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_receipt, p0, false)
+        return ViewHolder(view, interactionListener)    }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_receipt, parent, false)
-        return ViewHolder(view, interactionListener)
-    }
 
     class ViewHolder(view: View,
                      val interactionListener: InteractionListener? = null) : BaseReceiptViewHolder(view) {

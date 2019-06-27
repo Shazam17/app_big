@@ -8,12 +8,12 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     //buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.software.ssp.erkc"
-        minSdkVersion 17
-        targetSdkVersion 25
+        minSdkVersion 19
+        targetSdkVersion 28
         versionCode 510
         versionName "5.0.10"
         multiDexEnabled true
@@ -83,7 +83,7 @@ android {
     }
 }
 
-ext.support_version = '25.3.1'
+ext.support_version = '28.0.0'
 
 dependencies {
     implementation  fileTree(dir: 'libs', include: ['*.jar'])

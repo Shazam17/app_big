@@ -16,8 +16,8 @@ import org.jetbrains.anko.onClick
 class ValueTransferAdapter(dataList: List<ReceiptViewModel>,
                            val interactionListener: InteractionListener? = null) : BaseReceiptAdapter<ValueTransferAdapter.ViewHolder>(dataList) {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_receipt, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_receipt, parent, false)
         return ViewHolder(view, interactionListener)
     }
 

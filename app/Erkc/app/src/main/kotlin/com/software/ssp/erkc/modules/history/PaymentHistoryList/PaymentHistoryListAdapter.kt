@@ -16,6 +16,10 @@ import org.jetbrains.anko.textColor
 
 class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
                                 val onItemClick: ((RealmPaymentInfo) -> Unit)? = null) : RecyclerView.Adapter<PaymentHistoryListAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_history, p0, false)
+        return ViewHolder(view, onItemClick)
+    }
 
     override fun getItemCount(): Int {
         return dataList.count()
@@ -30,10 +34,6 @@ class PaymentHistoryListAdapter(val dataList: List<RealmPaymentInfo>,
         holder.bindReceipt(dataList[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_history, parent, false)
-        return ViewHolder(view, onItemClick)
-    }
 
     class ViewHolder(view: View, val onItemClick: ((RealmPaymentInfo) -> Unit)?) : RecyclerView.ViewHolder(view) {
 

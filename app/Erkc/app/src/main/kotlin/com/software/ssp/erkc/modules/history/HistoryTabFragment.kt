@@ -12,6 +12,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.history.filter.HistoryFilterModel
 import com.software.ssp.erkc.modules.history.paymenthistorylist.PaymentHistoryListFragment
 import com.software.ssp.erkc.modules.history.valueshistorylist.ValuesHistoryListFragment
+import kotlinx.android.synthetic.main.activity_search_address.*
 import kotlinx.android.synthetic.main.fragment_history_tab.*
 import org.jetbrains.anko.withArguments
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class HistoryTabFragment : MvpFragment(), IHistoryTabView {
     private val historyFilter: HistoryFilterModel by args(defaultValue = HistoryFilterModel())
 
     private val currentTabHistoryList: IHistoryListDelegate
-        get() = tabsViewPaper.adapter.instantiateItem(null, tabsViewPaper.currentItem) as IHistoryListDelegate
+        get() = tabsViewPaper.adapter?.instantiateItem(container, tabsViewPaper.currentItem) as IHistoryListDelegate
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerHistoryTabComponent.builder()

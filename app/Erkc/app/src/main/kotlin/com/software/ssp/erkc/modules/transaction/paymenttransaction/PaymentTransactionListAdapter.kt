@@ -23,8 +23,8 @@ class PaymentTransactionListAdapter(val dataList: List<RealmOfflinePayment>,
         holder.bind(dataList[position], interactionListener)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_transaction_payment, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction_payment, parent, false)
         return ViewHolder(view)
     }
 

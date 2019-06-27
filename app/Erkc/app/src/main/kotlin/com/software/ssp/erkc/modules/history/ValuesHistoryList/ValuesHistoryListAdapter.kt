@@ -14,6 +14,10 @@ import kotlinx.android.synthetic.main.item_history.view.*
 
 class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
                                val onItemClick: ((RealmReceipt) -> Unit)? = null) : RecyclerView.Adapter<ValuesHistoryListAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_history, p0, false)
+        return ViewHolder(view, onItemClick)
+    }
 
     override fun getItemCount(): Int {
         return dataList.count()
@@ -28,10 +32,6 @@ class ValuesHistoryListAdapter(val dataList: List<RealmReceipt>,
         holder.bindReceipt(dataList[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_history, parent, false)
-        return ViewHolder(view, onItemClick)
-    }
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)

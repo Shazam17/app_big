@@ -25,8 +25,8 @@ class ValuesTransactionListAdapter(val dataList: List<RealmOfflineIpu>,
         return dataList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_transaction_ipu, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction_ipu, parent, false)
         return ViewHolder(view, interactionListener)
     }
 

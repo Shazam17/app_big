@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.software.ssp.erkc.Constants
-import com.software.ssp.erkc.Manifest
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extractFromBundle
 import com.software.ssp.erkc.common.delegates.extras
@@ -39,6 +38,7 @@ import com.software.ssp.erkc.modules.sendvalues.CameraMode.*
 import java.io.File
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.widget.TextView
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.software.ssp.erkc.extensions.hide
@@ -164,7 +164,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         sendValuesButton.onClick { presenter.onSendValuesClick() }
         add_photo.onClick{
-            findViewById(R.id.no_image_hint).visibility = GONE
+            findViewById<TextView>(R.id.no_image_hint).visibility = GONE
             presenter.addPhotoClick()
         }
         camera_shot.onClick{ if (camera_mode == CM_READY) cameraShot() }
@@ -177,9 +177,9 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         photo_pager.onPageChangeListener { onPageSelected { page->presenter.currentPhotoIdxChanged(page) }  }
 
         Glide.get(this).clearMemory()
-        Thread({
+        Thread {
             Glide.get(this).clearDiskCache()
-        }).start()
+        }.start()
     }
 
     private fun checkCameraHardware() = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
@@ -217,8 +217,8 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
         override fun getItem(position: Int): Fragment {
             val res = PhotoFragment()
             res.arguments = Bundle()
-            res.arguments.putInt(PhotoFragment.KEY_IDX, position)
-            res.arguments.putString(PhotoFragment.KEY_PATH, data.get(position).absolutePath)
+            res.arguments!!.putInt(PhotoFragment.KEY_IDX, position)
+            res.arguments!!.putString(PhotoFragment.KEY_PATH, data.get(position).absolutePath)
             return res
         }
 
@@ -247,16 +247,16 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                 Color.BLUE
         )
 
-        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            root = inflater?.inflate(R.layout.fragment_photo_values, container, false)
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+            root = inflater.inflate(R.layout.fragment_photo_values, container, false)
 
-            idx = arguments.getInt(KEY_IDX)
-            path = arguments.getString(KEY_PATH)
+            idx = arguments!!.getInt(KEY_IDX)
+            path = arguments!!.getString(KEY_PATH)
             val image = root?.find<ImageView>(R.id.image)
 
             Timber.d("loading #$idx with $path")
 
-            if (path.length > 0) {
+            if (path.isNotEmpty()) {
                 Glide.with(this)
                         .load(path)
                         .into(image!!)
@@ -340,16 +340,13 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
                 val p = RxPermissions.getInstance(this)
                 camera_controls.visibility = VISIBLE
                 p.request(android.Manifest.permission.CAMERA)
-                        .subscribe(
-                                {
-                                    granted ->
-                                    if (granted) {
-                                        fotoapparat?.start()
-                                    } else {
-                                        longToast(R.string.need_camera_permission)
-                                    }
-                                }
-                        )
+                        .subscribe { granted ->
+                            if (granted) {
+                                fotoapparat?.start()
+                            } else {
+                                longToast(R.string.need_camera_permission)
+                            }
+                        }
             }
             CM_READY -> {
                 camera_cancel.hide()
@@ -376,7 +373,7 @@ class SendValuesActivity : MvpActivity(), ISendValuesView {
     override fun nextCaptureFragment(file: File) {
         cameraMode(CM_OFF)
         photos.add(file)
-        photo_pager.adapter.notifyDataSetChanged()
+        photo_pager.adapter!!.notifyDataSetChanged()
         photo_pager.setCurrentItem(photos.size-1, true)
     }
 

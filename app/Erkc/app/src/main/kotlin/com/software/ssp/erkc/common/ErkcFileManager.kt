@@ -23,7 +23,7 @@ class ErkcFileManager @Inject constructor(private val context: Context) {
     fun saveFile(uri: Uri) {
         RxPermissions.getInstance(context)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe({ granted ->
+                .subscribe { granted ->
                     if (granted) {
                         try {
                             val outputFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), uri.lastPathSegment)
@@ -38,7 +38,7 @@ class ErkcFileManager @Inject constructor(private val context: Context) {
                     } else {
                         context.toast(context.getString(R.string.payment_check_permission_denied))
                     }
-                })
+                }
 
     }
 
