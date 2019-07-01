@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutRequestNonAuth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/request_non_auth_hint_your_address"
+        app:errorEnabled="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/yourAddressTextEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/requestNonAuthMainInfoConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutRequestNonAuth">
+
+
+        <TextView
+            android:id="@+id/requestNonAuthYourManagerCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineHeight="25dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="Ваша управляющая компания ЖилФонд, находится по адресу Иркутский тракт, дом 128"
+            android:textAlignment="center"
+            android:textColor="@color/text_black"
+            android:textSize="16dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/requestNonAuthLeaveRequestCallNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="@string/request_non_auth_leave_request_call_number_text"
+            android:textColor="@color/text_black"
+            android:textSize="16dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/requestNonAuthYourManagerCompany" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="60dp"
+            android:background="#00BE1010"
+            android:translationZ="@dimen/google_display1_text_size"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/requestNonAuthCallButton"
+            app:layout_constraintStart_toStartOf="@+id/requestNonAuthCallButton"
+            app:layout_constraintTop_toTopOf="@+id/requestNonAuthCallButton"
+            app:srcCompat="@drawable/ic_call" />
+
+        <Button
+            android:id="@+id/requestNonAuthCallButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/call_button"
+            android:paddingLeft="100dp"
+            android:paddingRight="60dp"
+            android:shadowRadius="20dp"
+            android:shadowColor="@color/text_black"
+            android:shadowDx="10"
+            android:shadowDy="50"
+
+
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/requestNonAuthLeaveRequestCallNumberTextView"
+            tools:text="8 (913) 258 85 95" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:id="@+id/requestNonAuthOrTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="или"
+                android:textColor="@color/text_black"
+                android:textSize="16dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/requestNonAuthSignInSystemTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/requestNonAuthSignInSystemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Войдите"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="16dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/requestNonAuthOrTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/requestNonAuthInSystemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="в систему"
+                android:textColor="@color/text_black"
+                android:textSize="16dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/requestNonAuthSignInSystemTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
