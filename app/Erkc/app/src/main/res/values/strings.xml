@@ -632,5 +632,12 @@
     <string name="photo_error">Ошибка камеры</string>
     <string name="xls_write_error">Ошибка формирования xls документа</string>
 
+    <!-- RequestScreen -->
+    <string name = "request_tab_text">Заявки</string>
+    <string name = "request_active_tab_title">Активные</string>
+    <string name = "request_archive_tab_title">Архив</string>
+    <string name = "request_draft_tab_title">Черновики</string>
+    <string name="request_menu_filter">Применить фильтр</string>
+    <string name="request_menu_refresh">Обновить список</string>
 
 </resources>

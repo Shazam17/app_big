@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmReceipt
+import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.extensions.isSameDay
 import com.software.ssp.erkc.extensions.toString
 import kotlinx.android.synthetic.main.item_history.view.*

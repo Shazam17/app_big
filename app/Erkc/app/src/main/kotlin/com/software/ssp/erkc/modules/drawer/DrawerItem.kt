@@ -9,6 +9,7 @@ enum class DrawerItem(@StringRes val titleId: Int, @IdRes val itemId: Int) {
     MAIN(R.string.drawer_main_screen_text, R.id.menuMainScreen),
     PAYMENT(R.string.drawer_payment_text, R.id.menuPayment),
     VALUES(R.string.drawer_send_values_text, R.id.menuSendValues),
+    REQUEST(R.string.request_tab_text,R.id.menuRequest),
     CARDS(R.string.drawer_my_cards_text, R.id.menuMyCards),
     HISTORY(R.string.drawer_history_text, R.id.menuHistory),
     AUTOPAY(R.string.drawer_auto_payment_text, R.id.menuAutoPayments),

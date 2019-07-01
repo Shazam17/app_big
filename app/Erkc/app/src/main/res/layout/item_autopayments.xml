@@ -98,12 +98,12 @@
                         tools:visibility="visible" />
 
                     <ImageView
-                        android:id="@+id/editImageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:src="@drawable/ic_edit_grey"
-                        tools:visibility="visible" />
+                        android:id = "@+id/editImageButton"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:clickable = "true"
+                        android:src = "@drawable/ic_edit_grey"
+                        tools:visibility = "visible" />
 
                 </LinearLayout>
 

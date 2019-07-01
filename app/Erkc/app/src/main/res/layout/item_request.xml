@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "wrap_content"
+    android:orientation = "vertical">
+
+    <android.support.v7.widget.CardView
+        android:id = "@+id/requestCardVIew"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:layout_marginStart = "16dp"
+        android:layout_marginTop = "16dp"
+        android:layout_marginEnd = "16dp"
+        android:layout_marginBottom = "16dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content">
+
+            <TextView
+                android:id = "@+id/requestTitle"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_marginStart = "12dp"
+                android:layout_marginTop = "8dp"
+                android:text = "Отсутствие отопления"
+                android:textSize = "19dp"
+                app:layout_constraintStart_toStartOf = "parent"
+                app:layout_constraintTop_toTopOf = "parent" />
+
+            <TextView
+                android:id = "@+id/requestType"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "32dp"
+                android:layout_marginBottom = "8dp"
+                android:text = "Вызов сантехника"
+                android:textSize = "16dp"
+                app:layout_constraintBottom_toBottomOf = "parent"
+                app:layout_constraintStart_toStartOf = "@+id/requestTitle"
+                app:layout_constraintTop_toBottomOf = "@+id/requestTitle" />
+
+            <TextView
+                android:id = "@+id/requestState"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_marginEnd = "12dp"
+                android:text = "В работе"
+                android:textSize = "16dp"
+                app:layout_constraintBottom_toBottomOf = "@+id/requestType"
+                app:layout_constraintEnd_toEndOf = "parent"
+                app:layout_constraintTop_toTopOf = "@+id/requestType" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
