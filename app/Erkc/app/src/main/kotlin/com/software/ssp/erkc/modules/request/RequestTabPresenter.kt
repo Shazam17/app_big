@@ -8,11 +8,11 @@ class RequestTabPresenter @Inject constructor(view:IRequestTabView):RxPresenter<
 
     @Inject lateinit var activeSession:ActiveSession
 
-    override fun onFilterClick(){
+    override fun onFilterClick() {
         view?.openFilterAlert()
     }
 
-    override fun onRefreshClick(){
+    override fun onRefreshClick() {
         view?.refreshCurrentList()
     }
 }

@@ -9,6 +9,11 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
+import kotlinx.android.synthetic.main.fragment_request_tab.*
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveRequestListView,IActiveRequestListPresenter{
@@ -34,6 +39,8 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
         super.onViewCreated(view, savedInstanceState)
         presenter.onViewAttached()
     }
+
+
 
     override fun onSwipeToRefresh() {
     }

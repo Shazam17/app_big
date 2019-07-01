@@ -16,7 +16,7 @@
             android:title="@string/drawer_send_values_text" />
         <item
             android:id="@+id/menuRequest"
-            android:icon="@drawable/ic_menu_exit"
+            android:icon="@drawable/ic_menu_request"
             android:title="@string/drawer_request_text"
             />
     </group>
