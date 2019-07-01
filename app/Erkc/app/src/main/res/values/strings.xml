@@ -638,5 +638,12 @@
     <string name="request_non_auth_location_text">находится по адресу</string>
     <string name="request_non_auth_leave_request_call_number_text">Чтобы оставить заявку, позвоните по номеру:</string>
 
+    <!-- RequestScreen -->
+    <string name = "request_tab_text">Заявки</string>
+    <string name = "request_active_tab_title">Активные</string>
+    <string name = "request_archive_tab_title">Архив</string>
+    <string name = "request_draft_tab_title">Черновики</string>
+    <string name="request_menu_filter">Применить фильтр</string>
+    <string name="request_menu_refresh">Обновить список</string>
 
 </resources>

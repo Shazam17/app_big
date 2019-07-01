@@ -32,6 +32,7 @@ import com.software.ssp.erkc.modules.mainscreen.MainScreenFragment
 import com.software.ssp.erkc.modules.notifications.notificationslist.NotificationsListFragment
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.photoservice.PhotoService
+import com.software.ssp.erkc.modules.request.RequestTabFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -46,7 +47,8 @@ import javax.inject.Inject
 
 class DrawerActivity : MvpActivity(), IDrawerView {
 
-    @Inject lateinit var presenter: IDrawerPresenter
+    @Inject
+    lateinit var presenter: IDrawerPresenter
 
     private var nonAuthImitation = false
     private var navigateToLogin = false
@@ -75,7 +77,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         nonAuthImitation = false
         navigateToLogin = false
 
-        if(intent.extras!=null) {
+        if (intent.extras != null) {
             nonAuthImitation = intent.extras.getBoolean("nonAuthImitation")
             navigateToLogin = intent.extras.getBoolean("navigateToLogin")
             intent.extras.clear()
@@ -87,7 +89,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
             selectedDrawerItem = DrawerItem.values()[savedInstanceState.getInt(Constants.KEY_SELECTED_DRAWER_ITEM, DrawerItem.MAIN.ordinal)]
         }
 
-        if(nonAuthImitation)
+        if (nonAuthImitation)
             presenter.setNonAuthImitation()
 
         presenter.onViewAttached()
@@ -169,6 +171,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         val menu = drawerNavigationView.menu
 
         menu.findItem(DrawerItem.PAYMENT.itemId).isVisible = isVisible
+        menu.findItem(DrawerItem.REQUEST.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.VALUES.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.CARDS.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
@@ -227,26 +230,27 @@ class DrawerActivity : MvpActivity(), IDrawerView {
     private fun navigateToModule(drawerItem: DrawerItem) {
         val fragment: Fragment = when (drawerItem) {
             DrawerItem.MAIN -> {
-                if(nonAuthImitation) {
+                if (nonAuthImitation) {
                     setAuthedMenuVisible(false)
                     isSelectedDrawerItemChanged = false
 
                     clearUserInfo()
 
-                    val fragment =  MainScreenFragment()
+                    val fragment = MainScreenFragment()
                     val bundle = Bundle()
                     bundle.putBoolean("nonAuthImitation", true)
                     bundle.putBoolean("navigateToLogin", navigateToLogin)
                     fragment.arguments = bundle
 
                     fragmentManager.beginTransaction()
-                        .replace(R.id.drawerFragmentContainer, fragment)
-                        .commitAllowingStateLoss()
+                            .replace(R.id.drawerFragmentContainer, fragment)
+                            .commitAllowingStateLoss()
                     return
                 } else {
                     MainScreenFragment()
                 }
             }
+            DrawerItem.REQUEST -> RequestTabFragment()
             DrawerItem.PAYMENT -> PaymentScreenFragment()
             DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> CardsFragment()
@@ -290,6 +294,7 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                 when (id) {
                     DrawerItem.MAIN.itemId -> selectedDrawerItem = DrawerItem.MAIN
                     DrawerItem.PAYMENT.itemId -> selectedDrawerItem = DrawerItem.PAYMENT
+                    DrawerItem.REQUEST.itemId -> selectedDrawerItem = DrawerItem.REQUEST
                     DrawerItem.VALUES.itemId -> selectedDrawerItem = DrawerItem.VALUES
                     DrawerItem.CARDS.itemId -> selectedDrawerItem = DrawerItem.CARDS
                     DrawerItem.HISTORY.itemId -> selectedDrawerItem = DrawerItem.HISTORY
