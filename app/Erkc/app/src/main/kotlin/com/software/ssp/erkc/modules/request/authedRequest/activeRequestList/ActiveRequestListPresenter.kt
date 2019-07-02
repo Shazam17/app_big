@@ -24,27 +24,19 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
                 Request(1, "Прорванная труба", "Вызов сантехника", "В работе"),
                 Request(2, "Сломанная лампочка в подъезде", "Вызов электрика", "Ожидает рассмотрения"))
         realmRepository.saveRequestList(data)
+                .concatMap {
+                    realmRepository.fetchRequestList()
+                }
                 .subscribe(
                         {
-                            if (it) {
-                                Log.e("SAVE DATA", "SUCCESS")
-                            } else {
-                                Log.e("SAVE DATA", "ERROR")
-                            }
+                            realmRequestList ->
+                            view?.showData(realmRequestList)
                         },
                         {
-
+                            error ->
+                            error.printStackTrace()
                         }
                 )
-//        subscriptions += realmRepository.fetchRequestList()
-//                .subscribe(
-//                        { realmRequestList ->
-//                            view?.showData(realmRequestList)
-//                        },
-//                        { error ->
-//                            error.printStackTrace()
-//                        }
-//                )
 
     }
     override fun onRequestClick(request: RealmRequest) {

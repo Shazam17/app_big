@@ -77,11 +77,11 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
     }
 
     override fun openFilterAlert() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO implementation
     }
 
     override fun refreshCurrentList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO implementation
     }
 
     private fun navigateToCreateRequestScreen() {
@@ -92,8 +92,8 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
 
     private fun initViews() {
         tabLayout.addTab(tabLayout.newTab().setText(TabItem.ACTIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
+//        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
+//        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
