@@ -12,6 +12,8 @@ import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.archiveRequestList.ArchiveRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.draftRequestList.DraftRequestListFragment
 import kotlinx.android.synthetic.main.activity_search_address.*
 import kotlinx.android.synthetic.main.fragment_history_tab.tabsViewPaper
 import kotlinx.android.synthetic.main.fragment_request_tab.*
@@ -92,8 +94,8 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
 
     private fun initViews() {
         tabLayout.addTab(tabLayout.newTab().setText(TabItem.ACTIVE.titleResId))
-//        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
-//        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -114,8 +116,8 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
             override fun getItem(position: Int): Fragment {
                 return when (TabItem.values()[position]) {
                     TabItem.ACTIVE -> ActiveRequestListFragment()
-                    TabItem.ARCHIVE -> ActiveRequestListFragment()
-                    TabItem.DRAFT -> ActiveRequestListFragment()
+                    TabItem.ARCHIVE -> ArchiveRequestListFragment()
+                    TabItem.DRAFT -> DraftRequestListFragment()
                 }
             }
         }
