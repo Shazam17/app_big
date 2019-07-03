@@ -20,7 +20,8 @@
         android:label="${app_name}"
         tools:replace="android:label"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Light">
+        android:theme="@style/AppTheme.Light"
+        android:usesCleartextTraffic="true">
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -185,6 +186,10 @@
             android:name=".modules.fastauth.deletepin.DeletePinActivity"
             android:label="@string/pinlock_delete_title"
             android:theme="@style/AppTheme.Light"/>
+
+        <activity android:name=".modules.createrequest.CreateRequestActivity"
+            android:label="@string/create_request_title"
+            android:theme="@style/AppTheme.Light" />
         
         <provider
             android:name="android.support.v4.content.FileProvider"

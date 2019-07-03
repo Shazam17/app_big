@@ -1056,29 +1056,31 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     }
 
     fun saveRequestList(request: List<Request>): Observable<Boolean> {
-        return deleteRequestList()
-                .concatMap {
-                    val realmRequestList = RealmList<RealmRequest>()
-                    request.forEach {
-                        realmRequestList.add(RealmRequest(
-                                id = it.id,
-                                title = it.title,
-                                state = it.state,
-                                type = it.type
-                        )
-                        )
-                    }
-                    Observable.create<Boolean> { sub ->
-                        realm.executeTransactionAsync(
-                                {
-                                    it.copyToRealmOrUpdate(realmRequestList)
-                                },
-                                {
-                                    sub.onNext(true)
-                                }
-                        ) { error ->
-                            sub.onError(error)
-                        }
+//        return
+//        deleteRequestList()
+//                .concatMap {
+               return Observable.create<Boolean> {sub ->
+                        val realmRequestList = RealmList<RealmRequest>()
+                        request.forEach {
+                            realmRequestList.add(RealmRequest(
+                                    id = it.id,
+                                    title = it.title,
+                                    state = it.state,
+                                    type = it.type
+                            )
+                            )
+
+                            realm.executeTransactionAsync(
+                                    {
+                                        it.copyToRealmOrUpdate(realmRequestList)
+                                    },
+                                    {
+                                        sub.onNext(true)
+                                    }
+                            ) { error ->
+                                sub.onError(error)
+                            }
+
                     }
                 }
 

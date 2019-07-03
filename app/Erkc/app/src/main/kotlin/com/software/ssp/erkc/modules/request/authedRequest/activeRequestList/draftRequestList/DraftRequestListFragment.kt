@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList
+package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.draftRequestList
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
@@ -9,27 +9,12 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
-import kotlinx.android.synthetic.main.fragment_request_tab.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
+import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
 import javax.inject.Inject
 
-class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveRequestListView {
+class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestListView {
 
-
-    @Inject
-    lateinit var presenter: IActiveRequestListPresenter
-
-
-    override fun injectDependencies(appComponent: AppComponent) {
-        DaggerActiveRequestListComponent.builder()
-                .appComponent(appComponent)
-                .activeRequestListModule(ActiveRequestListModule(this))
-                .build()
-                .inject(this)
-    }
+    @Inject lateinit var presenter: IDraftRequestListPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -40,7 +25,6 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
         super.onViewCreated(view, savedInstanceState)
         presenter.onViewAttached()
     }
-
 
     override fun onSwipeToRefresh() {
 
@@ -53,14 +37,19 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
         )
     }
 
-
-    override fun beforeDestroy() {
+    override fun injectDependencies(appComponent: AppComponent) {
+        DaggerDraftRequestListComponent.builder()
+                .appComponent(appComponent)
+                .draftRequestListModule(DraftRequestListModule(this))
+                .build()
+                .inject(this)
     }
 
+    override fun beforeDestroy() {
+        presenter.onViewDetached()
+    }
 
     override fun navigateToRequestInfo(request: RealmRequest) {
 
     }
-
-
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,11 +13,40 @@
         android:elevation="2dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:tabIndicatorColor="@color/colorTabIndicator" />
+        app:tabIndicatorColor="@color/colorTabIndicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 
     <com.software.ssp.erkc.common.views.UnswipeableViewPager
         android:id="@+id/tabsViewPaper"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutRequest"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/bottomFrameLayoutRequest"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/requestTapCreateRequestButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_tab_create_button_text"
+        android:theme="@style/AppWhiteButtonStyle"
+        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutRequest"
+        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutRequest"
+        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutRequest"
+        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutRequest"/>
+
+</android.support.constraint.ConstraintLayout>

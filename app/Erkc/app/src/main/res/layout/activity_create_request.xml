@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nameRequestInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="18dp"
+                android:hint="@string/create_request_name_request_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createRequestNameRequestTextEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/addressInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:hint="@string/create_request_address_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createRequestAddressTextEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/serviceManagerInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:hint="@string/create_request_service_provider_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createRequestServiceProviderTextEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/typeRequestInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:hint="@string/create_request_type_request_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createRequestTypeRequestTextEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingHorizontal="22dp">
+
+                    <TextView
+                        android:id="@+id/emergencyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/create_request_emergency_request_text"
+                        android:textColor="@color/text_black"
+                        android:textSize="16dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_marginTop="8dp"
+
+                        app:layout_constraintTop_toBottomOf="@id/emergencyTextView"/>
+                    
+                </android.support.constraint.ConstraintLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/createRequestDescriptionInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="6dp"
+                android:hint="@string/create_request_description_problem_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createRequestDescriptionTextEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_camera" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/bottomFrameLayoutCreateRequest"
+        android:layout_width="0dp"
+        android:layout_height="77dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/createRequestSendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:text="@string/create_request_send_button_text"
+        android:theme="@style/AppWhiteButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutCreateRequest"
+
+        android:enabled="false"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="@id/createRequestSendButton"
+        app:layout_constraintTop_toTopOf="@id/createRequestSendButton"
+        app:layout_constraintBottom_toBottomOf="@id/createRequestSendButton"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+</android.support.constraint.ConstraintLayout>

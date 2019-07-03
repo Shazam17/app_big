@@ -93,4 +93,7 @@
     <color name="dot_emptyborder">#87898C</color>
     <color name="transparent">#00000000</color>
 
+    <!-- Requests -->
+    <color name="colorBlueTextRequestScreen">#1D3580</color>
+
 </resources>
