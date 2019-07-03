@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList
 
+import android.util.Log
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.data.rest.models.Request
@@ -19,16 +20,20 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
     }
 
     private fun fetchRequestList() {
-//        val data: List<Request> = listOf(Request(0, "Отсутствие отопления", "Вызов сантехника", "На рассмотрении"),
-//                Request(1, "Прорванная труба", "Вызов сантехника", "В работе"),
-//                Request(2, "Сломанная лампочка в подъезде", "Вызов электрика", "Ожидает рассмотрения"))
-//        realmRepository.saveRequestList(data)
-        subscriptions += realmRepository.fetchRequestList()
+        val data: List<Request> = listOf(Request(0, "Отсутствие отопления", "Вызов сантехника", "На рассмотрении"),
+                Request(1, "Прорванная труба", "Вызов сантехника", "В работе"),
+                Request(2, "Сломанная лампочка в подъезде", "Вызов электрика", "Ожидает рассмотрения"))
+        realmRepository.saveRequestList(data)
+                .concatMap {
+                    realmRepository.fetchRequestList()
+                }
                 .subscribe(
-                        { realmRequestList ->
+                        {
+                            realmRequestList ->
                             view?.showData(realmRequestList)
                         },
-                        { error ->
+                        {
+                            error ->
                             error.printStackTrace()
                         }
                 )

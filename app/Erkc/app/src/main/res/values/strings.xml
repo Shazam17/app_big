@@ -632,6 +632,15 @@
     <string name="photo_error">Ошибка камеры</string>
     <string name="xls_write_error">Ошибка формирования xls документа</string>
 
+    <!-- Request Tab -->
+    <string name="request_tab_create_button_text">СОЗДАТЬ ЗАЯВКУ</string>
+    
+    <!-- Request Screen -->
+    <string name="request_non_auth_hint_your_address">Ваш адрес</string>
+    <string name="request_non_auth_your_manager_company_text">Ваша управляющая компания</string>
+    <string name="request_non_auth_location_text">находится по адресу</string>
+    <string name="request_non_auth_leave_request_call_number_text">Чтобы оставить заявку, позвоните по номеру:</string>
+
     <!-- RequestScreen -->
     <string name = "request_tab_text">Заявки</string>
     <string name = "request_active_tab_title">Активные</string>
@@ -639,5 +648,26 @@
     <string name = "request_draft_tab_title">Черновики</string>
     <string name="request_menu_filter">Применить фильтр</string>
     <string name="request_menu_refresh">Обновить список</string>
+
+    <!-- Create Request Screen -->
+    <string name="create_request_title">Создание заявки</string>
+    <string name="create_request_send_button_text">Отправить заявку</string>
+    <string name="create_request_name_request_hint">Название заявки</string>
+    <string name="create_request_address_hint">Адрес</string>
+    <string name="create_request_service_provider_hint">Поставщик услуг</string>
+    <string name="create_request_type_request_hint">Тип заявки</string>
+    <string name="create_request_type_home">Тип имущества</string>
+    <string name="create_request_emergency_request_text">Аварийная заявка</string>
+    <string name="create_request_description_problem_hint">Описание проблемы</string>
+    
+    <!-- Request Details -->
+    <string name="request_details_cancel_button_text">Отменить заявку</string>
+    <string name="request_details_request_info_text">Информация о заявке:</string>
+    <string name="request_details_description_problem_text">Описание проблемы:</string>
+    <string name="request_details_status_request_text">Статус заявки:</string>
+    <string name="request_details_submit_complete_button_text">Подтвердить выполнение</string>
+
+    <!-- Chat with dispatcher -->
+    <string name="chat_with_dispatcher_edit_text_hint">Сообщение</string>
 
 </resources>

@@ -17,6 +17,7 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.delegates.extras
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmUser
+import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.autopayments.AutoPaymentsTabFragment
 import com.software.ssp.erkc.modules.card.cards.CardsFragment
@@ -33,6 +34,7 @@ import com.software.ssp.erkc.modules.notifications.notificationslist.Notificatio
 import com.software.ssp.erkc.modules.paymentscreen.PaymentScreenFragment
 import com.software.ssp.erkc.modules.photoservice.PhotoService
 import com.software.ssp.erkc.modules.request.RequestTabFragment
+import com.software.ssp.erkc.modules.request.nonauthedrequest.RequestNonAuthFragment
 import com.software.ssp.erkc.modules.settings.SettingsFragment
 import com.software.ssp.erkc.modules.signin.SignInActivity
 import com.software.ssp.erkc.modules.signup.SignUpActivity
@@ -49,6 +51,8 @@ class DrawerActivity : MvpActivity(), IDrawerView {
 
     @Inject
     lateinit var presenter: IDrawerPresenter
+
+    @Inject lateinit var activeSession: ActiveSession
 
     private var nonAuthImitation = false
     private var navigateToLogin = false
@@ -171,7 +175,6 @@ class DrawerActivity : MvpActivity(), IDrawerView {
         val menu = drawerNavigationView.menu
 
         menu.findItem(DrawerItem.PAYMENT.itemId).isVisible = isVisible
-        menu.findItem(DrawerItem.REQUEST.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.VALUES.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.CARDS.itemId).isVisible = isVisible
         menu.findItem(DrawerItem.HISTORY.itemId).isVisible = isVisible
@@ -250,7 +253,14 @@ class DrawerActivity : MvpActivity(), IDrawerView {
                     MainScreenFragment()
                 }
             }
-            DrawerItem.REQUEST -> RequestTabFragment()
+            // TODO Test non auth request screen
+            DrawerItem.REQUEST ->  {
+                if (activeSession.accessToken == "") {
+                    RequestNonAuthFragment()
+                } else {
+                    RequestTabFragment()
+                }
+            }
             DrawerItem.PAYMENT -> PaymentScreenFragment()
             DrawerItem.VALUES -> ValueTransferFragment()
             DrawerItem.CARDS -> CardsFragment()

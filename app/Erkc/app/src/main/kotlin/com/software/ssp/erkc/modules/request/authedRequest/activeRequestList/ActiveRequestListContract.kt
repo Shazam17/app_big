@@ -8,9 +8,8 @@ import com.software.ssp.erkc.data.realm.models.RealmRequest
 
 interface IActiveRequestListView:IListView<RealmRequest>{
     fun navigateToRequestInfo(request: RealmRequest)
-
 }
-interface IActiveRequestListPresenter:IListPresenter<RealmRequest,IActiveRequestListView>{
+interface IActiveRequestListPresenter:IListPresenter<RealmRequest, IActiveRequestListView>{
     fun onRequestClick(request: RealmRequest)
     fun onFilterClick()
     fun onRefreshClick()

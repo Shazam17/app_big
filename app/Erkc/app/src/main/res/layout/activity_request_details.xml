@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:orientation="vertical"
+
+        app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/requestDetailsMainTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlueTextRequestScreen"
+            android:textSize="16dp"
+
+            tools:text="Обращение #3597842 от 12.20.2018 10:00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            android:textSize="16dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+
+            android:text="@string/request_details_request_info_text"
+            />
+
+        <TextView
+            android:id="@+id/requestDetailsInfoProblemTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16dp"
+
+            tools:text="Вызов Электрика для работы с Общедомовым имуществом по адресу: Иркутский тракт, 120. УК “Жилфонд”"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            android:textSize="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/request_details_description_problem_text"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/requestDetailsDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/text_black"
+
+            tools:text="После жаркой дискуссии меджу жильцами нашего подъезда, путем неудчного выбора траектории прохождения кистевой части руки, была сломана лампочка в подъезде"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/requestDetailsPhotosRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="10dp"
+                tools:listitem="@layout/item_photo_request"
+                tools:itemCount="3"
+                tools:orientation="horizontal"/>
+
+            <ImageView
+                android:id="@+id/requestDetailsAddPhotoButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_camera"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="@string/request_details_status_request_text"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/requestDetailsStatuesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:listitem="@layout/item_status_request"/>
+
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bottomFrameLayoutRequestDetails"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/requestDetailsCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_details_cancel_button_text"
+        android:textColor="@color/colorDetailsRequestButtonTextColor"
+
+        android:theme="@style/AppWhiteButtonStyle"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutRequestDetails"/>
+
+    <Button
+        android:id="@+id/requestDetailsSubmitCompleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_details_submit_complete_button_text"
+        android:textColor="@color/colorBlueButtonText"
+        android:visibility="gone"
+        tools:visibility="visible"
+
+        android:theme="@style/AppWhiteButtonStyle"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutRequestDetails" />
+
+</android.support.constraint.ConstraintLayout>
