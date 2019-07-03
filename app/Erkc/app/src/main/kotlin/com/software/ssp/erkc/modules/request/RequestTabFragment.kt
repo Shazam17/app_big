@@ -10,10 +10,15 @@ import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.archiveRequestList.ArchiveRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.draftRequestList.DraftRequestListFragment
 import kotlinx.android.synthetic.main.activity_search_address.*
 import kotlinx.android.synthetic.main.fragment_history_tab.tabsViewPaper
 import kotlinx.android.synthetic.main.fragment_request_tab.*
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class RequestTabFragment : MvpFragment(), IRequestTabView {
@@ -74,17 +79,23 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
     }
 
     override fun openFilterAlert() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO implementation
     }
 
     override fun refreshCurrentList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO implementation
     }
 
+    private fun navigateToCreateRequestScreen() {
+        activity.startActivity<CreateRequestActivity>()
+    }
+
+
     private fun initViews() {
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ACTIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
+
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_active_tab))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_archive_tab))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId).setCustomView(R.layout.notification_badge_draft_tab))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -105,11 +116,15 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
             override fun getItem(position: Int): Fragment {
                 return when (TabItem.values()[position]) {
                     TabItem.ACTIVE -> ActiveRequestListFragment()
-                    TabItem.ARCHIVE -> ActiveRequestListFragment()
-                    TabItem.DRAFT -> ActiveRequestListFragment()
+                    TabItem.ARCHIVE -> ArchiveRequestListFragment()
+                    TabItem.DRAFT -> DraftRequestListFragment()
                 }
             }
         }
+        requestTapCreateRequestButton.onClick {
+                navigateToCreateRequestScreen()
+        }
+
     }
 
 }
