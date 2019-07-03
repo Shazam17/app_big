@@ -667,4 +667,7 @@
     <string name="request_details_status_request_text">Статус заявки:</string>
     <string name="request_details_submit_complete_button_text">Подтвердить выполнение</string>
 
+    <!-- Chat with dispatcher -->
+    <string name="chat_with_dispatcher_edit_text_hint">Сообщение</string>
+
 </resources>

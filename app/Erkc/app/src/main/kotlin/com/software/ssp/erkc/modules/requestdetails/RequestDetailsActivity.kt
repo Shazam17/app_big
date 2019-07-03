@@ -11,8 +11,10 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.dp
+import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
 import kotlinx.android.synthetic.main.activity_request_details.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 const val HEIGHT_WITH_CONFIRM_BUTTON: Int = 115
@@ -30,8 +32,9 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         setContentView(R.layout.activity_request_details)
 
         initViews()
-        // TODO test Framelayout
+        // TODO when will API model set work status in arg
         configureBottomFrameLayout(true)
+
         presenter.onViewAttached()
     }
 
@@ -41,7 +44,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     }
 
     override fun navigateToChatScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivity<ChatWithDispatcherActivity>()
     }
 
     override fun showSelectImagesList() {
@@ -79,10 +82,12 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
             }
             R.id.request_details_with_message_item -> {
                 // TODO impl
+                presenter.onChatMenuItemClick()
                 return true
             }
             R.id.request_details_without_message_item -> {
                 // TODO impl
+                presenter.onChatMenuItemClick()
                 return true
             }
         }
@@ -93,7 +98,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         menu?.clear()
         menuInflater.inflate(R.menu.request_details_menu, menu)
         menu?.findItem(R.id.request_details_edit_item)?.isVisible = false
-        menu?.findItem(R.id.request_details_with_message_item)?.isVisible = false
+        menu?.findItem(R.id.request_details_with_message_item)?.isVisible = true
         menu?.findItem(R.id.request_details_without_message_item)?.isVisible = false
         menuRequestDetails = menu
         return true

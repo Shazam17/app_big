@@ -194,7 +194,10 @@
 
         <activity android:name=".modules.requestdetails.RequestDetailsActivity"
             android:theme="@style/AppTheme.Light" />
-        
+
+        <activity android:name=".modules.chatwithdispatcher.ChatWithDispatcherActivity"
+            android:theme="@style/AppTheme.Light" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"

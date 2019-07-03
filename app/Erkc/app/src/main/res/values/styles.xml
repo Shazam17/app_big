@@ -46,10 +46,16 @@
         <item name="background">?attr/colorPrimary</item>
         <item name="elevation">0dp</item>
         <item name="titleTextStyle">@style/ActionBar.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/ActionBar.SubtitleStyle</item>
     </style>
 
     <style name="ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorLightText</item>
+    </style>
+
+    <style name="ActionBar.SubtitleStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle">
+        <item name="android:textColor">@color/colorLightText</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -58,6 +64,7 @@
 
     <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="subtitleTextStyle">@style/ActionBar.SubtitleStyle</item>
     </style>
 
     <!-- Drawer style -->

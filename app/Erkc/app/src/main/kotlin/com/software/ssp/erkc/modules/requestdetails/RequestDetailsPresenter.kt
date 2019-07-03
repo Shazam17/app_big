@@ -17,6 +17,6 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     }
 
     override fun onChatMenuItemClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.navigateToChatScreen()
     }
 }
