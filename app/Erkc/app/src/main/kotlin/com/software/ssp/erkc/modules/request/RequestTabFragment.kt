@@ -4,8 +4,6 @@ import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentStatePagerAdapter
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
@@ -17,6 +15,7 @@ import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.dra
 import kotlinx.android.synthetic.main.activity_search_address.*
 import kotlinx.android.synthetic.main.fragment_history_tab.tabsViewPaper
 import kotlinx.android.synthetic.main.fragment_request_tab.*
+import kotlinx.android.synthetic.main.notification_badge_active_tab.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -91,11 +90,11 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
     }
 
 
-
     private fun initViews() {
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ACTIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
+
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_active_tab))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_archive_tab))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId).setCustomView(R.layout.notification_badge_draft_tab))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -122,7 +121,7 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
             }
         }
         requestTapCreateRequestButton.onClick {
-            navigateToCreateRequestScreen()
+                navigateToCreateRequestScreen()
         }
 
     }

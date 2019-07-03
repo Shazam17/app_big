@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
     xmlns:app = "http://schemas.android.com/apk/res-auto"
     xmlns:tools = "http://schemas.android.com/tools"
     android:layout_width = "match_parent"
     android:layout_height = "wrap_content"
-    android:orientation = "vertical">
+    android:layout_marginTop = "10dp"
+    android:foregroundGravity = "right">
 
     <android.support.v7.widget.CardView
         android:id = "@+id/requestCardVIew"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:layout_marginStart = "16dp"
-        android:layout_marginTop = "16dp"
-        android:layout_marginEnd = "16dp"
-        android:layout_marginBottom = "16dp">
+        android:layout_marginStart = "12dp"
+        android:layout_marginTop = "6dp"
+        android:layout_marginEnd = "12dp"
+        android:layout_marginBottom = "6dp"
+        app:cardCornerRadius = "5dp"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width = "match_parent"
@@ -26,6 +32,7 @@
                 android:layout_marginStart = "12dp"
                 android:layout_marginTop = "8dp"
                 android:text = "Отсутствие отопления"
+                android:textColor = "@color/colorBlack"
                 android:textSize = "19dp"
                 app:layout_constraintStart_toStartOf = "parent"
                 app:layout_constraintTop_toTopOf = "parent" />
@@ -52,6 +59,31 @@
                 app:layout_constraintBottom_toBottomOf = "@+id/requestType"
                 app:layout_constraintEnd_toEndOf = "parent"
                 app:layout_constraintTop_toTopOf = "@+id/requestType" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+
+    <ImageView
+        android:id = "@+id/imageView4"
+        android:layout_width = "21dp"
+        android:layout_height = "21dp"
+        android:layout_marginEnd = "4dp"
+        android:translationZ = "34dp"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent"
+        app:srcCompat = "@drawable/ic_notification_request" />
+
+    <TextView
+        android:id = "@+id/textView3"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:text = "99"
+        android:textColor = "@color/white"
+        android:textSize = "10dp"
+        android:translationZ = "100dp"
+        app:layout_constraintBottom_toBottomOf = "@+id/imageView4"
+        app:layout_constraintEnd_toEndOf = "@+id/imageView4"
+        app:layout_constraintStart_toStartOf = "@+id/imageView4"
+        app:layout_constraintTop_toTopOf = "@+id/imageView4" />
+
+</android.support.constraint.ConstraintLayout>
