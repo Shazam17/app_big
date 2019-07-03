@@ -4,6 +4,7 @@
     package="com.software.ssp.erkc">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -189,6 +190,9 @@
 
         <activity android:name=".modules.createrequest.CreateRequestActivity"
             android:label="@string/create_request_title"
+            android:theme="@style/AppTheme.Light" />
+
+        <activity android:name=".modules.requestdetails.RequestDetailsActivity"
             android:theme="@style/AppTheme.Light" />
         
         <provider

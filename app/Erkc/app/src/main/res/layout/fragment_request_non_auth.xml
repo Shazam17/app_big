@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/request_non_auth_root_layout">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutRequestNonAuth"
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusable="false"
             android:maxLines="1"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences" />
@@ -93,10 +95,7 @@
             android:background="@drawable/call_button"
             android:paddingLeft="100dp"
             android:paddingRight="60dp"
-            android:shadowRadius="20"
-            android:shadowColor="@color/text_black"
-            android:shadowDx="10"
-            android:shadowDy="50"
+            android:text="8 (913) 258 85 95"
 
 
             android:textColor="@color/white"

@@ -659,5 +659,12 @@
     <string name="create_request_type_home">Тип имущества</string>
     <string name="create_request_emergency_request_text">Аварийная заявка</string>
     <string name="create_request_description_problem_hint">Описание проблемы</string>
+    
+    <!-- Request Details -->
+    <string name="request_details_cancel_button_text">Отменить заявку</string>
+    <string name="request_details_request_info_text">Информация о заявке:</string>
+    <string name="request_details_description_problem_text">Описание проблемы:</string>
+    <string name="request_details_status_request_text">Статус заявки:</string>
+    <string name="request_details_submit_complete_button_text">Подтвердить выполнение</string>
 
 </resources>

@@ -95,5 +95,7 @@
 
     <!-- Requests -->
     <color name="colorBlueTextRequestScreen">#1D3580</color>
+    <color name="colorDetailsRequestButtonTextColor">#773A3C</color>
+    <color name="colorBlueButtonText">#1D3580</color>
 
 </resources>

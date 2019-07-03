@@ -10,6 +10,8 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
+import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
+import kotlinx.android.synthetic.main.activity_request_details.*
 import kotlinx.android.synthetic.main.fragment_request_tab.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
@@ -49,7 +51,8 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ActiveRequestListAdapter(
                 dataset,
-                { request -> presenter.onRequestClick(request) }
+//                { request -> presenter.onRequestClick(request) }
+                {startActivity<RequestDetailsActivity>()}
         )
     }
 
