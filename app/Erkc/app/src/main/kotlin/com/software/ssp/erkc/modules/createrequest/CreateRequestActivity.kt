@@ -2,12 +2,20 @@ package com.software.ssp.erkc.modules.createrequest
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
+import kotlinx.android.synthetic.main.activity_create_request.*
 import javax.inject.Inject
 
 class CreateRequestActivity: MvpActivity(), ICreateRequestView {
+
+    companion object {
+        const val CREATE_REQUEST_EDIT_MODE = "create_request_edit_mode"
+        const val REQUEST_ID = "request_id"
+    }
 
     @Inject lateinit var presenter: ICreateRequestPresenter
 
@@ -15,6 +23,17 @@ class CreateRequestActivity: MvpActivity(), ICreateRequestView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_request)
         initViews()
+        checkParams()
+    }
+
+    private fun checkParams() {
+        if (intent.getBooleanExtra(CREATE_REQUEST_EDIT_MODE, false)) {
+            presenter.requestId = intent.getIntExtra(REQUEST_ID, -1)
+            configureBottomFrame(isEditMode = true)
+            presenter.onViewLoadWithEditMode()
+        } else {
+            configureBottomFrame(isEditMode = false)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -25,6 +44,18 @@ class CreateRequestActivity: MvpActivity(), ICreateRequestView {
             }
         }
         return true
+    }
+
+    override fun setFieldByRealmReqeust(realmRequest: RealmRequest) {
+        createRequestNameRequestTextEdit.setText(realmRequest.title)
+        createRequestAddressTextEdit.setText(realmRequest.address)
+        createRequestServiceProviderTextEdit.setText(realmRequest.serviceProvider)
+        createRequestTypeRequestTextEdit.setText(realmRequest.type)
+        createRequestTypeStoreTextEdit.setText(realmRequest.typeStore)
+        crashCheckBox.isChecked = realmRequest.isCrash ?: false
+        createRequestDescriptionTextEdit.setText(realmRequest.description)
+        createRequestFIOTextEdit.setText(realmRequest.FIO)
+        createRequestNumberPhoneTextEdit.setText(realmRequest.numberPhone)
     }
 
 
@@ -41,6 +72,15 @@ class CreateRequestActivity: MvpActivity(), ICreateRequestView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    private fun configureBottomFrame(isEditMode: Boolean) {
+        if (isEditMode) {
+            createRequestSaveButton.visibility = View.VISIBLE
+            createRequestSendButton.visibility = View.GONE
+        } else {
+            createRequestSaveButton.visibility = View.GONE
+            createRequestSendButton.visibility = View.VISIBLE
+        }
+    }
 
     override fun beforeDestroy() {
         presenter.onViewDetached()

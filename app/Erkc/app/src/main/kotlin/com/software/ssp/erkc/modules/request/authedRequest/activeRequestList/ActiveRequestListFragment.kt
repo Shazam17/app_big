@@ -20,10 +20,8 @@ import javax.inject.Inject
 
 class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveRequestListView {
 
-
     @Inject
     lateinit var presenter: IActiveRequestListPresenter
-
 
     override fun injectDependencies(appComponent: AppComponent) {
         DaggerActiveRequestListComponent.builder()
@@ -51,8 +49,7 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ActiveRequestListAdapter(
                 dataset,
-//                { request -> presenter.onRequestClick(request) }
-                {startActivity<RequestDetailsActivity>()}
+                { request -> presenter.onRequestClick(request) }
         )
     }
 
@@ -61,8 +58,8 @@ class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveReque
     }
 
 
-    override fun navigateToRequestInfo(request: RealmRequest) {
-
+    override fun navigateToRequestDetails(requestId: Int) {
+        startActivity<RequestDetailsActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to requestId)
     }
 
 

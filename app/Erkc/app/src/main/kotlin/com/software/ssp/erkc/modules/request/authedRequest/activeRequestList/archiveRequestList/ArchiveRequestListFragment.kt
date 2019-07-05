@@ -10,6 +10,9 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
+import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequestListView {
@@ -50,7 +53,7 @@ class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequ
         presenter.onViewDetached()
     }
 
-    override fun navigateToRequestInfo(request: RealmRequest) {
-
+    override fun navigateToRequestDetails(requestId: Int) {
+        startActivity<RequestDetailsActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to requestId)
     }
 }

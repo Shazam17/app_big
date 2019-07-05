@@ -1060,14 +1060,40 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
 //        deleteRequestList()
 //                .concatMap {
                return Observable.create<Boolean> {sub ->
+
                         val realmRequestList = RealmList<RealmRequest>()
                         request.forEach {
+                            var realmStatusList: RealmList<RealmRequestStatus>? = null
+                            if (it.status != null) {
+                                realmStatusList = RealmList()
+                                it.status!!.forEach {   status ->
+                                    realmStatusList!!.add(
+                                            RealmRequestStatus(
+                                                    type = status.type,
+                                                    date = status.date
+                                            )
+                                    )
+                                }
+                            }
                             realmRequestList.add(RealmRequest(
                                     id = it.id,
                                     title = it.title,
-                                    state = it.state,
-                                    type = it.type
-                            )
+                                    type = it.type,
+                                    typeTab = it.typeTab,
+                                    date = it.date,
+                                    number = it.number,
+                                    countMessages = it.countMessages,
+                                    description = it.description,
+                                    infoAboutProblem = it.infoAboutProblem,
+                                    status = realmStatusList,
+                                    isCrash = it.isCrash,
+                                    nameManagerCompany = it.nameManagerCompany,
+                                    typeStore = it.typeStore,
+                                    serviceProvider = it.serviceProvider,
+                                    address = it.address,
+                                    numberPhone = it.numberPhone,
+                                    FIO = it.FIO
+                                )
                             )
 
                             realm.executeTransactionAsync(
@@ -1091,6 +1117,15 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         .findAll()
         )
     }
+
+    fun fetchRequestById(id: Int): Observable<RealmRequest> {
+        return Observable.just(
+                realm.where(RealmRequest::class.java)
+                        .findAll()
+                        .first { it.id == id }
+        )
+    }
+
     private fun deleteRequestList(): Observable<Boolean> {
         return Observable.create<Boolean> {
             realm.executeTransactionAsync {

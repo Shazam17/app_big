@@ -24,7 +24,7 @@
             android:paddingVertical="6dp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14sp"
             tools:text="Ожидает рассмотрение" />
 
     </android.support.design.circularreveal.cardview.CircularRevealCardView>
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:textSize="16dp"
         tools:text="02.06.2019 19:04" />
 

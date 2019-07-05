@@ -98,4 +98,19 @@
     <color name="colorDetailsRequestButtonTextColor">#773A3C</color>
     <color name="colorBlueButtonText">#1D3580</color>
 
+    <!-- Status colors -->
+    <color name="colorCompleteStatus">#2D5027</color>
+    <color name="colorInWorkStatus">#258D09</color>
+    <color name="colorOnReviewStatus">#BA9B0B</color>
+    <color name="colorPendingReviewStatus">#B13D09</color>
+    <color name="colorCanceledStatus">#909090</color>
+
+    <array name="status_color_array">
+        <item>@color/colorCompleteStatus</item>
+        <item>@color/colorInWorkStatus</item>
+        <item>@color/colorOnReviewStatus</item>
+        <item>@color/colorPendingReviewStatus</item>
+        <item>@color/colorCanceledStatus</item>
+    </array>
+
 </resources>

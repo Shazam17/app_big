@@ -9,7 +9,7 @@ class ArchiveRequestListPresenter @Inject constructor(view: IArchiveRequestListV
 
 
     override fun onRequestClick(request: RealmRequest) {
-
+        view?.navigateToRequestDetails(requestId = request.id)
     }
 
     override fun onFilterClick() {

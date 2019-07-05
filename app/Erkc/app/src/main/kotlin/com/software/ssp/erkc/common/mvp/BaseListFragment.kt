@@ -81,7 +81,7 @@ abstract class BaseListFragment<M> : MvpFragment(), IListView<M> {
 
         adapter = createAdapter()
         if (adapter == null) {
-            throw IllegalArgumentException("createAdapter() should return adapter instance.")
+            throw IllegalArgumentException("createStatusAdapter() should return adapter instance.")
         }
         recyclerView.adapter = adapter
     }

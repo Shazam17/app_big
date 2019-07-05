@@ -192,6 +192,7 @@
     <!-- Receipts menus  -->
     <string name="receipts_menu_history">История операций</string>
     <string name="receipts_menu_autopay">Настройка автоплатежа</string>
+    <string name="receipts_menu_request">Заявка</string>
 
     <!-- API errors -->
     <string name="api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>
@@ -659,6 +660,10 @@
     <string name="create_request_type_home">Тип имущества</string>
     <string name="create_request_emergency_request_text">Аварийная заявка</string>
     <string name="create_request_description_problem_hint">Описание проблемы</string>
+    <string name="create_request_feedback_title">Данные для обратной связи:</string>
+    <string name="create_request_fio_hint">ФИО</string>
+    <string name="create_request_number_phone_hint">Номер телефона</string>
+    <string name="create_request_save_button_text">Сохранить</string>
     
     <!-- Request Details -->
     <string name="request_details_cancel_button_text">Отменить заявку</string>

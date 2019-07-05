@@ -94,8 +94,8 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
     private fun initViews() {
 
         tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_active_tab))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId).setCustomView(R.layout.notification_badge_archive_tab))
-        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId).setCustomView(R.layout.notification_badge_draft_tab))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.ARCHIVE.titleResId))
+        tabLayout.addTab(tabLayout.newTab().setText(TabItem.DRAFT.titleResId))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

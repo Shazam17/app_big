@@ -5,7 +5,7 @@ import com.software.ssp.erkc.common.mvp.IListView
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 
 interface IArchiveRequestListView: IListView<RealmRequest> {
-    fun navigateToRequestInfo(request: RealmRequest)
+    fun navigateToRequestDetails(requestId: Int)
 }
 
 interface IArchiveRequestListPresenter: IListPresenter<RealmRequest, IArchiveRequestListView> {

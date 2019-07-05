@@ -8,57 +8,88 @@
     android:foregroundGravity = "right">
 
     <android.support.v7.widget.CardView
-        android:id = "@+id/requestCardVIew"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "12dp"
-        android:layout_marginTop = "6dp"
-        android:layout_marginEnd = "12dp"
-        android:layout_marginBottom = "6dp"
-        app:cardCornerRadius = "5dp"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent">
+        android:id="@+id/requestCardVIew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content">
+            android:id="@+id/cardConstLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id = "@+id/requestTitle"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_marginStart = "12dp"
-                android:layout_marginTop = "8dp"
-                android:text = "Отсутствие отопления"
-                android:textColor = "@color/colorBlack"
-                android:textSize = "19dp"
-                app:layout_constraintStart_toStartOf = "parent"
-                app:layout_constraintTop_toTopOf = "parent" />
+                android:id="@+id/requestTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="19dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Отсутствие отопления" />
 
             <TextView
-                android:id = "@+id/requestType"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_marginTop = "32dp"
-                android:layout_marginBottom = "8dp"
-                android:text = "Вызов сантехника"
-                android:textSize = "16dp"
-                app:layout_constraintBottom_toBottomOf = "parent"
-                app:layout_constraintStart_toStartOf = "@+id/requestTitle"
-                app:layout_constraintTop_toBottomOf = "@+id/requestTitle" />
+                android:id="@+id/requestSubtitleTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/requestTitle"
+                tools:text="Обращение №513255314 от 23.10.2018 19:00" />
 
-            <TextView
-                android:id = "@+id/requestState"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_marginEnd = "12dp"
-                android:text = "В работе"
-                android:textSize = "16dp"
-                app:layout_constraintBottom_toBottomOf = "@+id/requestType"
-                app:layout_constraintEnd_toEndOf = "parent"
-                app:layout_constraintTop_toTopOf = "@+id/requestType" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintTop_toBottomOf="@id/requestSubtitleTextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/requestType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/requestState"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/requestTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/requestSubtitleTextView"
+                    tools:text="Вызов сантехника " />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/requestState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:textAlignment="textEnd"
+                    tools:text="Ожидает рассмотрения"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/requestType"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/requestType" />
+
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

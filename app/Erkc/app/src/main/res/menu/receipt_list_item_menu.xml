@@ -6,4 +6,7 @@
     <item
         android:id="@+id/menuAutoPay"
         android:title="@string/receipts_menu_autopay" />
+    <item
+        android:id="@+id/menuRequest"
+        android:title="@string/receipts_menu_request" />
 </menu>
