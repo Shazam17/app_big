@@ -4,7 +4,6 @@ import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.data.realm.models.RealmRequestStatus
-import com.software.ssp.erkc.data.rest.models.RequestStatus
 import io.realm.RealmList
 
 interface IRequestDetailsView: IView {

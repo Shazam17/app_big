@@ -1,8 +1,6 @@
 package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList
 
-import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +10,9 @@ import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.data.realm.models.StatusColors
 import kotlinx.android.synthetic.main.item_request.view.*
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.textColor
+import java.util.*
+import java.text.SimpleDateFormat
+
 
 class ActiveRequestListAdapter(val dataList: List<RealmRequest>,
                                val onItemClick: ((RealmRequest) -> Unit)? = null) : RecyclerView.Adapter<ActiveRequestListAdapter.RequestViewHolder>() {
@@ -33,12 +33,14 @@ class ActiveRequestListAdapter(val dataList: List<RealmRequest>,
         fun bindRequest(data: RealmRequest) {
             view.apply {
 
-                requestTitle.text = data.title
-                requestState.text = data.status?.last()?.getTitle()
-                requestState.setTextColor(Color.parseColor(StatusColors.getColor(data.status?.last()?.type ?: "Canceled")))
-                requestType.text = data.type
+                requestTitle.text = data.name
+                requestState.text = data.state?.stateLabel
+                requestState.setTextColor(Color.parseColor(StatusColors.getColor(data.state?.stateLabel!!)))
+                requestType.text = data.type?.name
                 // TODO detect request or appeal
-                requestSubtitleTextView.text = "Обращение №${data.number} от ${data.date}"
+                val formatter = SimpleDateFormat("dd.MM.yyyy hh:mm")
+                val date=formatter.format((Date(data.created_at!!)))
+                requestSubtitleTextView.text = "Обращение №${data.id} от ${date}"
                 //
                 requestCardVIew.onClick {
                     onItemClick?.invoke(data)

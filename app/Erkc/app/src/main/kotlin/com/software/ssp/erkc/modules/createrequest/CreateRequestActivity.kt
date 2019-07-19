@@ -47,15 +47,15 @@ class CreateRequestActivity: MvpActivity(), ICreateRequestView {
     }
 
     override fun setFieldByRealmReqeust(realmRequest: RealmRequest) {
-        createRequestNameRequestTextEdit.setText(realmRequest.title)
-        createRequestAddressTextEdit.setText(realmRequest.address)
-        createRequestServiceProviderTextEdit.setText(realmRequest.serviceProvider)
-        createRequestTypeRequestTextEdit.setText(realmRequest.type)
-        createRequestTypeStoreTextEdit.setText(realmRequest.typeStore)
+        createRequestNameRequestTextEdit.setText(realmRequest.name)
+        createRequestAddressTextEdit.setText(realmRequest.house?.address)
+        createRequestServiceProviderTextEdit.setText(realmRequest.company?.name)
+        createRequestTypeRequestTextEdit.setText(realmRequest.type?.name)
+        createRequestTypeStoreTextEdit.setText(realmRequest.premise?.number)
         crashCheckBox.isChecked = realmRequest.isCrash ?: false
-        createRequestDescriptionTextEdit.setText(realmRequest.description)
-        createRequestFIOTextEdit.setText(realmRequest.FIO)
-        createRequestNumberPhoneTextEdit.setText(realmRequest.numberPhone)
+        createRequestDescriptionTextEdit.setText(realmRequest.message)
+        createRequestFIOTextEdit.setText(realmRequest.applicant)
+        createRequestNumberPhoneTextEdit.setText(realmRequest.contact)
     }
 
 

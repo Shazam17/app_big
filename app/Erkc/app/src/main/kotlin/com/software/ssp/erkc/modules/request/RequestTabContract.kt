@@ -2,13 +2,13 @@ package com.software.ssp.erkc.modules.request
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
+import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.StatusModel
 
 interface IRequestTabView : IView {
-    fun openFilterAlert()
     fun refreshCurrentList()
 }
 
 interface IRequestTabPresenter : IPresenter<IRequestTabView> {
-    fun onFilterClick()
+
     fun onRefreshClick()
 }

@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.draftRequestList
+package com.software.ssp.erkc.modules.request.authedRequest.draftRequestList
 
 import com.software.ssp.erkc.common.mvp.IListPresenter
 import com.software.ssp.erkc.common.mvp.IListView

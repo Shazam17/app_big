@@ -6,24 +6,90 @@ import io.realm.annotations.PrimaryKey
 
 open class RealmRequest(
         @PrimaryKey
-        open var id:Int=0,
-        open var state:String?="",
-        open var title:String?="",
-        open var type:String?="",
-        open var typeTab: String? = "",
-        open var date: String? = "",
-        open var number: Int? = null,
-        open var countMessages: Int? = null,
-        open var description: String? = "",
-        open var infoAboutProblem: String? = "",
-        open var status: RealmList<RealmRequestStatus>? = null,
-        open var photosPath: RealmList<RealmPhotoPath>? = null,
-        open var messages: RealmList<RealmChatMessage>? = null,
-        open var isCrash: Boolean? = false,
-        open var nameManagerCompany: String? = "",
-        open var typeStore: String? = "",
-        open var serviceProvider: String? = "",
-        open var address: String? = "",
-        open var numberPhone: String? = "",
-        open var FIO: String? = ""
+        open var id: Int = 0,
+        open var created_at: Long?= 0L,
+        open var company: RealmCompany?=null,
+        open var type: RealmTypeRequest?=null,
+        open var state: RealmStateRequest?=null,
+        open var applicant: String?=null,
+        open var house: RealmHouseRequest?=null,
+        open var premise: RealmPremiseRequest?=null,
+        open var chanel: Int?=0,
+        open var chanelLabel: String?=null,
+        open var name: String?=null,
+        open var message: String?="",
+        open var contact: String?=null,
+        open var code: String?=null,
+        open var is_overdue: Int?=0,
+        open var task: RealmList<RealmRequestTask>? = RealmList(),
+        open var comment: RealmList<RealmComment>? = RealmList(),
+        open var isCrash:Boolean?=false
+) : RealmObject()
+
+open class RealmComment(
+        open var id: Int?=0,
+        open var created_at: Long?=0L,
+        open var initiator: Initiator?=null,
+        open var message: String?="",
+        open var filename:String?="",
+        open var filetype:String?="",
+        open var downloadLink:String?=""
+):RealmObject()
+
+open class Initiator(
+        open var id: Int?=0,
+        open var username: String?="",
+        open var name: String?="",
+        open var phone: String?="",
+        open var info: String?=""
+):RealmObject()
+
+open class RealmRequestTask(
+        open var id: Int?=0
+) : RealmObject()
+
+open class RealmCompany(
+        open var id: Int?=0,
+        open var type: Int?=0,
+        open var typeLabel: String?="",
+        open var state: Int?=0,
+        open var stateLabel: String?="",
+        open var name: String?="",
+        open var full_name: String?="",
+        open var jur_address: String?="",
+        open var fact_address: String?="",
+        open var inn: String?="",
+        open var kpp: String?="",
+        open var ogrn: String?="",
+        open var email: String?="",
+        open var phone: String?="",
+        open var phone_number: String?=""
+) : RealmObject()
+
+open class RealmTypeRequest(
+        open var id: Int?=0,
+        open var name: String?=""
+) : RealmObject()
+
+open class RealmStateRequest(
+        open var id: Int?=0,
+        open var name: String?="",
+        open var sort: Int?=0,
+        open var process_state: Int?=0,
+        open var stateLabel: String?=""
+) : RealmObject()
+
+open class RealmHouseRequest(
+        open var id: Int?=0,
+        open var company_id: Int?=0,
+        open var code: String?="",
+        open var address: String?="",
+        open var fias: String?="",
+        open var cadastral_number: String?=""
+) : RealmObject()
+
+open class RealmPremiseRequest(
+        open var id: Int?=0,
+        open var house_id: Int?=0,
+        open var number: String?=""
 ) : RealmObject()

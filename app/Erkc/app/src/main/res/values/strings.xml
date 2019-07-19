@@ -643,6 +643,10 @@
     <string name="request_non_auth_leave_request_call_number_text">Чтобы оставить заявку, позвоните по номеру:</string>
 
     <!-- RequestScreen -->
+    <string name = "choose_filter">Выберите фильтры</string>
+    <string name = "await">Ожидает рассмотрения</string>
+    <string name = "on_resolve">На рассмотрении</string>
+    <string name = "in_work">В работе</string>
     <string name = "request_tab_text">Заявки</string>
     <string name = "request_active_tab_title">Активные</string>
     <string name = "request_archive_tab_title">Архив</string>

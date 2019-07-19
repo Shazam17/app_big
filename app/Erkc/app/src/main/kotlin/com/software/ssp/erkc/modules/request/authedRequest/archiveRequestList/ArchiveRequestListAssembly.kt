@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.archiveRequestList
+package com.software.ssp.erkc.modules.request.authedRequest.archiveRequestList
 
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.di.scopes.FragmentScope

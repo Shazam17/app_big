@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList
+package com.software.ssp.erkc.modules.request.authedRequest.archiveRequestList
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmRequest
@@ -8,15 +8,12 @@ import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.StatusM
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
-class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListView) : RxPresenter<IActiveRequestListView>(view), IActiveRequestListPresenter {
-
+class ArchiveRequestListPresenter @Inject constructor(view: IArchiveRequestListView) : RxPresenter<IArchiveRequestListView>(view), IArchiveRequestListPresenter {
 
     @Inject
     lateinit var realmRepository: RealmRepository
     @Inject
     lateinit var requestRepository: RequestRepository
-
-    override var requestid: Int = -1
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -25,15 +22,15 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
 
     private fun fetchRequestList() {
         subscriptions += realmRepository.fetchRequestList()
-                        .subscribe(
-                                {
-                                    val data=it.filter {iter-> iter.state?.stateLabel!="Закрыта" }
-                                    view?.showData(data)
-                                },
-                                { error ->
-                                    error.printStackTrace()
-                                }
-                        )
+                .subscribe(
+                        {
+                            val data = it.filter { iter -> iter.state?.stateLabel != "Новая" }
+                            view?.showData(data)
+                        },
+                        { error ->
+                            error.printStackTrace()
+                        }
+                )
 
     }
 
@@ -53,7 +50,7 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
             arrayStatus.forEach { status -> arrayLabels.add(status.label) }
             return arrayLabels
         }
-    override var arrayStatus: ArrayList<StatusModel> = arrayListOf(StatusModel(false, "Ожидает рассмотрения"), StatusModel(false, "На рассмотрении"), StatusModel(false, "В работе"))
+    override var arrayStatus: ArrayList<StatusModel> = arrayListOf(StatusModel(false, "Выполнено"), StatusModel(false, "Отменено"))
 
     override fun onFilterClick() {
         view?.openFilterAlert(arrayStatus)
@@ -61,6 +58,7 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
 
     override fun onRefreshClick() {
         updateRequestList()
+
     }
 
     override fun onSwipeToRefresh() {
@@ -68,8 +66,8 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
 
     }
 
-    private fun updateRequestList(){
-        subscriptions+=requestRepository.fetchRequestList()
+    private fun updateRequestList() {
+        subscriptions += requestRepository.fetchRequestList()
                 .concatMap { realmRepository.saveRequestList(it) }
                 .subscribe(
                         {

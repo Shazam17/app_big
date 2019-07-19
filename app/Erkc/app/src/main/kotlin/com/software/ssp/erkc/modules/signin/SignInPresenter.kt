@@ -16,14 +16,24 @@ import javax.inject.Inject
 
 class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISignInView>(view), ISignInPresenter {
 
-    @Inject lateinit var authRepository: AuthRepository
-    @Inject lateinit var accountRepository: AccountRepository
-    @Inject lateinit var receiptsRepository: ReceiptsRepository
-    @Inject lateinit var activeSession: ActiveSession
-    @Inject lateinit var realmRepository: RealmRepository
-    @Inject lateinit var cardsRepository: CardsRepository
-    @Inject lateinit var settingsRepository: SettingsRepository
-    @Inject lateinit var notificationServiceManager: NotificationServiceManager
+    @Inject
+    lateinit var authRepository: AuthRepository
+    @Inject
+    lateinit var accountRepository: AccountRepository
+    @Inject
+    lateinit var receiptsRepository: ReceiptsRepository
+    @Inject
+    lateinit var activeSession: ActiveSession
+    @Inject
+    lateinit var realmRepository: RealmRepository
+    @Inject
+    lateinit var cardsRepository: CardsRepository
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+    @Inject
+    lateinit var notificationServiceManager: NotificationServiceManager
+    @Inject
+    lateinit var requestRepository: RequestRepository
 
     override fun onViewAttached() {
         super.onViewAttached()
@@ -35,20 +45,18 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     fun fetchUserLogin() {
         subscriptions += realmRepository
-            .fetchCurrentUser()
-            .subscribe(
-                {
-                    currentUser ->
-                    if(currentUser!=null) {
-                        view?.setUserLogin(currentUser.login)
-                    } else {
-                        view?.setUserLogin("")
-                    }
-                },
-                {
-                    error ->
-                }
-            )
+                .fetchCurrentUser()
+                .subscribe(
+                        { currentUser ->
+                            if (currentUser != null) {
+                                view?.setUserLogin(currentUser.login)
+                            } else {
+                                view?.setUserLogin("")
+                            }
+                        },
+                        { error ->
+                        }
+                )
     }
 
     override fun onLoginButtonClick(login: String, password: String) {
@@ -95,8 +103,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
         subscriptions += authRepository
                 .authenticate(login, password)
-                .concatMap {
-                    authData ->
+                .concatMap { authData ->
 
                     activeSession.accessToken = authData.access_token
                     notificationServiceManager.fcmToken?.let {
@@ -108,35 +115,32 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap {
                     accountRepository.fetchUserInfo()
                 }
-                .concatMap {
-                    user ->
+                .concatMap { user ->
                     realmRepository.fetchUser(user)
                 }
-                .concatMap {
-                    realmUser ->
+                .concatMap { realmUser ->
                     realmRepository.setCurrentUser(realmUser)
                 }
                 .concatMap {
                     settingsRepository.getSettings()
                 }
-                .concatMap {
-                    settings ->
+                .concatMap { settings ->
                     realmRepository.updateSettings(settings)
                 }
                 .concatMap {
                     cardsRepository.fetchCards()
                 }
-                .concatMap {
-                    cards ->
+                .concatMap { cards ->
                     realmRepository.saveCardsList(cards ?: emptyList())
                 }
                 .concatMap {
                     receiptsRepository.fetchReceipts()
                 }
-                .concatMap {
-                    receipts ->
+                .concatMap { receipts ->
                     realmRepository.saveReceiptsList(receipts ?: emptyList())
                 }
+                .concatMap { requestRepository.fetchRequestList()}
+                .concatMap { realmRepository.saveRequestList(it) }
                 .subscribe(
                         {
                             notificationServiceManager.startPushService()
@@ -144,8 +148,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setResultOk()
                             view?.showPinSuggestDialog(login)
                         },
-                        {
-                            error ->
+                        { error ->
                             view?.setProgressVisibility(false)
                             //error.printStackTrace()
                             resetCurrentUser()
@@ -156,24 +159,22 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     private fun resetCurrentUser() {
         subscriptions += realmRepository.setCurrentUser(RealmUser())
-            .subscribe(
-                {
-                    activeSession.clear()
-                    authRepository.saveTokenApi("")
-                    fetchUserLogin()
-                },
-                {
-                    error ->
-                    view?.showMessage(error.parsedMessage())
-                }
-            )
+                .subscribe(
+                        {
+                            activeSession.clear()
+                            authRepository.saveTokenApi("")
+                            fetchUserLogin()
+                        },
+                        { error ->
+                            view?.showMessage(error.parsedMessage())
+                        }
+                )
     }
 
     private fun offlineLogin(login: String, password: String) {
         view?.setProgressVisibility(true)
         subscriptions += realmRepository.fetchUser(login)
-                .concatMap {
-                    user ->
+                .concatMap { user ->
                     if (user == null) {
                         view?.showInfoDialog(R.string.sign_in_offline_login_not_exist)
                     } else {
@@ -195,16 +196,14 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     return@concatMap Observable.just(false)
                 }
                 .subscribe(
-                        {
-                            result ->
+                        { result ->
                             view?.setProgressVisibility(false)
                             if (result) {
                                 view?.setResultOk()
                                 view?.navigateToMainScreen()
                             }
                         },
-                        {
-                            error ->
+                        { error ->
                             view?.setProgressVisibility(false)
                             //error.printStackTrace()
                             view?.showMessage(error.parsedMessage())

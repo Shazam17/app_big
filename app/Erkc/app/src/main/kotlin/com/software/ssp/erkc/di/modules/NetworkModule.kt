@@ -123,9 +123,17 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideRequestDataSource(retrofit: Retrofit): RequestDataSource {
+        return retrofit.create(RequestDataSource::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideSettingsRepository(settingsDataSource: SettingsDataSource): SettingsRepository {
         return SettingsRepository(settingsDataSource)
     }
+
+
 
     @Provides
     fun provideRealmRepository(realm: Realm): RealmRepository {
@@ -148,5 +156,11 @@ class NetworkModule {
     @Singleton
     fun providePaymentRepository(paymentDataSource: PaymentDataSource): PaymentRepository {
         return PaymentRepository(paymentDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRequestRepository(requestDataSource: RequestDataSource,activeSession: ActiveSession):RequestRepository{
+        return RequestRepository(requestDataSource,activeSession)
     }
 }

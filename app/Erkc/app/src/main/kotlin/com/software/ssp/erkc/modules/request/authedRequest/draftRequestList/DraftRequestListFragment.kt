@@ -1,4 +1,4 @@
-package com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.archiveRequestList
+package com.software.ssp.erkc.modules.request.authedRequest.draftRequestList
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
@@ -10,14 +10,11 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
-import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
-class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequestListView {
+class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestListView {
 
-    @Inject lateinit var presenter: IArchiveRequestListPresenter
+    @Inject lateinit var presenter: IDraftRequestListPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -41,10 +38,9 @@ class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequ
     }
 
     override fun injectDependencies(appComponent: AppComponent) {
-        DaggerArchiveRequestListComponent
-                .builder()
+        DaggerDraftRequestListComponent.builder()
                 .appComponent(appComponent)
-                .archiveRequestListModule(ArchiveRequestListModule(this))
+                .draftRequestListModule(DraftRequestListModule(this))
                 .build()
                 .inject(this)
     }
@@ -53,7 +49,7 @@ class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequ
         presenter.onViewDetached()
     }
 
-    override fun navigateToRequestDetails(requestId: Int) {
-        startActivity<RequestDetailsActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to requestId)
+    override fun navigateToRequestInfo(request: RealmRequest) {
+
     }
 }

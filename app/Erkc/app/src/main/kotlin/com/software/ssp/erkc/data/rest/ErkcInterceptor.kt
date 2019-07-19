@@ -23,7 +23,7 @@ import java.net.SocketTimeoutException
 import java.util.*
 
 
-class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
+class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain?): Response {
 
@@ -38,11 +38,11 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
             var token: String? = null
             val methodValue = originalRequest.url().queryParameter("method") ?: ""
 
-            if( methodValue != "users.authorization" &&
-                methodValue != "users.registration" &&
-                methodValue != "sys.captcha") {
+            if (methodValue != "users.authorization" &&
+                    methodValue != "users.registration" &&
+                    methodValue != "sys.captcha") {
 
-                if(activeSession.accessToken == null) {
+                if (activeSession.accessToken == null) {
                     token = activeSession.appToken
                 } else if (activeSession.accessToken?.isEmpty()!!) {
                     val prefs = context.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
@@ -51,7 +51,7 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
                     token = activeSession.accessToken
                 }
 
-                if(token.isNullOrEmpty()) {
+                if (token.isNullOrEmpty()) {
                     token = activeSession.appToken
                 }
             } else {
@@ -90,9 +90,15 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
             var body = ResponseBody.create(contentType, bodyString)
             try {
                 val responseJson = gson.fromJson(bodyString, JsonElement::class.java)
-
+                val data:JsonElement
                 if (responseJson != null) {
-                    val data = responseJson.asJsonObject.get("data")
+                    //TODO: flag для версии DEBUG, поменять для боевых действий
+                    if (!activeSession.flag!!) {
+                        data = responseJson.asJsonObject.get("data")
+                        activeSession.flag=false
+                    }else{
+                        data =responseJson.asJsonArray
+                    }
                     if (data != null) {
                         body = ResponseBody.create(contentType, data.toString())
                     }
@@ -104,39 +110,44 @@ class ErkcInterceptor (val gson: Gson, val activeSession: ActiveSession, val con
 
             return response.newBuilder().body(body).build()
 
-        } catch(e: SocketTimeoutException) {
+        } catch (e: SocketTimeoutException) {
             throw IOException(context.getString(R.string.error_no_connection), e)
         }
     }
 
     private fun getSignedGetRequest(token: String, app_id: String, originalRequest: Request): Request {
         val methodValue = originalRequest.url().queryParameter("method") ?: ""
-        val authorizedRequest: Request
+        var authorizedRequest: Request? = null
         val originalUrl = originalRequest.url()
         val paramNames = originalUrl.queryParameterNames().toMutableList()
         val params = ArrayList<String>()
 
-        paramNames.forEach {
-            name ->
+        paramNames.forEach { name ->
             params.addAll(originalUrl.queryParameterValues(name).map { value -> "$name=$value" })
         }
 
-        params.add(1, "token=$token")  // order is important here
-        params.add(1, "app_id=$app_id")
-        fixSignatureParams(methodValue, params)
-        val sig = getSig(token, params)
+        if (!activeSession.flag!!) {
+            params.add(1, "token=$token")  // order is important here
+            params.add(1, "app_id=$app_id")
+            fixSignatureParams(methodValue, params)
+            val sig = getSig(token, params)
+            val authorizedUrl = originalUrl.newBuilder()
+                    .addQueryParameter("token", token)
+                    .addQueryParameter("app_id", app_id)
+                    .addQueryParameter("sig", sig)
+                    .build()
 
-        val authorizedUrl = originalUrl.newBuilder()
-                .addQueryParameter("token", token)
-                .addQueryParameter("app_id", app_id)
-                .addQueryParameter("sig", sig)
-                .build()
-
-        authorizedRequest = originalRequest.newBuilder()
-                .url(authorizedUrl)
-                .build()
-
-        return authorizedRequest
+            authorizedRequest = originalRequest.newBuilder()
+                    .url(authorizedUrl)
+                    .build()
+        } else {
+            //TODO Токен для версии DEBUG сменить в релизе
+            authorizedRequest = originalRequest
+                    .newBuilder()
+                    .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
+                    .build()
+        }
+        return authorizedRequest!!
     }
 
     private fun getSignedFormBodyRequest(token: String, app_id: String, originalRequest: Request): Request {

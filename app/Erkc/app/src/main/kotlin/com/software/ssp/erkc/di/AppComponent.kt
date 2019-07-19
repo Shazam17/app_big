@@ -40,12 +40,13 @@ interface AppComponent {
     fun providerPaymentDataSource(): PaymentDataSource
     fun providerSettingsDataSource(): SettingsDataSource
     fun provideMessagesDataSource(): MessagesDataSource
+    fun provideRequestDataSource():RequestDataSource
 
     fun provideSettingsRepository(): SettingsRepository
     fun provideRealmRepository(): RealmRepository
     fun provideCardsRepository(): CardsRepository
     fun provideMessagesRepository(): MessagesRepository
     fun providePaymentRepository(): PaymentRepository
-
+    fun provideRequestRepository():RequestRepository
     fun provideNotificationServiceManager(): NotificationServiceManager
 }

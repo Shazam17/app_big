@@ -1,24 +1,29 @@
 package com.software.ssp.erkc.modules.request
 
+import android.app.AlertDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentStatePagerAdapter
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpFragment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
+import com.software.ssp.erkc.modules.history.filter.FilterChipTag
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListFragment
-import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.archiveRequestList.ArchiveRequestListFragment
-import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.draftRequestList.DraftRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.archiveRequestList.ArchiveRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.draftRequestList.DraftRequestListFragment
+import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.FilterRequestChipTag
+import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.StatusModel
 import kotlinx.android.synthetic.main.activity_search_address.*
 import kotlinx.android.synthetic.main.fragment_history_tab.tabsViewPaper
+import kotlinx.android.synthetic.main.fragment_request_list.*
 import kotlinx.android.synthetic.main.fragment_request_tab.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class RequestTabFragment : MvpFragment(), IRequestTabView {
@@ -64,24 +69,6 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
         presenter.dropView()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.request_menu_filter -> {
-                presenter.onFilterClick()
-                return true
-            }
-            R.id.request_menu_refresh -> {
-                presenter.onRefreshClick()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun openFilterAlert() {
-        // TODO implementation
-    }
-
     override fun refreshCurrentList() {
         // TODO implementation
     }
@@ -122,7 +109,7 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
             }
         }
         requestTapCreateRequestButton.onClick {
-                navigateToCreateRequestScreen()
+            navigateToCreateRequestScreen()
         }
 
     }

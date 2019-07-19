@@ -54,16 +54,14 @@ enum class RequestTabTypes(name: String) {
 /* Colors status */
 
 enum class StatusColors(val id: String) {
-    InWork("InWork"), Complete("Complete"), Canceled("Canceled"), OnReview("OnReview"), PendingReview("PendingReview");
+    InWork("В работе"), Complete("Закрыта"),PendingReview("Новая");
 
     companion object {
         fun getColor(id: String): String {
             return when (id) {
-                StatusColors.OnReview.id -> return "#BA9B0B"
-                StatusColors.PendingReview.id -> return "#B13D09"
+                StatusColors.PendingReview.id -> return "#BA9B0B"
                 StatusColors.InWork.id -> return "#258D09"
                 StatusColors.Complete.id -> return "#2D5027"
-                StatusColors.Canceled.id -> return "#909090"
                 else -> "#909090"
             }
         }

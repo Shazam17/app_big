@@ -8,13 +8,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ScrollView
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.data.realm.models.RealmRequestStatus
 import com.software.ssp.erkc.data.realm.models.RequestStatusTypes
-import com.software.ssp.erkc.data.rest.models.RequestStatus
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
@@ -22,6 +20,8 @@ import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_request_details.*
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 const val HEIGHT_WITH_CONFIRM_BUTTON: Int = 115
@@ -167,11 +167,12 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     }
 
     override fun showRequestDetails(realmRequest: RealmRequest) {
-        supportActionBar?.title = realmRequest.title
-        requestDetailsMainTitleTextView.text = "Обращение №${realmRequest.number ?: -1} от ${realmRequest.date ?: "111.111.111"}"
-        requestDetailsInfoProblemTextView.text = realmRequest.infoAboutProblem ?: "Unknown"
-        requestDetailsDescriptionTextView.text = realmRequest.description ?: "Unknown"
-        createStatusAdapter(realmRequest.status ?: RealmList())
+        supportActionBar?.title = realmRequest.name
+        val formatter = SimpleDateFormat("dd.MM.yyyy hh:mm")
+        val date=formatter.format((Date(realmRequest.created_at!!)))
+        requestDetailsMainTitleTextView.text = "Обращение №${realmRequest.id} от ${date}"
+        requestDetailsInfoProblemTextView.text = realmRequest.type?.name
+        requestDetailsDescriptionTextView.text = realmRequest.message
     }
 
     // TODO do impl when get new API

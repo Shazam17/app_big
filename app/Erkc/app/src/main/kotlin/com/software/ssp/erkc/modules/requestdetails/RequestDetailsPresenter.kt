@@ -19,15 +19,15 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     private fun fetchRequestById(requestId: Int) {
         subscriptions += realmRepository.fetchRequestById(id = requestId)
                 .subscribe (
-                    {   realmRequest ->
-                        view?.showRequestDetails(realmRequest)
-                        view?.configureBottomFrameLayout(realmRequest.status?.last()?.type!!)
-                        view?.visibleNeedMenuItem(realmRequest.status?.last()?.type!!)
-                    },
-                    {
-                        print(it.localizedMessage)
-                    }
-        )
+                        {   realmRequest ->
+                            view?.showRequestDetails(realmRequest)
+                            view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
+                            view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
+                        },
+                        {
+                            print(it.localizedMessage)
+                        }
+                )
     }
 
     override fun onCancelRequestButtonClick() {
