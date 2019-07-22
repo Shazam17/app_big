@@ -2,7 +2,7 @@ package com.software.ssp.erkc.data.rest.models
 
 import com.google.gson.annotations.SerializedName
 
-class RequestAdress (
+class RequestAddress (
         @SerializedName("id")
         var id:Int,
         @SerializedName("company_id")

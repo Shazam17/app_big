@@ -1157,6 +1157,120 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
+    fun saveTypeHouseList(typeHouseList: List<TypeHouse>): Observable<Boolean> {
+        return Observable.create<Boolean> {sub ->
+            val realmTypeHouseList: RealmList<RealmTypeHouse> = RealmList()
+
+            typeHouseList.forEach { typeHouse ->
+                realmTypeHouseList.add(
+                        RealmTypeHouse(
+                                id = typeHouse.id!!,
+                                name = typeHouse.name,
+                                sort = typeHouse.sort
+                        )
+                )
+            }
+
+            realm.executeTransactionAsync (
+                    {
+                        it.copyToRealmOrUpdate(realmTypeHouseList)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    {error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun fetchTypeHouseList() : Observable<List<RealmTypeHouse>> {
+        return Observable.just(
+                realm.where(RealmTypeHouse::class.java)
+                        .findAll()
+        )
+    }
+
+    fun saveRequestStateList(stateList: List<StateRequest>): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            val realmRequestStateList: RealmList<RealmStateRequest> = RealmList()
+            stateList.forEach { state ->
+                realmRequestStateList.add(
+                        RealmStateRequest(
+                                id = state.id,
+                                name = state.name,
+                                sort = state.sort,
+                                process_state = state.process_state,
+                                stateLabel = state.stateLabel
+                        )
+                )
+            }
+
+            realm.executeTransactionAsync (
+                    {
+                        it.copyToRealmOrUpdate(realmRequestStateList)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun fetchRequestStateList() : Observable<List<RealmStateRequest>> {
+        return Observable.just(
+                realm.where(RealmStateRequest::class.java)
+                        .findAll()
+        )
+    }
+
+    fun saveRequestAddressList(addressList: List<RequestAddress>) : Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            val realmRequestAddressList: RealmList<RealmAddressRequest> = RealmList()
+
+            addressList.forEach { address ->
+                realmRequestAddressList.add(
+                        RealmAddressRequest(
+                                id = address.id,
+                                company_id = address.company_id,
+                                code = address.code,
+                                address = address.address,
+                                fias = address.fias,
+                                cadastral_number = address.cadastral_number
+                        )
+                )
+            }
+
+            realm.executeTransactionAsync (
+                    {
+                        it.copyToRealmOrUpdate(realmRequestAddressList)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun fetchRequestAddressList(query: String = "") : Observable<List<RealmAddressRequest>> {
+        return realm.where(RealmAddressRequest::class.java)
+                        .contains("address", query.toLowerCase())
+                        .findAllAsync()
+                        .asObservable()
+                        .filter { it.isLoaded }
+                        .first()
+                        .flatMap { results ->
+                            Observable.just(realm.copyFromRealm(results))
+                        }
+    }
+
     fun fetchRequestList(): Observable<List<RealmRequest>> {
         return Observable.just(
                 realm.where(RealmRequest::class.java)

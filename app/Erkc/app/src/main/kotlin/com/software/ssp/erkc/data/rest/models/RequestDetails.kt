@@ -113,6 +113,15 @@ class TypeRequest(
         val name: String?
 )
 
+class TypeHouse(
+        @SerializedName("id")
+        var id: Int?,
+        @SerializedName("name")
+        val name: String?,
+        @SerializedName("sort")
+        val sort: Int
+)
+
 class Company(
         @SerializedName("id")
         val id: Int,

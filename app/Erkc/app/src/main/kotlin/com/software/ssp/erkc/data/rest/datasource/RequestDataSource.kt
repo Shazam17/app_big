@@ -2,7 +2,9 @@ package com.software.ssp.erkc.data.rest.datasource
 
 import rx.Observable
 import com.software.ssp.erkc.data.rest.models.Request
-import com.software.ssp.erkc.data.rest.models.RequestAdress
+import com.software.ssp.erkc.data.rest.models.RequestAddress
+import com.software.ssp.erkc.data.rest.models.StateRequest
+import com.software.ssp.erkc.data.rest.models.TypeHouse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -10,10 +12,16 @@ import retrofit2.http.*
 interface RequestDataSource {
 
     @POST
-    fun fetchRequestAdress():Observable<List<RequestAdress>>
+    fun fetchRequestAddress(@Url url: String):Observable<List<RequestAddress>>
 
     @GET
     fun fetchRequestList(@Url url:String):Observable<List<Request>>
+
+    @GET
+    fun fetchRequestStates(@Url url: String): Observable<List<StateRequest>>
+
+    @GET
+    fun fetchTypeHouse(@Url url: String): Observable<List<TypeHouse>>
 
     @POST
     @FormUrlEncoded

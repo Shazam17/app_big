@@ -139,8 +139,24 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap { receipts ->
                     realmRepository.saveReceiptsList(receipts ?: emptyList())
                 }
-                .concatMap { requestRepository.fetchRequestList()}
-                .concatMap { realmRepository.saveRequestList(it) }
+                .concatMap {
+                    requestRepository.fetchRequestList()
+                }
+                .concatMap {
+                    realmRepository.saveRequestList(it)
+                }
+                .concatMap { requestRepository.fetchTypeHouse() }
+                .concatMap { typeHouseList ->
+                    realmRepository.saveTypeHouseList(typeHouseList = typeHouseList)
+                }
+                .concatMap { requestRepository.fetchRequestStates() }
+                .concatMap { statesList ->
+                    realmRepository.saveRequestStateList(stateList = statesList)
+                }
+                .concatMap { requestRepository.fetchRequestAddress() }
+                .concatMap { addressList ->
+                    realmRepository.saveRequestAddressList(addressList = addressList)
+                }
                 .subscribe(
                         {
                             notificationServiceManager.startPushService()

@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.address
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmAddressRequest
 import com.software.ssp.erkc.data.realm.models.RealmStreet
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import rx.lang.kotlin.plusAssign
@@ -17,8 +18,17 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
         showAllStreets()
     }
 
+    override fun onViewAttachedRequestScreen() {
+        showAllRequestAddresses()
+    }
+
     override fun onItemSelected(street: RealmStreet) {
         view?.setResult(street)
+        view?.close()
+    }
+
+    override fun onItemRequestAddressSelected(addressRequest: RealmAddressRequest) {
+        view?.setRequestAddressResult(address = addressRequest)
         view?.close()
     }
 
@@ -31,6 +41,14 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
                             view?.showData(streets)
                         }
                 )
+    }
+
+    override fun onQueryRequestAddress(query: String) {
+        subscriptions += realmRepository
+                .fetchRequestAddressList(query = query)
+                .subscribe {addresses ->
+                    view?.showRequestAddressData(addressList = addresses)
+                }
     }
 
     override fun onViewDetached() {
@@ -50,5 +68,13 @@ class SearchAddressPresenter @Inject constructor(view: ISearchAddressView) : RxP
                             view?.showData(streets)
                         }
                 )
+    }
+
+    private fun showAllRequestAddresses() {
+        subscriptions += realmRepository.fetchRequestAddressList()
+                .subscribe {
+                    addresses ->
+                    view?.showRequestAddressData(addressList = addresses)
+                }
     }
 }

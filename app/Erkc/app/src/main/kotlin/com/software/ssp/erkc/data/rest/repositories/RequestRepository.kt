@@ -2,8 +2,7 @@ package com.software.ssp.erkc.data.rest.repositories
 
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.datasource.RequestDataSource
-import com.software.ssp.erkc.data.rest.models.Request
-import com.software.ssp.erkc.data.rest.models.RequestAdress
+import com.software.ssp.erkc.data.rest.models.*
 import javax.inject.Inject
 import rx.Observable
 
@@ -13,13 +12,25 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
     fun fetchRequestList(): Observable<List<Request>> {
         activeSession.flag=true
         return requestDataSource
-                .fetchRequestList("http://fon.zayavki.pro/mobile/request/index")
+                .fetchRequestList(url = "http://fon.zayavki.pro/mobile/request/index")
                 .compose(this.applySchedulers<List<Request>>())
     }
 
-    fun fetchRequestAdress():Observable<List<RequestAdress>>{
+    fun fetchRequestAddress():Observable<List<RequestAddress>>{
         return requestDataSource
-                .fetchRequestAdress()
-                .compose(this.applySchedulers<List<RequestAdress>>())
+                .fetchRequestAddress(url = "http://fon.zayavki.pro/mobile/common/house-by-company")
+                .compose(this.applySchedulers<List<RequestAddress>>())
+    }
+
+    fun fetchRequestStates(): Observable<List<StateRequest>> {
+        return requestDataSource
+                .fetchRequestStates(url = "http://fon.zayavki.pro/mobile/common/request-states")
+                .compose(this.applySchedulers<List<StateRequest>>())
+    }
+
+    fun fetchTypeHouse(): Observable<List<TypeHouse>> {
+        return requestDataSource
+                .fetchTypeHouse(url = "http://fon.zayavki.pro/mobile/common/property-types")
+                .compose(this.applySchedulers<List<TypeHouse>>())
     }
 }
