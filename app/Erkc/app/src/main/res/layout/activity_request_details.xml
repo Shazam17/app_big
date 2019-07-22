@@ -78,20 +78,20 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/requestDetailsPhotosRecyclerView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingRight="10dp"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_photo_request"
-                    tools:orientation="horizontal" />
+                    android:id = "@+id/requestDetailsPhotosRecyclerView"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:orientation = "horizontal"
+                    tools:itemCount = "3"
+                    tools:listitem = "@layout/item_photo_request"
+                    tools:orientation = "horizontal" />
 
                 <ImageView
-                    android:id="@+id/requestDetailsAddPhotoButton"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_camera" />
+                    android:id = "@+id/requestDetailsAddPhotoButton"
+                    android:layout_width = "50dp"
+                    android:layout_height = "50dp"
+                    android:layout_marginTop = "15dp"
+                    android:src = "@drawable/ic_camera" />
 
             </LinearLayout>
 

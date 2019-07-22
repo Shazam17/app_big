@@ -71,7 +71,7 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             val contentType = response.body().contentType()
             val bodyString = response.body().string()
 
-            if (!bodyString.isNullOrEmpty()) {
+            if (!bodyString.isNullOrEmpty()&&activeSession.flag!=0&&activeSession.flag!=1) {
                 try {
                     val apiResponse = gson.fromJson(bodyString, ApiResponse::class.java)
 
@@ -90,14 +90,22 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             var body = ResponseBody.create(contentType, bodyString)
             try {
                 val responseJson = gson.fromJson(bodyString, JsonElement::class.java)
-                val data:JsonElement
+                var data:JsonElement?=null
                 if (responseJson != null) {
                     //TODO: flag для версии DEBUG, поменять для боевых действий
-                    if (!activeSession.flag!!) {
-                        data = responseJson.asJsonObject.get("data")
-                        activeSession.flag=false
-                    }else{
-                        data =responseJson.asJsonArray
+                    when {
+                        activeSession.flag==-1 -> {
+                            data = responseJson.asJsonObject.get("data")
+                            activeSession.flag=-1
+                        }
+                        activeSession.flag==0 -> {
+                            data =responseJson.asJsonArray
+                            activeSession.flag=-1
+                        }
+                        activeSession.flag==1 -> {
+                            data =responseJson.asJsonObject
+                            activeSession.flag=-1
+                        }
                     }
                     if (data != null) {
                         body = ResponseBody.create(contentType, data.toString())
@@ -126,7 +134,7 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             params.addAll(originalUrl.queryParameterValues(name).map { value -> "$name=$value" })
         }
 
-        if (!activeSession.flag!!) {
+        if (activeSession.flag==-1) {
             params.add(1, "token=$token")  // order is important here
             params.add(1, "app_id=$app_id")
             fixSignatureParams(methodValue, params)

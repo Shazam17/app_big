@@ -3,24 +3,44 @@ package com.software.ssp.erkc.modules.requestdetails
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RequestStatusTypes
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.RequestRepository
 import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : RxPresenter<IRequestDetailsView>(view), IRequestDetailsPresenter {
 
-    @Inject lateinit var realmRepository: RealmRepository
-
+    @Inject
+    lateinit var realmRepository: RealmRepository
+    @Inject
+    lateinit var requestRepository: RequestRepository
     override var requestId: Int = -1
 
     override fun onViewAttached() {
-        fetchRequestById(requestId = requestId)
+        updateRequestModel(requestId)
+    }
+
+    private fun updateRequestModel(id: Int) {
+        subscriptions += requestRepository.fetchRequestById(id = id)
+                .concatMap { realmRepository.saveRequestById(it) }
+                .subscribe(
+                        {
+                            fetchRequestById(requestId = requestId)
+
+                        },
+                        { error ->
+                            fetchRequestById(id)
+                            error.printStackTrace()
+                            print(error.localizedMessage)
+
+                        })
     }
 
     private fun fetchRequestById(requestId: Int) {
         subscriptions += realmRepository.fetchRequestById(id = requestId)
-                .subscribe (
-                        {   realmRequest ->
+                .subscribe(
+                        { realmRequest ->
                             view?.showRequestDetails(realmRequest)
+                            view?.showSelectImagesList(realmRequest.comment!!)
                             view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
                             view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
                         },
@@ -43,6 +63,6 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     }
 
     override fun onChatMenuItemClick() {
-        view?.navigateToChatScreen()
+        view?.navigateToChatScreen(requestId = requestId)
     }
 }
