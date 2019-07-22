@@ -10,7 +10,7 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
 
 
     fun fetchRequestList(): Observable<List<Request>> {
-        activeSession.flag=true
+        activeSession.flag=0
         return requestDataSource
                 .fetchRequestList(url = "http://fon.zayavki.pro/mobile/request/index")
                 .compose(this.applySchedulers<List<Request>>())
@@ -32,5 +32,11 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
         return requestDataSource
                 .fetchTypeHouse(url = "http://fon.zayavki.pro/mobile/common/property-types")
                 .compose(this.applySchedulers<List<TypeHouse>>())
+    }
+
+    fun fetchRequestById(id:Int):Observable<Request>{
+        activeSession.flag=1
+        return requestDataSource.fetchRequestById("http://fon.zayavki.pro/mobile/request/$id/view")
+                .compose(this.applySchedulers<Request>())
     }
 }

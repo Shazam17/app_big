@@ -34,4 +34,7 @@ interface RequestDataSource {
     @GET
     fun getCommentFile(): Call<ResponseBody>
 
+    @GET
+    fun fetchRequestById(@Url url:String):Observable<Request>
+
 }

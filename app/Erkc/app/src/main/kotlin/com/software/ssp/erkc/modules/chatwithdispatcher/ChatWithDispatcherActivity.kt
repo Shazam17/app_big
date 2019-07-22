@@ -1,11 +1,14 @@
 package com.software.ssp.erkc.modules.chatwithdispatcher
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.rest.models.Comment
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
 import kotlinx.android.synthetic.main.activity_chat_with_dispatcher.*
 import javax.inject.Inject
 
@@ -17,6 +20,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_with_dispatcher)
         initViews()
+        presenter.requestId = intent.getIntExtra(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY, -1)
         presenter.onViewAttached()
     }
 
@@ -32,6 +36,8 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView {
 
     private fun initViews() {
         // TODO init views
+        messagesRecyclerView.layoutManager = LinearLayoutManager(this)
+        messagesRecyclerView.setHasFixedSize(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.subtitle = "Обращение #3597842 от 12.20.2018 10:00"
         supportActionBar?.title = "Сломанная лампочка"
@@ -52,5 +58,12 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView {
     override fun beforeDestroy() {
         presenter.onViewDetached()
     }
+    override fun createChatAdapter(comments: List<Comment>) {
+        val adapter = ChatWithDispatcherAdapter(
+                dataList = comments
+        )
 
+        messagesRecyclerView.adapter = adapter
+        messagesRecyclerView.adapter?.notifyDataSetChanged()
+    }
 }

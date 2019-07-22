@@ -4,12 +4,16 @@ import android.graphics.Point
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.R
+import com.software.ssp.erkc.common.mvp.BaseListActivity
 import com.software.ssp.erkc.common.mvp.MvpActivity
+import com.software.ssp.erkc.data.realm.models.RealmComment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.data.realm.models.RealmRequestStatus
 import com.software.ssp.erkc.data.realm.models.RequestStatusTypes
@@ -28,6 +32,7 @@ const val HEIGHT_WITH_CONFIRM_BUTTON: Int = 115
 const val HEIGHT_WITHOUT_CONFIRM_BUTTON: Int = 77
 
 class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
+
 
     companion object {
         const val REQUEST_DETAILS_REQUEST_ID_KEY = "request_details_request_id_key"
@@ -63,13 +68,19 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         startActivity<CreateRequestActivity>(CreateRequestActivity.CREATE_REQUEST_EDIT_MODE to true, CreateRequestActivity.REQUEST_ID to requestId)
     }
 
-    override fun navigateToChatScreen() {
-        startActivity<ChatWithDispatcherActivity>()
+    override fun navigateToChatScreen(requestId: Int) {
+        startActivity<ChatWithDispatcherActivity>(REQUEST_DETAILS_REQUEST_ID_KEY to requestId)
     }
 
-    override fun showSelectImagesList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showSelectImagesList(comment: List<RealmComment>) {
+        val adapter = RequestDetailsFileListAdapter(
+                requestComments = comment.filter { it.downloadLink!=null }
+        )
+
+        requestDetailsPhotosRecyclerView.adapter = adapter
+        requestDetailsPhotosRecyclerView.adapter?.notifyDataSetChanged()
     }
+
 
     override fun showStatusesList() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -192,7 +203,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         invalidateOptionsMenu()
     }
 
-    override fun createStatusAdapter(statusList: RealmList<RealmRequestStatus>) {
+    override fun createStatusAdapter(statusList: List<RealmRequestStatus>) {
         val adapter = RequestDetailsStatusListAdapter(
                 requestStatusItems = statusList
         )
@@ -204,6 +215,8 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        requestDetailsPhotosRecyclerView.layoutManager = GridLayoutManager(this,5)
+        requestDetailsPhotosRecyclerView.setHasFixedSize(true)
         requestDetailsStatuesRecyclerView.layoutManager = LinearLayoutManager(this)
         requestDetailsStatuesRecyclerView.setHasFixedSize(true)
     }

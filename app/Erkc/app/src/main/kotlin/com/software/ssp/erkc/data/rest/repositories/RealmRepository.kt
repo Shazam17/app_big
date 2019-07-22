@@ -1277,22 +1277,118 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         .findAll()
         )
     }
+    fun saveRequestById(request: Request): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            val tasksList = RealmList<RealmRequestTask>()
+            val comment = RealmList<RealmComment>()
+            request.tasks?.forEach { it ->
+                tasksList.add(RealmRequestTask(
+                        id = it
+                ))
+            }
+            request.comments?.forEach { value ->
+                comment.add(RealmComment(
+                        id = value.id!!,
+                        created_at = value.created_at,
+                        initiator = Initiator(
+                                id = value.initiator!!.id,
+                                username = value.initiator.username,
+                                name = value.initiator.name,
+                                phone = value.initiator.phone,
+                                info = value.initiator.info
+                        ),
+                        message = value.message,
+                        filename = value.filename,
+                        filetype = value.filetype,
+                        downloadLink = value.downloadLink
+                ))
+            }
+            val data = RealmRequest(
+                    id = request.id,
+                    created_at = request.created_at,
+                    company = RealmCompany(
+                            id = request.company?.id,
+                            type = request.company?.type,
+                            typeLabel = request.company?.typeLabel,
+                            state = request.company?.state,
+                            stateLabel = request.company?.stateLabel,
+                            name = request.company?.name,
+                            full_name = request.company?.full_name,
+                            jur_address = request.company?.jur_address,
+                            fact_address = request.company?.fact_address,
+                            inn = request.company?.inn,
+                            kpp = request.company?.kpp,
+                            ogrn = request.company?.ogrn,
+                            email = request.company?.email,
+                            phone = request.company?.phone,
+                            phone_number = request.company?.phone_number
+                    ),
+                    type = RealmTypeRequest(
+                            id = request.type?.id,
+                            name = request.type?.name
+                    ),
+                    state = RealmStateRequest(
+                            id = request.state?.id,
+                            name = request.state?.name,
+                            sort = request.state?.sort,
+                            process_state = request.state?.process_state,
+                            stateLabel = request.state?.stateLabel
+                    ),
+                    applicant = request.applicant,
+                    house = RealmHouseRequest(
+                            id = request.house?.id,
+                            company_id = request.house?.company_id,
+                            code = request.house?.code,
+                            address = request.house?.address,
+                            fias = request.house?.fias,
+                            cadastral_number = request.house?.cadastral_number
+                    ),
+                    premise = RealmPremiseRequest(
+                            id = request.premise?.id,
+                            house_id = request.premise?.house_id,
+                            number = request.premise?.number
+                    ),
+                    chanel = request.chanel,
+                    chanelLabel = request.chanelLabel,
+                    name = request.name,
+                    message = request.message,
+                    contact = request.contact,
+                    code = request.code,
+                    is_overdue = request.is_overdue,
+                    comment = comment,
+                    task = tasksList
+            )
 
-    fun fetchRequestById(id: Int): Observable<RealmRequest> {
-        return Observable.just(
-                realm.where(RealmRequest::class.java)
-                        .findAll()
-                        .first { it.id == id }
-        )
+            realm.executeTransactionAsync(
+                    {
+                        it.copyToRealmOrUpdate(data)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+
     }
 
-    private fun deleteRequestList(): Observable<Boolean> {
-        return Observable.create<Boolean> {
-            realm.executeTransactionAsync {
-                it.where(RealmRequest::class.java)
-                        .findAll()
-                        .deleteAllFromRealm()
-            }
+fun fetchRequestById(id: Int): Observable<RealmRequest> {
+    return Observable.just(
+            realm.where(RealmRequest::class.java)
+                    .findAll()
+                    .first { it.id == id }
+    )
+}
+
+private fun deleteRequestList(): Observable<Boolean> {
+    return Observable.create<Boolean> {
+        realm.executeTransactionAsync {
+            it.where(RealmRequest::class.java)
+                    .findAll()
+                    .deleteAllFromRealm()
         }
     }
+}
 }

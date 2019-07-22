@@ -11,16 +11,11 @@ import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
-import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
 import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.FilterRequestChipTag
 import com.software.ssp.erkc.modules.request.authedRequest.filterRequest.StatusModel
 import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
-import kotlinx.android.synthetic.main.activity_request_details.*
 import kotlinx.android.synthetic.main.fragment_request_list.*
-import kotlinx.android.synthetic.main.fragment_request_tab.*
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 import javax.inject.Inject
 
 class ActiveRequestListFragment : BaseListFragment<RealmRequest>(), IActiveRequestListView {
