@@ -17,18 +17,21 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
     }
 
     fun fetchRequestAddress():Observable<List<RequestAddress>>{
+        activeSession.flag=0
         return requestDataSource
                 .fetchRequestAddress(url = "http://fon.zayavki.pro/mobile/common/house-by-company")
                 .compose(this.applySchedulers<List<RequestAddress>>())
     }
 
     fun fetchRequestStates(): Observable<List<StateRequest>> {
+        activeSession.flag=0
         return requestDataSource
                 .fetchRequestStates(url = "http://fon.zayavki.pro/mobile/common/request-states")
                 .compose(this.applySchedulers<List<StateRequest>>())
     }
 
     fun fetchTypeHouse(): Observable<List<TypeHouse>> {
+        activeSession.flag=0
         return requestDataSource
                 .fetchTypeHouse(url = "http://fon.zayavki.pro/mobile/common/property-types")
                 .compose(this.applySchedulers<List<TypeHouse>>())
