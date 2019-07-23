@@ -1,197 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootLayoutCreateRequest">
+<android.support.constraint.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:id = "@+id/rootLayoutCreateRequest"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent">
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        app:layout_constraintBottom_toTopOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:orientation = "vertical">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/nameRequestInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="18dp"
-                android:hint="@string/create_request_name_request_hint">
+                android:id = "@+id/nameRequestInputLayout"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginTop = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:hint = "@string/create_request_name_request_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestNameRequestTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:id = "@+id/createRequestNameRequestTextEdit"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/addressInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:hint="@string/create_request_address_hint">
+                android:id = "@+id/addressInputLayout"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:hint = "@string/create_request_address_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestAddressTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"/>
+                    android:id = "@+id/createRequestAddressTextEdit"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:focusable = "false" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/addressSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:spinnerMode="dialog"
-                android:visibility="invisible"/>
+
+            <!--<Spinner-->
+            <!--android:id = "@+id/typeHouseSpinner"-->
+            <!--android:layout_width = "match_parent"-->
+            <!--android:layout_height = "50dp"-->
+            <!--android:layout_marginStart = "18dp"-->
+            <!--android:layout_marginEnd = "18dp"-->
+            <!--android:overlapAnchor="false"-->
+            <!--android:dropDownWidth = "@dimen/layout_maxwidth" />-->
+
+
+            <AutoCompleteTextView
+                android:id = "@+id/typeCompanySpinner"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:dropDownWidth = "@dimen/layout_maxwidth"
+                android:dropDownVerticalOffset = "40dp"
+                android:focusable = "false"
+                android:hint = "@string/company_name" />
+
+            <AutoCompleteTextView
+                android:id = "@+id/typeRequestSpinner"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:drawableEnd = "@drawable/ic_spinner_icon"
+                android:dropDownWidth = "@dimen/layout_maxwidth"
+                android:dropDownVerticalOffset = "40dp"
+                android:focusable = "false"
+                android:hint = "@string/type_request" />
+
+            <AutoCompleteTextView
+                android:id = "@+id/typeHouseSpinner"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:drawableEnd = "@drawable/ic_spinner_icon"
+                android:dropDownAnchor = "@id/typeRequestSpinner"
+                android:dropDownWidth = "@dimen/layout_maxwidth"
+                android:dropDownVerticalOffset = "40dp"
+                android:focusable = "false"
+                android:hint = "@string/property_type_request" />
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:paddingStart = "22dp"
+                android:paddingTop = "8dp"
+                android:paddingEnd = "22dp">
+
+                <TextView
+                    android:id = "@+id/emergencyTextView"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:layout_weight = "1"
+                    android:text = "@string/create_request_emergency_request_text"
+                    android:textColor = "@color/text_black"
+                    android:textSize = "16sp"
+                    app:layout_constraintBottom_toBottomOf = "parent"
+                    app:layout_constraintLeft_toLeftOf = "parent"
+                    app:layout_constraintTop_toTopOf = "parent" />
+
+
+                <CheckBox
+                    android:id = "@+id/crashCheckBox"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:layout_weight = "1"
+
+                    app:layout_constraintBottom_toBottomOf = "parent"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toTopOf = "parent" />
+
+                <View
+                    android:layout_width = "match_parent"
+                    android:layout_height = "1dp"
+                    android:layout_marginTop = "8dp"
+                    android:background = "@color/colorPrimaryDark"
+
+                    app:layout_constraintTop_toBottomOf = "@id/emergencyTextView" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/serviceManagerInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:hint="@string/create_request_service_provider_hint">
+                android:id = "@+id/createRequestDescriptionInputLayout"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:hint = "@string/create_request_description_problem_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestServiceProviderTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </android.support.design.widget.TextInputLayout>
-
-                <Spinner
-                    android:id="@+id/typeRequestSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="18dp" />
-
-
-            <Spinner
-                android:id="@+id/typeHouseSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp" />
-
-            
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingHorizontal="22dp">
-
-                    <TextView
-                        android:id="@+id/emergencyTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/create_request_emergency_request_text"
-                        android:textColor="@color/text_black"
-                        android:textSize="16dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-                    <CheckBox
-                        android:id="@+id/crashCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-                    
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorPrimaryDark"
-                        android:layout_marginTop="8dp"
-
-                        app:layout_constraintTop_toBottomOf="@id/emergencyTextView"/>
-                    
-                </android.support.constraint.ConstraintLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/createRequestDescriptionInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="6dp"
-                android:hint="@string/create_request_description_problem_hint">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestDescriptionTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:id = "@+id/createRequestDescriptionTextEdit"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp">
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:paddingStart = "20dp"
+                android:paddingEnd = "20dp">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_camera" />
+                    android:layout_width = "50dp"
+                    android:layout_height = "50dp"
+                    android:src = "@drawable/ic_camera" />
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_black"
-                android:layout_marginStart="18dp"
-                android:textSize="18dp"
-                android:text="@string/create_request_feedback_title"/>
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_marginStart = "18dp"
+                android:text = "@string/create_request_feedback_title"
+                android:textColor = "@color/text_black"
+                android:textSize = "18sp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/FIOInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:hint="@string/create_request_fio_hint">
+                android:id = "@+id/FIOInputLayout"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:hint = "@string/create_request_fio_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestFIOTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:id = "@+id/createRequestFIOTextEdit"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/numberPhoneInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:hint="@string/create_request_number_phone_hint">
+                android:id = "@+id/numberPhoneInputLayout"
+                android:layout_width = "match_parent"
+                android:layout_height = "54dp"
+                android:layout_marginStart = "18dp"
+                android:layout_marginEnd = "18dp"
+                android:hint = "@string/create_request_number_phone_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/createRequestNumberPhoneTextEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:id = "@+id/createRequestNumberPhoneTextEdit"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -200,77 +210,74 @@
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/bottomFrameLayoutCreateRequest"
-        android:layout_width="0dp"
-        android:layout_height="77dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:id = "@+id/bottomFrameLayoutCreateRequest"
+        android:layout_width = "0dp"
+        android:layout_height = "77dp"
+        android:background = "@color/colorPrimary"
+        android:orientation = "horizontal"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintHorizontal_bias = "1.0"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent">
 
     </FrameLayout>
 
     <Button
-        android:id="@+id/createRequestSendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="48dp"
-        android:paddingRight="48dp"
-        android:text="@string/create_request_send_button_text"
-        android:theme="@style/AppWhiteButtonStyle"
-        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutCreateRequest"
-        android:visibility="gone"
-        tools:visibility="gone"
-        android:enabled="false"
-        />
+        android:id = "@+id/createRequestSendButton"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:enabled = "false"
+        android:paddingLeft = "48dp"
+        android:paddingRight = "48dp"
+        android:text = "@string/create_request_send_button_text"
+        android:theme = "@style/AppWhiteButtonStyle"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintLeft_toLeftOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintRight_toRightOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintTop_toTopOf = "@id/bottomFrameLayoutCreateRequest"
+        tools:visibility = "gone" />
 
     <Button
-        android:id="@+id/createRequestSaveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="48dp"
-        android:paddingRight="48dp"
-        android:text="@string/create_request_save_button_text"
-        android:theme="@style/AppWhiteButtonStyle"
-        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutCreateRequest"
-        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutCreateRequest"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:id = "@+id/createRequestSaveButton"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:paddingLeft = "48dp"
+        android:paddingRight = "48dp"
+        android:text = "@string/create_request_save_button_text"
+        android:theme = "@style/AppWhiteButtonStyle"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintLeft_toLeftOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintRight_toRightOf = "@id/bottomFrameLayoutCreateRequest"
+        app:layout_constraintTop_toTopOf = "@id/bottomFrameLayoutCreateRequest"
+        tools:visibility = "visible" />
 
 
     <ProgressBar
-        android:id="@+id/progressButtonSendRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintRight_toRightOf="@id/createRequestSendButton"
-        app:layout_constraintTop_toTopOf="@id/createRequestSendButton"
-        app:layout_constraintBottom_toBottomOf="@id/createRequestSendButton"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:id = "@+id/progressButtonSendRequest"
+        android:layout_width = "wrap_content"
+        android:layout_height = "0dp"
+        android:paddingTop = "8dp"
+        android:paddingBottom = "8dp"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "@id/createRequestSendButton"
+        app:layout_constraintRight_toRightOf = "@id/createRequestSendButton"
 
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
+        app:layout_constraintTop_toTopOf = "@id/createRequestSendButton"
+        tools:visibility = "visible" />
 
     <ProgressBar
-        android:id="@+id/progressButtonSaveRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintRight_toRightOf="@id/createRequestSaveButton"
-        app:layout_constraintTop_toTopOf="@id/createRequestSaveButton"
-        app:layout_constraintBottom_toBottomOf="@id/createRequestSaveButton"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:id = "@+id/progressButtonSaveRequest"
+        android:layout_width = "wrap_content"
+        android:layout_height = "0dp"
+        android:paddingTop = "8dp"
+        android:paddingBottom = "8dp"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "@id/createRequestSaveButton"
+        app:layout_constraintRight_toRightOf = "@id/createRequestSaveButton"
 
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
+        app:layout_constraintTop_toTopOf = "@id/createRequestSaveButton"
+        tools:visibility = "visible" />
 
 </android.support.constraint.ConstraintLayout>

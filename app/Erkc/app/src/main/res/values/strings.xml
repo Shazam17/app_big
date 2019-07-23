@@ -639,7 +639,7 @@
     <string name="archive_request_tab_empty_text">Ни одна ваша заявка еще не была завершена</string>
     <string name="draft_request_tap_empty_text">Вы пока не создали ни одниз черновик</string>
     <string name="empty_request_list_with_filter_text">Заявок по выбранным фильтрам нет</string>
-    
+
     <!-- Request Screen -->
     <string name="request_non_auth_hint_your_address">Ваш адрес</string>
     <string name="request_non_auth_your_manager_company_text">Ваша управляющая компания</string>
@@ -689,5 +689,9 @@
         <item>@string/gallery_title_alert</item>
         <item>@string/camera_title_alert</item>
     </array>
+    <string name = "type_request">Тип заявки</string>
+    <string name = "property_type_request">Тип имущества</string>
+    <string name = "property_type">Тип имущества</string>
+    <string name = "company_name">Компания</string>
 
 </resources>

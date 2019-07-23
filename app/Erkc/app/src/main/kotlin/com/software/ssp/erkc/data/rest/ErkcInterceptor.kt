@@ -167,7 +167,8 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
         for ((paramName, paramValue) in postParams) {
             params.add("$paramName=$paramValue")
         }
-
+        var authorizedRequest:Request?=null
+    if(activeSession.flag==-1) {
         params.add(0, "token=$token")  // order is important here
         params.add(0, "app_id=$app_id")
         params.add(0, "method=$methodValue")
@@ -185,11 +186,16 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             authorizedBodyBuilder.add(paramName, paramValue)
         }
 
-        val authorizedRequest = originalRequest.newBuilder()
+        authorizedRequest = originalRequest.newBuilder()
                 .post(authorizedBodyBuilder.build())
                 .build()
-
-        return authorizedRequest
+    }else{
+        authorizedRequest = originalRequest
+                .newBuilder()
+                .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
+                .build()
+    }
+        return authorizedRequest!!
     }
 
     private fun fixSignatureParams(method: String, params: MutableList<String>) {
