@@ -1,4 +1,6 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <files-path name="checks" path="export/" />
     <files-path name="xml" path="xml/" />
+    <external-files-path name="external_files"
+        path="."/>
 </paths>

@@ -140,6 +140,9 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmRepository.saveReceiptsList(receipts ?: emptyList())
                 }
                 .concatMap {
+                    realmRepository.deleteRequestList()
+                }
+                .concatMap {
                     requestRepository.fetchRequestList()
                 }
                 .concatMap {

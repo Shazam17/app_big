@@ -49,32 +49,29 @@
         android:visibility="gone"
         tools:ignore="UnusedAttribute" />
 
-    <LinearLayout
-        android:id="@+id/emptyView"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/emptyViewRequest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="center"
-            android:src="@drawable/history_placeholder" />
 
         <TextView
-            android:id="@+id/emptyMessageTextView"
+            android:id="@+id/emptyMessageTextViewReqeust"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:paddingEnd="@dimen/default_margin"
             android:paddingStart="@dimen/default_margin"
-            android:text="@string/history_empty_text"
+            tools:text="@string/history_empty_text"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorHelp" />
-    </LinearLayout>
+            android:textColor="@color/colorHelp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

@@ -635,6 +635,10 @@
 
     <!-- Request Tab -->
     <string name="request_tab_create_button_text">СОЗДАТЬ ЗАЯВКУ</string>
+    <string name="active_request_tab_empty_text">У вас нет активных заявок</string>
+    <string name="archive_request_tab_empty_text">Ни одна ваша заявка еще не была завершена</string>
+    <string name="draft_request_tap_empty_text">Вы пока не создали ни одниз черновик</string>
+    <string name="empty_request_list_with_filter_text">Заявок по выбранным фильтрам нет</string>
     
     <!-- Request Screen -->
     <string name="request_non_auth_hint_your_address">Ваш адрес</string>
@@ -678,5 +682,12 @@
 
     <!-- Chat with dispatcher -->
     <string name="chat_with_dispatcher_edit_text_hint">Сообщение</string>
+    <string name="camera_title_alert">Камера</string>
+    <string name="gallery_title_alert">Галерея</string>
+
+    <array name="camera_or_gallery_alert_titles">
+        <item>@string/gallery_title_alert</item>
+        <item>@string/camera_title_alert</item>
+    </array>
 
 </resources>

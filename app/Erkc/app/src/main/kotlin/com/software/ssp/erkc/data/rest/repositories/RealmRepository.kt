@@ -8,6 +8,7 @@ import com.software.ssp.erkc.common.NaturalOrderComparator
 import com.software.ssp.erkc.data.realm.models.Initiator
 import com.software.ssp.erkc.extensions.folderPath
 import com.software.ssp.erkc.extensions.iconPath
+import com.software.ssp.erkc.extensions.secondsToMilliseconds
 import io.realm.Realm
 import io.realm.RealmList
 import rx.Observable
@@ -1072,7 +1073,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 it.comments?.forEach { value ->
                     comment.add(RealmComment(
                             id = value.id!!,
-                            created_at = value.created_at,
+                            created_at = value.created_at!!.secondsToMilliseconds(),
                             initiator = Initiator(
                                     id = value.initiator!!.id,
                                     username = value.initiator.username,
@@ -1088,7 +1089,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
                 realmRequestList.add(RealmRequest(
                         id = it.id,
-                        created_at = it.created_at,
+                        created_at = it.created_at!!.secondsToMilliseconds(),
                         company = RealmCompany(
                                 id = it.company?.id,
                                 type = it.company?.type,
@@ -1289,7 +1290,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
             request.comments?.forEach { value ->
                 comment.add(RealmComment(
                         id = value.id!!,
-                        created_at = value.created_at,
+                        created_at = value.created_at!!.secondsToMilliseconds(),
                         initiator = Initiator(
                                 id = value.initiator!!.id,
                                 username = value.initiator.username,
@@ -1305,7 +1306,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
             }
             val data = RealmRequest(
                     id = request.id,
-                    created_at = request.created_at,
+                    created_at = request.created_at!!.secondsToMilliseconds(),
                     company = RealmCompany(
                             id = request.company?.id,
                             type = request.company?.type,
@@ -1382,13 +1383,21 @@ fun fetchRequestById(id: Int): Observable<RealmRequest> {
     )
 }
 
-private fun deleteRequestList(): Observable<Boolean> {
-    return Observable.create<Boolean> {
-        realm.executeTransactionAsync {
-            it.where(RealmRequest::class.java)
-                    .findAll()
-                    .deleteAllFromRealm()
-        }
+fun deleteRequestList(): Observable<Boolean> {
+    return Observable.create<Boolean> { sub ->
+        realm.executeTransactionAsync (
+                {
+                    it.where(RealmRequest::class.java)
+                            .findAll()
+                            .deleteAllFromRealm()
+                },
+                {
+                    sub.onNext(true)
+                },
+                {error ->
+                    sub.onError(error)
+                }
+        )
     }
 }
 }

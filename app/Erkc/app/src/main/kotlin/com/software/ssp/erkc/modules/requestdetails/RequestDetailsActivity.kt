@@ -36,6 +36,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     companion object {
         const val REQUEST_DETAILS_REQUEST_ID_KEY = "request_details_request_id_key"
+        const val REQUEST_DETAILS_TITLE_REQUEST_KEY = "request_details_title_request_key"
     }
 
     enum class StateActionMenu {
@@ -43,8 +44,6 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         WITH_MESSAGE,
         WITHOUT_MESSAGE
     }
-
-
 
     @Inject
     lateinit var presenter: IRequestDetailsPresenter
@@ -215,6 +214,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = intent.getStringExtra(REQUEST_DETAILS_TITLE_REQUEST_KEY)
         requestDetailsPhotosRecyclerView.layoutManager = GridLayoutManager(this,5)
         requestDetailsPhotosRecyclerView.setHasFixedSize(true)
         requestDetailsStatuesRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -227,6 +227,12 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
                 .requestDetailsModule(RequestDetailsModule(this))
                 .build()
                 .inject(this)
+    }
+
+    override fun setVisibleProgressBar(isVisible: Boolean) {
+        loadDetailsRequestProgressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+        scrollViewContainerRequestDetails.visibility = if (isVisible) View.GONE else View.VISIBLE
+        bottomFrameLayoutRequestDetails.visibility = if (isVisible) View.GONE else View.VISIBLE
     }
 
     override fun beforeDestroy() {

@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.chatwithdispatcher
 
+import android.net.Uri
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.rest.repositories.RequestRepository
 import rx.lang.kotlin.plusAssign
@@ -11,21 +12,42 @@ class ChatWithDispatcherPresenter @Inject constructor(view: IChatWithDispatcherV
     lateinit var requestRepository: RequestRepository
 
     override var requestId: Int = -1
+    override var imageUri: Uri? = null
 
     override fun onViewAttached() {
         super.onViewAttached()
-        fetchCommnets()
+        fetchComments()
     }
 
-    private fun fetchCommnets() {
+    private fun fetchComments() {
+        view?.setVisibleProgressBar(isVisible = true)
         subscriptions += requestRepository.fetchRequestById(requestId)
                 .subscribe(
                         {
+                            view?.setVisibleProgressBar(isVisible = false)
                             view?.createChatAdapter(it.comments!!)
                         },
                         { error ->
+                            view?.setVisibleProgressBar(isVisible = false)
                             error.printStackTrace()
                         }
                 )
+    }
+
+    override fun onAddAttachmentButtonClick() {
+
+    }
+
+    override fun onCameraButtonClick() {
+        view?.showCamera()
+    }
+
+    override fun onGalleryButtonClick() {
+        view?.showGallery()
+    }
+
+    override fun onDeleteAttachmentButtonClick() {
+        imageUri = null
+        view?.hideAttachmentContainer()
     }
 }

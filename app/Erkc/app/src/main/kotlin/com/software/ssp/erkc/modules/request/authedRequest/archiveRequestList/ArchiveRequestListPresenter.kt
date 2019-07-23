@@ -25,6 +25,7 @@ class ArchiveRequestListPresenter @Inject constructor(view: IArchiveRequestListV
                 .subscribe(
                         {
                             val data = it.filter { iter -> iter.state?.stateLabel != "Новая" }
+                            if (data.isEmpty()) view?.setVisibleEmptyMessage(isVisible = true) else view?.setVisibleEmptyMessage(isVisible = false)
                             view?.showData(data)
                         },
                         { error ->
@@ -35,7 +36,7 @@ class ArchiveRequestListPresenter @Inject constructor(view: IArchiveRequestListV
     }
 
     override fun onRequestClick(request: RealmRequest) {
-        view?.navigateToRequestDetails(requestId = request.id)
+        view?.navigateToRequestDetails(requestId = request.id, titleRequest = request.name ?: "")
     }
 
     override val selectStatus: ArrayList<Boolean>

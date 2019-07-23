@@ -20,6 +20,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     }
 
     private fun updateRequestModel(id: Int) {
+        view?.setVisibleProgressBar(isVisible = true)
         subscriptions += requestRepository.fetchRequestById(id = id)
                 .concatMap { realmRepository.saveRequestById(it) }
                 .subscribe(
@@ -31,7 +32,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                             fetchRequestById(id)
                             error.printStackTrace()
                             print(error.localizedMessage)
-
+                            view?.setVisibleProgressBar(isVisible = false)
                         })
     }
 
@@ -43,9 +44,11 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                             view?.showSelectImagesList(realmRequest.comment!!)
                             view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
                             view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
+                            view?.setVisibleProgressBar(isVisible = false)
                         },
                         {
                             print(it.localizedMessage)
+                            view?.setVisibleProgressBar(isVisible = false)
                         }
                 )
     }

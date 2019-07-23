@@ -28,6 +28,7 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
                         .subscribe(
                                 {
                                     val data=it.filter {iter-> iter.state?.stateLabel!="Закрыта" }
+                                    if (data.isEmpty()) view?.setVisibleEmptyMessage(isVisible = true) else view?.setVisibleEmptyMessage(isVisible = false)
                                     view?.showData(data)
                                 },
                                 { error ->
@@ -38,7 +39,7 @@ class ActiveRequestListPresenter @Inject constructor(view: IActiveRequestListVie
     }
 
     override fun onRequestClick(request: RealmRequest) {
-        view?.navigateToRequestDetails(requestId = request.id)
+        view?.navigateToRequestDetails(requestId = request.id, titleRequest = request.name ?: "")
     }
 
     override val selectStatus: ArrayList<Boolean>

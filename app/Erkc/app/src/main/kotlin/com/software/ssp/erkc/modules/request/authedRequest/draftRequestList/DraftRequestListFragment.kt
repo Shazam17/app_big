@@ -10,6 +10,7 @@ import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
+import kotlinx.android.synthetic.main.fragment_request_list.*
 import javax.inject.Inject
 
 class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestListView {
@@ -44,6 +45,15 @@ class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestL
                 .build()
                 .inject(this)
     }
+
+    override fun setVisibleEmptyMessage(isVisible: Boolean) {
+        // TODO Visible empty message ...
+        emptyMessageTextViewReqeust.text = ""
+        emptyViewRequest.visibility = if (isVisible) View.VISIBLE else View.GONE
+        emptyMessageTextViewReqeust.text = if (isVisible) resources.getString(R.string.draft_request_tap_empty_text) else ""
+    }
+
+    override fun setVisibleEmptyMessageWithFilter(isVisible: Boolean) {}
 
     override fun beforeDestroy() {
         presenter.onViewDetached()

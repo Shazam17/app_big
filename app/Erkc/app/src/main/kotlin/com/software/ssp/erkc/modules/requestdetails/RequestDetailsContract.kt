@@ -17,6 +17,7 @@ interface IRequestDetailsView: IView {
     fun configureBottomFrameLayout(statusType: String)
     fun createStatusAdapter(statusList: List<RealmRequestStatus>)
     fun visibleNeedMenuItem(statusType: String)
+    fun setVisibleProgressBar(isVisible: Boolean)
 }
 
 interface IRequestDetailsPresenter : IPresenter<IRequestDetailsView> {
