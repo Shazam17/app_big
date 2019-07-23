@@ -7,14 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
+import com.software.ssp.erkc.data.realm.models.RealmDraft
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
+import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
 import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
+import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
-class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestListView {
+class DraftRequestListFragment: BaseListFragment<RealmDraft>(), IDraftRequestListView {
+    override fun onSwipeToRefresh() {
+        setLoadingVisible(false)
+    }
 
     @Inject lateinit var presenter: IDraftRequestListPresenter
+
+    companion object {
+        const val CREATE_REQUEST_DRAFT_MODE = "create_request_draft_mode"
+        const val OLD_UUID="old_uuid"
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -26,14 +38,12 @@ class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestL
         presenter.onViewAttached()
     }
 
-    override fun onSwipeToRefresh() {
 
-    }
 
     override fun createAdapter(): RecyclerView.Adapter<*> {
-        return ActiveRequestListAdapter(
+        return DraftListAdapter(
                 dataset,
-                { request -> presenter.onRequestClick(request) }
+                { request -> presenter.onDraftClick(request) }
         )
     }
 
@@ -49,7 +59,12 @@ class DraftRequestListFragment: BaseListFragment<RealmRequest>(), IDraftRequestL
         presenter.onViewDetached()
     }
 
-    override fun navigateToRequestInfo(request: RealmRequest) {
+    override fun navigateToRequestInfo(request: RealmDraft) {
+        startActivity<CreateRequestActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to request.id,CREATE_REQUEST_DRAFT_MODE to true,OLD_UUID to request.id)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onViewAttached()
     }
 }

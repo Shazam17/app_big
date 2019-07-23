@@ -1,12 +1,33 @@
 package com.software.ssp.erkc.modules.request.authedRequest.draftRequestList
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmDraft
 import com.software.ssp.erkc.data.realm.models.RealmRequest
+import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 class DraftRequestListPresenter @Inject constructor(view: IDraftRequestListView) : RxPresenter<IDraftRequestListView>(view), IDraftRequestListPresenter {
-    override fun onRequestClick(request: RealmRequest) {
 
+    @Inject
+    lateinit var realmRepository: RealmRepository
+
+    override fun onViewAttached() {
+        super.onViewAttached()
+        fetchDraft()
+    }
+
+    private fun fetchDraft(){
+        subscriptions+=realmRepository.fetchDraftRequestList()
+                .subscribe(
+                        {
+                            view?.showData(it)
+                        }
+                )
+    }
+
+    override fun onDraftClick(request: RealmDraft) {
+        view?.navigateToRequestInfo(request)
     }
 
     override fun onFilterClick() {
@@ -17,7 +38,7 @@ class DraftRequestListPresenter @Inject constructor(view: IDraftRequestListView)
     }
 
     override fun onSwipeToRefresh() {
-
+        view?.setLoadingVisible(false)
     }
 
 }

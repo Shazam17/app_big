@@ -1158,7 +1158,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
     }
 
     fun saveTypeHouseList(typeHouseList: List<TypeHouse>): Observable<Boolean> {
-        return Observable.create<Boolean> {sub ->
+        return Observable.create<Boolean> { sub ->
             val realmTypeHouseList: RealmList<RealmTypeHouse> = RealmList()
 
             typeHouseList.forEach { typeHouse ->
@@ -1171,21 +1171,21 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 )
             }
 
-            realm.executeTransactionAsync (
+            realm.executeTransactionAsync(
                     {
                         it.copyToRealmOrUpdate(realmTypeHouseList)
                     },
                     {
                         sub.onNext(true)
                     },
-                    {error ->
+                    { error ->
                         sub.onError(error)
                     }
             )
         }
     }
 
-    fun fetchTypeHouseList() : Observable<List<RealmTypeHouse>> {
+    fun fetchTypeHouseList(): Observable<List<RealmTypeHouse>> {
         return Observable.just(
                 realm.where(RealmTypeHouse::class.java)
                         .findAll()
@@ -1207,28 +1207,28 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 )
             }
 
-            realm.executeTransactionAsync (
+            realm.executeTransactionAsync(
                     {
                         it.copyToRealmOrUpdate(realmRequestStateList)
                     },
                     {
                         sub.onNext(true)
                     },
-                    { error->
+                    { error ->
                         sub.onError(error)
                     }
             )
         }
     }
 
-    fun fetchRequestStateList() : Observable<List<RealmStateRequest>> {
+    fun fetchRequestStateList(): Observable<List<RealmStateRequest>> {
         return Observable.just(
                 realm.where(RealmStateRequest::class.java)
                         .findAll()
         )
     }
 
-    fun saveRequestAddressList(addressList: List<RequestAddress>) : Observable<Boolean> {
+    fun saveRequestAddressList(addressList: List<RequestAddress>): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
             val realmRequestAddressList: RealmList<RealmAddressRequest> = RealmList()
 
@@ -1245,7 +1245,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 )
             }
 
-            realm.executeTransactionAsync (
+            realm.executeTransactionAsync(
                     {
                         it.copyToRealmOrUpdate(realmRequestAddressList)
                     },
@@ -1259,16 +1259,16 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
-    fun fetchRequestAddressList(query: String = "") : Observable<List<RealmAddressRequest>> {
+    fun fetchRequestAddressList(query: String = ""): Observable<List<RealmAddressRequest>> {
         return realm.where(RealmAddressRequest::class.java)
-                        .contains("address", query.toLowerCase())
-                        .findAllAsync()
-                        .asObservable()
-                        .filter { it.isLoaded }
-                        .first()
-                        .flatMap { results ->
-                            Observable.just(realm.copyFromRealm(results))
-                        }
+                .contains("address", query.toLowerCase())
+                .findAllAsync()
+                .asObservable()
+                .filter { it.isLoaded }
+                .first()
+                .flatMap { results ->
+                    Observable.just(realm.copyFromRealm(results))
+                }
     }
 
     fun fetchRequestList(): Observable<List<RealmRequest>> {
@@ -1277,6 +1277,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         .findAll()
         )
     }
+
     fun saveRequestById(request: Request): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
             val tasksList = RealmList<RealmRequestTask>()
@@ -1374,21 +1375,94 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
 
     }
 
-fun fetchRequestById(id: Int): Observable<RealmRequest> {
-    return Observable.just(
-            realm.where(RealmRequest::class.java)
-                    .findAll()
-                    .first { it.id == id }
-    )
-}
+    fun fetchRequestById(id: Int): Observable<RealmRequest> {
+        return Observable.just(
+                realm.where(RealmRequest::class.java)
+                        .findAll()
+                        .first { it.id == id }
+        )
+    }
 
-private fun deleteRequestList(): Observable<Boolean> {
-    return Observable.create<Boolean> {
-        realm.executeTransactionAsync {
-            it.where(RealmRequest::class.java)
-                    .findAll()
-                    .deleteAllFromRealm()
+    private fun deleteRequestList(): Observable<Boolean> {
+        return Observable.create<Boolean> {
+            realm.executeTransactionAsync {
+                it.where(RealmRequest::class.java)
+                        .findAll()
+                        .deleteAllFromRealm()
+            }
         }
     }
-}
+
+    fun saveDraftRequest(realmDraft: RealmDraft): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+
+            val data = RealmDraft(
+                    id = realmDraft.id,
+                    title = realmDraft.title,
+                    address = realmDraft.address,
+                    company = realmDraft.company,
+                    typeRequest = realmDraft.typeRequest,
+                    typeHouse = realmDraft.typeHouse,
+                    description = realmDraft.description,
+                    fio = realmDraft.fio,
+                    phoneNum = realmDraft.fio
+            )
+
+            realm.executeTransactionAsync(
+                    {
+                        it.copyToRealmOrUpdate(data)
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun fetchDraftRequestList(): Observable<List<RealmDraft>> {
+        return Observable.just(
+                realm.where(RealmDraft::class.java)
+                        .findAll()
+        )
+    }
+
+    fun fetchDraftRequestById(id: String): Observable<RealmDraft> {
+        return Observable.just(
+                realm.where(RealmDraft::class.java)
+                        .findAll()
+                        .first { it.id == id }
+        )
+    }
+
+    fun deleteDraftRequestById(id: String): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmDraft::class.java)
+                                .equalTo("id", id)
+                                .findAll()
+                                .deleteFirstFromRealm()
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
+    }
+
+    fun deleteDraftRequestList(): Observable<Boolean> {
+        return Observable.create<Boolean> {
+            realm.executeTransactionAsync {
+                it.where(RealmDraft::class.java)
+                        .findAll()
+                        .deleteAllFromRealm()
+            }
+        }
+    }
 }

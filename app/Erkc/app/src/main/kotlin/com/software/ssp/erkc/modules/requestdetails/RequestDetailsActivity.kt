@@ -72,14 +72,6 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         startActivity<ChatWithDispatcherActivity>(REQUEST_DETAILS_REQUEST_ID_KEY to requestId)
     }
 
-    override fun showSelectImagesList(comment: List<RealmComment>) {
-        val adapter = RequestDetailsFileListAdapter(
-                requestComments = comment.filter { it.downloadLink!=null }
-        )
-
-        requestDetailsPhotosRecyclerView.adapter = adapter
-        requestDetailsPhotosRecyclerView.adapter?.notifyDataSetChanged()
-    }
 
 
     override fun showStatusesList() {
@@ -202,6 +194,16 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         }
         invalidateOptionsMenu()
     }
+
+    override fun showSelectImagesList(comment: List<RealmComment>) {
+        val adapter = RequestDetailsFileListAdapter(
+                requestComments = comment.filter { it.downloadLink!=null }
+        )
+
+        requestDetailsPhotosRecyclerView.adapter = adapter
+        requestDetailsPhotosRecyclerView.adapter?.notifyDataSetChanged()
+    }
+
 
     override fun createStatusAdapter(statusList: List<RealmRequestStatus>) {
         val adapter = RequestDetailsStatusListAdapter(

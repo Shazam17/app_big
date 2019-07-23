@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.data.realm.models
 
+import android.content.ClipDescription
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -118,3 +119,16 @@ open class RealmAddressRequest(
         var fias: String? = "",
         var cadastral_number: String? = ""
 ) : RealmObject()
+
+open class RealmDraft(
+        @PrimaryKey
+        var id:String="",
+        var title:String?=null,
+        var address: String?=null,
+        var company:String?=null,
+        var typeRequest:String?=null,
+        var typeHouse:String?=null,
+        var description: String?=null,
+        var fio:String?=null,
+        var phoneNum:String?=null
+):RealmObject()

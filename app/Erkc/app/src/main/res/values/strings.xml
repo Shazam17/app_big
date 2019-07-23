@@ -678,5 +678,9 @@
 
     <!-- Chat with dispatcher -->
     <string name="chat_with_dispatcher_edit_text_hint">Сообщение</string>
+    <string name = "type_request">Тип заявки</string>
+    <string name = "property_type_request">Тип имущества</string>
+    <string name = "property_type">Тип имущества</string>
+    <string name = "company_name">Компания</string>
 
 </resources>

@@ -42,4 +42,13 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
         return requestDataSource.fetchRequestById("http://fon.zayavki.pro/mobile/request/$id/view")
                 .compose(this.applySchedulers<Request>())
     }
+
+    fun fetchCompaniesList(fias:String):Observable<List<Company>>{
+        activeSession.flag=0
+        val params= mutableMapOf(
+                "fias" to fias
+        )
+        return requestDataSource.fetchCompanies("http://fon.zayavki.pro/mobile/common/companies-by-house",params)
+                .compose(this.applySchedulers<List<Company>>())
+    }
 }

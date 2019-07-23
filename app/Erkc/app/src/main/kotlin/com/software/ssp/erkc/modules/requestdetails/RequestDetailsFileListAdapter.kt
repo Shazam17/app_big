@@ -35,6 +35,7 @@ class RequestDetailsFileListAdapter(val requestComments: List<RealmComment>) : R
                             .build())
                     Glide.with(view).load(glideUrl).into(photoRequestImage)
                 }
+
             }
         }
     }

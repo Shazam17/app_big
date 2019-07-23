@@ -104,7 +104,8 @@ class RequestTabFragment : MvpFragment(), IRequestTabView {
                 return when (TabItem.values()[position]) {
                     TabItem.ACTIVE -> ActiveRequestListFragment()
                     TabItem.ARCHIVE -> ArchiveRequestListFragment()
-                    TabItem.DRAFT -> DraftRequestListFragment()
+                    TabItem.DRAFT -> {DraftRequestListFragment()
+                    }
                 }
             }
         }
