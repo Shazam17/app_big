@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.history
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentStatePagerAdapter

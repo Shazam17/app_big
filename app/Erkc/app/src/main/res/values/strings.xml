@@ -689,6 +689,7 @@
         <item>@string/gallery_title_alert</item>
         <item>@string/camera_title_alert</item>
     </array>
+    <string name="attachment_title">Вложение</string>
     <string name = "type_request">Тип заявки</string>
     <string name = "property_type_request">Тип имущества</string>
     <string name = "property_type">Тип имущества</string>

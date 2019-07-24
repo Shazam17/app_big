@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.data.rest.datasource
 
 import com.software.ssp.erkc.data.rest.models.*
+import okhttp3.MultipartBody
 import rx.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -36,5 +37,13 @@ interface RequestDataSource {
 
     @POST
     fun fetchCompanies(@Url url: String, @QueryMap params: Map<String, String>): Observable<List<Company>>
+
+    @Multipart
+    @POST
+    fun sendComment(
+            @Url url: String,
+            @Part file: MultipartBody.Part,
+            @FieldMap params: Map<String, String>
+    ) : Observable<ResponseBody>
 
 }

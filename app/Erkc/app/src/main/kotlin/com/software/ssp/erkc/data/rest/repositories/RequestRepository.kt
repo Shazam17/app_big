@@ -3,8 +3,13 @@ package com.software.ssp.erkc.data.rest.repositories
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.datasource.RequestDataSource
 import com.software.ssp.erkc.data.rest.models.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import javax.inject.Inject
 import rx.Observable
+import java.io.File
 
 class RequestRepository @Inject constructor(private val requestDataSource: RequestDataSource, private val activeSession: ActiveSession): Repository() {
 
@@ -51,4 +56,18 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
         return requestDataSource.fetchCompanies("http://fon.zayavki.pro/mobile/common/companies-by-house",params)
                 .compose(this.applySchedulers<List<Company>>())
     }
+
+//    fun sendComment(requestId: Int, message: String? = null, file: File? = null) : Observable<ResponseBody> {
+//        var multipart_body_part: MultipartBody.Part? = null
+//
+//        val params = mutableMapOf(
+//                "request_id" to requestId,
+//                "message" to message
+//        )
+//        if (file != null) {
+//            val request_file = RequestBody.create(MediaType.parse(file.path), file)
+//            multipart_body_part = MultipartBody.Part.createFormData("attachmentimage", file.name, request_file)
+//        }
+//        return requestDataSource.sendComment(params = params, )
+//    }
 }

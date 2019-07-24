@@ -78,7 +78,6 @@ abstract class BaseListFragment<M> : MvpFragment(), IListView<M> {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
-
         adapter = createAdapter()
         if (adapter == null) {
             throw IllegalArgumentException("createStatusAdapter() should return adapter instance.")

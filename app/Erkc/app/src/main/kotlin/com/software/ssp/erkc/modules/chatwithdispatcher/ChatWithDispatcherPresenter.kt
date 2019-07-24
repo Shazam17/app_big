@@ -26,6 +26,8 @@ class ChatWithDispatcherPresenter @Inject constructor(view: IChatWithDispatcherV
                         {
                             view?.setVisibleProgressBar(isVisible = false)
                             view?.createChatAdapter(it.comments!!)
+                            // TODO скрыть клаву
+                            view?.setVisibileInputContainer(isVisible = true)
                         },
                         { error ->
                             view?.setVisibleProgressBar(isVisible = false)

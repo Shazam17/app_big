@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -32,6 +33,7 @@ import java.util.jar.Manifest
 class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animation.AnimationListener {
 
     @Inject lateinit var presenter: IChatWithDispatcherPresenter
+    private var cameraFilePath: String = ""
 
     companion object {
         const val GALLERY_REQUEST_CODE = 1009
@@ -63,7 +65,6 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
 
     private fun initViews() {
         val linearLayoutManager = LinearLayoutManager(this)
-        linearLayoutManager.reverseLayout = true
         messagesRecyclerView.layoutManager = linearLayoutManager
         messagesRecyclerView.setHasFixedSize(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -99,7 +100,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
     }
     override fun createChatAdapter(comments: List<Comment>) {
         val adapter = ChatWithDispatcherAdapter(
-                dataList = comments
+                dataList = comments.sortedBy { it.id }
         )
 
         messagesRecyclerView.adapter = adapter
@@ -117,9 +118,12 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
         animateCloseAttachmentContainer()
     }
 
-    override fun showAttachmentContainer(imageName: String) {
+    override fun setVisibileInputContainer(isVisible: Boolean) {
+        bottomConstraintLayoutChat.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    override fun showAttachmentContainer() {
         imageAttachmentByUserChat.visibility = View.VISIBLE
-        imageNameAttachmentTextView.text = imageName
     }
 
     override fun onAnimationStart(animation: Animation?) {}
@@ -138,21 +142,20 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
             GALLERY_REQUEST_CODE -> {
                 if (data == null) return
                 presenter.imageUri = null
-                addAttachmentForMessage(data = data)
+                addAttachmentForMessage(uri = data.data)
             }
 
             CAMERA_REQUEST_CODE -> {
-                if (data == null) return
                 presenter.imageUri = null
+                addAttachmentForMessage(uri = Uri.parse(cameraFilePath))
             }
         }
     }
 
-    private fun addAttachmentForMessage(data: Intent) {
-        val selectedImageUri = data.data ?: return
-        presenter.imageUri = selectedImageUri
-        imageAttachmentByUserChatImageView.setImageURI(selectedImageUri)
-        showAttachmentContainer(selectedImageUri.lastPathSegment)
+    private fun addAttachmentForMessage(uri: Uri) {
+        presenter.imageUri = uri
+        imageAttachmentByUserChatImageView.setImageURI(uri)
+        showAttachmentContainer()
     }
 
     override fun showGallery() {
@@ -166,7 +169,9 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
     override fun showCamera() {
         try {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, FileUtils.shareInstance.createImageFile()))
+            val imageFile = FileUtils.shareInstance.createImageFile()
+            cameraFilePath = "file://" + imageFile.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, imageFile))
             startActivityForResult(intent, CAMERA_REQUEST_CODE)
         } catch (ex: IOException) {
             ex.printStackTrace()
@@ -181,10 +186,14 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
                 AttachmentType.CAMERA.ordinal -> {
                     val rxPermissions = RxPermissions.getInstance(this)
                     rxPermissions
-                            .request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .subscribe {granted ->
-                                if (granted) {
+                            .request(
+                                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.CAMERA)
+                            .subscribe {
+                                if (it) {
                                     presenter.onCameraButtonClick()
+
                                 } else {
                                     showMessage("Ошибка прав")
                                 }

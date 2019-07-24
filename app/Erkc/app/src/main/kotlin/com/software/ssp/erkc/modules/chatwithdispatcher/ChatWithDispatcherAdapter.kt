@@ -26,8 +26,17 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
         return dataList.count()
     }
 
+
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.bindComment(dataList[position])
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     class CommentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -49,61 +58,9 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
                         configureMessageBy(writter = TypeWritter.DISPATCHER, view = view, comment = data)
                     }
                 }
-//                if (data.initiator?.id == 8) {
-//                    messageByDispatcher.visibility = View.VISIBLE
-//                    descriptionMessageByDispatcherTextView.text = data.message
-//                    val formatter = SimpleDateFormat("hh:mm")
-//                    val date = formatter.format((Date(data.created_at!!)))
-//                    timeMessageByDispatcherTextView.text = date
-//
-//                } else {
-//                    if (data.downloadLink != null) {
-//                        messageByUser.visibility = if (data.message != null) {
-//                            View.VISIBLE
-//                        } else {
-//                            View.GONE
-//                        }
-//                        descriptionMessageByUserTextView.text = data.message
-//                        val formatter = SimpleDateFormat("hh:mm")
-//                        val date = formatter.format((Date(data.created_at!!)))
-//                        timePhotoByUserTextView.text = date
-//                        photoByUser.visibility = View.VISIBLE
-//                        val glideUrl = GlideUrl("http://fon.zayavki.pro" + data.downloadLink, LazyHeaders.Builder()
-//                                .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
-//                                .build())
-//                        Glide.with(view).load(glideUrl).into(imageAttachmentByUserImageView)
-//                    } else {
-//                        messageByUser.visibility = if (data.message != "") {
-//                            View.VISIBLE
-//                        } else {
-//                            View.GONE
-//                        }
-//                        descriptionMessageByUserTextView.text = data.message
-//                        val formatter = SimpleDateFormat("hh:mm")
-//                        val date = formatter.format((Date(data.created_at!!)))
-//                        timeMessageByUserTextView.text = date
-//                    }
-//                }
+
             }
         }
-
-//        private fun configureUserMessage(view: View, comment: Comment) {
-//            view.apply {
-//                if (!comment.message.isNullOrEmpty()) {
-//                    messageByDispatcher.visibility = View.VISIBLE
-//                    descriptionMessageByUserTextView.text = comment.message
-//                    timeMessageByUserTextView.text = dateSendMessage
-//                }
-//                if (!comment.downloadLink.isNullOrEmpty()) {
-//                    photoByUser.visibility = View.VISIBLE
-//                    timePhotoByUserTextView.text = dateSendMessage
-//                    val glideUrl = GlideUrl("http://fon.zayavki.pro" + comment.downloadLink, LazyHeaders.Builder()
-//                                .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
-//                                .build())
-//                    Glide.with(view).load(glideUrl).into(imageAttachmentByUserImageView)
-//                }
-//            }
-//        }
 
         private fun configureMessageBy(writter: TypeWritter, view: View, comment: Comment) {
             val formatter = SimpleDateFormat("hh:mm")
@@ -116,13 +73,13 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
                     val descriptionTextView = getDescriptionTextView(writter, view)
                     descriptionTextView.text = comment.message
                     val timeSendMessageTextView = getDateSendMessageTextView(writter, view)
-                    timeSendMessageTextView.text = dateSendMessage
+                    timeSendMessageTextView.text = /*dateSendMessage*/ comment.id.toString()
                 }
                 if (!comment.downloadLink.isNullOrEmpty()) {
                     val attachmentLayout = getAttachmentLayout(writter, view)
                     attachmentLayout.visibility = View.VISIBLE
                     val timeSendAttachmentTextView = getDateSendAttachmentTextView(writter, view)
-                    timeSendAttachmentTextView.text = dateSendMessage
+                    timeSendAttachmentTextView.text = /*dateSendMessage*/ comment.id.toString()
                     val glideUrl = GlideUrl("http://fon.zayavki.pro" + comment.downloadLink, LazyHeaders.Builder()
                             .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
                             .build())
