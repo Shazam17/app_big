@@ -63,7 +63,6 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
 
     private fun initViews() {
         val linearLayoutManager = LinearLayoutManager(this)
-        linearLayoutManager.reverseLayout = true
         messagesRecyclerView.layoutManager = linearLayoutManager
         messagesRecyclerView.setHasFixedSize(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -99,7 +98,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
     }
     override fun createChatAdapter(comments: List<Comment>) {
         val adapter = ChatWithDispatcherAdapter(
-                dataList = comments
+                dataList = comments.sortedBy { comment -> comment.id }
         )
 
         messagesRecyclerView.adapter = adapter

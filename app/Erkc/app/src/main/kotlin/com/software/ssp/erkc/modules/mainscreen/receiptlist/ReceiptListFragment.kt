@@ -14,6 +14,7 @@ import com.software.ssp.erkc.extensions.materialDialog
 import com.software.ssp.erkc.modules.autopayments.settings.AutoPaymentSettingsActivity
 import com.software.ssp.erkc.modules.newreceipt.NewReceiptFragment
 import com.software.ssp.erkc.modules.paymentscreen.payment.PaymentActivity
+import com.software.ssp.erkc.modules.request.RequestTabFragment
 import com.software.ssp.erkc.modules.sendvalues.SendValuesActivity
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -80,6 +81,8 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
         adapter?.notifyItemRemoved(receiptIndex)
     }
 
+
+
     override fun createAdapter(): RecyclerView.Adapter<*> {
         return ReceiptListAdapter(dataset,
                 object : ReceiptListAdapter.InteractionListener {
@@ -95,6 +98,7 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
                         when (menuId) {
                             R.id.menuHistory -> presenter.onHistoryButtonClick(receipt)
                             R.id.menuAutoPay -> presenter.onAutoPaymentButtonClick(receipt)
+                            R.id.menuRequest -> presenter.onRequestButtonClick()
                         }
                     }
 
@@ -121,6 +125,12 @@ class ReceiptListFragment : BaseListFragment<ReceiptViewModel>(), IReceiptListVi
     override fun navigateToEmptyReceiptsList() {
         activity.fragmentManager.beginTransaction()
                 .replace(R.id.drawerFragmentContainer, NewReceiptFragment())
+                .commit()
+    }
+
+    override fun navigateToRequestList() {
+        activity.fragmentManager.beginTransaction()
+                .replace(R.id.drawerFragmentContainer, RequestTabFragment())
                 .commit()
     }
 
