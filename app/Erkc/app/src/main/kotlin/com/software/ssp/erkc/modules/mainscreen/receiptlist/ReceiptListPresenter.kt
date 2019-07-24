@@ -58,6 +58,10 @@ class ReceiptListPresenter @Inject constructor(view: IReceiptListView) : RxPrese
         view?.navigateToIPUInputScreen(receipt)
     }
 
+    override fun onRequestButtonClick() {
+        view?.navigateToRequestList()
+    }
+
     override fun onHistoryButtonClick(receipt: RealmReceipt) {
         eventBus.call(OpenHistoryWithReceiptEvent(receipt.barcode))
     }

@@ -9,7 +9,7 @@ import com.software.ssp.erkc.data.realm.models.RealmReceipt
 interface IReceiptListView : IListView<ReceiptViewModel> {
     fun navigateToAddReceiptScreen()
     fun navigateToEmptyReceiptsList()
-
+    fun navigateToRequestList()
     fun navigateToIPUInputScreen(receipt: RealmReceipt)
     fun navigateToPayScreen(receipt: RealmReceipt)
     fun navigateToAutoPaymentSettingScreen(receiptId: String)
@@ -24,6 +24,7 @@ interface IReceiptListPresenter : IListPresenter<ReceiptViewModel, IReceiptListV
     fun onPayButtonClick(receipt: RealmReceipt)
     fun onTransferButtonClick(receipt: RealmReceipt)
     fun onHistoryButtonClick(receipt: RealmReceipt)
+    fun onRequestButtonClick()
     fun onAutoPaymentButtonClick(receipt: RealmReceipt)
     fun onReceiptDeleted(receipt: RealmReceipt)
     fun onAddReceiptButtonClick()

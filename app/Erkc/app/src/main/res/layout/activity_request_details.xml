@@ -1,88 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<android.support.constraint.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent">
 
     <ProgressBar
-        android:id="@+id/loadDetailsRequestProgressBar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        android:id = "@+id/loadDetailsRequestProgressBar"
+        android:layout_width = "60dp"
+        android:layout_height = "60dp"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent"
+        tools:visibility = "visible" />
 
     <ScrollView
-        android:id="@+id/scrollViewContainerRequestDetails"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutRequestDetails"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:id = "@+id/scrollViewContainerRequestDetails"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:visibility = "gone"
+        app:layout_constraintBottom_toTopOf = "@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent"
+        tools:visibility = "visible">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="16dp"
-
-            app:layout_constraintBottom_toTopOf="@id/bottomFrameLayoutRequestDetails"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/requestDetailsMainTitleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlueTextRequestScreen"
-                android:textSize="16dp"
-
-                tools:text="Обращение #3597842 от 12.20.2018 10:00" />
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:orientation = "vertical"
+            android:paddingStart = "16dp"
+            android:paddingTop = "16dp"
+            android:paddingEnd = "16dp"
+            app:layout_constraintBottom_toTopOf = "@id/bottomFrameLayoutRequestDetails"
+            app:layout_constraintLeft_toLeftOf = "parent"
+            app:layout_constraintRight_toRightOf = "parent"
+            app:layout_constraintTop_toTopOf = "parent">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_details_request_info_text"
-                android:textColor="@color/text_black"
-                android:textSize="16dp"
+                android:id = "@+id/requestDetailsMainTitleTextView"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:textAlignment = "center"
+                android:textColor = "@color/colorBlueTextRequestScreen"
 
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/requestDetailsInfoProblemTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="16dp"
-                tools:text="Вызов Электрика для работы с Общедомовым имуществом по адресу: Иркутский тракт, 120. УК “Жилфонд”" />
+                android:textSize = "16sp"
+                tools:text = "Обращение #3597842 от 12.20.2018 10:00" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_details_description_problem_text"
-                android:textColor="@color/text_black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "16dp"
+                android:text = "@string/request_details_request_info_text"
+                android:textColor = "@color/text_black"
+                android:textSize = "16sp"
+
+                android:textStyle = "bold" />
 
             <TextView
-                android:id="@+id/requestDetailsDescriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/text_black"
-                android:textSize="16dp"
-                tools:text="После жаркой дискуссии меджу жильцами нашего подъезда, путем неудчного выбора траектории прохождения кистевой части руки, была сломана лампочка в подъезде" />
+                android:id = "@+id/requestDetailsInfoProblemTextView"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "8dp"
+                android:textSize = "16sp"
+                tools:text = "Вызов Электрика для работы с Общедомовым имуществом по адресу: Иркутский тракт, 120. УК “Жилфонд”" />
+
+            <TextView
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "16dp"
+                android:text = "@string/request_details_description_problem_text"
+                android:textColor = "@color/text_black"
+                android:textSize = "16sp"
+                android:textStyle = "bold" />
+
+            <TextView
+                android:id = "@+id/requestDetailsDescriptionTextView"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "8dp"
+                android:textColor = "@color/text_black"
+                android:textSize = "16sp"
+                tools:text = "После жаркой дискуссии меджу жильцами нашего подъезда, путем неудчного выбора траектории прохождения кистевой части руки, была сломана лампочка в подъезде" />
 
             <LinearLayout
                 android:layout_width = "match_parent"
@@ -123,21 +124,21 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_details_status_request_text"
-                android:textColor="@color/text_black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "16dp"
+                android:text = "@string/request_details_status_request_text"
+                android:textColor = "@color/text_black"
+                android:textSize = "16sp"
+                android:textStyle = "bold" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/requestDetailsStatuesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_status_request" />
+                android:id = "@+id/requestDetailsStatuesRecyclerView"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "8dp"
+                tools:itemCount = "3"
+                tools:listitem = "@layout/item_status_request" />
 
 
         </LinearLayout>
@@ -146,45 +147,44 @@
 
 
     <FrameLayout
-        android:id="@+id/bottomFrameLayoutRequestDetails"
-        android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </FrameLayout>
+        android:id = "@+id/bottomFrameLayoutRequestDetails"
+        android:layout_width = "match_parent"
+        android:layout_height = "115dp"
+        android:background = "@color/colorPrimary"
+        android:orientation = "horizontal"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintHorizontal_bias = "1.0"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"></FrameLayout>
 
     <Button
-        android:id="@+id/requestDetailsCancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/request_details_cancel_button_text"
-        android:textColor="@color/colorDetailsRequestButtonTextColor"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:id = "@+id/requestDetailsCancelButton"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_marginBottom = "11dp"
+        android:text = "@string/request_details_cancel_button_text"
+        android:textColor = "@color/colorDetailsRequestButtonTextColor"
+        android:theme = "@style/AppWhiteButtonStyle"
 
-        android:theme="@style/AppWhiteButtonStyle"
-        android:layout_marginBottom="11dp"
-        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutRequestDetails"
-        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutRequestDetails"
-        app:layout_constraintBottom_toBottomOf="@id/bottomFrameLayoutRequestDetails"/>
+        android:visibility = "gone"
+        app:layout_constraintBottom_toBottomOf = "@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintLeft_toLeftOf = "@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintRight_toRightOf = "@id/bottomFrameLayoutRequestDetails"
+        tools:visibility = "visible" />
 
     <Button
-        android:id="@+id/requestDetailsSubmitCompleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/request_details_submit_complete_button_text"
-        android:textColor="@color/colorBlueButtonText"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:id = "@+id/requestDetailsSubmitCompleteButton"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_marginTop = "7dp"
+        android:text = "@string/request_details_submit_complete_button_text"
+        android:textColor = "@color/colorBlueButtonText"
+        android:theme = "@style/AppWhiteButtonStyle"
 
-        android:theme="@style/AppWhiteButtonStyle"
-        android:layout_marginTop="7dp"
-        app:layout_constraintTop_toTopOf="@id/bottomFrameLayoutRequestDetails"
-        app:layout_constraintLeft_toLeftOf="@id/bottomFrameLayoutRequestDetails"
-        app:layout_constraintRight_toRightOf="@id/bottomFrameLayoutRequestDetails" />
+        android:visibility = "gone"
+        app:layout_constraintLeft_toLeftOf = "@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintRight_toRightOf = "@id/bottomFrameLayoutRequestDetails"
+        app:layout_constraintTop_toTopOf = "@id/bottomFrameLayoutRequestDetails"
+        tools:visibility = "visible" />
 
 </android.support.constraint.ConstraintLayout>
