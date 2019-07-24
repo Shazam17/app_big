@@ -50,7 +50,7 @@
         tools:ignore="UnusedAttribute" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/emptyViewRequest"
+        android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -59,7 +59,7 @@
 
 
         <TextView
-            android:id="@+id/emptyMessageTextViewReqeust"
+            android:id="@+id/emptyMessageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

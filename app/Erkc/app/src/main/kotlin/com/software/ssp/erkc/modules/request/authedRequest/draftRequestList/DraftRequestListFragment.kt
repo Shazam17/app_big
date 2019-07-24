@@ -58,9 +58,9 @@ class DraftRequestListFragment: BaseListFragment<RealmDraft>(), IDraftRequestLis
 
     override fun setVisibleEmptyMessage(isVisible: Boolean) {
         // TODO Visible empty message ...
-        emptyMessageTextViewReqeust.text = ""
-        emptyViewRequest.visibility = if (isVisible) View.VISIBLE else View.GONE
-        emptyMessageTextViewReqeust.text = if (isVisible) resources.getString(R.string.draft_request_tap_empty_text) else ""
+        emptyMessageTextView.text = ""
+        emptyView.visibility = if (isVisible) View.VISIBLE else View.GONE
+        emptyMessageTextView.text = if (isVisible) resources.getString(R.string.draft_request_tap_empty_text) else ""
     }
 
     override fun setVisibleEmptyMessageWithFilter(isVisible: Boolean) {}
@@ -69,8 +69,8 @@ class DraftRequestListFragment: BaseListFragment<RealmDraft>(), IDraftRequestLis
         presenter.onViewDetached()
     }
 
-    override fun navigateToRequestInfo(request: RealmDraft) {
-        startActivity<CreateRequestActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to request.id,CREATE_REQUEST_DRAFT_MODE to true,OLD_UUID to request.id)
+    override fun navigateToRequestInfo(request: RealmDraft?) {
+        startActivity<CreateRequestActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to request!!.id,CREATE_REQUEST_DRAFT_MODE to true,OLD_UUID to request.id)
     }
 
     override fun onResume() {

@@ -109,16 +109,16 @@ class ArchiveRequestListFragment: BaseListFragment<RealmRequest>(), IArchiveRequ
 
     override fun setVisibleEmptyMessage(isVisible: Boolean) {
         // TODO Visible empty message ...
-        emptyMessageTextViewReqeust.text = ""
-        emptyViewRequest.visibility = if (isVisible) View.VISIBLE else View.GONE
-        emptyMessageTextViewReqeust.text = if (isVisible) resources.getString(R.string.archive_request_tab_empty_text) else ""
+        emptyMessageTextView.text = ""
+        emptyView.visibility = if (isVisible) View.VISIBLE else View.GONE
+        emptyMessageTextView.text = if (isVisible) resources.getString(R.string.archive_request_tab_empty_text) else ""
     }
 
     override fun setVisibleEmptyMessageWithFilter(isVisible: Boolean) {
         // TODO Visible empty message when user use filter ...
-        emptyMessageTextViewReqeust.text = ""
-        emptyViewRequest.visibility = if (isVisible) View.VISIBLE else View.GONE
-        emptyMessageTextViewReqeust.text = if (isVisible) resources.getString(R.string.empty_request_list_with_filter_text) else ""
+        emptyMessageTextView.text = ""
+        emptyView.visibility = if (isVisible) View.VISIBLE else View.GONE
+        emptyMessageTextView.text = if (isVisible) resources.getString(R.string.empty_request_list_with_filter_text) else ""
     }
 
 

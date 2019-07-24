@@ -21,12 +21,16 @@ class DraftRequestListPresenter @Inject constructor(view: IDraftRequestListView)
         subscriptions+=realmRepository.fetchDraftRequestList()
                 .subscribe(
                         {
+                            if (it.isEmpty()) view?.setVisibleEmptyMessage(isVisible = true) else view?.setVisibleEmptyMessage(isVisible = false)
                             view?.showData(it)
+                        },
+                        {error ->
+                            view?.showMessage(error.localizedMessage)
                         }
                 )
     }
 
-    override fun onDraftClick(request: RealmDraft) {
+    override fun onDraftClick(request: RealmDraft?) {
         view?.navigateToRequestInfo(request)
     }
 

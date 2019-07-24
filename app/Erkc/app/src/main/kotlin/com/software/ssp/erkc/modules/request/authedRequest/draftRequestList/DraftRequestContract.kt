@@ -7,10 +7,10 @@ import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.modules.request.IRequestListEmptyMessages
 
 interface IDraftRequestListView: IListView<RealmDraft>, IRequestListEmptyMessages {
-    fun navigateToRequestInfo(request: RealmDraft)
+    fun navigateToRequestInfo(request: RealmDraft?)
 }
 interface IDraftRequestListPresenter: IListPresenter<RealmDraft, IDraftRequestListView> {
-    fun onDraftClick(request: RealmDraft)
+    fun onDraftClick(request: RealmDraft?)
     fun onFilterClick()
     fun onRefreshClick()
 }
