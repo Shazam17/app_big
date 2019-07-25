@@ -25,6 +25,7 @@ import javax.inject.Inject
 import android.support.v4.content.FileProvider
 import android.provider.MediaStore
 import com.software.ssp.erkc.BuildConfig
+import com.software.ssp.erkc.data.realm.models.RealmComment
 import com.software.ssp.erkc.utils.FileUtils
 import com.tbruyelle.rxpermissions.RxPermissions
 import java.util.jar.Manifest
@@ -65,6 +66,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
 
     private fun initViews() {
         val linearLayoutManager = LinearLayoutManager(this)
+//        linearLayoutManager.reverseLayout = true
         messagesRecyclerView.layoutManager = linearLayoutManager
         messagesRecyclerView.setHasFixedSize(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -76,6 +78,10 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
 
         cameraButtonChat.onClick {
             showCameraOrGalleryDialog()
+        }
+
+        sendButtonChat.onClick {
+            presenter.onSendMessageButtonClick(textMessage = textMessageByUserEditText.text.toString(), context = this)
         }
     }
 
@@ -98,7 +104,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
     override fun beforeDestroy() {
         presenter.onViewDetached()
     }
-    override fun createChatAdapter(comments: List<Comment>) {
+    override fun createChatAdapter(comments: List<RealmComment>) {
         val adapter = ChatWithDispatcherAdapter(
                 dataList = comments.sortedBy { it.id }
         )
@@ -118,7 +124,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
         animateCloseAttachmentContainer()
     }
 
-    override fun setVisibileInputContainer(isVisible: Boolean) {
+    override fun setVisibleInputContainer(isVisible: Boolean) {
         bottomConstraintLayoutChat.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 

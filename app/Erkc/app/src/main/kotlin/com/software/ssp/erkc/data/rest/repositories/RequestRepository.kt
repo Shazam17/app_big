@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.data.rest.repositories
 
+import android.net.Uri
 import com.software.ssp.erkc.data.rest.ActiveSession
 import com.software.ssp.erkc.data.rest.datasource.RequestDataSource
 import com.software.ssp.erkc.data.rest.models.*
@@ -10,6 +11,7 @@ import okhttp3.ResponseBody
 import javax.inject.Inject
 import rx.Observable
 import java.io.File
+import java.net.URI
 
 class RequestRepository @Inject constructor(private val requestDataSource: RequestDataSource, private val activeSession: ActiveSession): Repository() {
 
@@ -57,17 +59,20 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
                 .compose(this.applySchedulers<List<Company>>())
     }
 
-//    fun sendComment(requestId: Int, message: String? = null, file: File? = null) : Observable<ResponseBody> {
-//        var multipart_body_part: MultipartBody.Part? = null
-//
-//        val params = mutableMapOf(
-//                "request_id" to requestId,
-//                "message" to message
-//        )
-//        if (file != null) {
-//            val request_file = RequestBody.create(MediaType.parse(file.path), file)
-//            multipart_body_part = MultipartBody.Part.createFormData("attachmentimage", file.name, request_file)
-//        }
-//        return requestDataSource.sendComment(params = params, )
-//    }
+    fun sendComment(requestId: Int, message: String = "", imagePath: String? = null) : Observable<Comment> {
+        activeSession.flag=1
+        var multipart_body_part: MultipartBody.Part? = null
+
+        val messageParam = RequestBody.create(MediaType.parse("multipart/form-data"), message)
+        val requestIdParam = RequestBody.create(MediaType.parse("multipart/form-data"), requestId.toString())
+
+        if (imagePath != null) {
+
+            val file = File(imagePath)
+            val request_file = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            multipart_body_part = MultipartBody.Part.createFormData("file_upload", file.name, request_file)
+        }
+        return requestDataSource.sendComment(requestId = requestIdParam, message = messageParam, url = "http://fon.zayavki.pro/mobile/request/post-comment", file = multipart_body_part)
+                .compose(this.applySchedulers<Comment>())
+    }
 }

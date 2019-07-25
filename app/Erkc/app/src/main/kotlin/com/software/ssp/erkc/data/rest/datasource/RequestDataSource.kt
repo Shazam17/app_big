@@ -2,6 +2,7 @@ package com.software.ssp.erkc.data.rest.datasource
 
 import com.software.ssp.erkc.data.rest.models.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import rx.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -42,8 +43,9 @@ interface RequestDataSource {
     @POST
     fun sendComment(
             @Url url: String,
-            @Part file: MultipartBody.Part,
-            @FieldMap params: Map<String, String>
-    ) : Observable<ResponseBody>
+            @Part file: MultipartBody.Part?,
+            @Part("request_id") requestId: RequestBody,
+            @Part("message") message: RequestBody
+    ) : Observable<Comment>
 
 }

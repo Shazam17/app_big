@@ -14,6 +14,7 @@ import io.realm.RealmList
 import rx.Observable
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 import javax.inject.Inject
 
 
@@ -1071,6 +1072,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     ))
                 }
                 it.comments?.forEach { value ->
+
                     comment.add(RealmComment(
                             id = value.id!!,
                             created_at = value.created_at!!.secondsToMilliseconds(),

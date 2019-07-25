@@ -10,13 +10,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.data.rest.models.Comment
+import com.software.ssp.erkc.data.realm.models.RealmComment
 import kotlinx.android.synthetic.main.item_message_chat.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adapter<ChatWithDispatcherAdapter.CommentViewHolder>() {
+class ChatWithDispatcherAdapter(val dataList: List<RealmComment>) : RecyclerView.Adapter<ChatWithDispatcherAdapter.CommentViewHolder>() {
+
+    var lastDateSendMessage = Date().time
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_chat, parent, false)
         return CommentViewHolder(view)
@@ -28,7 +31,7 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
 
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.bindComment(dataList[position])
+        holder.bindComment(dataList[position], dataList, position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -41,29 +44,30 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
 
     class CommentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
+        private var lastDateMessage = Date().time
+
         internal enum class TypeWritter {
             USER,
             DISPATCHER
         }
 
-        fun bindComment(data: Comment) {
+        fun bindComment(data: RealmComment, commentList: List<RealmComment>, position: Int) {
             view.apply {
                 val USER_ID = 9
                 when (data.initiator?.id) {
                     USER_ID -> {
-                        configureMessageBy(writter = TypeWritter.USER, view = view, comment = data)
+                        configureMessageBy(writter = TypeWritter.USER, view = view, comment = data, commentList = commentList, position = position)
                     }
 
                     else -> {
-                        configureMessageBy(writter = TypeWritter.DISPATCHER, view = view, comment = data)
+                        configureMessageBy(writter = TypeWritter.DISPATCHER, view = view, comment = data, commentList = commentList, position = position)
                     }
                 }
-
             }
         }
 
-        private fun configureMessageBy(writter: TypeWritter, view: View, comment: Comment) {
-            val formatter = SimpleDateFormat("hh:mm")
+        private fun configureMessageBy(writter: TypeWritter, view: View, comment: RealmComment, commentList: List<RealmComment>, position: Int) {
+            val formatter = SimpleDateFormat("HH:mm")
             val dateSendMessage = formatter.format((Date(comment.created_at!!)))
 
             view.apply {
@@ -73,20 +77,27 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
                     val descriptionTextView = getDescriptionTextView(writter, view)
                     descriptionTextView.text = comment.message
                     val timeSendMessageTextView = getDateSendMessageTextView(writter, view)
-                    timeSendMessageTextView.text = /*dateSendMessage*/ comment.id.toString()
+                    timeSendMessageTextView.text = dateSendMessage
                 }
                 if (!comment.downloadLink.isNullOrEmpty()) {
                     val attachmentLayout = getAttachmentLayout(writter, view)
                     attachmentLayout.visibility = View.VISIBLE
                     val timeSendAttachmentTextView = getDateSendAttachmentTextView(writter, view)
-                    timeSendAttachmentTextView.text = /*dateSendMessage*/ comment.id.toString()
+                    timeSendAttachmentTextView.text = dateSendMessage
                     val glideUrl = GlideUrl("http://fon.zayavki.pro" + comment.downloadLink, LazyHeaders.Builder()
                             .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
                             .build())
                     Glide.with(view).load(glideUrl).into(getAttachmentView(writter, view))
                 }
-            }
 
+                var previousCommentTime = 0L
+
+                if (position > 0) {
+                    previousCommentTime = commentList[position - 1].created_at!!
+                }
+
+                setFullTimeTextVisibility(currentCommentTime = comment.created_at!!, previousCommentTime = previousCommentTime, comment = comment, view = view)
+            }
         }
 
         private fun getAttachmentView(writter: TypeWritter, view: View) : ImageView {
@@ -128,6 +139,31 @@ class ChatWithDispatcherAdapter(val dataList: List<Comment>) : RecyclerView.Adap
             return when (writter) {
                 TypeWritter.USER -> view.findViewById(R.id.photoByUser)
                 TypeWritter.DISPATCHER -> view.findViewById(R.id.attachmentMessageByDispatcherLinearLayout)
+            }
+        }
+
+        private fun setFullTimeTextVisibility(currentCommentTime: Long, previousCommentTime: Long, comment: RealmComment, view: View) {
+            view.apply {
+
+                if (previousCommentTime == 0L) {
+                    val lastMessageFormatter = SimpleDateFormat("dd.MM.yyyy")
+                    dateMessage.visibility = View.VISIBLE
+                    dateMessage.text = lastMessageFormatter.format(Date(comment.created_at!!))
+                } else {
+                    val cal1 = Calendar.getInstance()
+                    val cal2 = Calendar.getInstance()
+
+                    cal1.timeInMillis = currentCommentTime
+                    cal2.timeInMillis = previousCommentTime
+
+                    val isNowDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+
+                    if (!isNowDay) {
+                        val lastMessageFormatter = SimpleDateFormat("dd.MM.yyyy")
+                        dateMessage.visibility = View.VISIBLE
+                        dateMessage.text = lastMessageFormatter.format(Date(comment.created_at!!))
+                    }
+                }
             }
         }
     }
