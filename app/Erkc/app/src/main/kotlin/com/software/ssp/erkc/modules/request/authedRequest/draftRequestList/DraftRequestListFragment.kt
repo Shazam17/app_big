@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.BaseListFragment
 import com.software.ssp.erkc.data.realm.models.RealmDraft
-import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
-import com.software.ssp.erkc.modules.request.authedRequest.activeRequestList.ActiveRequestListAdapter
 import kotlinx.android.synthetic.main.fragment_request_list.*
 import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
 import org.jetbrains.anko.startActivity
@@ -31,6 +29,7 @@ class DraftRequestListFragment: BaseListFragment<RealmDraft>(), IDraftRequestLis
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
+
         return inflater?.inflate(R.layout.fragment_request_list, container, false)
     }
 
@@ -73,8 +72,14 @@ class DraftRequestListFragment: BaseListFragment<RealmDraft>(), IDraftRequestLis
         startActivity<CreateRequestActivity>(RequestDetailsActivity.REQUEST_DETAILS_REQUEST_ID_KEY to request!!.id,CREATE_REQUEST_DRAFT_MODE to true,OLD_UUID to request.id)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
+        presenter.onViewAttached()
+
+    }
+
+    override fun notifyItemRemoved(item: RealmDraft) {
         presenter.onViewAttached()
     }
+
 }

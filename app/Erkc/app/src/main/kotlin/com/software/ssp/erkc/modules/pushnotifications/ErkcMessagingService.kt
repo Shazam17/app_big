@@ -14,10 +14,7 @@ import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.ErkcApplication
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.rest.ActiveSession
-import com.software.ssp.erkc.data.rest.repositories.CardsRepository
-import com.software.ssp.erkc.data.rest.repositories.MessagesRepository
-import com.software.ssp.erkc.data.rest.repositories.PaymentRepository
-import com.software.ssp.erkc.data.rest.repositories.RealmRepository
+import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.getCompatColor
 import rx.Observable
 
@@ -30,6 +27,7 @@ class ErkcMessagingService : FirebaseMessagingService() {
     lateinit var cardsRepository: CardsRepository
     lateinit var messagesRepository: MessagesRepository
     lateinit var paymentRepository: PaymentRepository
+    lateinit var requestRepository:RequestRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -71,6 +69,8 @@ class ErkcMessagingService : FirebaseMessagingService() {
                     when (notification.type) {
                         PushNotificationType.PAYMENT -> syncPaymentInfo(notification.typed_id!!)
                         PushNotificationType.CARD -> syncCard(notification.typed_id!!)
+                        PushNotificationType.REQUEST -> syncRequests(notification.typed_id!!.toInt())
+                        PushNotificationType.MESSAGE -> syncRequests(notification.typed_id!!.toInt())
                         else -> Observable.just(true)
                     }
                 }
@@ -106,6 +106,15 @@ class ErkcMessagingService : FirebaseMessagingService() {
                 }
     }
 
+    private fun syncRequests(requestId:Int):Observable<Boolean>{
+        return requestRepository
+                .fetchRequestById(requestId)
+                .flatMap {
+                    request->
+                    realmRepository.saveRequestById(request)
+                }
+    }
+
     private fun showNotification(notification: PushNotificationModel) {
         val intent = Intent(Constants.NOTIFICATION_ACTION_CLICK)
         intent.putExtra(Constants.KEY_NOTIFICATION_TYPE, notification.type)
@@ -114,6 +123,8 @@ class ErkcMessagingService : FirebaseMessagingService() {
             PushNotificationType.NOTIFICATION -> notification.id
             PushNotificationType.PAYMENT -> notification.typed_id
             PushNotificationType.CARD -> notification.typed_id
+            PushNotificationType.REQUEST->notification.typed_id
+            PushNotificationType.MESSAGE->notification.typed_id
         }
 
         intent.putExtra(Constants.KEY_NOTIFICATION_ID, id)

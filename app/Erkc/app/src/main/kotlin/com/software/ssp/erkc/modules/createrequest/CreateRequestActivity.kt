@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmDraft
@@ -17,6 +14,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
 import com.software.ssp.erkc.modules.createrequest.adapters.CompaniesAdapter
 import com.software.ssp.erkc.modules.createrequest.adapters.TypeHouseAdapter
+import com.software.ssp.erkc.modules.request.RequestTabFragment
 import com.software.ssp.erkc.modules.request.authedRequest.draftRequestList.DraftRequestListFragment
 import kotlinx.android.synthetic.main.activity_create_request.*
 import org.jetbrains.anko.*
@@ -37,7 +35,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
 
     private var fias: String = ""
     private var uuid: String = UUID.randomUUID().toString()
-    private var draftFlag:Boolean=false
+    private var saveFlag: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +64,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
         }
     }
 
-    override fun setDraftData(realmDraft: RealmDraft){
+    override fun setDraftData(realmDraft: RealmDraft) {
         createRequestNameRequestTextEdit.setText(realmDraft.title)
         createRequestDescriptionTextEdit.setText(realmDraft.description)
         createRequestFIOTextEdit.setText(realmDraft.fio)
@@ -80,13 +78,37 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                when {
+                    intent.getBooleanExtra(CREATE_REQUEST_DRAFT_MODE, false) -> {
+                        presenter.deleteOldValue(intent.getStringExtra(DraftRequestListFragment.OLD_UUID))
+                        saveFlag = true
+                        onBackPressed()
+                    }
+                    intent.getBooleanExtra(CREATE_REQUEST_EDIT_MODE, false) -> {
+                        saveFlag = false
+                        onBackPressed()
+                    }
+                    else -> {
+                        saveFlag = true
+                        onBackPressed()
+                    }
+                }
                 return true
             }
-            R.id.request_bucket_item->{
-                presenter.deleteOldValue(intent.getStringExtra(DraftRequestListFragment.OLD_UUID))
-                draftFlag=true
-                this.finish()
+            R.id.request_bucket_item -> {
+                when {
+                    intent.getBooleanExtra(CREATE_REQUEST_DRAFT_MODE, false) -> {
+                        presenter.deleteOldValue(intent.getStringExtra(DraftRequestListFragment.OLD_UUID))
+                        saveFlag = false
+                        onBackPressed()
+                    }
+                    intent.getBooleanExtra(CREATE_REQUEST_EDIT_MODE, false) -> onBackPressed()
+                    else -> {
+                        this.finish()
+                        saveFlag=false
+                        onBackPressed()
+                    }
+                }
                 return true
             }
         }
@@ -96,6 +118,9 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
         menuInflater.inflate(R.menu.create_request_menu, menu)
+        if (intent.getBooleanExtra(CREATE_REQUEST_EDIT_MODE, false)) {
+            menu?.findItem(R.id.request_bucket_item)?.isVisible = false
+        }
         return true
     }
 
@@ -230,15 +255,18 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
 
     override fun onPause() {
         super.onPause()
-        if (!draftFlag) {
+        if (saveFlag) {
             saveDraftRequest()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (!draftFlag) {
+        if (saveFlag) {
             saveDraftRequest()
         }
+        presenter.setEvent()
     }
+
+
 }

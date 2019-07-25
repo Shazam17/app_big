@@ -196,7 +196,8 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     override fun showSelectImagesList(comment: List<RealmComment>) {
         val adapter = RequestDetailsFileListAdapter(
-                requestComments = comment.filter { it.downloadLink!=null }
+                requestComments = comment.filter { it.downloadLink!=null },
+                onItemClick = {presenter.openFullScreen(it)}
         )
 
         requestDetailsPhotosRecyclerView.adapter = adapter
@@ -240,4 +241,9 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     override fun beforeDestroy() {
         presenter.onViewDetached()
     }
+
+    override fun openFullScreen(downloadLink: String) {
+
+    }
+
 }

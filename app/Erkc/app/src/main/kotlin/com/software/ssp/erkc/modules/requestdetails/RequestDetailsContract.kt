@@ -18,10 +18,12 @@ interface IRequestDetailsView: IView {
     fun createStatusAdapter(statusList: List<RealmRequestStatus>)
     fun visibleNeedMenuItem(statusType: String)
     fun setVisibleProgressBar(isVisible: Boolean)
+    fun openFullScreen(downloadLink:String)
 }
 
 interface IRequestDetailsPresenter : IPresenter<IRequestDetailsView> {
     var requestId: Int
+    fun openFullScreen(comment: RealmComment)
     fun onCancelRequestButtonClick()
     fun onSubmitCompleteButtonClick()
     fun onEditMenuItemClick()

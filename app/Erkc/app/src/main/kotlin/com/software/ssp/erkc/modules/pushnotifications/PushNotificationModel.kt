@@ -12,5 +12,7 @@ class PushNotificationModel(
 enum class PushNotificationType {
     NOTIFICATION,
     PAYMENT,
-    CARD
+    CARD,
+    REQUEST,
+    MESSAGE
 }
