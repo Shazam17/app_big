@@ -19,7 +19,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
         updateRequestModel(requestId)
     }
 
-    private fun updateRequestModel(id: Int) {
+    override fun updateRequestModel(id: Int) {
         view?.setVisibleProgressBar(isVisible = true)
         subscriptions += requestRepository.fetchRequestById(id = id)
                 .concatMap { realmRepository.saveRequestById(it) }

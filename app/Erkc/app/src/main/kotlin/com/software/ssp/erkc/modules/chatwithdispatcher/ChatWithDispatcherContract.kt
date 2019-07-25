@@ -17,6 +17,9 @@ interface IChatWithDispatcherView: IView {
     fun showGallery()
     fun showCamera()
     fun showCameraOrGalleryDialog()
+    fun cleanInputContainer()
+    fun setEnableInputContainer(isEnable: Boolean)
+    fun setTitleAndSubTitle(title: String, subtitle: String)
 }
 
 interface IChatWithDispatcherPresenter: IPresenter<IChatWithDispatcherView> {

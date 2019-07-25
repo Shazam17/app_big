@@ -26,4 +26,5 @@ interface IRequestDetailsPresenter : IPresenter<IRequestDetailsView> {
     fun onSubmitCompleteButtonClick()
     fun onEditMenuItemClick()
     fun onChatMenuItemClick()
+    fun updateRequestModel(id: Int)
 }

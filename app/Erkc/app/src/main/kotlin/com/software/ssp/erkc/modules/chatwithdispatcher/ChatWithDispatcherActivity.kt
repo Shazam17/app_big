@@ -3,7 +3,6 @@ package com.software.ssp.erkc.modules.chatwithdispatcher
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -15,7 +14,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.rest.models.Comment
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.requestdetails.RequestDetailsActivity
 import kotlinx.android.synthetic.main.activity_chat_with_dispatcher.*
@@ -26,9 +24,9 @@ import android.support.v4.content.FileProvider
 import android.provider.MediaStore
 import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.data.realm.models.RealmComment
+import com.software.ssp.erkc.extensions.hideKeyboard
 import com.software.ssp.erkc.utils.FileUtils
 import com.tbruyelle.rxpermissions.RxPermissions
-import java.util.jar.Manifest
 
 
 class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animation.AnimationListener {
@@ -64,14 +62,17 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
         return true
     }
 
+    override fun setTitleAndSubTitle(title: String, subtitle: String) {
+        supportActionBar?.subtitle = subtitle
+        supportActionBar?.title = title
+    }
+
     private fun initViews() {
         val linearLayoutManager = LinearLayoutManager(this)
-//        linearLayoutManager.reverseLayout = true
         messagesRecyclerView.layoutManager = linearLayoutManager
         messagesRecyclerView.setHasFixedSize(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.subtitle = "Обращение #3597842 от 12.20.2018 10:00"
-        supportActionBar?.title = "Сломанная лампочка"
+
         deleteAttachmentImageButton.onClick {
             presenter.onDeleteAttachmentButtonClick()
         }
@@ -111,6 +112,7 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
 
         messagesRecyclerView.adapter = adapter
         messagesRecyclerView.adapter?.notifyDataSetChanged()
+        messagesRecyclerView.scrollToPosition(comments.count() - 1)
     }
 
     private fun animateCloseAttachmentContainer() {
@@ -208,5 +210,22 @@ class ChatWithDispatcherActivity: MvpActivity(), IChatWithDispatcherView, Animat
             }
         }
         alert.show()
+    }
+
+    override fun cleanInputContainer() {
+        textMessageByUserEditText.text.clear()
+        presenter.imageUri = null
+        imageAttachmentByUserChat.visibility = View.GONE
+        hideKeyboard()
+    }
+
+    override fun setEnableInputContainer(isEnable: Boolean) {
+        textMessageByUserEditText.isEnabled = isEnable
+        imageAttachmentByUserChat.isEnabled = isEnable
+        cameraButtonChat.isEnabled = isEnable
+        sendButtonChat.isEnabled = isEnable
+        sendButtonChat.visibility = if (isEnable) View.VISIBLE else View.GONE
+        deleteAttachmentImageButton.isEnabled = isEnable
+        sendingMessageProgressBar.visibility = if (isEnable) View.GONE else View.VISIBLE
     }
 }

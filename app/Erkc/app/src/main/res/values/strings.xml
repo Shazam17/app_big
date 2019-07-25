@@ -694,5 +694,6 @@
     <string name = "property_type_request">Тип имущества</string>
     <string name = "property_type">Тип имущества</string>
     <string name = "company_name">Компания</string>
+    <string name="error_sending_message">Ошибка отправки</string>
 
 </resources>

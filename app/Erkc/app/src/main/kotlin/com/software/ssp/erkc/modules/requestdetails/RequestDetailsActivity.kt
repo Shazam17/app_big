@@ -2,16 +2,12 @@ package com.software.ssp.erkc.modules.requestdetails
 
 import android.graphics.Point
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.R
-import com.software.ssp.erkc.common.mvp.BaseListActivity
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmComment
 import com.software.ssp.erkc.data.realm.models.RealmRequest
@@ -21,7 +17,6 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
-import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_request_details.*
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
@@ -239,5 +234,10 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     override fun beforeDestroy() {
         presenter.onViewDetached()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.updateRequestModel(presenter.requestId)
     }
 }

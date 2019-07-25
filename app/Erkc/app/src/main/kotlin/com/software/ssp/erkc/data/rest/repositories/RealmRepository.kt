@@ -1386,23 +1386,23 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         )
     }
 
-fun deleteRequestList(): Observable<Boolean> {
-    return Observable.create<Boolean> { sub ->
-        realm.executeTransactionAsync (
-                {
-                    it.where(RealmRequest::class.java)
-                            .findAll()
-                            .deleteAllFromRealm()
-                },
-                {
-                    sub.onNext(true)
-                },
-                {error ->
-                    sub.onError(error)
-                }
-        )
+    fun deleteRequestList(): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            realm.executeTransactionAsync(
+                    {
+                        it.where(RealmRequest::class.java)
+                                .findAll()
+                                .deleteAllFromRealm()
+                    },
+                    {
+                        sub.onNext(true)
+                    },
+                    { error ->
+                        sub.onError(error)
+                    }
+            )
+        }
     }
-}
 
     fun saveDraftRequest(realmDraft: RealmDraft): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
@@ -1430,6 +1430,36 @@ fun deleteRequestList(): Observable<Boolean> {
                         sub.onError(error)
                     }
             )
+        }
+    }
+
+    fun addCommentRequest(comment: Comment, realmRequest: RealmRequest): Observable<Boolean> {
+        return Observable.create<Boolean> { sub ->
+            val initiator = Initiator(
+                    id = comment.initiator?.id,
+                    username = comment.initiator?.username,
+                    name = comment.initiator?.name,
+                    phone = comment.initiator?.phone,
+                    info = comment.initiator?.info
+            )
+            val realmComment = RealmComment(
+                    id = comment.id,
+                    created_at = comment.created_at?.secondsToMilliseconds(),
+                    initiator = initiator,
+                    message = comment.message,
+                    filename = comment.filename,
+                    filetype = comment.filetype,
+                    downloadLink = comment.downloadLink
+            )
+
+
+            realm.executeTransaction {
+                realmRequest.comment?.add(realmComment)
+                it.copyToRealmOrUpdate(realmRequest)
+            }
+
+            sub.onNext(true)
+
         }
     }
 
