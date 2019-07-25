@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.software.ssp.erkc.R
@@ -34,7 +35,7 @@ class RequestDetailsFileListAdapter(val requestComments: List<RealmComment>,  va
                     val glideUrl = GlideUrl("http://fon.zayavki.pro" + status.downloadLink, LazyHeaders.Builder()
                             .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
                             .build())
-                    Glide.with(view).load(glideUrl).into(photoRequestImage)
+                    Glide.with(view).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(photoRequestImage)
                     removeImageButton.visibility=View.GONE
                 }
                 itemPhotoRequest.onClick {

@@ -194,10 +194,16 @@
             android:theme="@style/AppTheme.Light" />
 
         <activity android:name=".modules.requestdetails.RequestDetailsActivity"
+            android:label="@string/request_details_title"
             android:theme="@style/AppTheme.Light" />
 
         <activity android:name=".modules.chatwithdispatcher.ChatWithDispatcherActivity"
+            android:label="@string/chat_with_dispatcher_title"
             android:theme="@style/AppTheme.Light" />
+
+        <activity android:name=".modules.fullscreenphoto.FullscreenPhotoActivity"
+            android:label="@string/fullsrcreen_photo_title"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

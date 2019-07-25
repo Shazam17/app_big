@@ -1,650 +1,647 @@
 <resources>
     <!--<string name="app_name">ЕРКЦ г.Томска</string>-->
-    <string name="default_empty_list_message_text">Список пуст</string>
+    <string name = "default_empty_list_message_text">Список пуст</string>
 
     <!-- Common -->
-    <string name="data_loading">Загрузка данных…</string>
-    <string name="none" />
-    <string name="offline_mode_error">Данное действие недоступно в оффлайн режиме.</string>
-    <string name="offline_mode_transaction_error">Вы в оффлайн режиме, для совершения данной операции необходимо перезапустить приложение и войти в онлайн режиме.</string>
-    <string name="error_no_connection">Не удалось установить связь c сервером</string>
-    <string name="on_back_pressed_text">Нажмите снова для выхода</string>
+    <string name = "data_loading">Загрузка данных…</string>
+    <string name = "none" />
+    <string name = "offline_mode_error">Данное действие недоступно в оффлайн режиме.</string>
+    <string name = "offline_mode_transaction_error">Вы в оффлайн режиме, для совершения данной операции необходимо перезапустить приложение и войти в онлайн режиме.</string>
+    <string name = "error_no_connection">Не удалось установить связь c сервером</string>
+    <string name = "on_back_pressed_text">Нажмите снова для выхода</string>
 
     <!-- Splash -->
-    <string name="splash_try_again_text">Попробовать еще раз</string>
-    <string name="splash_error_fetching_token_text">Не удалось получить токен приложения</string>
-    <string name="splash_offline_dialog_content">Отсутствует соединение с сервером. Перейти к авторизации используя офлайн пароль?</string>
-    <string name="splash_offline_dialog_positive">Да</string>
-    <string name="splash_offline_dialog_negative">Нет</string>
-    <string name="splash_offline_dialog_neutral">Напомнить позже</string>
+    <string name = "splash_try_again_text">Попробовать еще раз</string>
+    <string name = "splash_error_fetching_token_text">Не удалось получить токен приложения</string>
+    <string name = "splash_offline_dialog_content">Отсутствует соединение с сервером. Перейти к авторизации используя офлайн пароль?</string>
+    <string name = "splash_offline_dialog_positive">Да</string>
+    <string name = "splash_offline_dialog_negative">Нет</string>
+    <string name = "splash_offline_dialog_neutral">Напомнить позже</string>
 
     <!-- InputErrors -->
-    <string name="error_all_fields_required">Все поля обязательны для заполнения</string>
-    <string name="error_empty_field">Поле не может быть пустым</string>
-    <string name="error_invalid_login">Неверно введен логин</string>
-    <string name="error_passwords_not_match">Пароли не совпадают</string>
-    <string name="error_field_required">Поле обязательно для заполнения</string>
-    <string name="error_invalid_email">Неверно введен e-mail</string>
-    <string name="error_all_field_required">Все поля обязательны для заполнения</string>
+    <string name = "error_all_fields_required">Все поля обязательны для заполнения</string>
+    <string name = "error_empty_field">Поле не может быть пустым</string>
+    <string name = "error_invalid_login">Неверно введен логин</string>
+    <string name = "error_passwords_not_match">Пароли не совпадают</string>
+    <string name = "error_field_required">Поле обязательно для заполнения</string>
+    <string name = "error_invalid_email">Неверно введен e-mail</string>
+    <string name = "error_all_field_required">Все поля обязательны для заполнения</string>
 
     <!-- drawer menu -->
-    <string name="drawer_main_screen_text">Основной экран</string>
-    <string name="drawer_payment_text">Оплата</string>
-    <string name="drawer_send_values_text">Передача показаний ИПУ</string>
-    <string name="drawer_request_text">Заявки</string>
-    <string name="drawer_my_cards_text">Мои карты</string>
-    <string name="drawer_history_text">История операций</string>
-    <string name="drawer_auto_payment_text">Автоплатежи</string>
-    <string name="drawer_notifications_text">Уведомления</string>
-    <string name="drawer_transaction_text">Журнал транзакций</string>
-    <string name="drawer_settings_text">Настройки</string>
-    <string name="drawer_instruction_text">Инструкции</string>
-    <string name="drawer_contacts_text">Контакты</string>
-    <string name="drawer_exit_text">Выход</string>
-    <string name="drawer_open_text">Открыть меню</string>
-    <string name="drawer_close_text">Закрыть меню</string>
+    <string name = "drawer_main_screen_text">Основной экран</string>
+    <string name = "drawer_payment_text">Оплата</string>
+    <string name = "drawer_send_values_text">Передача показаний ИПУ</string>
+    <string name = "drawer_request_text">Заявки</string>
+    <string name = "drawer_my_cards_text">Мои карты</string>
+    <string name = "drawer_history_text">История операций</string>
+    <string name = "drawer_auto_payment_text">Автоплатежи</string>
+    <string name = "drawer_notifications_text">Уведомления</string>
+    <string name = "drawer_transaction_text">Журнал транзакций</string>
+    <string name = "drawer_settings_text">Настройки</string>
+    <string name = "drawer_instruction_text">Инструкции</string>
+    <string name = "drawer_contacts_text">Контакты</string>
+    <string name = "drawer_exit_text">Выход</string>
+    <string name = "drawer_open_text">Открыть меню</string>
+    <string name = "drawer_close_text">Закрыть меню</string>
 
     <!-- Main screen -->
-    <string name="main_screen_barcode_hint">Штрих-код</string>
-    <string name="main_screen_street_hint">Улица</string>
-    <string name="main_screen_house_hint">Дом</string>
-    <string name="main_screen_apartment_hint">Квартира</string>
-    <string name="main_screen_send_value_check_box">Передать показания ИПУ</string>
-    <string name="main_screen_continue_button">Продолжить</string>
-    <string name="main_screen_app_functions_hint">Все функции приложения будут\nдоступны после входа</string>
-    <string name="main_screen_sign_in_button">Войти</string>
-    <string name="main_screen_registration_button">Регистрация</string>
-    <string name="main_screen_non_authed_title" />
-    <string name="main_screen_authed_title">Основной экран</string>
-    <string name="main_screen_add_receipt">Добавить квитанцию</string>
-    <string name="main_screen_no_cards_dialog_text">Невозможно настроить автоплатеж, так как нет активированных карт.</string>
-    <string name="main_screen_no_cards_dialog_ok_button">Понятно</string>
+    <string name = "main_screen_barcode_hint">Штрих-код</string>
+    <string name = "main_screen_street_hint">Улица</string>
+    <string name = "main_screen_house_hint">Дом</string>
+    <string name = "main_screen_apartment_hint">Квартира</string>
+    <string name = "main_screen_send_value_check_box">Передать показания ИПУ</string>
+    <string name = "main_screen_continue_button">Продолжить</string>
+    <string name = "main_screen_app_functions_hint">Все функции приложения будут\nдоступны после входа</string>
+    <string name = "main_screen_sign_in_button">Войти</string>
+    <string name = "main_screen_registration_button">Регистрация</string>
+    <string name = "main_screen_non_authed_title" />
+    <string name = "main_screen_authed_title">Основной экран</string>
+    <string name = "main_screen_add_receipt">Добавить квитанцию</string>
+    <string name = "main_screen_no_cards_dialog_text">Невозможно настроить автоплатеж, так как нет активированных карт.</string>
+    <string name = "main_screen_no_cards_dialog_ok_button">Понятно</string>
 
     <!-- Sign in -->
-    <string name="sign_in_title">Вход</string>
-    <string name="sign_in_login_hint">Логин</string>
-    <string name="sign_in_password_hint">Пароль</string>
-    <string name="sign_in_password_offline_hint">Офлайн пароль</string>
-    <string name="sign_in_forgot_password_text">Забыли пароль?</string>
-    <string name="sign_in_enter_text">Войти</string>
-    <string name="sign_in_error_fill_login_text">Введите логин</string>
-    <string name="sign_in_error_fill_password_text">Введите пароль</string>
-    <string name="sign_in_error_incorrect_login_or_password_text">Неверный логин или пароль</string>
-    <string name="sing_in_offline_title">Вход (офлайн)</string>
-    <string name="sign_in_offline_login_not_exist">Учетная запись с таким логином отсуствует на данном устройстве</string>
-    <string name="sign_in_offline_password_not_set">Для данной учетной записи офлайн пароль не установлен</string>
-    <string name="sign_in_offline_disabled">Для данной учетной записи отключен офлайн режим</string>
-    <string name="sign_in_offline_info_positive">Понятно</string>
-    <string name="sign_in_fast_auth_text">Быстрая авторизация</string>
+    <string name = "sign_in_title">Вход</string>
+    <string name = "sign_in_login_hint">Логин</string>
+    <string name = "sign_in_password_hint">Пароль</string>
+    <string name = "sign_in_password_offline_hint">Офлайн пароль</string>
+    <string name = "sign_in_forgot_password_text">Забыли пароль?</string>
+    <string name = "sign_in_enter_text">Войти</string>
+    <string name = "sign_in_error_fill_login_text">Введите логин</string>
+    <string name = "sign_in_error_fill_password_text">Введите пароль</string>
+    <string name = "sign_in_error_incorrect_login_or_password_text">Неверный логин или пароль</string>
+    <string name = "sing_in_offline_title">Вход (офлайн)</string>
+    <string name = "sign_in_offline_login_not_exist">Учетная запись с таким логином отсуствует на данном устройстве</string>
+    <string name = "sign_in_offline_password_not_set">Для данной учетной записи офлайн пароль не установлен</string>
+    <string name = "sign_in_offline_disabled">Для данной учетной записи отключен офлайн режим</string>
+    <string name = "sign_in_offline_info_positive">Понятно</string>
+    <string name = "sign_in_fast_auth_text">Быстрая авторизация</string>
 
     <!-- Sign up -->
-    <string name="sign_up_login_hint">Логин</string>
-    <string name="sign_up_password_hint">Пароль</string>
-    <string name="sign_up_password2_hint">Повторите пароль</string>
-    <string name="sign_up_first_name_hint">Имя</string>
-    <string name="sign_up_build_hint">Дом</string>
-    <string name="sign_up_street_hint">Улица</string>
-    <string name="sign_up_flat_hint">Квартинра</string>
-    <string name="sign_up_email_hint">E-mail</string>
-    <string name="sign_up_captcha_hint">Код с изображения</string>
-    <string name="sign_up_registration">Регистрация</string>
-    <string name="captcha_error">Наверно введены символы с картинки</string>
-    <string name="password_not_equals">Пароли не совпадают</string>
+    <string name = "sign_up_login_hint">Логин</string>
+    <string name = "sign_up_password_hint">Пароль</string>
+    <string name = "sign_up_password2_hint">Повторите пароль</string>
+    <string name = "sign_up_first_name_hint">Имя</string>
+    <string name = "sign_up_build_hint">Дом</string>
+    <string name = "sign_up_street_hint">Улица</string>
+    <string name = "sign_up_flat_hint">Квартинра</string>
+    <string name = "sign_up_email_hint">E-mail</string>
+    <string name = "sign_up_captcha_hint">Код с изображения</string>
+    <string name = "sign_up_registration">Регистрация</string>
+    <string name = "captcha_error">Наверно введены символы с картинки</string>
+    <string name = "password_not_equals">Пароли не совпадают</string>
 
     <!-- Contacts Screen -->
-    <string name="contacts_ump">Унитарное муниципальное предприятие</string>
-    <string name="contacts_name">\"Единый расчетно-кассовый центр\nг. Томска\"\n(УМП \"ЕРКЦ г. Томска\")</string>
-    <string name="contacts_address_text">Адрес</string>
-    <string name="contacts_address">"г. Томск, ул. Герцена, 52а"</string>
-    <string name="contacts_phone_fax">Телефон/Факс</string>
-    <string name="contacts_phone_number"><a href="tel:+73822908870">+7 (3822) 90–88–70</a></string>
-    <string name="contacts_message_hint">Вы можете отправить нам сообщение</string>
-    <string name="contacts_send_button_text">Отправить</string>
-    <string name="contacts_map_marker_title">улица Герцена, 52а</string>
-    <string name="contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
-    <string name="contacts_email_prefix">Отправлено через мобильное приложение: </string>
-    <string name="contacts_snack_bar_action_text">Ок</string>
+    <string name = "contacts_ump">Унитарное муниципальное предприятие</string>
+    <string name = "contacts_name">\"Единый расчетно-кассовый центр\nг. Томска\"\n(УМП \"ЕРКЦ г. Томска\")</string>
+    <string name = "contacts_address_text">Адрес</string>
+    <string name = "contacts_address">"г. Томск, ул. Герцена, 52а"</string>
+    <string name = "contacts_phone_fax">Телефон/Факс</string>
+    <string name = "contacts_phone_number"><a href = "tel:+73822908870">+7 (3822) 90–88–70</a></string>
+    <string name = "contacts_message_hint">Вы можете отправить нам сообщение</string>
+    <string name = "contacts_send_button_text">Отправить</string>
+    <string name = "contacts_map_marker_title">улица Герцена, 52а</string>
+    <string name = "contacts_email_send_dialog_message">Ваше сообщение успешно отправлено.</string>
+    <string name = "contacts_email_prefix">Отправлено через мобильное приложение: </string>
+    <string name = "contacts_snack_bar_action_text">Ок</string>
 
     <!-- Barcode Scan Screen -->
-    <string name="barcode_scanner_camera_permission_denied">Для корректной работы приложения необходим доступ к камере</string>
-    <string name="barcode_scanner_title">Сканирование штрих-кода</string>
+    <string name = "barcode_scanner_camera_permission_denied">Для корректной работы приложения необходим доступ к камере</string>
+    <string name = "barcode_scanner_title">Сканирование штрих-кода</string>
 
     <!-- password recovery -->
-    <string name="pass_recovery_title">Восстановление пароля</string>
-    <string name="pass_recovery_description">Если вы забыли Пароль, введите Логин и E-mail, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
-    <string name="pass_recovery_login_hint">Логин</string>
-    <string name="pass_recovery_email_hint">E-mail</string>
-    <string name="pass_recovery_send_button_text">Отправить пароль</string>
-    <string name="pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
+    <string name = "pass_recovery_title">Восстановление пароля</string>
+    <string name = "pass_recovery_description">Если вы забыли Пароль, введите Логин и E-mail, указанные при регистрации и нажмите кнопку \"Отправить пароль\"</string>
+    <string name = "pass_recovery_login_hint">Логин</string>
+    <string name = "pass_recovery_email_hint">E-mail</string>
+    <string name = "pass_recovery_send_button_text">Отправить пароль</string>
+    <string name = "pass_recovery_sent_message">Пароль отправлен. Проверьте почту</string>
 
     <!-- Address search Screen -->
-    <string name="search_addresses_hint">Введите адрес…</string>
-    <string name="search_addresses_title" />
-    <string name="search_addresses_menu_text">Поиск</string>
+    <string name = "search_addresses_hint">Введите адрес…</string>
+    <string name = "search_addresses_title" />
+    <string name = "search_addresses_menu_text">Поиск</string>
 
     <!-- UserProfile Screen -->
-    <string name="user_profile_title">Профиль</string>
-    <string name="user_profile_first_name_hint">Имя</string>
-    <string name="user_profile_email_hint">E-mail</string>
-    <string name="user_profile_password_hint">Пароль</string>
-    <string name="user_profile_re_password_hint">Повторить пароль</string>
-    <string name="user_profile_pin">PIN код</string>
-    <string name="user_profile_pin_change">Изменить</string>
-    <string name="user_profile_pin_delete">Удалить</string>
-    <string name="user_profile_pin_create">Создать</string>
-    <string name="user_profile_save_button">Сохранить</string>
-    <string name="user_profile_data_saved">Данные успешно сохранены</string>
+    <string name = "user_profile_title">Профиль</string>
+    <string name = "user_profile_first_name_hint">Имя</string>
+    <string name = "user_profile_email_hint">E-mail</string>
+    <string name = "user_profile_password_hint">Пароль</string>
+    <string name = "user_profile_re_password_hint">Повторить пароль</string>
+    <string name = "user_profile_pin">PIN код</string>
+    <string name = "user_profile_pin_change">Изменить</string>
+    <string name = "user_profile_pin_delete">Удалить</string>
+    <string name = "user_profile_pin_create">Создать</string>
+    <string name = "user_profile_save_button">Сохранить</string>
+    <string name = "user_profile_data_saved">Данные успешно сохранены</string>
 
     <!-- Cards -->
-    <string name="card_status_not_registered">ЗАРЕГИСТРИРОВАТЬ</string>
-    <string name="card_status_registered">АКТИВИРОВАТЬ</string>
-    <string name="card_status_activate" />
-    <string name="card_status_deleted" />
-    <string name="cards_empty_text">Здесь вы можете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
-    <string name="cards_add_menu_text">Добавить</string>
-    <string name="cards_instruction_menu_text">Инструкция</string>
+    <string name = "card_status_not_registered">ЗАРЕГИСТРИРОВАТЬ</string>
+    <string name = "card_status_registered">АКТИВИРОВАТЬ</string>
+    <string name = "card_status_activate" />
+    <string name = "card_status_deleted" />
+    <string name = "cards_empty_text">Здесь вы можете добавить банковские карты для быстрой оплаты в один клик и настройки автоплатежей</string>
+    <string name = "cards_add_menu_text">Добавить</string>
+    <string name = "cards_instruction_menu_text">Инструкция</string>
 
     <!-- Add card screen -->
-    <string name="add_card_title">Добавление карты</string>
-    <string name="add_card_name_hint">Название карты</string>
-    <string name="add_card_done">Готово</string>
-    <string name="add_card_info_understand">Понял</string>
-    <string name="add_card_info">При регистрации и активации, для проверки карты, банком, будет списана и возвращена незначительная сумма</string>
-
+    <string name = "add_card_title">Добавление карты</string>
+    <string name = "add_card_name_hint">Название карты</string>
+    <string name = "add_card_done">Готово</string>
+    <string name = "add_card_info_understand">Понял</string>
+    <string name = "add_card_info">При регистрации и активации, для проверки карты, банком, будет списана и возвращена незначительная сумма</string>
 
 
     <!--Setup Fast Auth screen-->
-    <string name="setup_fast_auth_title">Настройка быстрой авторизации</string>
+    <string name = "setup_fast_auth_title">Настройка быстрой авторизации</string>
 
 
     <!-- Settings Screen -->
-    <string name="settings_title">Настройки</string>
-    <string name="settings_offline_header">Офлайн режим</string>
-    <string name="settings_offline_description">Доступ к истории операций, настройки автоплатежа и чтение уведомлений без подключения к интернету</string>
-    <string name="settings_offline_password_header">Офлайн пароль</string>
-    <string name="settings_offline_password_button_text">Установить</string>
-    <string name="settings_notification_header">Уведомления</string>
-    <string name="settings_push_label">PUSH сообщения</string>
-    <string name="settings_operation_status_label">Статус операций</string>
-    <string name="settings_news_label">Новости</string>
-    <string name="settings_pay_notes_label">Напоминания об оплате</string>
-    <string name="settings_ipu_notes_label">Напоминания о передаче\nпоказаний ИПУ</string>
-    <string name="settings_saved_message">Настройки сохранены</string>
-    <string name="settings_offline_password_install">Установить</string>
-    <string name="settings_offline_password_change">Изменить</string>
+    <string name = "settings_title">Настройки</string>
+    <string name = "settings_offline_header">Офлайн режим</string>
+    <string name = "settings_offline_description">Доступ к истории операций, настройки автоплатежа и чтение уведомлений без подключения к интернету</string>
+    <string name = "settings_offline_password_header">Офлайн пароль</string>
+    <string name = "settings_offline_password_button_text">Установить</string>
+    <string name = "settings_notification_header">Уведомления</string>
+    <string name = "settings_push_label">PUSH сообщения</string>
+    <string name = "settings_operation_status_label">Статус операций</string>
+    <string name = "settings_news_label">Новости</string>
+    <string name = "settings_pay_notes_label">Напоминания об оплате</string>
+    <string name = "settings_ipu_notes_label">Напоминания о передаче\nпоказаний ИПУ</string>
+    <string name = "settings_saved_message">Настройки сохранены</string>
+    <string name = "settings_offline_password_install">Установить</string>
+    <string name = "settings_offline_password_change">Изменить</string>
 
     <!-- Offline password Screen -->
-    <string name="offline_password_title">Офлайн пароль</string>
-    <string name="offline_password_first_hint">Офлайн пароль</string>
-    <string name="offline_password_second_hint">Повторите офлайн пароль</string>
-    <string name="offline_password_second_error">Пароли не совпадают</string>
-    <string name="offline_password_save_button_text">Сохранить</string>
+    <string name = "offline_password_title">Офлайн пароль</string>
+    <string name = "offline_password_first_hint">Офлайн пароль</string>
+    <string name = "offline_password_second_hint">Повторите офлайн пароль</string>
+    <string name = "offline_password_second_error">Пароли не совпадают</string>
+    <string name = "offline_password_save_button_text">Сохранить</string>
 
     <!-- Receipts List -->
-    <string name="receipts_transfer_value_button">Передать показания</string>
-    <string name="receipts_pay_button">Оплатить</string>
-    <string name="receipts_last_transfer_text">Последние показания</string>
-    <string name="receipts_last_pay_text">Последняя оплата</string>
-    <string name="receipts_deleted">Квитанция успешно удалена</string>
-    <string name="receipts_currency">р.</string>
-    <string name="receipts_date_never">никогда</string>
-    <string name="receipts_auto_payment">Автоплатеж</string>
+    <string name = "receipts_transfer_value_button">Передать показания</string>
+    <string name = "receipts_pay_button">Оплатить</string>
+    <string name = "receipts_last_transfer_text">Последние показания</string>
+    <string name = "receipts_last_pay_text">Последняя оплата</string>
+    <string name = "receipts_deleted">Квитанция успешно удалена</string>
+    <string name = "receipts_currency">р.</string>
+    <string name = "receipts_date_never">никогда</string>
+    <string name = "receipts_auto_payment">Автоплатеж</string>
     <!-- Receipts menus  -->
-    <string name="receipts_menu_history">История операций</string>
-    <string name="receipts_menu_autopay">Настройка автоплатежа</string>
-    <string name="receipts_menu_request">Заявка</string>
+    <string name = "receipts_menu_history">История операций</string>
+    <string name = "receipts_menu_autopay">Настройка автоплатежа</string>
+    <string name = "receipts_menu_request">Заявка</string>
 
     <!-- API errors -->
-    <string name="api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>
-    <string name="api_error_unauthorized_user_failed">Авторизация пользователя неудачна</string>
-    <string name="api_error_user_authentication_failed">Аутентификация пользователя неудачна</string>
-    <string name="api_error_unknown_barcode">Штрих код не найден в базе данных</string>
-    <string name="api_error_payment">Оплата не завершена. Некорректные данные для совершеня платежа.</string>
+    <string name = "api_error_invalid_request">Один из обязательных параметров не указан или некорректен</string>
+    <string name = "api_error_unauthorized_user_failed">Авторизация пользователя неудачна</string>
+    <string name = "api_error_user_authentication_failed">Аутентификация пользователя неудачна</string>
+    <string name = "api_error_unknown_barcode">Штрих код не найден в базе данных</string>
+    <string name = "api_error_payment">Оплата не завершена. Некорректные данные для совершеня платежа.</string>
 
     <!-- Edit card screen -->
-    <string name="edit_card_title">Переименование карты</string>
+    <string name = "edit_card_title">Переименование карты</string>
 
     <!-- Send values screen -->
-    <string name="send_values_debts_des">Текущая задолженность (расчетный период)</string>
-    <string name="send_values_barcode_des">Штрих-код (Вид платежа)</string>
-    <string name="send_values_title">Ввод показаний ИПУ</string>
-    <string name="send_values_ipu_hint" formatted="false">%s (№%s)</string>
-    <string name="send_parameters_button">Передать показания</string>
-    <string name="send_values_no_cached_ipu_error">Для данной квитанции нет сохраненных ИПУ. Необходимо как минимум 1 раз передать показания, чтобы они сохранились.</string>
-    <string name="send_values_no_cached_ipu_error_add">Для данной квитанции нет сохраненных ИПУ. Вы можете добавить их в ручном режиме.</string>
-    <string name="send_values_dialog_button">Закрыть</string>
-    <string name="send_values_add_user_ipu">Добавить ИПУ</string>
-    <string name="send_values_no_registered_ipu">По данному адресу нет зарегистрированных ИПУ. Вы можете зарегистрировать их вручную.</string>
+    <string name = "send_values_debts_des">Текущая задолженность (расчетный период)</string>
+    <string name = "send_values_barcode_des">Штрих-код (Вид платежа)</string>
+    <string name = "send_values_title">Ввод показаний ИПУ</string>
+    <string name = "send_values_ipu_hint" formatted = "false">%s (№%s)</string>
+    <string name = "send_parameters_button">Передать показания</string>
+    <string name = "send_values_no_cached_ipu_error">Для данной квитанции нет сохраненных ИПУ. Необходимо как минимум 1 раз передать показания, чтобы они сохранились.</string>
+    <string name = "send_values_no_cached_ipu_error_add">Для данной квитанции нет сохраненных ИПУ. Вы можете добавить их в ручном режиме.</string>
+    <string name = "send_values_dialog_button">Закрыть</string>
+    <string name = "send_values_add_user_ipu">Добавить ИПУ</string>
+    <string name = "send_values_no_registered_ipu">По данному адресу нет зарегистрированных ИПУ. Вы можете зарегистрировать их вручную.</string>
 
     <!-- Payment Info -->
-    <string name="payment_info_title">Информация о платеже</string>
-    <string name="payment_info_status_success">Платеж произведен успешно</string>
-    <string name="payment_info_status_error">Платеж не произведен</string>
-    <string name="payment_info_barcode_subtitle">Штрих-код (Вид платежа)</string>
-    <string name="payment_info_sum">Сумма к зачислению</string>
-    <string name="payment_info_commission">Комиссия</string>
-    <string name="payment_info_result">Итого к оплате</string>
-    <string name="payment_info_operation_no">Операция №</string>
-    <string name="payment_info_payment_type">Способ оплаты</string>
-    <string name="payment_info_retry">Повторить</string>
-    <string name="payment_info_check">Получить чек</string>
-    <string name="payment_info_currency">%,.2f р.</string>
-    <string name="payment_info_type_default">Стандартная оплата</string>
-    <string name="payment_info_type_one_click">Оплата в один клик</string>
-    <string name="payment_info_type_auto">Автоплатеж</string>
-    <string name="payment_info_commission_format">%1$,.2f р. (%2$,.2f%%)</string>
-    <string name="payment_info_no_cached_payment_dialog_content">Информация об этом платеже не сохранена на устройстве</string>
+    <string name = "payment_info_title">Информация о платеже</string>
+    <string name = "payment_info_status_success">Платеж произведен успешно</string>
+    <string name = "payment_info_status_error">Платеж не произведен</string>
+    <string name = "payment_info_barcode_subtitle">Штрих-код (Вид платежа)</string>
+    <string name = "payment_info_sum">Сумма к зачислению</string>
+    <string name = "payment_info_commission">Комиссия</string>
+    <string name = "payment_info_result">Итого к оплате</string>
+    <string name = "payment_info_operation_no">Операция №</string>
+    <string name = "payment_info_payment_type">Способ оплаты</string>
+    <string name = "payment_info_retry">Повторить</string>
+    <string name = "payment_info_check">Получить чек</string>
+    <string name = "payment_info_currency">%,.2f р.</string>
+    <string name = "payment_info_type_default">Стандартная оплата</string>
+    <string name = "payment_info_type_one_click">Оплата в один клик</string>
+    <string name = "payment_info_type_auto">Автоплатеж</string>
+    <string name = "payment_info_commission_format">%1$,.2f р. (%2$,.2f%%)</string>
+    <string name = "payment_info_no_cached_payment_dialog_content">Информация об этом платеже не сохранена на устройстве</string>
 
     <!-- Payment screen -->
-    <string name="payment_debts_des">Текущая задолженность</string>
-    <string name="payment_barcode_des">Штрих-код (Вид платежа)</string>
-    <string name="payment_title">Оплата</string>
-    <string name="payment_continue_button">Продолжить</string>
-    <string name="payment_amount_title">Итого к оплате:</string>
-    <string name="payment_sum_title">Сумма к зачислению (р.)</string>
-    <string name="payment_dialog_ok">Oк</string>
-    <string name="payment_dialog_cancel">Закрыть</string>
-    <string name="payment_dialog_cards_title">Карта для оплаты</string>
-    <string name="payment_email">E-mail</string>
-    <string name="payment_pay_by_card">Оплатить картой</string>
-    <string name="payment_add_card">Добавить</string>
-    <string name="payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
-    <string name="payment_confirm_dialog_title">Подтвердите оплату</string>
-    <string name="payment_confirm_dialog">Подтвердите оплату</string>
-    <string name="payment_result_success">Процедура оплаты начата\nи будет завершена автоматически.</string>
-    <string name="payment_result_error">Операция не произведена.</string>
-    <string name="payment_done">Готово</string>
-    <string name="payment_commission" formatted="false">Комиссия %.2f р. (%.2f %%)</string>
-    <string name="payment_commission_sum" formatted="false">(%.2f р.)</string>
-    <string name="payment_commission_percent" formatted="false">Комиссия %.2f%%</string>
-    <string name="payment_sum" formatted="false">%.2f р.</string>
-    <string name="payment_sum_format" formatted="false">%.2f</string>
-    <string name="payment_currency_symbol"> р.</string>
-    <string name="payment_non_selected_card">Не выбрана</string>
-    <string name="payment_navigate_to_cards_dialog_text">На вашей учетной записи отсуствуют активированные карты.\nПерейти к добавлению/активации карты?</string>
-    <string name="payment_navigate_to_cards_dialog_positive">Перейти</string>
-    <string name="payment_navigate_to_cards_dialog_negative">Отмена</string>
+    <string name = "payment_debts_des">Текущая задолженность</string>
+    <string name = "payment_barcode_des">Штрих-код (Вид платежа)</string>
+    <string name = "payment_title">Оплата</string>
+    <string name = "payment_continue_button">Продолжить</string>
+    <string name = "payment_amount_title">Итого к оплате:</string>
+    <string name = "payment_sum_title">Сумма к зачислению (р.)</string>
+    <string name = "payment_dialog_ok">Oк</string>
+    <string name = "payment_dialog_cancel">Закрыть</string>
+    <string name = "payment_dialog_cards_title">Карта для оплаты</string>
+    <string name = "payment_email">E-mail</string>
+    <string name = "payment_pay_by_card">Оплатить картой</string>
+    <string name = "payment_add_card">Добавить</string>
+    <string name = "payment_commission_confirmation">Я подтверждаю свое согласие на оплату комиссии</string>
+    <string name = "payment_confirm_dialog_title">Подтвердите оплату</string>
+    <string name = "payment_confirm_dialog">Подтвердите оплату</string>
+    <string name = "payment_result_success">Процедура оплаты начата\nи будет завершена автоматически.</string>
+    <string name = "payment_result_error">Операция не произведена.</string>
+    <string name = "payment_done">Готово</string>
+    <string name = "payment_commission" formatted = "false">Комиссия %.2f р. (%.2f %%)</string>
+    <string name = "payment_commission_sum" formatted = "false">(%.2f р.)</string>
+    <string name = "payment_commission_percent" formatted = "false">Комиссия %.2f%%</string>
+    <string name = "payment_sum" formatted = "false">%.2f р.</string>
+    <string name = "payment_sum_format" formatted = "false">%.2f</string>
+    <string name = "payment_currency_symbol"> р.</string>
+    <string name = "payment_non_selected_card">Не выбрана</string>
+    <string name = "payment_navigate_to_cards_dialog_text">На вашей учетной записи отсуствуют активированные карты.\nПерейти к добавлению/активации карты?</string>
+    <string name = "payment_navigate_to_cards_dialog_positive">Перейти</string>
+    <string name = "payment_navigate_to_cards_dialog_negative">Отмена</string>
 
     <!-- AutoPaymentsScreen -->
-    <string name="auto_payments_autopay_tab_title">Автоплатежи</string>
-    <string name="auto_payments_one_click_tab_title">Оплата в 1 клик</string>
-    <string name="auto_payments_delete_dialog_title">Подтвердите удаление</string>
-    <string name="auto_payments_delete_autopay_dialog_description">Вы действительно хотите удалить автоплатеж без возможности востановления?</string>
-    <string name="auto_payments_delete_one_click_dialog_description">Вы действительно хотите удалить оплату в один клик без возможности востановления?</string>
-    <string name="auto_payments_delete_positive_button">Удалить</string>
-    <string name="auto_payments_delete_negative_button">Отмена</string>
-    <string name="auto_payments_add_menu_text">Добавить</string>
-    <string name="auto_payments_empty_list_text">Здесь вы можете добавить автоплатежи и настроить оплату в один клик.</string>
-    <string name="auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
-    <string name="auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
+    <string name = "auto_payments_autopay_tab_title">Автоплатежи</string>
+    <string name = "auto_payments_one_click_tab_title">Оплата в 1 клик</string>
+    <string name = "auto_payments_delete_dialog_title">Подтвердите удаление</string>
+    <string name = "auto_payments_delete_autopay_dialog_description">Вы действительно хотите удалить автоплатеж без возможности востановления?</string>
+    <string name = "auto_payments_delete_one_click_dialog_description">Вы действительно хотите удалить оплату в один клик без возможности востановления?</string>
+    <string name = "auto_payments_delete_positive_button">Удалить</string>
+    <string name = "auto_payments_delete_negative_button">Отмена</string>
+    <string name = "auto_payments_add_menu_text">Добавить</string>
+    <string name = "auto_payments_empty_list_text">Здесь вы можете добавить автоплатежи и настроить оплату в один клик.</string>
+    <string name = "auto_payments_no_receipts_message">Отсутствуют квитанции без настроенного автоплатежа / оплаты в один клик.</string>
+    <string name = "auto_payments_no_cards_message">Отсутствуют активированные карты.</string>
 
     <!-- AutoPayment Settings-->
-    <string name="autopayment_screen_tab_title">Настройка автоплатежа</string>
-    <string name="autopayment_screen_payment_type_label">Тип платежа</string>
-    <string name="autopayment_screen_payment_no_mode_text">Добавить</string>
-    <string name="autopayment_screen_autopayment_mode_text">Автоплатеж</string>
-    <string name="autopayment_screen_oneclick_mode_text">Оплата в 1 клик</string>
-    <string name="autopayment_screen_receipt_label">Квитанция</string>
-    <string name="autopayment_screen_receipt_add_button_label">Добавить</string>
-    <string name="autopayment_screen_receipt_button_ok">Ок</string>
-    <string name="autopayment_screen_receipt_button_close">Закрыть</string>
-    <string name="autopayment_screen_cardpayment_label">Оплатить картой</string>
-    <string name="autopayment_screen_cardpayment_add_button_label">Добавить</string>
-    <string name="autopayment_screen_max_sum_hint">Максимальная сумма платежа</string>
-    <string name="autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %,.2f%%</string>
-    <string name="autopayment_screen_dialog_button_ok">Ок</string>
-    <string name="autopayment_screen_dialog_button_close">Закрыть</string>
-    <string name="autopayment_screen_error_receipt_id_notfound">Квитанция по ID не найдена</string>
-    <string name="autopayment_screen_error_agreement_must_have">Необходимо согласие на оплату комиссии</string>
-    <string name="autopayment_screen_error_card_must_have">Необходимо указать платежную карту</string>
-    <string name="autopayment_screen_error_receipt_must_have">Необходимо указать квитанцию</string>
-    <string name="autopayment_screen_error_maxsum_must_have">Необходимо указать максимальную сумму платежа</string>
+    <string name = "autopayment_screen_tab_title">Настройка автоплатежа</string>
+    <string name = "autopayment_screen_payment_type_label">Тип платежа</string>
+    <string name = "autopayment_screen_payment_no_mode_text">Добавить</string>
+    <string name = "autopayment_screen_autopayment_mode_text">Автоплатеж</string>
+    <string name = "autopayment_screen_oneclick_mode_text">Оплата в 1 клик</string>
+    <string name = "autopayment_screen_receipt_label">Квитанция</string>
+    <string name = "autopayment_screen_receipt_add_button_label">Добавить</string>
+    <string name = "autopayment_screen_receipt_button_ok">Ок</string>
+    <string name = "autopayment_screen_receipt_button_close">Закрыть</string>
+    <string name = "autopayment_screen_cardpayment_label">Оплатить картой</string>
+    <string name = "autopayment_screen_cardpayment_add_button_label">Добавить</string>
+    <string name = "autopayment_screen_max_sum_hint">Максимальная сумма платежа</string>
+    <string name = "autopayment_screen_agreement_checkbox_label">Я подтверждаю свое согласие на оплату комиссии в размере %,.2f%%</string>
+    <string name = "autopayment_screen_dialog_button_ok">Ок</string>
+    <string name = "autopayment_screen_dialog_button_close">Закрыть</string>
+    <string name = "autopayment_screen_error_receipt_id_notfound">Квитанция по ID не найдена</string>
+    <string name = "autopayment_screen_error_agreement_must_have">Необходимо согласие на оплату комиссии</string>
+    <string name = "autopayment_screen_error_card_must_have">Необходимо указать платежную карту</string>
+    <string name = "autopayment_screen_error_receipt_must_have">Необходимо указать квитанцию</string>
+    <string name = "autopayment_screen_error_maxsum_must_have">Необходимо указать максимальную сумму платежа</string>
 
     <!-- HistoryScreen -->
-    <string name="history_payments_tab_title">Платежи</string>
-    <string name="history_values_tab_title">Показания счетчиков</string>
-    <string name="history_filter_menu_filter">Применить фильтр</string>
-    <string name="history_filter_menu_refresh">Обновить список</string>
-    <string name="history_money_format">%,.2f р.</string>
-    <string name="history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
-    <string name="history_empty_text">Ни одной операции пока не было произведено.</string>
-    <string name="history_share_last_data">Последние показания</string>
-    <string name="history_share_header">№ п/п\tАдрес\t№ л/с\tЗаводской № прибора\tТекущие показания\tДата снятия показаний\tВид услуги</string>
-    <string name="history_share_address">Адрес</string>
-    <string name="history_share_date">Дата</string>
-    <string name="history_share_form_date">Дата формирования</string>
-    <string name="history_share_data_not_ready">Данные еще не готовы...</string>
-    <string name="history_share_clipboard_label">ЕРКЦ показания</string>
-    <string name="history_share_copied_to_clipboard">Данные скопированы в буфер обмена</string>
-    <string name="history_share">Отправить...</string>
+    <string name = "history_payments_tab_title">Платежи</string>
+    <string name = "history_values_tab_title">Показания счетчиков</string>
+    <string name = "history_filter_menu_filter">Применить фильтр</string>
+    <string name = "history_filter_menu_refresh">Обновить список</string>
+    <string name = "history_money_format">%,.2f р.</string>
+    <string name = "history_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+    <string name = "history_empty_text">Ни одной операции пока не было произведено.</string>
+    <string name = "history_share_last_data">Последние показания</string>
+    <string name = "history_share_header">№ п/п\tАдрес\t№ л/с\tЗаводской № прибора\tТекущие показания\tДата снятия показаний\tВид услуги</string>
+    <string name = "history_share_address">Адрес</string>
+    <string name = "history_share_date">Дата</string>
+    <string name = "history_share_form_date">Дата формирования</string>
+    <string name = "history_share_data_not_ready">Данные еще не готовы…</string>
+    <string name = "history_share_clipboard_label">ЕРКЦ показания</string>
+    <string name = "history_share_copied_to_clipboard">Данные скопированы в буфер обмена</string>
+    <string name = "history_share">Отправить…</string>
 
     <!-- Transaction -->
-    <string name="transaction_payments_tab_title">Платежи</string>
-    <string name="transaction_values_tab_title">Показания счетчиков</string>
-    <string name="transaction_money_format">%,.2f р.</string>
-    <string name="transaction_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
+    <string name = "transaction_payments_tab_title">Платежи</string>
+    <string name = "transaction_values_tab_title">Показания счетчиков</string>
+    <string name = "transaction_money_format">%,.2f р.</string>
+    <string name = "transaction_commission_format">+%1$,.2f р.(%2$,.2f%%)</string>
 
     <!-- History Value -->
-    <string name="history_value_title">История ИПУ</string>
-    <string name="history_value_period_format" formatted="false">Период: от %s до %s</string>
-    <string name="history_value_barcode_caption">Штрих-код (Вид платежа)</string>
+    <string name = "history_value_title">История ИПУ</string>
+    <string name = "history_value_period_format" formatted = "false">Период: от %s до %s</string>
+    <string name = "history_value_barcode_caption">Штрих-код (Вид платежа)</string>
 
-    <string name="history_value_average">Среднемесячный расход по услуге за период</string>
-    <string name="history_value_total">Общий расход по услуге за период</string>
-    <string name="history_value_ipu_header">Расход по ИПУ за период</string>
+    <string name = "history_value_average">Среднемесячный расход по услуге за период</string>
+    <string name = "history_value_total">Общий расход по услуге за период</string>
+    <string name = "history_value_ipu_header">Расход по ИПУ за период</string>
 
-    <string name="history_value_average_ipu">Среднемесячный</string>
-    <string name="history_value_total_ipu">Общий</string>
+    <string name = "history_value_average_ipu">Среднемесячный</string>
+    <string name = "history_value_total_ipu">Общий</string>
 
-    <string name="history_value_not_available">н/д</string>
+    <string name = "history_value_not_available">н/д</string>
 
-    <string name="history_value_barcode_format" formatted="false">%s (%s)</string>
-    <string name="history_value_item_title" formatted="false">%s (%s, %s)</string>
-    <string name="history_value_water_unit" formatted="false">%s м\u00B3</string>
-    <string name="history_value_electro_unit" formatted="false">%s кВт*ч</string>
+    <string name = "history_value_barcode_format" formatted = "false">%s (%s)</string>
+    <string name = "history_value_item_title" formatted = "false">%s (%s, %s)</string>
+    <string name = "history_value_water_unit" formatted = "false">%s м\u00B3</string>
+    <string name = "history_value_electro_unit" formatted = "false">%s кВт*ч</string>
 
-    <string name="history_value_water_unit_only" formatted="false">м\u00B3</string>
-    <string name="history_value_electro_unit_only" formatted="false">кВт*ч</string>
+    <string name = "history_value_water_unit_only" formatted = "false">м\u00B3</string>
+    <string name = "history_value_electro_unit_only" formatted = "false">кВт*ч</string>
 
-    <string name="history_value_menu_share">Поделиться</string>
-    <string name="history_value_menu_info">Справка</string>
-    <string name="history_value_info_dialog_content">Данные о среднем и общем расходе ресурса за период рассчитаны на основании показаний переданных через приложение, имеют информационный характер и могут быть уточнены у поставщика услуги.</string>
-    <string name="history_value_info_dialog_positive">Понятно</string>
+    <string name = "history_value_menu_share">Поделиться</string>
+    <string name = "history_value_menu_info">Справка</string>
+    <string name = "history_value_info_dialog_content">Данные о среднем и общем расходе ресурса за период рассчитаны на основании показаний переданных через приложение, имеют информационный характер и могут быть уточнены у поставщика услуги.</string>
+    <string name = "history_value_info_dialog_positive">Понятно</string>
 
     <!-- PaymentCheck -->
-    <string name="payment_check_title">Чек</string>
-    <string name="payment_check_permission_denied">Для корректной работы приложения необходим доступ к загрузке файлов</string>
-    <string name="payment_check_error">Дождитесь загрузки файла</string>
-    <string name="payment_check_success_save">Файл успешно сохранен в папке "Загрузки"</string>
-    <string name="payment_check_menu_download">Скачать</string>
-    <string name="payment_check_menu_share">Поделиться</string>
+    <string name = "payment_check_title">Чек</string>
+    <string name = "payment_check_permission_denied">Для корректной работы приложения необходим доступ к загрузке файлов</string>
+    <string name = "payment_check_error">Дождитесь загрузки файла</string>
+    <string name = "payment_check_success_save">Файл успешно сохранен в папке "Загрузки"</string>
+    <string name = "payment_check_menu_download">Скачать</string>
+    <string name = "payment_check_menu_share">Поделиться</string>
 
     <!-- History Filter Screen -->
-    <string name="history_filter_title">Фильтр</string>
-    <string name="history_filter_apply_button">Применить</string>
-    <string name="history_filter_not_selected">Не выбран</string>
-    <string name="history_filter_payment_sum_hint">Сумма платежа</string>
-    <string name="history_filter_payment_type_caption">Вид платежа</string>
-    <string name="history_filter_payment_period_caption">Период платежа</string>
-    <string name="history_filter_payment_method_caption">Способ оплаты</string>
-    <string name="history_filter_install_place_caption">Место установки прибора</string>
-    <string name="history_filter_device_number_caption">Номер прибора</string>
-    <string name="history_filter_transfer_value_period_caption">Период передачи показаний</string>
-    <string name="history_filter_date_from_dialog_title">Период ОТ</string>
-    <string name="history_filter_date_to_dialog_title">Период от %s до…</string>
-    <string name="history_filter_dialog_ok">Ок</string>
-    <string name="history_filter_dialog_cancel">Отмена</string>
+    <string name = "history_filter_title">Фильтр</string>
+    <string name = "history_filter_apply_button">Применить</string>
+    <string name = "history_filter_not_selected">Не выбран</string>
+    <string name = "history_filter_payment_sum_hint">Сумма платежа</string>
+    <string name = "history_filter_payment_type_caption">Вид платежа</string>
+    <string name = "history_filter_payment_period_caption">Период платежа</string>
+    <string name = "history_filter_payment_method_caption">Способ оплаты</string>
+    <string name = "history_filter_install_place_caption">Место установки прибора</string>
+    <string name = "history_filter_device_number_caption">Номер прибора</string>
+    <string name = "history_filter_transfer_value_period_caption">Период передачи показаний</string>
+    <string name = "history_filter_date_from_dialog_title">Период ОТ</string>
+    <string name = "history_filter_date_to_dialog_title">Период от %s до…</string>
+    <string name = "history_filter_dialog_ok">Ок</string>
+    <string name = "history_filter_dialog_cancel">Отмена</string>
 
     <!-- Receipt Types -->
-    <string name="receipt_gku">ЖКУ</string>
-    <string name="receipt_rent">Наем</string>
-    <string name="receipt_water">Водосчетчики</string>
-    <string name="receipt_water_private">Частный сектор</string>
-    <string name="receipt_water_city">Муниципальный сектор</string>
-    <string name="receipt_antenna">Антенна</string>
-    <string name="receipt_domofon">Обслуживание домофона</string>
-    <string name="receipt_other">Прочие услуги</string>
-    <string name="receipt_heat">Отопление и ГВС</string>
-    <string name="receipt_uk_other">УК за прочие услуги</string>
-    <string name="receipt_heat_fine">Пени за отопление и ГВС</string>
-    <string name="receipt_gku_other">ЖКУ прочие</string>
-    <string name="receipt_gku_erkc">ЖКУ ЕРКЦ</string>
-    <string name="receipt_overhaul">КапРемонт</string>
-    <string name="receipt_overhaul_village">КапРемонтДеревни</string>
-    <string name="receipt_overhaul_fine">КапРемПеня</string>
-    <string name="receipt_gku_fine">ЖКУ Пени</string>
-    <string name="receipt_test">Тест</string>
+    <string name = "receipt_gku">ЖКУ</string>
+    <string name = "receipt_rent">Наем</string>
+    <string name = "receipt_water">Водосчетчики</string>
+    <string name = "receipt_water_private">Частный сектор</string>
+    <string name = "receipt_water_city">Муниципальный сектор</string>
+    <string name = "receipt_antenna">Антенна</string>
+    <string name = "receipt_domofon">Обслуживание домофона</string>
+    <string name = "receipt_other">Прочие услуги</string>
+    <string name = "receipt_heat">Отопление и ГВС</string>
+    <string name = "receipt_uk_other">УК за прочие услуги</string>
+    <string name = "receipt_heat_fine">Пени за отопление и ГВС</string>
+    <string name = "receipt_gku_other">ЖКУ прочие</string>
+    <string name = "receipt_gku_erkc">ЖКУ ЕРКЦ</string>
+    <string name = "receipt_overhaul">КапРемонт</string>
+    <string name = "receipt_overhaul_village">КапРемонтДеревни</string>
+    <string name = "receipt_overhaul_fine">КапРемПеня</string>
+    <string name = "receipt_gku_fine">ЖКУ Пени</string>
+    <string name = "receipt_test">Тест</string>
 
     <!-- Payment Methods -->
-    <string name="payment_default">Стандартная оплата</string>
-    <string name="payment_one_click">Оплата в 1 клик</string>
-    <string name="payment_auto">Автоплатеж</string>
+    <string name = "payment_default">Стандартная оплата</string>
+    <string name = "payment_one_click">Оплата в 1 клик</string>
+    <string name = "payment_auto">Автоплатеж</string>
 
     <!-- Transactions -->
-    <string name="transaction_ipu_text">Передать показания</string>
-    <string name="transaction_payment_text">Оплатить</string>
-    <string name="transaction_empty_text">Ни одной транзакции пока не было произведено.</string>
-    <string name="transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
+    <string name = "transaction_ipu_text">Передать показания</string>
+    <string name = "transaction_payment_text">Оплатить</string>
+    <string name = "transaction_empty_text">Ни одной транзакции пока не было произведено.</string>
+    <string name = "transaction_save_to_transaction_help_text">Операция сохранена в Журнал транзакций. Для завершения вашей операции зайдите в Журнал транзакций и выполните отправку в онлайн-режиме</string>
 
     <!-- Notifications -->
-    <string name="notifications_menu_filter">Применить фильтр</string>
-    <string name="notifications_menu_search">Поиск по теме</string>
-    <string name="notifications_search_hint">Введите тему…</string>
-    <string name="notifications_empty_text">Пока не было ни одного уведомления.</string>
+    <string name = "notifications_menu_filter">Применить фильтр</string>
+    <string name = "notifications_menu_search">Поиск по теме</string>
+    <string name = "notifications_search_hint">Введите тему…</string>
+    <string name = "notifications_empty_text">Пока не было ни одного уведомления.</string>
 
     <!-- Notifications filter -->
-    <string name="notifications_filter_title">Фильтр</string>
-    <string name="notifications_filter_read_status">Прочтено</string>
-    <string name="notifications_filter_title_hint">Тема</string>
-    <string name="notifications_filter_message_hint">Текст</string>
-    <string name="notifications_filter_period_hint">Период уведомления</string>
-    <string name="notifications_filter_apply_button">Применить</string>
-    <string name="notifications_filter_date_from_dialog_title">Период ОТ</string>
-    <string name="notifications_filter_date_to_dialog_title">Период от %s до…</string>
+    <string name = "notifications_filter_title">Фильтр</string>
+    <string name = "notifications_filter_read_status">Прочтено</string>
+    <string name = "notifications_filter_title_hint">Тема</string>
+    <string name = "notifications_filter_message_hint">Текст</string>
+    <string name = "notifications_filter_period_hint">Период уведомления</string>
+    <string name = "notifications_filter_apply_button">Применить</string>
+    <string name = "notifications_filter_date_from_dialog_title">Период ОТ</string>
+    <string name = "notifications_filter_date_to_dialog_title">Период от %s до…</string>
 
     <!-- Notification Screen -->
-    <string name="notification_screen_title">Уведомление</string>
-    <string name="notification_screen_delivered_caption">Доставлено</string>
-    <string name="notification_screen_read_caption">Прочтено</string>
-    <string name="notification_screen_loading">неизвестно</string>
+    <string name = "notification_screen_title">Уведомление</string>
+    <string name = "notification_screen_delivered_caption">Доставлено</string>
+    <string name = "notification_screen_read_caption">Прочтено</string>
+    <string name = "notification_screen_loading">неизвестно</string>
 
     <!-- Instructions -->
-    <string name="instructions_scan_icon_text">сканер штрих-кодов</string>
-    <string name="instructions_filter_icon_text">фильтр</string>
+    <string name = "instructions_scan_icon_text">сканер штрих-кодов</string>
+    <string name = "instructions_filter_icon_text">фильтр</string>
 
-    <string name="instruction_registration_and_authorization_title">Инструкция по регистрации и авторизации</string>
-    <string name="instruction_registration_and_authorization_content_1">После загрузки приложения Вы попадаете на «Основной экран». Где Вы имеете возможность передать показания или оплатить квитанции без авторизации в системе (см. инструкции «Передача показаний неавторизованным пользователем» и «Оплата квитанций неавторизованным пользователем») или авторизоваться в системе.</string>
-    <string name="instruction_registration_and_authorization_content_2">Если Вы уже имеете учетную запись в системе, Вам необходимо нажать на кнопку «Войти», после чего будет осуществлен переход на экранную форму ввода логина и пароля. После ввода своих логина и пароля необходимо нажать кнопку «Войти» для осуществления авторизации в системе.</string>
-    <string name="instruction_registration_and_authorization_content_3">Если вдруг Вы забыли свой пароль, то необходимо нажать «Забыли пароль?» внизу экрана. После чего Вы попадете на экран восстановления пароля, где необходимо заполнить свой логин и e-mail адрес, а также ввести код, который Вы увидите на картинке. После нажатия на кнопку «Отправить пароль», будет сброшен текущий пароль, а новый будет отправлен на указанный e-mail адрес.</string>
-    <string name="instruction_registration_and_authorization_content_4">Если у Вас не имеется логина и пароля, то необходимо пройти процедуру регистрации в системе. Для этого нужно нажать кнопку «Регистрация» в главном меню. </string>
-    <string name="instruction_registration_and_authorization_content_5">После этого Вы попадаете на экран с формой регистрации, где нужно заполнить следующие поля: «Логин, пароль, повторите пароль, имя, e-mail», а также ввести защитный код с картинки.</string>
-    <string name="instruction_registration_and_authorization_content_6">При первой авторизации пользователя, с помощью логина и пароля имеется возможность установить «пин код» для быстрой авторизации. Об этом вас оповестит соответствующее уведомление. </string>
-    <string name="instruction_registration_and_authorization_content_7">При нажатии клавиши «Да» откроется окно «Установить PIN код», в котором необходимо дважды ввести PIN.</string>
-    <string name="instruction_registration_and_authorization_content_8">После чего вы попадете в основное меню.</string>
-    <string name="instruction_registration_and_authorization_content_9">В случае если вы ранее отказались от установки PIN кода, вы можете это сделать на странице «Профиль» в основном меню. Перейти на данную страницу можно нажав на поле со своим логином и почтой, как показано ниже:</string>
-    <string name="instruction_registration_and_authorization_content_10">На странице «Профиль» имеется возможность установить, изменить или удалить PIN код для быстрой авторизации.</string>
-
-
-    <string name="instruction_offline_mode_title">Инструкция по работе в офлайн режиме</string>
-    <string name="instruction_offline_mode_content_1">В мобильном приложении ЕРКЦ доступно два режима работы: «Онлайн» или “Офлайн”. Выбор удобного варианта осуществляется в разделе «Настройки» в основном меню.</string>
-    <string name="instruction_offline_mode_content_2">Если вы выбрали режим работы “Онлайн”, то все данные будут передаваться непрерывно и будет доступен полный функционал приложения.</string>
-    <string name="instruction_offline_mode_content_3">Используя режим работы “Офлайн”, необходимо помнить, что передача внесенных изменений и данных будет осуществлена при подключении к интернету и отключении режима «Онлайн»</string>
-    <string name="instruction_offline_mode_content_4">Для выбора режима работы: \nПерейдите в раздел «Настройки» в основном меню мобильного приложения.</string>
-    <string name="instruction_offline_mode_content_5">На открывшейся странице перетащите бегунок вправо для включения режима «Офлайн» или влево для его выключения.</string>
-    <string name="instruction_offline_mode_content_6">При включении режима «Офлайн» в меню появится дополнительная опция «Офлайн пароль», которая позволяет установить пароль на данный режим работы для исключения несанкционированного доступа к данным. Это можно сделать путем нажатия кнопки «Установить»</string>
-    <string name="instruction_offline_mode_content_7">После нажатия кнопки «Установить» откроется меню, в котором необходимо дважды ввести пароль. Рекомендуем использовать сложные пароли для более надежной защиты.</string>
-    <string name="instruction_offline_mode_content_8">При следующем запуске приложения в режиме «Офлайн» Вам будет предложено авторизоваться с помощью офлайн пароля. </string>
-    <string name="instruction_offline_mode_content_9">При нажатии кнопки «Да» на предыдущем экране, Вы попадете в меню, где необходимо ввести свой действующий логин и офлайн пароль. После чего произойдет стандартный вход в систему.</string>
-    <string name="instruction_offline_mode_content_10">«Офлайн» режим позволяет заранее создавать транзакции (оплата или передача показаний). Создание соответствующих транзакций описано в инструкциях: «Передача показаний авторизированным пользователем» и «Оплата квитанции авторизированным пользователем. До подключения интернета и отключения режима «Офлайн» все транзакции заносятся в журнал транзакций. Они хранятся как черновики и их можно провести после подключения к интернету и отключения режима «Офлайн».</string>
+    <string name = "instruction_registration_and_authorization_title">Инструкция по регистрации и авторизации</string>
+    <string name = "instruction_registration_and_authorization_content_1">После загрузки приложения Вы попадаете на «Основной экран». Где Вы имеете возможность передать показания или оплатить квитанции без авторизации в системе (см. инструкции «Передача показаний неавторизованным пользователем» и «Оплата квитанций неавторизованным пользователем») или авторизоваться в системе.</string>
+    <string name = "instruction_registration_and_authorization_content_2">Если Вы уже имеете учетную запись в системе, Вам необходимо нажать на кнопку «Войти», после чего будет осуществлен переход на экранную форму ввода логина и пароля. После ввода своих логина и пароля необходимо нажать кнопку «Войти» для осуществления авторизации в системе.</string>
+    <string name = "instruction_registration_and_authorization_content_3">Если вдруг Вы забыли свой пароль, то необходимо нажать «Забыли пароль?» внизу экрана. После чего Вы попадете на экран восстановления пароля, где необходимо заполнить свой логин и e-mail адрес, а также ввести код, который Вы увидите на картинке. После нажатия на кнопку «Отправить пароль», будет сброшен текущий пароль, а новый будет отправлен на указанный e-mail адрес.</string>
+    <string name = "instruction_registration_and_authorization_content_4">Если у Вас не имеется логина и пароля, то необходимо пройти процедуру регистрации в системе. Для этого нужно нажать кнопку «Регистрация» в главном меню. </string>
+    <string name = "instruction_registration_and_authorization_content_5">После этого Вы попадаете на экран с формой регистрации, где нужно заполнить следующие поля: «Логин, пароль, повторите пароль, имя, e-mail», а также ввести защитный код с картинки.</string>
+    <string name = "instruction_registration_and_authorization_content_6">При первой авторизации пользователя, с помощью логина и пароля имеется возможность установить «пин код» для быстрой авторизации. Об этом вас оповестит соответствующее уведомление. </string>
+    <string name = "instruction_registration_and_authorization_content_7">При нажатии клавиши «Да» откроется окно «Установить PIN код», в котором необходимо дважды ввести PIN.</string>
+    <string name = "instruction_registration_and_authorization_content_8">После чего вы попадете в основное меню.</string>
+    <string name = "instruction_registration_and_authorization_content_9">В случае если вы ранее отказались от установки PIN кода, вы можете это сделать на странице «Профиль» в основном меню. Перейти на данную страницу можно нажав на поле со своим логином и почтой, как показано ниже:</string>
+    <string name = "instruction_registration_and_authorization_content_10">На странице «Профиль» имеется возможность установить, изменить или удалить PIN код для быстрой авторизации.</string>
 
 
-    <string name="instruction_send_values_non_auth_title">Передача показаний неавторизованным пользователем</string>
-    <string name="instruction_send_values_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
-    <string name="instruction_send_values_non_auth_content_2">2. Проставьте галочку «Передать показания ИПУ» и нажмите кнопку «Продолжить».</string>
-    <string name="instruction_send_values_non_auth_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
+    <string name = "instruction_offline_mode_title">Инструкция по работе в офлайн режиме</string>
+    <string name = "instruction_offline_mode_content_1">В мобильном приложении ЕРКЦ доступно два режима работы: «Онлайн» или “Офлайн”. Выбор удобного варианта осуществляется в разделе «Настройки» в основном меню.</string>
+    <string name = "instruction_offline_mode_content_2">Если вы выбрали режим работы “Онлайн”, то все данные будут передаваться непрерывно и будет доступен полный функционал приложения.</string>
+    <string name = "instruction_offline_mode_content_3">Используя режим работы “Офлайн”, необходимо помнить, что передача внесенных изменений и данных будет осуществлена при подключении к интернету и отключении режима «Онлайн»</string>
+    <string name = "instruction_offline_mode_content_4">Для выбора режима работы: \nПерейдите в раздел «Настройки» в основном меню мобильного приложения.</string>
+    <string name = "instruction_offline_mode_content_5">На открывшейся странице перетащите бегунок вправо для включения режима «Офлайн» или влево для его выключения.</string>
+    <string name = "instruction_offline_mode_content_6">При включении режима «Офлайн» в меню появится дополнительная опция «Офлайн пароль», которая позволяет установить пароль на данный режим работы для исключения несанкционированного доступа к данным. Это можно сделать путем нажатия кнопки «Установить»</string>
+    <string name = "instruction_offline_mode_content_7">После нажатия кнопки «Установить» откроется меню, в котором необходимо дважды ввести пароль. Рекомендуем использовать сложные пароли для более надежной защиты.</string>
+    <string name = "instruction_offline_mode_content_8">При следующем запуске приложения в режиме «Офлайн» Вам будет предложено авторизоваться с помощью офлайн пароля. </string>
+    <string name = "instruction_offline_mode_content_9">При нажатии кнопки «Да» на предыдущем экране, Вы попадете в меню, где необходимо ввести свой действующий логин и офлайн пароль. После чего произойдет стандартный вход в систему.</string>
+    <string name = "instruction_offline_mode_content_10">«Офлайн» режим позволяет заранее создавать транзакции (оплата или передача показаний). Создание соответствующих транзакций описано в инструкциях: «Передача показаний авторизированным пользователем» и «Оплата квитанции авторизированным пользователем. До подключения интернета и отключения режима «Офлайн» все транзакции заносятся в журнал транзакций. Они хранятся как черновики и их можно провести после подключения к интернету и отключения режима «Офлайн».</string>
 
-    <string name="instruction_payment_non_auth_title">Оплата квитанций неавторизованным пользователем</string>
-    <string name="instruction_payment_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически</string>
-    <string name="instruction_payment_non_auth_content_2">2. Нажмите кнопку «Продолжить».</string>
-    <string name="instruction_payment_non_auth_content_3">3. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
-    <string name="instruction_payment_non_auth_content_4">4. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
-    <string name="instruction_payment_non_auth_content_5">5. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
-    <string name="instruction_payment_non_auth_content_6">6. Нажмите кнопку «Продолжить»</string>
-    <string name="instruction_payment_non_auth_content_7">7. Вы перешли на сайт эквайринговой компании</string>
-    <string name="instruction_payment_non_auth_content_8">8. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
-    <string name="instruction_payment_non_auth_content_9">9. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_payment_non_auth_content_10">10. Оплата отправлена на обработку</string>
 
-    <string name="instruction_payment_add_receipt_title">Добавление квитанции авторизованным пользователем через оплату квитанции</string>
-    <string name="instruction_payment_add_receipt_content_1">1. Если Вы первый раз вошли в приложение, то введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
-    <string name="instruction_payment_add_receipt_content_2">2. Если у Вас уже имеются квитанции, то на основном экране или экране «Оплата» нажмите «+» в правом верхнем углу экрана. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
-    <string name="instruction_payment_add_receipt_content_3">3. Нажмите кнопку «Продолжить».</string>
-    <string name="instruction_payment_add_receipt_content_4">4. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
-    <string name="instruction_payment_add_receipt_content_5">5. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
-    <string name="instruction_payment_add_receipt_content_6">6. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
-    <string name="instruction_payment_add_receipt_content_7">7. Нажмите кнопку «Продолжить»</string>
-    <string name="instruction_payment_add_receipt_content_8">8. Вы перешли на сайт эквайринговой компании</string>
-    <string name="instruction_payment_add_receipt_content_9">9. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
-    <string name="instruction_payment_add_receipt_content_10">10. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_payment_add_receipt_content_11">11. Оплата отправлена на обработку, квитанция добавлена в приложение</string>
+    <string name = "instruction_send_values_non_auth_title">Передача показаний неавторизованным пользователем</string>
+    <string name = "instruction_send_values_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name = "instruction_send_values_non_auth_content_2">2. Проставьте галочку «Передать показания ИПУ» и нажмите кнопку «Продолжить».</string>
+    <string name = "instruction_send_values_non_auth_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
 
-    <string name="instruction_send_values_add_receipt_title">Добавление квитанции авторизованным пользователем через передачу показаний</string>
-    <string name="instruction_send_values_add_receipt_content_1">1. Если Вы первый раз вошли в приложение, то введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
-    <string name="instruction_send_values_add_receipt_content_2">2. Проставьте галочку «Передать показания ИПУ» и нажмите кнопку «Продолжить».</string>
-    <string name="instruction_send_values_add_receipt_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
-    <string name="instruction_send_values_add_receipt_content_4">4. Показания переданы</string>
+    <string name = "instruction_payment_non_auth_title">Оплата квитанций неавторизованным пользователем</string>
+    <string name = "instruction_payment_non_auth_content_1">1. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически</string>
+    <string name = "instruction_payment_non_auth_content_2">2. Нажмите кнопку «Продолжить».</string>
+    <string name = "instruction_payment_non_auth_content_3">3. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
+    <string name = "instruction_payment_non_auth_content_4">4. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
+    <string name = "instruction_payment_non_auth_content_5">5. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
+    <string name = "instruction_payment_non_auth_content_6">6. Нажмите кнопку «Продолжить»</string>
+    <string name = "instruction_payment_non_auth_content_7">7. Вы перешли на сайт эквайринговой компании</string>
+    <string name = "instruction_payment_non_auth_content_8">8. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
+    <string name = "instruction_payment_non_auth_content_9">9. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_payment_non_auth_content_10">10. Оплата отправлена на обработку</string>
 
-    <string name="instruction_send_values_title">Передача показаний авторизованным пользователем</string>
-    <string name="instruction_send_values_content_1">1. На основном экране или экране «Передача показаний ИПУ» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
-    <string name="instruction_send_values_content_2">2. Нажмите кнопку «Передать показания»</string>
-    <string name="instruction_send_values_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
-    <string name="instruction_send_values_content_4">4. Чтобы добавить новую квитанции нажмите «+»</string>
-    <string name="instruction_send_values_content_5">5. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+    <string name = "instruction_payment_add_receipt_title">Добавление квитанции авторизованным пользователем через оплату квитанции</string>
+    <string name = "instruction_payment_add_receipt_content_1">1. Если Вы первый раз вошли в приложение, то введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name = "instruction_payment_add_receipt_content_2">2. Если у Вас уже имеются квитанции, то на основном экране или экране «Оплата» нажмите «+» в правом верхнем углу экрана. Введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name = "instruction_payment_add_receipt_content_3">3. Нажмите кнопку «Продолжить».</string>
+    <string name = "instruction_payment_add_receipt_content_4">4. На экране оплаты введите сумму к зачислению в счет оплаты за услуги\nВнимание! При наличии дополнительной комиссии за совершение платежа, сумма списания с карты будет больше суммы к зачислению на сумму комиссии</string>
+    <string name = "instruction_payment_add_receipt_content_5">5. Укажите адрес Вашего e-mail – на него придёт уведомление о зачислении платежа</string>
+    <string name = "instruction_payment_add_receipt_content_6">6. Проставьте галочку с подтверждением оплаты комиссии, при ее наличии</string>
+    <string name = "instruction_payment_add_receipt_content_7">7. Нажмите кнопку «Продолжить»</string>
+    <string name = "instruction_payment_add_receipt_content_8">8. Вы перешли на сайт эквайринговой компании</string>
+    <string name = "instruction_payment_add_receipt_content_9">9. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
+    <string name = "instruction_payment_add_receipt_content_10">10. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_payment_add_receipt_content_11">11. Оплата отправлена на обработку, квитанция добавлена в приложение</string>
 
-    <string name="instruction_payment_title">Оплата квитанций авторизованным пользователем</string>
-    <string name="instruction_payment_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
-    <string name="instruction_payment_content_2">2. Нажмите кнопку «Оплатить»</string>
-    <string name="instruction_payment_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
-    <string name="instruction_payment_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
-    <string name="instruction_payment_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
-    <string name="instruction_payment_content_6">6. Вы перешли на сайт эквайринговой компании</string>
-    <string name="instruction_payment_content_7">7. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
-    <string name="instruction_payment_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_payment_content_9">9. Оплата отправлена на обработку</string>
-    <string name="instruction_payment_content_10">10. Чтобы добавить новую квитанции нажмите «+» в правом верхнем углу экрана</string>
-    <string name="instruction_payment_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+    <string name = "instruction_send_values_add_receipt_title">Добавление квитанции авторизованным пользователем через передачу показаний</string>
+    <string name = "instruction_send_values_add_receipt_content_1">1. Если Вы первый раз вошли в приложение, то введите штрих-код и адрес, которые указаны в Вашей квитанции или воспользуйтесь сканером штрих-кодов, в этом случае поля штрих-кода и адреса заполнятся автоматически.</string>
+    <string name = "instruction_send_values_add_receipt_content_2">2. Проставьте галочку «Передать показания ИПУ» и нажмите кнопку «Продолжить».</string>
+    <string name = "instruction_send_values_add_receipt_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
+    <string name = "instruction_send_values_add_receipt_content_4">4. Показания переданы</string>
 
-    <string name="instruction_payments_with_cards_title">Оплата квитанций авторизованным пользователем при наличии активированной банковской карты</string>
-    <string name="instruction_payments_with_cards_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
-    <string name="instruction_payments_with_cards_content_2">2. Нажмите кнопку «Оплатить»</string>
-    <string name="instruction_payments_with_cards_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
-    <string name="instruction_payments_with_cards_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
-    <string name="instruction_payments_with_cards_content_5">5. Выберите карту, которой Вы будете выполнять платёж</string>
-    <string name="instruction_payments_with_cards_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
-    <string name="instruction_payments_with_cards_content_7">7. В окне подтверждения оплаты нажмите «ОК»</string>
-    <string name="instruction_payments_with_cards_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_payments_with_cards_content_9">9. Оплата отправлена на обработку</string>
-    <string name="instruction_payments_with_cards_content_10">10. Чтобы добавить новую квитанции нажмите «+» в правом верхнем углу экрана</string>
-    <string name="instruction_payments_with_cards_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+    <string name = "instruction_send_values_title">Передача показаний авторизованным пользователем</string>
+    <string name = "instruction_send_values_content_1">1. На основном экране или экране «Передача показаний ИПУ» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
+    <string name = "instruction_send_values_content_2">2. Нажмите кнопку «Передать показания»</string>
+    <string name = "instruction_send_values_content_3">3. На экране ввода показаний введите текущие показания Ваших счетчиков и нажмите кнопку «Передать показания»</string>
+    <string name = "instruction_send_values_content_4">4. Чтобы добавить новую квитанции нажмите «+»</string>
+    <string name = "instruction_send_values_content_5">5. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
 
-    <string name="instruction_cards_title">Работа с банковской картой</string>
-    <string name="instruction_cards_content_1">1. Для добавления новой карты на экране, в правом верхнем углу экрана «Мои карты» нажмите «+»</string>
-    <string name="instruction_cards_content_2">2. Задайте наименование Вашей карте и нажмите на клавиатуре «OK»</string>
-    <string name="instruction_cards_content_3">3. Вы перешли на сайт эквайринговой компании для регистрации Вашей банковской карты в системе «Рекуррентный платеж»</string>
-    <string name="instruction_cards_content_4">4. Введите требуемые данные Вашей банковской карты и нажмите «Подтвердить»</string>
-    <string name="instruction_cards_content_5">5. Внимание, при прохождении процедуры регистрации и активации банковской карты произойдет тестовое списание и возвращение назад незначительной суммы. Это необходимо для безопасной оплаты и защиты ваших средств от злоумышленников. Об этом вас уведомит соответствующее сообщение на экране:</string>
-    <string name="instruction_cards_content_6">6. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_cards_content_7">7. Если регистрация прошла успешно, то нажмите на Вашей карте на кнопку «Активировать»\nЕсли регистрация не удалась, проверьте правильность введенных данных или попробуйте повторить попытку позже</string>
-    <string name="instruction_cards_content_8">8. Вы перешли на сайт эквайринговой компании для активации Вашей банковской карты</string>
-    <string name="instruction_cards_content_9">9. Введите требуемые данные Вашей банковской карты и нажмите «Подтвердить»</string>
-    <string name="instruction_cards_content_10">10. По окончании операции, нажмите кнопку «Готово»</string>
-    <string name="instruction_cards_content_11">11. Ваша банковская карта активирована</string>
-    <string name="instruction_cards_content_12">12. Чтобы удалить карту из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
+    <string name = "instruction_payment_title">Оплата квитанций авторизованным пользователем</string>
+    <string name = "instruction_payment_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
+    <string name = "instruction_payment_content_2">2. Нажмите кнопку «Оплатить»</string>
+    <string name = "instruction_payment_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
+    <string name = "instruction_payment_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
+    <string name = "instruction_payment_content_5">5. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить».</string>
+    <string name = "instruction_payment_content_6">6. Вы перешли на сайт эквайринговой компании</string>
+    <string name = "instruction_payment_content_7">7. Введите требуемые данные Вашей банковской карты и нажмите «Оплатить»</string>
+    <string name = "instruction_payment_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_payment_content_9">9. Оплата отправлена на обработку</string>
+    <string name = "instruction_payment_content_10">10. Чтобы добавить новую квитанции нажмите «+» в правом верхнем углу экрана</string>
+    <string name = "instruction_payment_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
 
-    <string name="instruction_auto_payments_title">Настройка автоплатежа</string>
-    <string name="instruction_auto_payments_content_0">Данная функция доступна пользователям, у которых добавлена карта для оплаты.</string>
-    <string name="instruction_auto_payments_content_1">1. Для добавления опции автоплатежа к квитанции, в правом верхнем углу экрана Автоплатежи, нажмите «+»</string>
-    <string name="instruction_auto_payments_content_2">2. В открывшемся экране выберите тип платежа: «Автоплатеж» или «Оплата в 1 клик».\nАвтоплатеж позволяет выполнять оплату услуг без Вашего участия\nОплата в 1 клик позволяет связать выбранную квитанцию с выбранной банковской картой, чтобы в дальнейшем оплачивать данную квитанцию без необходимости ввода реквизитов данной карты</string>
-    <string name="instruction_auto_payments_content_3">3. Выберите квитанцию, к которой Вы хотите применить выбранную опцию. Выбрать можно только из тех квитанций, по которым ранее проводились операции через приложение и к которым в данный момент не применены ни автоплатеж, ни оплата в 1 клик.</string>
-    <string name="instruction_auto_payments_content_4">4. Выберите банковскую карту, с которой можно выполнять списание средств. Карта должна иметь статус «Активирована»</string>
-    <string name="instruction_auto_payments_content_5">5. Для автоплатежа укажите максимальную сумму платежа, которую можно будет списать с указанной банковской карты</string>
-    <string name="instruction_auto_payments_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
-    <string name="instruction_auto_payments_content_7">7. К выбранной Вами квитанции добавлена опция автоплатежа.</string>
-    <string name="instruction_auto_payments_content_8">8. Чтобы удалить опцию автоплатежа у квитанции, передвиньте карточку автоплатежа или оплаты в 1 клик влево и нажмите на красную кнопку</string>
+    <string name = "instruction_payments_with_cards_title">Оплата квитанций авторизованным пользователем при наличии активированной банковской карты</string>
+    <string name = "instruction_payments_with_cards_content_1">1. На основном экране или экране «Оплата» в списке квитанций найдите карточку своей квитанции. Например, по штрих-коду</string>
+    <string name = "instruction_payments_with_cards_content_2">2. Нажмите кнопку «Оплатить»</string>
+    <string name = "instruction_payments_with_cards_content_3">3. На экране оплаты введите сумму, которую Вы готовы оплатить</string>
+    <string name = "instruction_payments_with_cards_content_4">4. Проверьте адрес Вашего e-mail – на него придёт уведомление о зачислении платежа. При необходимости, Вы можете изменить адрес Вашего e-mail</string>
+    <string name = "instruction_payments_with_cards_content_5">5. Выберите карту, которой Вы будете выполнять платёж</string>
+    <string name = "instruction_payments_with_cards_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
+    <string name = "instruction_payments_with_cards_content_7">7. В окне подтверждения оплаты нажмите «ОК»</string>
+    <string name = "instruction_payments_with_cards_content_8">8. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_payments_with_cards_content_9">9. Оплата отправлена на обработку</string>
+    <string name = "instruction_payments_with_cards_content_10">10. Чтобы добавить новую квитанции нажмите «+» в правом верхнем углу экрана</string>
+    <string name = "instruction_payments_with_cards_content_11">11. Чтобы удалить квитанцию из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
 
-    <string name="instruction_history_payment_title">История операций / платежи</string>
-    <string name="instruction_history_payment_content_1">1. На вкладке «Платежи» отображаются все платежи, совершенные пользователем в авторизованном режиме работы. Список сгруппирован по адресу и отсортирован по убыванию даты совершения платежа</string>
-    <string name="instruction_history_payment_content_2">2. Чтобы ознакомиться с платежом подробнее, нажмите на любую совершенную операцию из списка</string>
-    <string name="instruction_history_payment_content_3">3. На открывшемся экране платежа отображается подробная информация о совершенном платеже</string>
-    <string name="instruction_history_payment_content_4">4. Чтобы повторно выполнить платеж, нажмите на кнопку «Повторить»</string>
-    <string name="instruction_history_payment_content_5">5. Чтобы посмотреть чек совершенного платежа, нажмите на кнопку «Получить чек». Полученный файл можно сохранить себе на устройство или поделиться им, доступными способами.</string>
-    <string name="instruction_history_payment_content_6">6. Чтобы выйти из экрана платежа, нажмите крестик в верхнем левом углу.</string>
-    <string name="instruction_history_payment_content_7">7. Для поиска по платежам можно воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку «Применить».</string>
+    <string name = "instruction_cards_title">Работа с банковской картой</string>
+    <string name = "instruction_cards_content_1">1. Для добавления новой карты на экране, в правом верхнем углу экрана «Мои карты» нажмите «+»</string>
+    <string name = "instruction_cards_content_2">2. Задайте наименование Вашей карте и нажмите на клавиатуре «OK»</string>
+    <string name = "instruction_cards_content_3">3. Вы перешли на сайт эквайринговой компании для регистрации Вашей банковской карты в системе «Рекуррентный платеж»</string>
+    <string name = "instruction_cards_content_4">4. Введите требуемые данные Вашей банковской карты и нажмите «Подтвердить»</string>
+    <string name = "instruction_cards_content_5">5. Внимание, при прохождении процедуры регистрации и активации банковской карты произойдет тестовое списание и возвращение назад незначительной суммы. Это необходимо для безопасной оплаты и защиты ваших средств от злоумышленников. Об этом вас уведомит соответствующее сообщение на экране:</string>
+    <string name = "instruction_cards_content_6">6. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_cards_content_7">7. Если регистрация прошла успешно, то нажмите на Вашей карте на кнопку «Активировать»\nЕсли регистрация не удалась, проверьте правильность введенных данных или попробуйте повторить попытку позже</string>
+    <string name = "instruction_cards_content_8">8. Вы перешли на сайт эквайринговой компании для активации Вашей банковской карты</string>
+    <string name = "instruction_cards_content_9">9. Введите требуемые данные Вашей банковской карты и нажмите «Подтвердить»</string>
+    <string name = "instruction_cards_content_10">10. По окончании операции, нажмите кнопку «Готово»</string>
+    <string name = "instruction_cards_content_11">11. Ваша банковская карта активирована</string>
+    <string name = "instruction_cards_content_12">12. Чтобы удалить карту из списка, передвиньте карточку влево и нажмите на красную кнопку</string>
 
-    <string name="instruction_history_send_value_title">История операций / показания счетчиков</string>
-    <string name="instruction_history_send_value_content_1">1. На вкладке «Показания счетчиков» отображаются показания, переданные через приложение. Список сгруппирован по адресу и отсортирован по убыванию даты отправки показаний.</string>
-    <string name="instruction_history_send_value_content_2">2. Чтобы ознакомиться с переданными показаниями подробнее, нажмите на любую совершенную операцию из списка.</string>
-    <string name="instruction_history_send_value_content_3">3. На открывшемся экране показаний отображается подробная информация о переданных показаниях по используемой услуге, средний расход в месяц, общий расход</string>
-    <string name="instruction_history_send_value_content_4">4. Чтобы посмотреть статистику за определенный период, по прибору учёта или месту установки прибора учета, Вы можете воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку «Применить».</string>
+    <string name = "instruction_auto_payments_title">Настройка автоплатежа</string>
+    <string name = "instruction_auto_payments_content_0">Данная функция доступна пользователям, у которых добавлена карта для оплаты.</string>
+    <string name = "instruction_auto_payments_content_1">1. Для добавления опции автоплатежа к квитанции, в правом верхнем углу экрана Автоплатежи, нажмите «+»</string>
+    <string name = "instruction_auto_payments_content_2">2. В открывшемся экране выберите тип платежа: «Автоплатеж» или «Оплата в 1 клик».\nАвтоплатеж позволяет выполнять оплату услуг без Вашего участия\nОплата в 1 клик позволяет связать выбранную квитанцию с выбранной банковской картой, чтобы в дальнейшем оплачивать данную квитанцию без необходимости ввода реквизитов данной карты</string>
+    <string name = "instruction_auto_payments_content_3">3. Выберите квитанцию, к которой Вы хотите применить выбранную опцию. Выбрать можно только из тех квитанций, по которым ранее проводились операции через приложение и к которым в данный момент не применены ни автоплатеж, ни оплата в 1 клик.</string>
+    <string name = "instruction_auto_payments_content_4">4. Выберите банковскую карту, с которой можно выполнять списание средств. Карта должна иметь статус «Активирована»</string>
+    <string name = "instruction_auto_payments_content_5">5. Для автоплатежа укажите максимальную сумму платежа, которую можно будет списать с указанной банковской карты</string>
+    <string name = "instruction_auto_payments_content_6">6. Проставьте галочку с подтверждением оплаты комиссии и нажмите кнопку «Продолжить»</string>
+    <string name = "instruction_auto_payments_content_7">7. К выбранной Вами квитанции добавлена опция автоплатежа.</string>
+    <string name = "instruction_auto_payments_content_8">8. Чтобы удалить опцию автоплатежа у квитанции, передвиньте карточку автоплатежа или оплаты в 1 клик влево и нажмите на красную кнопку</string>
 
-    <string name="instruction_notifications_title">Уведомления</string>
-    <string name="instruction_notifications_content_1">1. На данном экране доступны для чтения все полученные уведомления в обратном хронологическом порядке</string>
-    <string name="instruction_notifications_content_2">2. Чтобы ознакомиться с полученным уведомлением подробнее, нажмите на любое уведомление из списка</string>
-    <string name="instruction_notifications_content_3">3. Чтобы настроить  получаемые уведомления, перейдите на экран Настройки. Здесь Вы можете включить или отключить получение уведомлений</string>
+    <string name = "instruction_history_payment_title">История операций / платежи</string>
+    <string name = "instruction_history_payment_content_1">1. На вкладке «Платежи» отображаются все платежи, совершенные пользователем в авторизованном режиме работы. Список сгруппирован по адресу и отсортирован по убыванию даты совершения платежа</string>
+    <string name = "instruction_history_payment_content_2">2. Чтобы ознакомиться с платежом подробнее, нажмите на любую совершенную операцию из списка</string>
+    <string name = "instruction_history_payment_content_3">3. На открывшемся экране платежа отображается подробная информация о совершенном платеже</string>
+    <string name = "instruction_history_payment_content_4">4. Чтобы повторно выполнить платеж, нажмите на кнопку «Повторить»</string>
+    <string name = "instruction_history_payment_content_5">5. Чтобы посмотреть чек совершенного платежа, нажмите на кнопку «Получить чек». Полученный файл можно сохранить себе на устройство или поделиться им, доступными способами.</string>
+    <string name = "instruction_history_payment_content_6">6. Чтобы выйти из экрана платежа, нажмите крестик в верхнем левом углу.</string>
+    <string name = "instruction_history_payment_content_7">7. Для поиска по платежам можно воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку «Применить».</string>
+
+    <string name = "instruction_history_send_value_title">История операций / показания счетчиков</string>
+    <string name = "instruction_history_send_value_content_1">1. На вкладке «Показания счетчиков» отображаются показания, переданные через приложение. Список сгруппирован по адресу и отсортирован по убыванию даты отправки показаний.</string>
+    <string name = "instruction_history_send_value_content_2">2. Чтобы ознакомиться с переданными показаниями подробнее, нажмите на любую совершенную операцию из списка.</string>
+    <string name = "instruction_history_send_value_content_3">3. На открывшемся экране показаний отображается подробная информация о переданных показаниях по используемой услуге, средний расход в месяц, общий расход</string>
+    <string name = "instruction_history_send_value_content_4">4. Чтобы посмотреть статистику за определенный период, по прибору учёта или месту установки прибора учета, Вы можете воспользоваться фильтром. Нажмите значок фильтра в верхнем правом углу и укажите параметры поиска. Нажмите кнопку «Применить».</string>
+
+    <string name = "instruction_notifications_title">Уведомления</string>
+    <string name = "instruction_notifications_content_1">1. На данном экране доступны для чтения все полученные уведомления в обратном хронологическом порядке</string>
+    <string name = "instruction_notifications_content_2">2. Чтобы ознакомиться с полученным уведомлением подробнее, нажмите на любое уведомление из списка</string>
+    <string name = "instruction_notifications_content_3">3. Чтобы настроить  получаемые уведомления, перейдите на экран Настройки. Здесь Вы можете включить или отключить получение уведомлений</string>
 
     <!-- Fast Auth -->
-    <string name="fast_auth_title">Быстрая авторизация</string>
-    <string name="pin_suggest_dialog_message">Хотите установить пин код для быстрой авторизации?</string>
-    <string name="fingerprint_suggest_dialog_message">Разрешить использовать отпечаток пальца для авторизации?</string>
-    <string name="fingerprint_not_match">Отпечаток не распознан</string>
-    <string name="fingerprint_failed">Ошибка распознования. Используйте PIN код</string>
-    <string name="fast_auth_menu_text">Меню</string>
-    <string name="fast_auth_menu_change_user_text">Сменить пользователя</string>
-    <string name="fast_auth_pin_attemp_error_text">Вы ввели неверный пин код три раза. Дальнейшая авторизация возможна только с помощью логина и пароля</string>
-
-
+    <string name = "fast_auth_title">Быстрая авторизация</string>
+    <string name = "pin_suggest_dialog_message">Хотите установить пин код для быстрой авторизации?</string>
+    <string name = "fingerprint_suggest_dialog_message">Разрешить использовать отпечаток пальца для авторизации?</string>
+    <string name = "fingerprint_not_match">Отпечаток не распознан</string>
+    <string name = "fingerprint_failed">Ошибка распознования. Используйте PIN код</string>
+    <string name = "fast_auth_menu_text">Меню</string>
+    <string name = "fast_auth_menu_change_user_text">Сменить пользователя</string>
+    <string name = "fast_auth_pin_attemp_error_text">Вы ввели неверный пин код три раза. Дальнейшая авторизация возможна только с помощью логина и пароля</string>
 
 
     <!--Shared Prefs-->
-    <string name="secure_prefs_filename">prefs.xml</string>
-    <string name="user_pin_key">UserPinKey</string>
-    <string name="auth_token_key">AuthToken</string>
-    <string name="use_fingerprint_key">UseFingerprint</string>
-    <string name="fail_attemps_count_key">FailAttempsCount</string>
-    <string name="fail_attemps_message_key">FailAttempsMessage</string>
+    <string name = "secure_prefs_filename">prefs.xml</string>
+    <string name = "user_pin_key">UserPinKey</string>
+    <string name = "auth_token_key">AuthToken</string>
+    <string name = "use_fingerprint_key">UseFingerprint</string>
+    <string name = "fail_attemps_count_key">FailAttempsCount</string>
+    <string name = "fail_attemps_message_key">FailAttempsMessage</string>
 
-    <string name="ok_ipu_sended">Данные успешно переданы и сохранены в Истории показаний.</string>
-    <string name="pinlock_title">Введите PIN код</string>
-    <string name="pinlock_fingerprint">Использовать отпечаток пальца</string>
-    <string name="pinlock_set_title">Установить PIN код</string>
-    <string name="pinlock_change_title">Сменить PIN код</string>
-    <string name="pinlock_delete_title">Удалить PIN код</string>
-    <string name="pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
-    <string name="pinlock_tryagain">PIN код не совпадает</string>
-    <string name="pinlock_secondPin">Введите PIN код ещё раз</string>
+    <string name = "ok_ipu_sended">Данные успешно переданы и сохранены в Истории показаний.</string>
+    <string name = "pinlock_title">Введите PIN код</string>
+    <string name = "pinlock_fingerprint">Использовать отпечаток пальца</string>
+    <string name = "pinlock_set_title">Установить PIN код</string>
+    <string name = "pinlock_change_title">Сменить PIN код</string>
+    <string name = "pinlock_delete_title">Удалить PIN код</string>
+    <string name = "pinlock_wrongpin">Неверный PIN код. Попробуйте ещё раз</string>
+    <string name = "pinlock_tryagain">PIN код не совпадает</string>
+    <string name = "pinlock_secondPin">Введите PIN код ещё раз</string>
 
 
     <!-- Add user IPU screen -->
-    <string name="user_ipu_title">@string/user_ipu_add_mode</string>
-    <string name="user_ipu_hint_number">Заводской номер ИПУ</string>
-    <string name="user_ipu_hint_location">Место установки ИПУ</string>
-    <string name="user_ipu_hint_service_name">Вид услуги</string>
-    <string name="user_ipu_hint_brand">Марка прибора учета</string>
-    <string name="user_ipu_hint_model">Модель прибора учета</string>
-    <string name="user_ipu_hint_check_interval">Межповерочный интервал ИПУ</string>
-    <string name="user_ipu_hint_type">Тип прибора учета</string>
-    <string name="user_ipu_hint_type_tariff">Тип прибора учета по тарифным зонам</string>
-    <string name="user_ipu_hint_begin_date">Дата ввода в эксплуатацию</string>
-    <string name="user_ipu_hint_install_date">Дата установки</string>
-    <string name="user_ipu_hint_next_check_date">Дата следующей поверки ИПУ</string>
-    <string name="user_ipu_hint_status">Статус прибора учета</string>
-    <string name="user_ipu_commit">Добавить</string>
-    <string name="user_ipu_commit_save">Сохранить</string>
-    <string name="user_ipu_delete">Удалить</string>
-    <string name="user_ipu_add_mode">Ввод данных ИПУ</string>
-    <string name="user_ipu_edit_mode">Изменение ИПУ</string>
-    <string name="user_ipu_ask_delete">Удалить данные об ИПУ?</string>
+    <string name = "user_ipu_title">@string/user_ipu_add_mode</string>
+    <string name = "user_ipu_hint_number">Заводской номер ИПУ</string>
+    <string name = "user_ipu_hint_location">Место установки ИПУ</string>
+    <string name = "user_ipu_hint_service_name">Вид услуги</string>
+    <string name = "user_ipu_hint_brand">Марка прибора учета</string>
+    <string name = "user_ipu_hint_model">Модель прибора учета</string>
+    <string name = "user_ipu_hint_check_interval">Межповерочный интервал ИПУ</string>
+    <string name = "user_ipu_hint_type">Тип прибора учета</string>
+    <string name = "user_ipu_hint_type_tariff">Тип прибора учета по тарифным зонам</string>
+    <string name = "user_ipu_hint_begin_date">Дата ввода в эксплуатацию</string>
+    <string name = "user_ipu_hint_install_date">Дата установки</string>
+    <string name = "user_ipu_hint_next_check_date">Дата следующей поверки ИПУ</string>
+    <string name = "user_ipu_hint_status">Статус прибора учета</string>
+    <string name = "user_ipu_commit">Добавить</string>
+    <string name = "user_ipu_commit_save">Сохранить</string>
+    <string name = "user_ipu_delete">Удалить</string>
+    <string name = "user_ipu_add_mode">Ввод данных ИПУ</string>
+    <string name = "user_ipu_edit_mode">Изменение ИПУ</string>
+    <string name = "user_ipu_ask_delete">Удалить данные об ИПУ?</string>
 
-    <string name="answer_positive">Да</string>
-    <string name="answer_negative">Нет</string>
-    <string name="add_photo">Вы можете добавить изображения счетчиков для облегчения ввода показаний</string>
-    <string name="need_camera_permission">Предоставьте разрешение для захвата изображения с камеры</string>
-    <string name="cancel">Отмена</string>
-    <string name="photo_error">Ошибка камеры</string>
-    <string name="xls_write_error">Ошибка формирования xls документа</string>
+    <string name = "answer_positive">Да</string>
+    <string name = "answer_negative">Нет</string>
+    <string name = "add_photo">Вы можете добавить изображения счетчиков для облегчения ввода показаний</string>
+    <string name = "need_camera_permission">Предоставьте разрешение для захвата изображения с камеры</string>
+    <string name = "cancel">Отмена</string>
+    <string name = "photo_error">Ошибка камеры</string>
+    <string name = "xls_write_error">Ошибка формирования xls документа</string>
 
     <!-- Request Tab -->
-    <string name="request_tab_create_button_text">СОЗДАТЬ ЗАЯВКУ</string>
-    <string name="active_request_tab_empty_text">У вас нет активных заявок</string>
-    <string name="archive_request_tab_empty_text">Ни одна ваша заявка еще не была завершена</string>
-    <string name="draft_request_tap_empty_text">Вы пока не создали ни одниз черновик</string>
-    <string name="empty_request_list_with_filter_text">Заявок по выбранным фильтрам нет</string>
+    <string name = "request_tab_create_button_text">СОЗДАТЬ ЗАЯВКУ</string>
+    <string name = "active_request_tab_empty_text">У вас нет активных заявок</string>
+    <string name = "archive_request_tab_empty_text">Ни одна ваша заявка еще не была завершена</string>
+    <string name = "draft_request_tap_empty_text">Вы пока не создали ни одниз черновик</string>
+    <string name = "empty_request_list_with_filter_text">Заявок по выбранным фильтрам нет</string>
 
     <!-- Request Screen -->
-    <string name="request_non_auth_hint_your_address">Ваш адрес</string>
-    <string name="request_non_auth_your_manager_company_text">Ваша управляющая компания</string>
-    <string name="request_non_auth_location_text">находится по адресу</string>
-    <string name="request_non_auth_leave_request_call_number_text">Чтобы оставить заявку, позвоните по номеру:</string>
+    <string name = "request_non_auth_hint_your_address">Ваш адрес</string>
+    <string name = "request_non_auth_your_manager_company_text">Ваша управляющая компания</string>
+    <string name = "request_non_auth_location_text">находится по адресу</string>
+    <string name = "request_non_auth_leave_request_call_number_text">Чтобы оставить заявку, позвоните по номеру:</string>
 
     <!-- RequestScreen -->
     <string name = "choose_filter">Выберите фильтры</string>
@@ -655,41 +652,47 @@
     <string name = "request_active_tab_title">Активные</string>
     <string name = "request_archive_tab_title">Архив</string>
     <string name = "request_draft_tab_title">Черновики</string>
-    <string name="request_menu_filter">Применить фильтр</string>
-    <string name="request_menu_refresh">Обновить список</string>
+    <string name = "request_menu_filter">Применить фильтр</string>
+    <string name = "request_menu_refresh">Обновить список</string>
 
     <!-- Create Request Screen -->
-    <string name="create_request_title">Создание заявки</string>
-    <string name="create_request_send_button_text">Отправить заявку</string>
-    <string name="create_request_name_request_hint">Название заявки</string>
-    <string name="create_request_address_hint">Адрес</string>
-    <string name="create_request_service_provider_hint">Поставщик услуг</string>
-    <string name="create_request_type_request_hint">Тип заявки</string>
-    <string name="create_request_type_home">Тип имущества</string>
-    <string name="create_request_emergency_request_text">Аварийная заявка</string>
-    <string name="create_request_description_problem_hint">Описание проблемы</string>
-    <string name="create_request_feedback_title">Данные для обратной связи:</string>
-    <string name="create_request_fio_hint">ФИО</string>
-    <string name="create_request_number_phone_hint">Номер телефона</string>
-    <string name="create_request_save_button_text">Сохранить</string>
-    
+    <string name = "create_request_title">Создание заявки</string>
+    <string name = "create_request_send_button_text">Отправить заявку</string>
+    <string name = "create_request_name_request_hint">Название заявки</string>
+    <string name = "create_request_address_hint">Адрес</string>
+    <string name = "create_request_service_provider_hint">Поставщик услуг</string>
+    <string name = "create_request_type_request_hint">Тип заявки</string>
+    <string name = "create_request_type_home">Тип имущества</string>
+    <string name = "create_request_emergency_request_text">Аварийная заявка</string>
+    <string name = "create_request_description_problem_hint">Описание проблемы</string>
+    <string name = "create_request_feedback_title">Данные для обратной связи:</string>
+    <string name = "create_request_fio_hint">ФИО</string>
+    <string name = "create_request_number_phone_hint">Номер телефона</string>
+    <string name = "create_request_save_button_text">Сохранить</string>
+
     <!-- Request Details -->
-    <string name="request_details_cancel_button_text">Отменить заявку</string>
-    <string name="request_details_request_info_text">Информация о заявке:</string>
-    <string name="request_details_description_problem_text">Описание проблемы:</string>
-    <string name="request_details_status_request_text">Статус заявки:</string>
-    <string name="request_details_submit_complete_button_text">Подтвердить выполнение</string>
+    <string name = "request_details_title">Детальная информация о заявке</string>
+    <string name = "request_details_cancel_button_text">Отменить заявку</string>
+    <string name = "request_details_request_info_text">Информация о заявке:</string>
+    <string name = "request_details_description_problem_text">Описание проблемы:</string>
+    <string name = "request_details_status_request_text">Статус заявки:</string>
+    <string name = "request_details_submit_complete_button_text">Подтвердить выполнение</string>
+
+    <!--FullscreenPhoto-->
+
+    <string name = "fullsrcreen_photo_title">Фото</string>
 
     <!-- Chat with dispatcher -->
-    <string name="chat_with_dispatcher_edit_text_hint">Сообщение</string>
-    <string name="camera_title_alert">Камера</string>
-    <string name="gallery_title_alert">Галерея</string>
+    <string name = "chat_with_dispatcher_title">Чат с диспетчером</string>
+    <string name = "chat_with_dispatcher_edit_text_hint">Сообщение</string>
+    <string name = "camera_title_alert">Камера</string>
+    <string name = "gallery_title_alert">Галерея</string>
 
-    <array name="camera_or_gallery_alert_titles">
+    <array name = "camera_or_gallery_alert_titles">
         <item>@string/gallery_title_alert</item>
         <item>@string/camera_title_alert</item>
     </array>
-    <string name="attachment_title">Вложение</string>
+    <string name = "attachment_title">Вложение</string>
     <string name = "type_request">Тип заявки</string>
     <string name = "property_type_request">Тип имущества</string>
     <string name = "property_type">Тип имущества</string>

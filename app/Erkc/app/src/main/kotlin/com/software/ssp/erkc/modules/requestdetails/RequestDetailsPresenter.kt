@@ -45,6 +45,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                             view?.showSelectImagesList(realmRequest.comment!!)
                             view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
                             view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
+
                             view?.setVisibleProgressBar(isVisible = false)
                         },
                         {
@@ -53,6 +54,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                         }
                 )
     }
+
 
     override fun onCancelRequestButtonClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -71,7 +73,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     }
 
     override fun openFullScreen(comment: RealmComment) {
-//        view?.openFullScreen(comment.downloadLink)
+        view?.openFullScreen(comment.downloadLink!!)
     }
 
 }
