@@ -87,7 +87,7 @@ class ChatWithDispatcherAdapter(val dataList: List<RealmComment>) : RecyclerView
                     val glideUrl = GlideUrl("http://fon.zayavki.pro" + comment.downloadLink, LazyHeaders.Builder()
                             .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")
                             .build())
-                    Glide.with(view).load(glideUrl).into(getAttachmentView(writter, view))
+                    Glide.with(view).load(glideUrl).centerCrop().into(getAttachmentView(writter, view))
                 }
 
                 var previousCommentTime = 0L
