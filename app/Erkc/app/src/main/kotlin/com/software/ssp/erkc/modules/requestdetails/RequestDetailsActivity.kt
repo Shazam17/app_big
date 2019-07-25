@@ -17,6 +17,7 @@ import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
 import com.software.ssp.erkc.modules.createrequest.CreateRequestActivity
+import com.software.ssp.erkc.modules.fullscreenphoto.FullscreenPhotoActivity
 import kotlinx.android.synthetic.main.activity_request_details.*
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
@@ -32,6 +33,9 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     companion object {
         const val REQUEST_DETAILS_REQUEST_ID_KEY = "request_details_request_id_key"
         const val REQUEST_DETAILS_TITLE_REQUEST_KEY = "request_details_title_request_key"
+        const val PHOTO_LINK = "photo_link"
+        const val IS_EDITABLE="is_editable"
+
     }
 
     enum class StateActionMenu {
@@ -191,7 +195,8 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     override fun showSelectImagesList(comment: List<RealmComment>) {
         val adapter = RequestDetailsFileListAdapter(
-                requestComments = comment.filter { it.downloadLink!=null }
+                requestComments = comment.filter { it.downloadLink!=null },
+                onItemClick = {presenter.openFullScreen(it)}
         )
 
         requestDetailsPhotosRecyclerView.adapter = adapter
@@ -235,6 +240,11 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     override fun beforeDestroy() {
         presenter.onViewDetached()
     }
+
+    override fun openFullScreen(downloadLink: String) {
+        startActivity<FullscreenPhotoActivity>(PHOTO_LINK to downloadLink, IS_EDITABLE to false)
+    }
+
 
     override fun onResume() {
         super.onResume()

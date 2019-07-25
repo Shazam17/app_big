@@ -175,10 +175,10 @@ dependencies {
     implementation "io.fotoapparat.fotoapparat:library:2.2.0"
 
     //Images
-    implementation("com.github.bumptech.glide:glide:4.7.1"){
+    implementation("com.github.bumptech.glide:glide:4.9.0"){
         exclude group: "com.android.support"
     }
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     //Excel export
     //implementation 'org.apache.poi:poi:3.15'

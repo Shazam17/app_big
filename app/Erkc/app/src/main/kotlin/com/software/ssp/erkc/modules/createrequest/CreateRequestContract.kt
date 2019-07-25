@@ -21,6 +21,7 @@ interface ICreateRequestView: IView {
 interface ICreateRequestPresenter: IPresenter<ICreateRequestView> {
     var requestId: Int?
     fun deleteOldValue(id:String)
+    fun setEvent()
     fun onViewLoadWithEditMode()
     fun onAddressFieldClick()
     fun fetchCompanies(fias: String)

@@ -28,6 +28,7 @@ class RequestDetailsStatusListAdapter(val requestStatusItems: List<RealmRequestS
     class RequestDetailsStatusViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bindRequestStatus(status: RealmRequestStatus) {
             view.apply {
+
                 itemStatusRequestTextStatusTextView.text = status.getTitle()
                 itemStatusRequestDateStatusTextView.text = status.date
                 itemStatusRequestOvalView.setCardBackgroundColor(Color.parseColor(StatusColors.getColor(status.type ?: "Canceled")))

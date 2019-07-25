@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.request.authedRequest.draftRequestList
 
+import com.jakewharton.rxrelay.Relay
+import com.software.ssp.erkc.common.UpdateRequestListAdapter
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmDraft
 import com.software.ssp.erkc.data.realm.models.RealmRequest
@@ -11,20 +13,23 @@ class DraftRequestListPresenter @Inject constructor(view: IDraftRequestListView)
 
     @Inject
     lateinit var realmRepository: RealmRepository
+    @Inject
+    lateinit var eventBus: Relay<Any, Any>
 
     override fun onViewAttached() {
         super.onViewAttached()
         fetchDraft()
+        subscribeToUpdateEvent()
     }
 
-    private fun fetchDraft(){
-        subscriptions+=realmRepository.fetchDraftRequestList()
+    private fun fetchDraft() {
+        subscriptions += realmRepository.fetchDraftRequestList()
                 .subscribe(
                         {
-                            if (it.isEmpty()) view?.setVisibleEmptyMessage(isVisible = true) else view?.setVisibleEmptyMessage(isVisible = false)
+                            view?.setVisibleEmptyMessage(isVisible = it.isEmpty())
                             view?.showData(it)
                         },
-                        {error ->
+                        { error ->
                             view?.showMessage(error.localizedMessage)
                         }
                 )
@@ -43,6 +48,13 @@ class DraftRequestListPresenter @Inject constructor(view: IDraftRequestListView)
 
     override fun onSwipeToRefresh() {
         view?.setLoadingVisible(false)
+    }
+
+    private fun subscribeToUpdateEvent() {
+        subscriptions += eventBus.ofType(UpdateRequestListAdapter::class.java)
+                .subscribe { event ->
+                    fetchDraft()
+                }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.software.ssp.erkc.modules.createrequest
 
+import com.jakewharton.rxrelay.Relay
+import com.software.ssp.erkc.common.UpdateRequestListAdapter
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmAddressRequest
 import com.software.ssp.erkc.data.realm.models.RealmDraft
@@ -12,12 +14,14 @@ import javax.inject.Inject
 class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxPresenter<ICreateRequestView>(view), ICreateRequestPresenter {
 
 
+
     override var requestId: Int? = null
 
     @Inject
     lateinit var realmRepository: RealmRepository
     @Inject
     lateinit var requestRepository: RequestRepository
+    @Inject lateinit var eventBus: Relay<Any, Any>
 
     override fun onViewLoadWithEditMode() {
         fetchRequestById(requestId!!)
@@ -108,5 +112,9 @@ class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxP
 
     override fun onAddressFieldClick() {
         view?.navigateToSearchAddress()
+    }
+
+    override fun setEvent() {
+        eventBus.call(UpdateRequestListAdapter())
     }
 }

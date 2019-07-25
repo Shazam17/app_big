@@ -1,6 +1,7 @@
 package com.software.ssp.erkc.modules.requestdetails
 
 import com.software.ssp.erkc.common.mvp.RxPresenter
+import com.software.ssp.erkc.data.realm.models.RealmComment
 import com.software.ssp.erkc.data.realm.models.RequestStatusTypes
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.RequestRepository
@@ -44,6 +45,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                             view?.showSelectImagesList(realmRequest.comment!!)
                             view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
                             view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
+
                             view?.setVisibleProgressBar(isVisible = false)
                         },
                         {
@@ -52,6 +54,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                         }
                 )
     }
+
 
     override fun onCancelRequestButtonClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -68,4 +71,9 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
     override fun onChatMenuItemClick() {
         view?.navigateToChatScreen(requestId = requestId)
     }
+
+    override fun openFullScreen(comment: RealmComment) {
+        view?.openFullScreen(comment.downloadLink!!)
+    }
+
 }

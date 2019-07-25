@@ -14,3 +14,5 @@ class Logout()
 class LogoutFinished()
 
 class ServiceIconsSaved()
+
+class UpdateRequestListAdapter()
