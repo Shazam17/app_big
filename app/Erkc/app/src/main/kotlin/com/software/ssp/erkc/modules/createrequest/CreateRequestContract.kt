@@ -2,10 +2,8 @@ package com.software.ssp.erkc.modules.createrequest
 
 import com.software.ssp.erkc.common.mvp.IPresenter
 import com.software.ssp.erkc.common.mvp.IView
-import com.software.ssp.erkc.data.realm.models.RealmAddressRequest
-import com.software.ssp.erkc.data.realm.models.RealmDraft
-import com.software.ssp.erkc.data.realm.models.RealmRequest
-import com.software.ssp.erkc.data.realm.models.RealmTypeHouse
+import com.software.ssp.erkc.data.realm.models.*
+import io.realm.RealmList
 
 interface ICreateRequestView: IView {
     fun setFieldByRealmRequest(realmRequest: RealmRequest)
@@ -15,7 +13,11 @@ interface ICreateRequestView: IView {
     fun navigateToSearchAddress()
     fun onFetchCompaniesError()
     fun setDraftData(realmDraft: RealmDraft)
-
+    fun notifySelectedImagesListDataChange()
+    fun showCameraScreen()
+    fun showGalleryScreen()
+    fun createSelectedImagesAdapter(images: RealmList<RealmLocalImage>)
+//    fun openImageFullScreen()
 }
 
 interface ICreateRequestPresenter: IPresenter<ICreateRequestView> {
@@ -28,4 +30,8 @@ interface ICreateRequestPresenter: IPresenter<ICreateRequestView> {
     fun saveDraftRequest(draft: RealmDraft)
     fun onTryAgainClicked(fias: String)
     fun fetchDraftData(oldUUID:String)
+
+    fun onCameraButtonClick()
+    fun onGalleryButtonClick()
+    fun onPhotoClick(localImage: RealmLocalImage)
 }

@@ -217,7 +217,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     private fun initViews() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(REQUEST_DETAILS_TITLE_REQUEST_KEY)
-        requestDetailsPhotosRecyclerView.layoutManager = GridLayoutManager(this,4)
+        requestDetailsPhotosRecyclerView.layoutManager = GridLayoutManager(this,5)
         requestDetailsPhotosRecyclerView.setHasFixedSize(true)
         requestDetailsStatuesRecyclerView.layoutManager = LinearLayoutManager(this)
         requestDetailsStatuesRecyclerView.setHasFixedSize(true)
