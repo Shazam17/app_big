@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -215,6 +216,13 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
 
     private fun initViews() {
+        scrollViewContainerRequestDetails.setOnTouchListener(object :RequestDetailsSwipeGesture(){
+            override fun onSwipeLeft() {
+                navigateToChatScreen(intent.getIntExtra(REQUEST_DETAILS_REQUEST_ID_KEY, -1))
+                super.onSwipeLeft()
+            }
+
+        })
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(REQUEST_DETAILS_TITLE_REQUEST_KEY)
         requestDetailsPhotosRecyclerView.layoutManager = GridLayoutManager(this,4)
