@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
@@ -47,8 +46,8 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
 
     @Inject
     lateinit var presenter: IRequestDetailsPresenter
-    var menuRequestDetails: Menu? = null
-    var stateActionMenu: StateActionMenu? = null
+    private var menuRequestDetails: Menu? = null
+    private var stateActionMenu: StateActionMenu? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

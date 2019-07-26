@@ -203,7 +203,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
 
             ChatWithDispatcherActivity.CAMERA_REQUEST_CODE -> {
                 // TODO Impl handle data from camera
-                if (data == null || lastCameraImagePath == null) return
+                if (lastCameraImagePath == null) return
 
                 selectImagesList.add(
                         RealmLocalImage(url = lastCameraImagePath)
