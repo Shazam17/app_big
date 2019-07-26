@@ -1,23 +1,37 @@
 package com.software.ssp.erkc.modules.createrequest
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.design.widget.Snackbar
+import android.support.v4.content.FileProvider
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
+import com.software.ssp.erkc.BuildConfig
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
 import com.software.ssp.erkc.data.realm.models.RealmDraft
+import com.software.ssp.erkc.data.realm.models.RealmLocalImage
 import com.software.ssp.erkc.data.realm.models.RealmRequest
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.modules.address.SearchAddressActivity
+import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
 import com.software.ssp.erkc.modules.createrequest.adapters.CompaniesAdapter
+import com.software.ssp.erkc.modules.createrequest.adapters.SelectedImagesAdapter
 import com.software.ssp.erkc.modules.createrequest.adapters.TypeHouseAdapter
-import com.software.ssp.erkc.modules.request.RequestTabFragment
 import com.software.ssp.erkc.modules.request.authedRequest.draftRequestList.DraftRequestListFragment
+import com.software.ssp.erkc.utils.FileUtils
+import com.tbruyelle.rxpermissions.RxPermissions
+import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_create_request.*
+import kotlinx.android.synthetic.main.fragment_photo_values.*
 import org.jetbrains.anko.*
+import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
@@ -36,6 +50,8 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
     private var fias: String = ""
     private var uuid: String = UUID.randomUUID().toString()
     private var saveFlag: Boolean = true
+    private var selectImagesList: RealmList<RealmLocalImage> = RealmList()
+    private var lastCameraImagePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +89,16 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
         typeCompanySpinner.setText(realmDraft.company)
         typeHouseSpinner.setText(realmDraft.typeHouse)
         typeRequestSpinner.setText(realmDraft.typeRequest)
+        setSelectedImagesAdapter(realmDraft.images)
+    }
+
+    private fun setSelectedImagesAdapter(images: RealmList<RealmLocalImage>) {
+        val tmpImages: RealmList<RealmLocalImage> = RealmList()
+        images.forEach { localImage ->
+            tmpImages.add(RealmLocalImage(url = localImage.url))
+        }
+        selectImagesList = tmpImages
+        createSelectedImagesAdapter(selectImagesList)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -105,7 +131,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
                     intent.getBooleanExtra(CREATE_REQUEST_EDIT_MODE, false) -> onBackPressed()
                     else -> {
                         this.finish()
-                        saveFlag=false
+                        saveFlag = false
                         onBackPressed()
                     }
                 }
@@ -150,20 +176,66 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
         createRequestAddressTextEdit.onClick {
             presenter.onAddressFieldClick()
         }
+
+        createRequestAddPhotoButton.onClick {
+            showGalleryOrCameraDialog()
+        }
+
+        createRequestPhotosRecyclerView.layoutManager = GridLayoutManager(this, 4)
+        createRequestPhotosRecyclerView.setHasFixedSize(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
+        if (resultCode != Activity.RESULT_OK) {
+            lastCameraImagePath = null
+        }
 
         when (requestCode) {
             SearchAddressActivity.REQUEST_ADDRESS_RESULT_CODE -> {
-                createRequestAddressTextEdit.setText(data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY))
-                fias = data?.getStringExtra(SearchAddressActivity.RESULT_FIAS_KEY)!!
-                presenter.fetchCompanies(fias)
-                Log.e("FIAS", fias)
+                if (data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY) != null) {
+                    createRequestAddressTextEdit.setText(data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY))
+                    fias = data?.getStringExtra(SearchAddressActivity.RESULT_FIAS_KEY)!!
+                    presenter.fetchCompanies(fias)
+                    Log.e("FIAS", fias)
+                }
+            }
+
+            ChatWithDispatcherActivity.CAMERA_REQUEST_CODE -> {
+                // TODO Impl handle data from camera
+                if (data == null || lastCameraImagePath == null) return
+
+                selectImagesList.add(
+                        RealmLocalImage(url = lastCameraImagePath)
+                )
+                notifySelectedImagesListDataChange()
+            }
+
+            ChatWithDispatcherActivity.GALLERY_REQUEST_CODE -> {
+                // TODO Impl handle data from gallery
+                if (data == null) return
+                val imagePath = getAbsolutePathByUri(uri = data.data)
+                selectImagesList.add(RealmLocalImage(url = imagePath))
+                notifySelectedImagesListDataChange()
             }
         }
+    }
+
+    override fun notifySelectedImagesListDataChange() {
+        createSelectedImagesAdapter(selectImagesList)
+    }
+
+    override fun createSelectedImagesAdapter(images: RealmList<RealmLocalImage>) {
+        val adapter = SelectedImagesAdapter(
+                images = images,
+                onItemClick = { localImage -> presenter.onPhotoClick(localImage = localImage) },
+                onDeleteItemClick = { localImage ->
+                    selectImagesList.remove(localImage)
+                    createSelectedImagesAdapter(selectImagesList)
+                }
+        )
+        createRequestPhotosRecyclerView.adapter = adapter
+//        createRequestPhotosRecyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onFetchCompaniesError() {
@@ -226,6 +298,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
                 || createRequestFIOTextEdit.text!!.isNotEmpty()
                 || createRequestNumberPhoneTextEdit.text!!.isNotEmpty()
         ) {
+
             val draft = RealmDraft(
                     id = uuid,
                     title = createRequestNameRequestTextEdit.text.toString(),
@@ -235,7 +308,8 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
                     typeHouse = typeHouseSpinner.text.toString(),
                     description = createRequestDescriptionTextEdit.text.toString(),
                     fio = createRequestFIOTextEdit.text.toString(),
-                    phoneNum = createRequestNumberPhoneTextEdit.text.toString()
+                    phoneNum = createRequestNumberPhoneTextEdit.text.toString(),
+                    images = selectImagesList
             )
             presenter.saveDraftRequest(draft)
         }
@@ -253,12 +327,12 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
         presenter.onViewDetached()
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (saveFlag) {
-            saveDraftRequest()
-        }
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        if (saveFlag) {
+//            saveDraftRequest()
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -268,5 +342,63 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
         presenter.setEvent()
     }
 
+    private fun showGalleryOrCameraDialog() {
+        val alert = AlertDialog.Builder(this)
+        alert.setItems(R.array.camera_or_gallery_alert_titles) { _, which ->
+            when (which) {
+                ChatWithDispatcherActivity.AttachmentType.GALLERY.ordinal -> presenter.onGalleryButtonClick()
+                ChatWithDispatcherActivity.AttachmentType.CAMERA.ordinal -> {
+                    val rxPermissions = RxPermissions.getInstance(this)
+                    rxPermissions
+                            .request(
+                                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.CAMERA)
+                            .subscribe {
+                                if (it) {
+                                    presenter.onCameraButtonClick()
 
+                                } else {
+                                    showMessage("Ошибка прав")
+                                }
+                            }
+                }
+            }
+        }
+        alert.show()
+    }
+
+    override fun showCameraScreen() {
+        try {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val imageFile = FileUtils.shareInstance.createImageFile()
+            lastCameraImagePath = "file://" + imageFile.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, imageFile))
+            startActivityForResult(intent, ChatWithDispatcherActivity.CAMERA_REQUEST_CODE)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+    }
+
+
+    override fun showGalleryScreen() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        val mimeTypes = arrayListOf("image/jpeg", "image/png")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        startActivityForResult(intent, ChatWithDispatcherActivity.GALLERY_REQUEST_CODE)
+    }
+
+    private fun getAbsolutePathByUri(uri: Uri): String {
+        val cursor = this.contentResolver.query(uri, null, null, null, null)
+        val imagePath = if (cursor == null) {
+            uri.path
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            cursor.getString(idx)
+        }
+
+        return imagePath
+    }
 }

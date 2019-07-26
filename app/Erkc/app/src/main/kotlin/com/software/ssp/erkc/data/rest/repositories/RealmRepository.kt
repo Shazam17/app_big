@@ -1416,7 +1416,8 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     typeHouse = realmDraft.typeHouse,
                     description = realmDraft.description,
                     fio = realmDraft.fio,
-                    phoneNum = realmDraft.fio
+                    phoneNum = realmDraft.fio,
+                    images = realmDraft.images
             )
 
             realm.executeTransactionAsync(

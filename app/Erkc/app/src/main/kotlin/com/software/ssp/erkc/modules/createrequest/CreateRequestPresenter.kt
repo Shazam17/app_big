@@ -5,6 +5,7 @@ import com.software.ssp.erkc.common.UpdateRequestListAdapter
 import com.software.ssp.erkc.common.mvp.RxPresenter
 import com.software.ssp.erkc.data.realm.models.RealmAddressRequest
 import com.software.ssp.erkc.data.realm.models.RealmDraft
+import com.software.ssp.erkc.data.realm.models.RealmLocalImage
 import com.software.ssp.erkc.data.rest.repositories.RealmRepository
 import com.software.ssp.erkc.data.rest.repositories.RequestRepository
 import rx.Observable
@@ -12,8 +13,6 @@ import rx.lang.kotlin.plusAssign
 import javax.inject.Inject
 
 class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxPresenter<ICreateRequestView>(view), ICreateRequestPresenter {
-
-
 
     override var requestId: Int? = null
 
@@ -116,5 +115,17 @@ class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxP
 
     override fun setEvent() {
         eventBus.call(UpdateRequestListAdapter())
+    }
+
+    override fun onCameraButtonClick() {
+        view?.showCameraScreen()
+    }
+
+    override fun onGalleryButtonClick() {
+        view?.showGalleryScreen()
+    }
+
+    override fun onPhotoClick(localImage: RealmLocalImage) {
+        // TODO +++--+++
     }
 }
