@@ -27,16 +27,38 @@ class Request (
         val name: String?,
         @SerializedName("message")
         val message: String?,
+        @SerializedName("messagePlane")
+        val messagePlane: String?,
         @SerializedName("contact")
         val contact: String?,
         @SerializedName("code")
         val code: String?,
         @SerializedName("is_overdue")
         val is_overdue: Int?,
-        @SerializedName("tasks")
-        val tasks:List<Int>?,
+//        @SerializedName("tasks")
+//        val tasks:List<Int>?,
         @SerializedName("comments")
-        val comments:List<Comment>?
+        val comments:List<Comment>?,
+        @SerializedName("transitions")
+        val transitions:List<Transitions>?
+)
+
+class Transitions(
+        @SerializedName("id")
+        val id:Int?,
+        @SerializedName("created_at")
+        val created_at:Long?,
+        @SerializedName("stateNew")
+        val stateNew:State?
+)
+
+class State(
+        @SerializedName("id")
+        val id:Int?,
+        @SerializedName("name")
+        val name:String?,
+        @SerializedName("stateLabel")
+        val stateLabel:String?
 )
 
 class PremiseRequest(
@@ -106,12 +128,7 @@ class StateRequest(
         val stateLabel: String?
 )
 
-class TypeRequest(
-        @SerializedName("id")
-        val id: Int?,
-        @SerializedName("name")
-        val name: String?
-)
+
 
 class TypeHouse(
         @SerializedName("id")

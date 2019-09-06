@@ -7,11 +7,17 @@ import rx.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
-
+@JvmSuppressWildcards
 interface RequestDataSource {
 
     @POST
+    fun authUser(@Url url: String,@Body map: Map<String, Any>): Observable<ResponseBody>
+
+    @POST
     fun fetchRequestAddress(@Url url: String): Observable<List<RequestAddress>>
+
+    @GET
+    fun fetchTypesRequest(@Url url: String):Observable<List<TypeRequest>>
 
     @GET
     fun fetchRequestList(@Url url: String): Observable<List<Request>>
@@ -47,5 +53,7 @@ interface RequestDataSource {
             @Part("request_id") requestId: RequestBody,
             @Part("message") message: RequestBody
     ) : Observable<Comment>
+
+
 
 }

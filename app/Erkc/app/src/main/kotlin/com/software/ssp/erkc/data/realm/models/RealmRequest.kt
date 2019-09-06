@@ -23,10 +23,19 @@ open class RealmRequest(
         open var contact: String? = null,
         open var code: String? = null,
         open var is_overdue: Int? = 0,
-        open var task: RealmList<RealmRequestTask>? = RealmList(),
+        open var messagePlane:String?=null,
+//        open var task: RealmList<RealmRequestTask>? = RealmList(),
         open var comment: RealmList<RealmComment>? = RealmList(),
-        open var isCrash: Boolean? = false
+        open var isCrash: Boolean? = false,
+        open var transitions:RealmList<RealmTransitions>?=RealmList()
 ) : RealmObject()
+
+open class RealmTransitions(
+        @PrimaryKey
+        open var id:Int?=0,
+        open var created_at: Long? = 0L,
+        open var state: RealmStateRequest? = null
+):RealmObject()
 
 open class RealmComment(
         @PrimaryKey
@@ -47,11 +56,11 @@ open class Initiator(
         open var phone: String? = "",
         open var info: String? = ""
 ) : RealmObject()
-
-open class RealmRequestTask(
-        @PrimaryKey
-        open var id: Int? = 0
-) : RealmObject()
+//
+//open class RealmRequestTask(
+//        @PrimaryKey
+//        open var id: Int? = 0
+//) : RealmObject()
 
 open class RealmCompany(
         @PrimaryKey
@@ -82,8 +91,6 @@ open class RealmStateRequest(
         @PrimaryKey
         open var id: Int? = 0,
         open var name: String? = "",
-        open var sort: Int? = 0,
-        open var process_state: Int? = 0,
         open var stateLabel: String? = ""
 ) : RealmObject()
 

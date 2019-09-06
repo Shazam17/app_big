@@ -16,6 +16,22 @@ import java.net.URI
 class RequestRepository @Inject constructor(private val requestDataSource: RequestDataSource, private val activeSession: ActiveSession): Repository() {
 
 
+    fun authUser(data: Map<String,Any>):Observable<ResponseBody>{
+        activeSession.flag=1
+        return requestDataSource
+                .authUser(url = "http://fon.zayavki.pro/mobile/account/create",map = data)
+                .compose(this.applySchedulers<ResponseBody>())
+    }
+
+//    fun createRequest()
+
+    fun fetchTypesRequestList():Observable<List<TypeRequest>>{
+        activeSession.flag=0
+        return requestDataSource
+                .fetchTypesRequest(url = "http://fon.zayavki.pro/mobile/common/request-types")
+                .compose(this.applySchedulers<List<TypeRequest>>())
+    }
+
     fun fetchRequestList(): Observable<List<Request>> {
         activeSession.flag=0
         return requestDataSource
@@ -75,4 +91,6 @@ class RequestRepository @Inject constructor(private val requestDataSource: Reque
         return requestDataSource.sendComment(requestId = requestIdParam, message = messageParam, url = "http://fon.zayavki.pro/mobile/request/post-comment", file = multipart_body_part)
                 .compose(this.applySchedulers<Comment>())
     }
+
+
 }

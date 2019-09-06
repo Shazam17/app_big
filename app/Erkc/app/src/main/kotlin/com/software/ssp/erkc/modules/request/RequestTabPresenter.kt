@@ -9,8 +9,6 @@ class RequestTabPresenter @Inject constructor(view:IRequestTabView):RxPresenter<
 
     @Inject lateinit var activeSession:ActiveSession
 
-
-
     override fun onRefreshClick() {
         view?.refreshCurrentList()
     }

@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
 import com.software.ssp.erkc.BuildConfig
@@ -24,12 +23,12 @@ import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivi
 import com.software.ssp.erkc.modules.createrequest.adapters.CompaniesAdapter
 import com.software.ssp.erkc.modules.createrequest.adapters.SelectedImagesAdapter
 import com.software.ssp.erkc.modules.createrequest.adapters.TypeHouseAdapter
+import com.software.ssp.erkc.modules.createrequest.adapters.TypesRequestAdapter
 import com.software.ssp.erkc.modules.request.authedRequest.draftRequestList.DraftRequestListFragment
 import com.software.ssp.erkc.utils.FileUtils
 import com.tbruyelle.rxpermissions.RxPermissions
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_create_request.*
-import kotlinx.android.synthetic.main.fragment_photo_values.*
 import org.jetbrains.anko.*
 import java.io.IOException
 import java.util.*
@@ -53,6 +52,8 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
     private var selectImagesList: RealmList<RealmLocalImage> = RealmList()
     private var lastCameraImagePath: String? = null
 
+
+    var choosenFias=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_request)
@@ -177,12 +178,32 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
             presenter.onAddressFieldClick()
         }
 
+        typeRequestSpinner.onClick {
+            presenter.fetchTypesRequest()
+
+        }
+
         createRequestAddPhotoButton.onClick {
             showGalleryOrCameraDialog()
         }
 
         createRequestPhotosRecyclerView.layoutManager = GridLayoutManager(this, 4)
         createRequestPhotosRecyclerView.setHasFixedSize(false)
+
+        createRequestSendButton.onClick {
+            presenter.generateRequest(
+                    title = createRequestNameRequestTextEdit.text.toString(),
+                    address = createRequestAddressTextEdit.text.toString(),
+                    fias = choosenFias,
+                    company = typeCompanySpinner.text.toString(),
+                    typeRequest = typeRequestSpinner.text.toString(),
+                    typeHouse = typeHouseSpinner.text.toString(),
+                    description = createRequestDescriptionTextEdit.text.toString(),
+                    fio = createRequestFIOTextEdit.text.toString(),
+                    phoneNum = createRequestNumberPhoneTextEdit.text.toString(),
+                    images = selectImagesList
+            )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -196,6 +217,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
                 if (data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY) != null) {
                     createRequestAddressTextEdit.setText(data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY))
                     fias = data?.getStringExtra(SearchAddressActivity.RESULT_FIAS_KEY)!!
+                    choosenFias=fias;
                     presenter.fetchCompanies(fias)
                     Log.e("FIAS", fias)
                 }
@@ -284,6 +306,21 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
             } else {
                 visible = false
                 typeCompanySpinner.dismissDropDown()
+            }
+        }
+    }
+
+    override fun setTypesRequestSpinner(typesRequestList: List<String>) {
+        val adapter = TypesRequestAdapter(this, R.layout.item_spinner_type_request, typesRequestList = typesRequestList)
+        typeRequestSpinner.setAdapter(adapter)
+        var visible = false
+        typeRequestSpinner.onClick {
+            if (!visible) {
+                visible = true
+                typeRequestSpinner.showDropDown()
+            } else {
+                visible = false
+                typeRequestSpinner.dismissDropDown()
             }
         }
     }

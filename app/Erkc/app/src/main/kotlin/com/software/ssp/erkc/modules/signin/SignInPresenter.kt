@@ -1,5 +1,6 @@
 package com.software.ssp.erkc.modules.signin
 
+import android.util.Log
 import com.software.ssp.erkc.Constants
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.RxPresenter
@@ -100,6 +101,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     private fun login(login: String, password: String) {
         view?.setProgressVisibility(true)
+        Log.i("APPTOKEN",activeSession.appToken)
 
         subscriptions += authRepository
                 .authenticate(login, password)
@@ -171,6 +173,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                             view?.setProgressVisibility(false)
                             //error.printStackTrace()
                             resetCurrentUser()
+
                             view?.showMessage(error.parsedMessage())
                         }
                 )

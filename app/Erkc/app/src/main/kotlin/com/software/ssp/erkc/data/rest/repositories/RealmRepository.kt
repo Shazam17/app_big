@@ -1064,11 +1064,23 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         return Observable.create<Boolean> { sub ->
             val realmRequestList = RealmList<RealmRequest>()
             request.forEach {
-                val tasksList = RealmList<RealmRequestTask>()
+//                val tasksList = RealmList<RealmRequestTask>()
                 val comment = RealmList<RealmComment>()
-                it.tasks?.forEach { it ->
-                    tasksList.add(RealmRequestTask(
-                            id = it
+                val transition=RealmList<RealmTransitions>()
+//                it.tasks?.forEach { it ->
+//                    tasksList.add(RealmRequestTask(
+//                            id = it
+//                    ))
+//                }
+                it.transitions?.forEach { value->
+                    transition.add(RealmTransitions(
+                            id =  value.id,
+                            created_at = value.created_at?.secondsToMilliseconds(),
+                            state = RealmStateRequest(
+                                    id = value.stateNew!!.id,
+                                    name = value.stateNew.name,
+                                    stateLabel = value.stateNew.stateLabel
+                            )
                     ))
                 }
                 it.comments?.forEach { value ->
@@ -1116,8 +1128,6 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         state = RealmStateRequest(
                                 id = it.state?.id,
                                 name = it.state?.name,
-                                sort = it.state?.sort,
-                                process_state = it.state?.process_state,
                                 stateLabel = it.state?.stateLabel
                         ),
                         applicant = it.applicant,
@@ -1138,11 +1148,13 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         chanelLabel = it.chanelLabel,
                         name = it.name,
                         message = it.message,
+                        messagePlane = it.messagePlane,
                         contact = it.contact,
                         code = it.code,
                         is_overdue = it.is_overdue,
                         comment = comment,
-                        task = tasksList
+                        transitions = transition
+//                        task = tasksList
                 ))
 
 
@@ -1203,8 +1215,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         RealmStateRequest(
                                 id = state.id,
                                 name = state.name,
-                                sort = state.sort,
-                                process_state = state.process_state,
+
                                 stateLabel = state.stateLabel
                         )
                 )
@@ -1274,6 +1285,14 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 }
     }
 
+    fun fetchRequestAddressByName(address: String): Observable<RealmAddressRequest> {
+        return Observable.just(
+                realm.where(RealmAddressRequest::class.java)
+                        .findAll()
+                        .first { it.address == address }
+        )
+    }
+
     fun fetchRequestList(): Observable<List<RealmRequest>> {
         return Observable.just(
                 realm.where(RealmRequest::class.java)
@@ -1283,11 +1302,23 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
 
     fun saveRequestById(request: Request): Observable<Boolean> {
         return Observable.create<Boolean> { sub ->
-            val tasksList = RealmList<RealmRequestTask>()
+//            val tasksList = RealmList<RealmRequestTask>()
             val comment = RealmList<RealmComment>()
-            request.tasks?.forEach { it ->
-                tasksList.add(RealmRequestTask(
-                        id = it
+//            request.tasks?.forEach { it ->
+//                tasksList.add(RealmRequestTask(
+//                        id = it
+//                ))
+//            }
+            val transition=RealmList<RealmTransitions>()
+            request.transitions?.forEach { value->
+                transition.add(RealmTransitions(
+                        id =  value.id,
+                        created_at = value.created_at?.secondsToMilliseconds(),
+                        state = RealmStateRequest(
+                                id = value.stateNew!!.id,
+                                name = value.stateNew.name,
+                                stateLabel = value.stateNew.stateLabel
+                        )
                 ))
             }
             request.comments?.forEach { value ->
@@ -1334,8 +1365,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     state = RealmStateRequest(
                             id = request.state?.id,
                             name = request.state?.name,
-                            sort = request.state?.sort,
-                            process_state = request.state?.process_state,
+
                             stateLabel = request.state?.stateLabel
                     ),
                     applicant = request.applicant,
@@ -1356,11 +1386,13 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     chanelLabel = request.chanelLabel,
                     name = request.name,
                     message = request.message,
+                    messagePlane=request.messagePlane,
                     contact = request.contact,
                     code = request.code,
                     is_overdue = request.is_overdue,
                     comment = comment,
-                    task = tasksList
+                    transitions = transition
+//                    task = tasksList
             )
 
             realm.executeTransactionAsync(
@@ -1416,7 +1448,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                     typeHouse = realmDraft.typeHouse,
                     description = realmDraft.description,
                     fio = realmDraft.fio,
-                    phoneNum = realmDraft.fio,
+                    phoneNum = realmDraft.phoneNum,
                     images = realmDraft.images
             )
 
@@ -1476,6 +1508,13 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                 realm.where(RealmDraft::class.java)
                         .findAll()
                         .first { it.id == id }
+        )
+    }
+    fun fetchDraftRequestByName(name: String): Observable<RealmDraft> {
+        return Observable.just(
+                realm.where(RealmDraft::class.java)
+                        .findAll()
+                        .first { it.title == name }
         )
     }
 

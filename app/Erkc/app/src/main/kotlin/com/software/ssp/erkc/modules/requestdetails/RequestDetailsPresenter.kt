@@ -27,7 +27,6 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                 .subscribe(
                         {
                             fetchRequestById(requestId = requestId)
-
                         },
                         { error ->
                             fetchRequestById(id)
@@ -45,7 +44,7 @@ class RequestDetailsPresenter @Inject constructor(view: IRequestDetailsView) : R
                             view?.showSelectImagesList(realmRequest.comment!!)
                             view?.configureBottomFrameLayout(realmRequest.state!!.name!!)
                             view?.visibleNeedMenuItem(realmRequest.state!!.name!!)
-
+                            view?.createStatusAdapter(realmRequest.transitions!!.toList())
                             view?.setVisibleProgressBar(isVisible = false)
                         },
                         {

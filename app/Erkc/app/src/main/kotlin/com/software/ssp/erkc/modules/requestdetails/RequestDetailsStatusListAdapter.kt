@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.data.realm.models.RealmRequestStatus
+import com.software.ssp.erkc.data.realm.models.RealmTransitions
 import com.software.ssp.erkc.data.realm.models.StatusColors
 import kotlinx.android.synthetic.main.item_status_request.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class RequestDetailsStatusListAdapter(val requestStatusItems: List<RealmRequestStatus>) : RecyclerView.Adapter<RequestDetailsStatusListAdapter.RequestDetailsStatusViewHolder>() {
+class RequestDetailsStatusListAdapter(val requestStatusItems: List<RealmTransitions>) : RecyclerView.Adapter<RequestDetailsStatusListAdapter.RequestDetailsStatusViewHolder>() {
     override fun getItemCount(): Int {
         return requestStatusItems.count()
     }
@@ -26,12 +29,14 @@ class RequestDetailsStatusListAdapter(val requestStatusItems: List<RealmRequestS
 
 
     class RequestDetailsStatusViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bindRequestStatus(status: RealmRequestStatus) {
+        fun bindRequestStatus(status: RealmTransitions) {
             view.apply {
 
-                itemStatusRequestTextStatusTextView.text = status.getTitle()
-                itemStatusRequestDateStatusTextView.text = status.date
-                itemStatusRequestOvalView.setCardBackgroundColor(Color.parseColor(StatusColors.getColor(status.type ?: "Canceled")))
+                itemStatusRequestTextStatusTextView.text = status.state!!.stateLabel
+                val formatter = SimpleDateFormat("dd.MM.yyyy hh:mm")
+                val date=formatter.format((Date(status.created_at!!)))
+                itemStatusRequestDateStatusTextView.text = date
+                itemStatusRequestOvalView.setCardBackgroundColor(Color.parseColor(StatusColors.getColor(status.state!!.name ?: "Canceled")))
             }
         }
     }

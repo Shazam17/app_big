@@ -148,7 +148,12 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
             authorizedRequest = originalRequest.newBuilder()
                     .url(authorizedUrl)
                     .build()
-        } else {
+        } else if (originalRequest.toString().contains("common")||originalRequest.toString().contains("account")) {
+            authorizedRequest = originalRequest
+                    .newBuilder()
+                    .addHeader("Authorization", "Basic UWgwaUxndGRhTzRXQVVYS2RaUzluRFVPQVVjbGJaU2I6")
+                    .build()
+        }else{
             //TODO Токен для версии DEBUG сменить в релизе
             authorizedRequest = originalRequest
                     .newBuilder()
@@ -189,7 +194,13 @@ class ErkcInterceptor(val gson: Gson, val activeSession: ActiveSession, val cont
         authorizedRequest = originalRequest.newBuilder()
                 .post(authorizedBodyBuilder.build())
                 .build()
+    }else if (originalRequest.toString().contains("common")||originalRequest.toString().contains("account")) {
+        authorizedRequest = originalRequest
+                .newBuilder()
+                .addHeader("Authorization", "Basic UWgwaUxndGRhTzRXQVVYS2RaUzluRFVPQVVjbGJaU2I6")
+                .build()
     }else{
+        //TODO Токен для версии DEBUG сменить в релизе
         authorizedRequest = originalRequest
                 .newBuilder()
                 .addHeader("Authorization", "Basic Z2poV3BUT2lJRlBfTnY4THg4SWNqZ0ItOWxOZ2lwcFE6")

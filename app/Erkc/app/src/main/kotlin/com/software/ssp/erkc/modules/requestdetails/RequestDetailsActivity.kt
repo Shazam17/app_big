@@ -9,10 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import com.software.ssp.erkc.R
 import com.software.ssp.erkc.common.mvp.MvpActivity
-import com.software.ssp.erkc.data.realm.models.RealmComment
-import com.software.ssp.erkc.data.realm.models.RealmRequest
-import com.software.ssp.erkc.data.realm.models.RealmRequestStatus
-import com.software.ssp.erkc.data.realm.models.RequestStatusTypes
+import com.software.ssp.erkc.data.realm.models.*
 import com.software.ssp.erkc.di.AppComponent
 import com.software.ssp.erkc.extensions.dp
 import com.software.ssp.erkc.modules.chatwithdispatcher.ChatWithDispatcherActivity
@@ -173,7 +170,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
         val date=formatter.format((Date(realmRequest.created_at!!)))
         requestDetailsMainTitleTextView.text = "Обращение №${realmRequest.id} от ${date}"
         requestDetailsInfoProblemTextView.text = realmRequest.type?.name
-        requestDetailsDescriptionTextView.text = realmRequest.message
+        requestDetailsDescriptionTextView.text = realmRequest.messagePlane
     }
 
     // TODO do impl when get new API
@@ -204,7 +201,7 @@ class RequestDetailsActivity : MvpActivity(), IRequestDetailsView {
     }
 
 
-    override fun createStatusAdapter(statusList: List<RealmRequestStatus>) {
+    override fun createStatusAdapter(statusList: List<RealmTransitions>) {
         val adapter = RequestDetailsStatusListAdapter(
                 requestStatusItems = statusList
         )
