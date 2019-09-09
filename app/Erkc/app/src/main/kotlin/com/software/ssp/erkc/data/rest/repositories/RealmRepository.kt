@@ -371,6 +371,28 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
+    fun setUserToken(token: String): Observable<Boolean> {
+        return fetchCurrentUser()
+                .concatMap { currentUser ->
+                    Observable.create<Boolean> { sub ->
+                        realm.executeTransactionAsync(
+                                {
+                                    if (currentUser.token.isEmpty()) {
+                                        currentUser.token = token
+                                        it.copyToRealmOrUpdate(currentUser)
+                                    }
+                                },
+                                {
+                                    sub.onNext(true)
+                                },
+                                { error ->
+                                    sub.onError(error)
+                                }
+                        )
+                    }
+                }
+    }
+
     fun updateSettings(settings: Settings): Observable<Boolean> {
         return fetchCurrentUser()
                 .concatMap { currentUser ->
@@ -1058,20 +1080,20 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
         }
     }
 
-    fun saveRequestList(request: List<Request>): Observable<Boolean> {
+    fun saveRequestList(request: List<Request>?): Observable<Boolean> {
 //        return fetchRequestList()
 //                .concatMap {
         return Observable.create<Boolean> { sub ->
             val realmRequestList = RealmList<RealmRequest>()
-            request.forEach {
-//                val tasksList = RealmList<RealmRequestTask>()
+            request?.forEach {
+                //                val tasksList = RealmList<RealmRequestTask>()
                 val comment = RealmList<RealmComment>()
                 val transition=RealmList<RealmTransitions>()
-//                it.tasks?.forEach { it ->
-//                    tasksList.add(RealmRequestTask(
-//                            id = it
-//                    ))
-//                }
+    //                it.tasks?.forEach { it ->
+    //                    tasksList.add(RealmRequestTask(
+    //                            id = it
+    //                    ))
+    //                }
                 it.transitions?.forEach { value->
                     transition.add(RealmTransitions(
                             id =  value.id,
@@ -1154,7 +1176,7 @@ class RealmRepository @Inject constructor(private val realm: Realm) : Repository
                         is_overdue = it.is_overdue,
                         comment = comment,
                         transitions = transition
-//                        task = tasksList
+    //                        task = tasksList
                 ))
 
 

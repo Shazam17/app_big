@@ -11,7 +11,7 @@ import retrofit2.http.*
 interface RequestDataSource {
 
     @POST
-    fun authUser(@Url url: String,@Body map: Map<String, Any>): Observable<ResponseBody>
+    fun authUser(@Url url: String,@Body map: Map<String, Any>): Observable<RequestUser>
 
     @POST
     fun fetchRequestAddress(@Url url: String): Observable<List<RequestAddress>>

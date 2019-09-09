@@ -10,6 +10,7 @@ open class RealmUser(
         open var login: String = "",
         open var email: String = "",
         open var name: String = "",
+        open var token: String = "",
         open var isCurrentUser: Boolean = false,
         open var settings: RealmSettings? = null,
         open var receipts: RealmList<RealmReceipt> = RealmList(),

@@ -46,20 +46,19 @@
 
 
         <TextView
-            android:id="@+id/requestNonAuthYourManagerCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineHeight="25dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:text="Ваша управляющая компания ЖилФонд, находится по адресу Иркутский тракт, дом 128"
-            android:textAlignment="center"
-            android:textColor="@color/text_black"
-            android:textSize="16dp"
+            android:id = "@+id/requestNonAuthYourManagerCompany"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:lineHeight = "25dp"
+            android:paddingLeft = "18dp"
+            android:paddingRight = "18dp"
+            android:textAlignment = "center"
+            android:textColor = "@color/text_black"
+            android:textSize = "16dp"
 
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintLeft_toLeftOf = "parent"
+            app:layout_constraintRight_toRightOf = "parent"
+            app:layout_constraintTop_toBottomOf = "parent" />
 
         <TextView
             android:id="@+id/requestNonAuthLeaveRequestCallNumberTextView"
@@ -88,21 +87,21 @@
             app:srcCompat="@drawable/ic_call" />
 
         <Button
-            android:id="@+id/requestNonAuthCallButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/call_button"
-            android:paddingLeft="100dp"
-            android:paddingRight="60dp"
-            android:text="8 (913) 258 85 95"
+            android:id = "@+id/requestNonAuthCallButton"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:layout_marginTop = "30dp"
+            android:background = "@drawable/call_button"
+            android:paddingLeft = "100dp"
+            android:paddingRight = "60dp"
 
 
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requestNonAuthLeaveRequestCallNumberTextView"
-            tools:text="8 (913) 258 85 95" />
+            android:text = "8 (913) 258 85 95"
+            android:textColor = "@color/white"
+            app:layout_constraintLeft_toLeftOf = "parent"
+            app:layout_constraintRight_toRightOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/requestNonAuthLeaveRequestCallNumberTextView"
+            tools:text = "8 (913) 258 85 95" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"

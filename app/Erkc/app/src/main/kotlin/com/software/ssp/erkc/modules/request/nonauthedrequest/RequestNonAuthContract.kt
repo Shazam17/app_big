@@ -13,6 +13,7 @@ interface IRequestNonAuthView: IView {
 
 
 interface IRequestNonAuthPresenter: IPresenter<IRequestNonAuthView> {
+    fun fetchCompanies(fias:String)
     fun onAddressClick()
     fun onStreetSelected(street: String)
     fun onCallButtonClick()

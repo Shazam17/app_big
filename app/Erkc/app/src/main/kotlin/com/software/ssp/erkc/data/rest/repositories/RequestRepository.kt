@@ -16,11 +16,11 @@ import java.net.URI
 class RequestRepository @Inject constructor(private val requestDataSource: RequestDataSource, private val activeSession: ActiveSession): Repository() {
 
 
-    fun authUser(data: Map<String,Any>):Observable<ResponseBody>{
+    fun authUser(data: Map<String,Any>):Observable<RequestUser>{
         activeSession.flag=1
         return requestDataSource
                 .authUser(url = "http://fon.zayavki.pro/mobile/account/create",map = data)
-                .compose(this.applySchedulers<ResponseBody>())
+                .compose(this.applySchedulers<RequestUser>())
     }
 
 //    fun createRequest()

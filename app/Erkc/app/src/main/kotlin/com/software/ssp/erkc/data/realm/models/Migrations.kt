@@ -59,6 +59,11 @@ data class Migrations(val version: Long = CURRENT_VERSION) : RealmMigration {
                             ?.addField("service_code", String::class.java)
                             ?.addField("icon", ByteArray::class.java)
                 }
+                4L-> {
+                    schema?.create("RealmUser")
+                            ?.addField("token", String::class.java)
+                    version++
+                }
                 else -> version++
             }
         } while (version < new_version)

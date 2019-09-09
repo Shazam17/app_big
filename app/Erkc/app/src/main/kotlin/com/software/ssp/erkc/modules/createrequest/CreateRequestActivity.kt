@@ -217,7 +217,7 @@ class CreateRequestActivity : MvpActivity(), ICreateRequestView {
                 if (data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY) != null) {
                     createRequestAddressTextEdit.setText(data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY))
                     fias = data?.getStringExtra(SearchAddressActivity.RESULT_FIAS_KEY)!!
-                    choosenFias=fias;
+                    choosenFias=fias
                     presenter.fetchCompanies(fias)
                     Log.e("FIAS", fias)
                 }

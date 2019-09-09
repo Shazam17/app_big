@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -77,7 +79,7 @@ class RequestNonAuthFragment: MvpFragment(), IRequestNonAuthView {
     override fun navigateToCallScreen() {
         // TODO impl real number phone when will
         val intent = Intent(Intent.ACTION_DIAL)
-        intent.data = Uri.parse("tel:89138655197")
+        intent.data = Uri.parse("tel:${requestNonAuthCallButton.text}")
         startActivity(intent)
     }
 
@@ -88,7 +90,14 @@ class RequestNonAuthFragment: MvpFragment(), IRequestNonAuthView {
         }
 
         when (requestCode) {
-            SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE -> presenter.onStreetSelected(data!!.getStringExtra(SearchAddressActivity.SEARCH_ADDRESS_RESULT_KEY))
+            SearchAddressActivity.REQUEST_ADDRESS_RESULT_CODE -> {
+                if (data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY) != null) {
+                    yourAddressTextEdit.setText(data?.getStringExtra(SearchAddressActivity.RESULT_ADDRESS_KEY))
+                    var fias = data?.getStringExtra(SearchAddressActivity.RESULT_FIAS_KEY)!!
+                    presenter.fetchCompanies(fias)
+                    Log.e("FIAS", fias)
+                }
+            }
         }
     }
 
@@ -112,7 +121,7 @@ class RequestNonAuthFragment: MvpFragment(), IRequestNonAuthView {
     }
 
     override fun navigateToStreetSelectScreen() {
-        startActivityForResult<SearchAddressActivity>(SearchAddressActivity.SEARCH_ADDRESS_REQUEST_CODE)
+        startActivityForResult<SearchAddressActivity>(SearchAddressActivity.REQUEST_ADDRESS_RESULT_CODE, SearchAddressActivity.SEARCH_ADDRESS_REQUEST_FLAG to true)
     }
 
     override fun showSupportInfo() {
@@ -120,11 +129,15 @@ class RequestNonAuthFragment: MvpFragment(), IRequestNonAuthView {
     }
 
     override fun setSupportInfo(nameManagerCompany: String, placeCompany: String, numberPhone: String) {
-
+        requestNonAuthMainInfoConstraintLayout.visibility = View.VISIBLE
+        var text="Ваша управляющая компания <font color=#094997>${nameManagerCompany}</font>, находится по адресу <font color=#4676B1>${placeCompany}</font>"
+        requestNonAuthYourManagerCompany.setText(Html.fromHtml(text))
+        requestNonAuthCallButton.setText("8 (${numberPhone.substring(0,3)}) ${numberPhone.substring(3,6)} ${numberPhone.substring(6,8)} ${numberPhone.substring(8)}")
     }
 
     override fun beforeDestroy() {
         presenter.onViewDetached()
     }
+
 
 }

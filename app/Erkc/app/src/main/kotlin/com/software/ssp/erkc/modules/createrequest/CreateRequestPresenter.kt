@@ -160,11 +160,7 @@ class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxP
         var addressId = 0
         var companyId = 0
         var typeRequestId = 0
-        var typeHouseId = if (typeHouse.contains("Жилое")) {
-            1
-        } else {
-            2
-        }
+        var typeHouseId = if (typeHouse.contains("Жилое")) { 1 } else { 2 }
         var email = ""
         var login=""
         subscriptions += realmRepository.fetchRequestAddressByName(address)
@@ -202,7 +198,8 @@ class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxP
                                     "middle_name" to userName[2],
                                     "email" to email,
                                     "phone" to phoneNum,
-                                    "access_token" to token
+                                    "access_token" to token,
+                                    "code" to token
                             )
                             registerUser(data,typeRequestId,email,phoneNum,title)
                         },
@@ -216,6 +213,9 @@ class CreateRequestPresenter @Inject constructor(view: ICreateRequestView) : RxP
 
     private fun registerUser(data: Map<String,Any>,typeRequestId: Int,email:String,phoneNum: String,title: String) {
         subscriptions += requestRepository.authUser(data)
+                .concatMap { it->
+                    realmRepository.setUserToken(it.access_token)
+                }
                 .subscribe(
                         {
                             view?.showMessage("Success ")

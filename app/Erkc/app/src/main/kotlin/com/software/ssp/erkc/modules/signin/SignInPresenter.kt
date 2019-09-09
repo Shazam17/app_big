@@ -10,8 +10,8 @@ import com.software.ssp.erkc.data.rest.repositories.*
 import com.software.ssp.erkc.extensions.parsedMessage
 import com.software.ssp.erkc.modules.pushnotifications.NotificationServiceManager
 import rx.Observable
+import rx.lang.kotlin.onError
 import rx.lang.kotlin.plusAssign
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -101,8 +101,8 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
 
     private fun login(login: String, password: String) {
         view?.setProgressVisibility(true)
-        Log.i("APPTOKEN",activeSession.appToken)
-
+        Log.i("APPTOKEN", activeSession.appToken)
+        var userInfo: RealmUser? = null
         subscriptions += authRepository
                 .authenticate(login, password)
                 .concatMap { authData ->
@@ -121,6 +121,8 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                     realmRepository.fetchUser(user)
                 }
                 .concatMap { realmUser ->
+                    userInfo = realmUser
+                    activeSession.userAccessToken = realmUser.token
                     realmRepository.setCurrentUser(realmUser)
                 }
                 .concatMap {
@@ -141,15 +143,7 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap { receipts ->
                     realmRepository.saveReceiptsList(receipts ?: emptyList())
                 }
-                .concatMap {
-                    realmRepository.deleteRequestList()
-                }
-                .concatMap {
-                    requestRepository.fetchRequestList()
-                }
-                .concatMap {
-                    realmRepository.saveRequestList(it)
-                }
+
                 .concatMap { requestRepository.fetchTypeHouse() }
                 .concatMap { typeHouseList ->
                     realmRepository.saveTypeHouseList(typeHouseList = typeHouseList)
@@ -161,6 +155,17 @@ class SignInPresenter @Inject constructor(view: ISignInView) : RxPresenter<ISign
                 .concatMap { requestRepository.fetchRequestAddress() }
                 .concatMap { addressList ->
                     realmRepository.saveRequestAddressList(addressList = addressList)
+                }
+                .concatMap {
+                    realmRepository.deleteRequestList()
+                }
+                .concatMap {
+                    requestRepository.fetchRequestList().onError {
+                        Observable.just(null)
+                    }
+                }
+                .concatMap {
+                    realmRepository.saveRequestList(it ?: emptyList())
                 }
                 .subscribe(
                         {
